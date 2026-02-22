@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenant Observability — Mambu Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #0d1117; color: #e6edf3; font-family: 'Inter', system-ui, sans-serif; margin: 0; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #161b22; }
+    ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+    .method-badge {
+      font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+      padding: 2px 7px; border-radius: 4px; min-width: 48px; text-align: center; display: inline-block;
+    }
+    .GET  { background: #0d3349; color: #58a6ff; }
+    .POST { background: #0d3d1f; color: #3fb950; }
+    .PATCH{ background: #3d2b0d; color: #d29922; }
+    .DELETE{ background: #3d0d0d; color: #da3633; }
+
+    .health-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .h-green { background: #3fb950; box-shadow: 0 0 6px #3fb95088; }
+    .h-yellow{ background: #d29922; box-shadow: 0 0 6px #d2992288; }
+    .h-red   { background: #da3633; box-shadow: 0 0 6px #da363388; animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.45} }
+
+    .api-row { cursor: pointer; border-bottom: 1px solid #21262d; padding: 10px 14px; display: flex; align-items: center; gap: 10px; transition: background 0.1s; }
+    .api-row:hover { background: #1c2128; }
+    .api-row.sel { background: #1c2128; border-left: 3px solid #388bfd; padding-left: 11px; }
+
+    .kpi { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px 20px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; }
+    .inner-card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 14px; }
+
+    .tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+    .tag-dedicated { background: #1a2d4a; color: #79c0ff; }
+    .tag-shared    { background: #2d1a4a; color: #c9a8f8; }
+
+    .range-btn { font-size: 12px; padding: 4px 10px; border-radius: 4px; border: none; cursor: pointer; background: transparent; color: #7d8590; transition: all 0.15s; }
+    .range-btn.active { background: #388bfd; color: #e6edf3; }
+
+    .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; margin-top: 16px; }
+    .detail-panel.open { max-height: 1400px; }
+
+    .vol-bar { height: 4px; background: #21262d; border-radius: 2px; overflow: hidden; margin-top: 4px; }
+    .vol-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #1d4ed8, #388bfd); }
+
+    .sort-btn { font-size: 11px; padding: 3px 9px; border-radius: 5px; border: 1px solid #30363d; cursor: pointer; transition: all 0.15s; }
+    .sort-btn.active { background: #388bfd; color: #e6edf3; border-color: #388bfd; }
+    .sort-btn:not(.active) { background: transparent; color: #7d8590; }
+
+    #tooltip { position: fixed; background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; font-size: 11px; color: #e6edf3; pointer-events: none; z-index: 999; display: none; white-space: nowrap; }
+
+    .tenant-opt { padding: 10px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid #21262d; transition: background 0.1s; }
+    .tenant-opt:last-child { border-bottom: none; }
+    .tenant-opt:hover { background: #1c2128; }
+    .tenant-opt.sel { background: #1c2734; }
+  </style>
+</head>
+<body>
+
+<!-- Global SVG defs (gradients referenced by charts) -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <linearGradient id="vol-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#388bfd" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#388bfd" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="noise-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3fb950" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#da3633" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- Tooltip -->
+<div id="tooltip"></div>
+
+<!-- ══ HEADER ══ -->
+<header style="background:#161b22;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:50;">
+  <div style="max-width:1520px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;">
+
+    <!-- Logo + Tenant selector -->
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#388bfd,#6e40c9);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2 L14 7 L14 14 L4 14 L4 7 Z" stroke="white" stroke-width="1.5" fill="none"/>
+            <circle cx="9" cy="10" r="2.5" fill="white" opacity="0.9"/>
+            <line x1="9" y1="2" x2="9" y2="5" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#e6edf3;line-height:1.1;letter-spacing:-0.2px;">TenantObserve</div>
+          <div style="font-size:9px;color:#7d8590;letter-spacing:0.8px;">MAMBU PLATFORM</div>
+        </div>
+      </div>
+
+      <div style="width:1px;height:28px;background:#30363d;"></div>
+
+      <!-- Tenant dropdown -->
+      <div style="position:relative;">
+        <button id="tenant-btn" onclick="toggleDD()" style="background:#21262d;border:1px solid #30363d;border-radius:7px;padding:5px 12px;font-size:13px;color:#e6edf3;display:flex;align-items:center;gap:8px;cursor:pointer;min-width:200px;">
+          <span id="tb-name" style="flex:1;text-align:left;">ABN AMRO</span>
+          <span id="tb-tag" class="tag tag-dedicated">dedicated</span>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="opacity:0.5;flex-shrink:0;"><path d="M2 4l4 4 4-4" stroke="#e6edf3" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div id="tenant-dd" style="display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:280px;background:#1c2128;border:1px solid #30363d;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.5);z-index:200;">
+          <div style="padding:8px 14px;font-size:10px;color:#7d8590;letter-spacing:0.8px;border-bottom:1px solid #21262d;">SELECT TENANT</div>
+          <div id="tenant-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right controls -->
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="background:#21262d;border:1px solid #30363d;border-radius:7px;padding:3px;display:flex;gap:1px;">
+        <button class="range-btn" id="r-1h"  onclick="setRange('1h')">1h</button>
+        <button class="range-btn" id="r-6h"  onclick="setRange('6h')">6h</button>
+        <button class="range-btn active" id="r-24h" onclick="setRange('24h')">24h</button>
+        <button class="range-btn" id="r-7d"  onclick="setRange('7d')">7d</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#7d8590;">
+        <div style="width:6px;height:6px;background:#3fb950;border-radius:50%;box-shadow:0 0 6px #3fb95088;"></div>
+        Live · <span id="last-upd">just now</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ MAIN ══ -->
+<div style="max-width:1520px;margin:0 auto;padding:20px 24px;">
+
+  <!-- KPI Strip -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">
+    <div class="kpi">
+      <div id="kpi-calls-label" style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:8px;">TOTAL API CALLS (24H)</div>
+      <div id="kpi-calls" style="font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;"></div>
+      <div id="kpi-calls-d" style="font-size:12px;margin-top:4px;"></div>
+    </div>
+    <div class="kpi">
+      <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:8px;">PEAK TRAFFIC HOUR</div>
+      <div id="kpi-peak" style="font-size:26px;font-weight:700;color:#e6edf3;"></div>
+      <div id="kpi-peak-s" style="font-size:12px;color:#7d8590;margin-top:4px;"></div>
+    </div>
+    <div class="kpi">
+      <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:8px;">API HEALTH SCORE</div>
+      <div id="kpi-health" style="font-size:26px;font-weight:700;"></div>
+      <div id="kpi-health-s" style="font-size:12px;color:#7d8590;margin-top:4px;"></div>
+    </div>
+    <div class="kpi">
+      <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:8px;">P95 LATENCY (AVG)</div>
+      <div id="kpi-lat" style="font-size:26px;font-weight:700;color:#e6edf3;"></div>
+      <div id="kpi-lat-s" style="font-size:12px;color:#7d8590;margin-top:4px;"></div>
+    </div>
+  </div>
+
+  <!-- Two-column layout -->
+  <div style="display:grid;grid-template-columns:360px 1fr;gap:14px;align-items:start;">
+
+    <!-- LEFT: Top APIs -->
+    <div class="card">
+      <div style="padding:14px 16px;border-bottom:1px solid #21262d;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:14px;font-weight:600;">Top APIs</div>
+          <div style="font-size:11px;color:#7d8590;margin-top:2px;">by call volume · <span id="api-range-label">24h</span></div>
+        </div>
+        <div style="display:flex;gap:5px;">
+          <button class="sort-btn active" id="sb-volume" onclick="sortBy('volume')">Volume</button>
+          <button class="sort-btn" id="sb-latency" onclick="sortBy('latency')">Latency</button>
+          <button class="sort-btn" id="sb-health"  onclick="sortBy('health')">Health</button>
+        </div>
+      </div>
+      <div id="api-list" style="max-height:500px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- RIGHT: Charts -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <!-- Volume line chart -->
+      <div class="card">
+        <div style="padding:14px 16px;border-bottom:1px solid #21262d;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:14px;font-weight:600;">Call Volume</div>
+            <div id="vol-chart-subtitle" style="font-size:11px;color:#7d8590;margin-top:2px;">API calls per hour — last 24h</div>
+          </div>
+          <div id="vol-peak-lbl" style="font-size:12px;color:#7d8590;"></div>
+        </div>
+        <div style="padding:14px 16px;">
+          <svg id="vol-chart" viewBox="0 0 760 155" style="width:100%;overflow:visible;display:block;"></svg>
+        </div>
+      </div>
+
+      <!-- Traffic heatmap -->
+      <div class="card">
+        <div style="padding:14px 16px;border-bottom:1px solid #21262d;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:14px;font-weight:600;">Traffic Heatmap</div>
+            <div style="font-size:11px;color:#7d8590;margin-top:2px;">Hourly intensity — last 7 days · identify maintenance windows</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#7d8590;">
+            <span>Low</span>
+            <div style="display:flex;gap:2px;">
+              <div style="width:11px;height:11px;border-radius:2px;background:#1c2128;border:1px solid #30363d;"></div>
+              <div style="width:11px;height:11px;border-radius:2px;background:#0d2d5e;"></div>
+              <div style="width:11px;height:11px;border-radius:2px;background:#1447a8;"></div>
+              <div style="width:11px;height:11px;border-radius:2px;background:#2563eb;"></div>
+              <div style="width:11px;height:11px;border-radius:2px;background:#388bfd;"></div>
+              <div style="width:11px;height:11px;border-radius:2px;background:#93c5fd;"></div>
+            </div>
+            <span>High</span>
+          </div>
+        </div>
+        <div style="padding:14px 16px;overflow-x:auto;">
+          <svg id="hm-chart" viewBox="0 0 800 200" style="width:100%;min-width:700px;display:block;overflow:visible;"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ API DETAIL PANEL ══ -->
+  <div id="detail-panel" class="detail-panel">
+    <div class="card">
+      <!-- Detail header -->
+      <div style="padding:14px 16px;border-bottom:1px solid #21262d;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="d-method" class="method-badge GET">GET</span>
+          <code id="d-path" style="font-size:13px;color:#79c0ff;font-family:'JetBrains Mono',monospace;"></code>
+          <span id="d-group" style="font-size:11px;color:#7d8590;padding:2px 8px;background:#21262d;border-radius:4px;"></span>
+          <span id="d-health" style="font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;"></span>
+        </div>
+        <button onclick="closeDetail()" style="background:none;border:none;color:#7d8590;cursor:pointer;font-size:20px;line-height:1;padding:2px 6px;">×</button>
+      </div>
+
+      <!-- Detail body -->
+      <div style="padding:16px;">
+
+        <!-- Metric cards row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
+
+          <!-- Latency -->
+          <div class="inner-card">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:12px;">LATENCY DISTRIBUTION</div>
+            <div id="d-latency"></div>
+            <div id="d-lat-sla" style="font-size:10px;color:#7d8590;margin-top:8px;padding-top:8px;border-top:1px solid #21262d;"></div>
+          </div>
+
+          <!-- Availability gauge -->
+          <div class="inner-card" style="display:flex;flex-direction:column;align-items:center;">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:10px;align-self:flex-start;">AVAILABILITY</div>
+            <svg width="96" height="96" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#21262d" stroke-width="9"/>
+              <circle id="avail-ring" cx="50" cy="50" r="38" fill="none" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+              <text id="avail-pct" x="50" y="47" text-anchor="middle" dominant-baseline="middle" style="font-size:13px;font-weight:700;fill:#e6edf3;"></text>
+              <text x="50" y="61" text-anchor="middle" style="font-size:8px;fill:#7d8590;">avail</text>
+            </svg>
+            <div id="avail-sla" style="font-size:11px;text-align:center;margin-top:4px;"></div>
+          </div>
+
+          <!-- Error rate -->
+          <div class="inner-card">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:10px;">ERROR RATE</div>
+            <div id="d-errors"></div>
+          </div>
+
+          <!-- SLA Thresholds -->
+          <div class="inner-card">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:10px;">SLA THRESHOLDS</div>
+            <div id="d-thresh"></div>
+          </div>
+        </div>
+
+        <!-- Bottom row: API heatmap + Noise risk -->
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:14px;">
+
+          <!-- API usage heatmap -->
+          <div class="inner-card">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:10px;">USAGE PATTERN — THIS API (MON–FRI)</div>
+            <svg id="api-hm" viewBox="0 0 540 140" style="width:100%;display:block;overflow:visible;"></svg>
+          </div>
+
+          <!-- Noise risk -->
+          <div class="inner-card" id="noise-panel">
+            <div style="font-size:10px;color:#7d8590;letter-spacing:0.6px;margin-bottom:10px;">NOISY NEIGHBOR RISK</div>
+            <div id="noise-content"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── Seeded LCG random ──
+function mkRng(seed) {
+  let s = seed >>> 0;
+  return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 0xffffffff; };
+}
+
+// ── Static data ──
+const TENANTS = [
+  { id: 'abn',      name: 'ABN AMRO',     type: 'dedicated', region: 'EU-West-1',    cluster: 'abn-prod-01',    country: 'NL' },
+  { id: 'starling', name: 'Starling Bank', type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB' },
+  { id: 'monzo',    name: 'Monzo',         type: 'dedicated', region: 'EU-West-1',    cluster: 'monzo-prod-01',  country: 'GB' },
+  { id: 'revolut',  name: 'Revolut',       type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB' },
+  { id: 'n26',      name: 'N26',           type: 'dedicated', region: 'EU-Central-1', cluster: 'n26-prod-01',    country: 'DE' },
+  { id: 'tide',     name: 'Tide',          type: 'shared',    region: 'EU-West-2',    cluster: 'eu-shared-02',   country: 'GB' },
+  { id: 'bunq',     name: 'Bunq',          type: 'dedicated', region: 'EU-West-1',    cluster: 'bunq-prod-01',   country: 'NL' },
+];
+
+const CLUSTER_MATES = {
+  'eu-shared-01': ['starling', 'revolut'],
+  'eu-shared-02': ['tide'],
+};
+
+const APIS = [
+  { id: 'GET_tx',     method: 'GET',   path: '/accounts/{id}/transactions', group: 'Accounts',     latSLA: 200,  availSLA: 99.90 },
+  { id: 'POST_pay',   method: 'POST',  path: '/payments/initiate',          group: 'Payments',     latSLA: 500,  availSLA: 99.95 },
+  { id: 'GET_acct',   method: 'GET',   path: '/accounts/{id}',              group: 'Accounts',     latSLA: 150,  availSLA: 99.90 },
+  { id: 'POST_disb',  method: 'POST',  path: '/loans/{id}/disburse',        group: 'Loans',        latSLA: 800,  availSLA: 99.50 },
+  { id: 'GET_bal',    method: 'GET',   path: '/accounts/{id}/balances',     group: 'Accounts',     latSLA: 100,  availSLA: 99.99 },
+  { id: 'PATCH_loan', method: 'PATCH', path: '/loans/{id}',                 group: 'Loans',        latSLA: 400,  availSLA: 99.50 },
+  { id: 'GET_cust',   method: 'GET',   path: '/customers/{id}',             group: 'Customers',    latSLA: 150,  availSLA: 99.90 },
+  { id: 'POST_tx',    method: 'POST',  path: '/transactions',               group: 'Transactions', latSLA: 300,  availSLA: 99.90 },
+  { id: 'GET_cards',  method: 'GET',   path: '/cards/{id}',                 group: 'Cards',        latSLA: 100,  availSLA: 99.99 },
+  { id: 'POST_repay', method: 'POST',  path: '/loans/{id}/repayments',      group: 'Loans',        latSLA: 600,  availSLA: 99.50 },
+];
+
+// ── Metric generators ──
+function genMetrics(tid, aid) {
+  const api = APIS.find(a => a.id === aid);
+  const seed = tid.split('').reduce((s,c) => s * 31 + c.charCodeAt(0), 0) * 1000 +
+               aid.split('').reduce((s,c) => s * 17 + c.charCodeAt(0), 0);
+  const rng = mkRng(seed);
+  const baseVol = ((rng() * 2800000 + 300000) | 0);
+  const p50 = ((rng() * 75  + 12) | 0);
+  const p95 = p50 + ((rng() * 220 + 40) | 0);
+  const p99 = p95 + ((rng() * 280 + 60) | 0);
+  const avail = +(99.50 + rng() * 0.50).toFixed(3);
+  const errRate = +((1 - avail / 100) * 100).toFixed(3);
+  let health = 'green';
+  if (p95 > api.latSLA * 1.5 || avail < api.availSLA - 0.2) health = 'red';
+  else if (p95 > api.latSLA   || avail < api.availSLA)       health = 'yellow';
+  return { baseVol, p50, p95, p99, avail, errRate, health };
+}
+
+function genVolSeriesForRange(tid, range) {
+  const baseSeed = tid.split('').reduce((s,c) => s * 31 + c.charCodeAt(0), 333);
+
+  if (range === '24h') {
+    // Preserve original behavior exactly
+    const rng = mkRng(baseSeed);
+    const base = ((rng() * 80000 + 30000) | 0);
+    return Array.from({ length: 24 }, (_, h) => {
+      const m = h >= 9 && h <= 18 ? 2.2 + rng() * 1.5
+              : h >= 20 && h <= 22 ? 1.3 + rng() * 0.7
+              : h >= 0  && h <= 5  ? 0.15 + rng() * 0.2
+              : 0.55 + rng() * 0.6;
+      return ((base * m) | 0);
+    });
+  }
+
+  if (range === '1h') {
+    // 12 five-minute buckets during the peak hour
+    const rng = mkRng(baseSeed ^ 0xABCDE1);
+    const base = ((rng() * 80000 + 30000) | 0);
+    const peakBase = ((base * 3.2) | 0);
+    return Array.from({ length: 12 }, () => ((peakBase / 12 * (0.7 + rng() * 0.6)) | 0));
+  }
+
+  if (range === '6h') {
+    // 12 thirty-minute slots covering 09:00–15:00 (peak window)
+    const rng = mkRng(baseSeed ^ 0xABCDE2);
+    const base = ((rng() * 80000 + 30000) | 0);
+    return Array.from({ length: 12 }, (_, i) => {
+      const load = i < 2  ? 1.0 + rng() * 0.6
+                 : i < 8  ? 1.8 + rng() * 1.2
+                 : 1.2 + rng() * 0.5;
+      return ((base * load * 0.5) | 0);
+    });
+  }
+
+  if (range === '7d') {
+    // 7 daily totals (Mon–Sun)
+    const rng = mkRng(baseSeed ^ 0xABCDE3);
+    const base = ((rng() * 80000 + 30000) | 0);
+    return Array.from({ length: 7 }, (_, d) => {
+      const wd = d < 5 ? 1.0 : 0.42;
+      const daySum = Array.from({ length: 24 }, (__, h) => {
+        const m = h >= 9 && h <= 18 ? 2.2 + rng() * 1.5
+                : h >= 20 && h <= 22 ? 1.3 + rng() * 0.7
+                : h >= 0  && h <= 5  ? 0.15 + rng() * 0.2
+                : 0.55 + rng() * 0.6;
+        return base * m * wd;
+      }).reduce((s,v) => s + v, 0);
+      return daySum | 0;
+    });
+  }
+}
+
+function genHeatmap7d(tid) {
+  const rng = mkRng(tid.split('').reduce((s,c) => s * 31 + c.charCodeAt(0), 777));
+  return Array.from({ length: 7 }, (_, d) => {
+    const wd = d < 5 ? 1.0 : 0.35;
+    return Array.from({ length: 24 }, (_, h) => {
+      const t = h >= 9 && h <= 18 ? 2.4 + rng() * 1.2
+              : h >= 19 && h <= 22 ? 1.1 + rng() * 0.6
+              : h >= 0  && h <= 5  ? 0.08 + rng() * 0.15
+              : 0.4 + rng() * 0.5;
+      return Math.min(1, wd * t * (rng() * 0.25 + 0.75));
+    });
+  });
+}
+
+function genApiHeatmap(tid, aid) {
+  const seed = tid.charCodeAt(0) * 113 + aid.charCodeAt(0) * 37;
+  const rng = mkRng(seed);
+  return Array.from({ length: 5 }, () =>
+    Array.from({ length: 24 }, (_, h) => {
+      const peak = 9 + ((rng() * 9) | 0);
+      return Math.max(0, 1 - Math.abs(h - peak) * 0.13) * (0.5 + rng() * 0.5);
+    })
+  );
+}
+
+// ── Range config ──
+const RANGE_CONFIG = {
+  '1h':  { kpiLabel: '1H',  volLabel: 'calls per 5 min — last 1h',    scale: 1/24,  deltaLabel: 'vs previous 1h',     peakFmt: i => `${i*5}m`                                                          },
+  '6h':  { kpiLabel: '6H',  volLabel: 'calls per 30 min — last 6h',   scale: 0.25,  deltaLabel: 'vs previous 6h',     peakFmt: i => `${String(9+Math.floor(i/2)).padStart(2,'0')}:${(i%2)?'30':'00'}` },
+  '24h': { kpiLabel: '24H', volLabel: 'API calls per hour — last 24h', scale: 1,     deltaLabel: 'vs yesterday',       peakFmt: i => `${String(i).padStart(2,'0')}:00 UTC`                              },
+  '7d':  { kpiLabel: '7D',  volLabel: 'daily totals — last 7 days',   scale: 7,     deltaLabel: 'vs previous 7 days', peakFmt: i => ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]                      },
+};
+
+// ── State ──
+const ST = { tenant: null, api: null, sort: 'volume', range: '24h' };
+
+// ── Helpers ──
+function fmt(n) {
+  n = +n;
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(0) + 'K';
+  return String(n | 0);
+}
+function heatCol(v) {
+  if (v < 0.05) return '#1c2128';
+  if (v < 0.20) return '#0d2d5e';
+  if (v < 0.40) return '#1447a8';
+  if (v < 0.60) return '#2563eb';
+  if (v < 0.80) return '#388bfd';
+  return '#93c5fd';
+}
+
+// ── Tenant dropdown ──
+function renderTenantList() {
+  document.getElementById('tenant-list').innerHTML = TENANTS.map(t => `
+    <div class="tenant-opt ${ST.tenant?.id === t.id ? 'sel' : ''}" onclick="selTenant('${t.id}')">
+      <div style="flex:1;font-size:13px;color:#e6edf3;">${t.name}</div>
+      <span class="tag tag-${t.type}">${t.type}</span>
+      <div style="font-size:10px;color:#7d8590;">${t.region}</div>
+    </div>`).join('');
+}
+function toggleDD() {
+  const dd = document.getElementById('tenant-dd');
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#tenant-btn') && !e.target.closest('#tenant-dd'))
+    document.getElementById('tenant-dd').style.display = 'none';
+});
+
+// ── KPIs ──
+function renderKPIs() {
+  const t = ST.tenant;
+  const rc = RANGE_CONFIG[ST.range];
+  const series = genVolSeriesForRange(t.id, ST.range);
+  const total = series.reduce((a, b) => a + b, 0);
+
+  // Peak hour always derived from 24h series (a per-hour concept)
+  const series24 = genVolSeriesForRange(t.id, '24h');
+  const peakH = series24.indexOf(Math.max(...series24));
+
+  const all = APIS.map(a => genMetrics(t.id, a.id));
+  const healthy = all.filter(m => m.health === 'green').length;
+  const avgP95 = (all.reduce((s, m) => s + m.p95, 0) / all.length) | 0;
+
+  document.getElementById('kpi-calls-label').textContent = `TOTAL API CALLS (${rc.kpiLabel})`;
+  document.getElementById('kpi-calls').textContent = fmt(total);
+
+  const rng2 = mkRng(t.id.charCodeAt(0) * 9999 + ST.range.length * 777);
+  const delta = ((rng2() * 14 - 4)).toFixed(1);
+  document.getElementById('kpi-calls-d').innerHTML =
+    `<span style="color:${+delta >= 0 ? '#3fb950' : '#da3633'}">${+delta >= 0 ? '↑' : '↓'} ${Math.abs(delta)}%</span>
+     <span style="color:#7d8590;"> ${rc.deltaLabel}</span>`;
+
+  document.getElementById('kpi-peak').textContent = `${String(peakH).padStart(2, '0')}:00`;
+  document.getElementById('kpi-peak-s').textContent = `${fmt(Math.max(...series24))} calls/hr`;
+
+  const score = Math.round(healthy / all.length * 100);
+  const hEl = document.getElementById('kpi-health');
+  hEl.textContent = `${score}%`;
+  hEl.style.color = score >= 90 ? '#3fb950' : score >= 70 ? '#d29922' : '#da3633';
+  document.getElementById('kpi-health-s').textContent = `${healthy}/${all.length} APIs healthy`;
+
+  document.getElementById('kpi-lat').textContent = `${avgP95}ms`;
+  document.getElementById('kpi-lat-s').textContent = `avg p95 · ${all.length} APIs`;
+}
+
+// ── Volume chart ──
+function renderVolChart() {
+  const rc = RANGE_CONFIG[ST.range];
+  const series = genVolSeriesForRange(ST.tenant.id, ST.range);
+  const n = series.length;
+  const mx = Math.max(...series);
+  const W = 760, H = 130, PL = 46, PR = 8, PT = 8, PB = 28;
+  const cW = W - PL - PR, cH = H - PT - PB;
+
+  const xs = series.map((_, i) => PL + (n > 1 ? i / (n - 1) : 0.5) * cW);
+  const ys = series.map(v => PT + cH - (v / mx) * cH);
+
+  const linePts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+  const areaPts = `${xs[0].toFixed(1)},${PT + cH} ` + linePts + ` ${xs[n - 1].toFixed(1)},${PT + cH}`;
+
+  const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f => {
+    const y = (PT + cH - f * cH).toFixed(1);
+    return `<line x1="${PL}" y1="${y}" x2="${W - PR}" y2="${y}" stroke="#21262d" stroke-width="1"/>
+            <text x="${PL - 5}" y="${y}" text-anchor="end" dominant-baseline="middle" style="font-size:9px;fill:#7d8590;">${fmt(f * mx)}</text>`;
+  }).join('');
+
+  // X-axis labels are range-dependent
+  let xLabelIndices;
+  let xLabelFn;
+  if (ST.range === '1h') {
+    xLabelIndices = [0, 2, 4, 6, 8, 10, 11];
+    xLabelFn = i => `${i * 5}m`;
+  } else if (ST.range === '6h') {
+    xLabelIndices = [0, 2, 4, 6, 8, 10, 11];
+    xLabelFn = i => `${String(9 + Math.floor(i / 2)).padStart(2,'0')}:${(i % 2) ? '30' : '00'}`;
+  } else if (ST.range === '24h') {
+    xLabelIndices = [0, 3, 6, 9, 12, 15, 18, 21, 23];
+    xLabelFn = i => `${String(i).padStart(2,'0')}:00`;
+  } else { // 7d
+    xLabelIndices = [0, 1, 2, 3, 4, 5, 6];
+    xLabelFn = i => ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i];
+  }
+  const xLabels = xLabelIndices.map(i => {
+    const x = (PL + (i / (n - 1)) * cW).toFixed(1);
+    return `<text x="${x}" y="${H - 4}" text-anchor="middle" style="font-size:9px;fill:#7d8590;">${xLabelFn(i)}</text>`;
+  }).join('');
+
+  const dots = xs.map((x, i) => `<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="2.5" fill="#388bfd" opacity="0.7"/>`).join('');
+
+  const pi = series.indexOf(mx);
+  const px = xs[pi].toFixed(1), py = ys[pi].toFixed(1);
+  const peakMark = `
+    <line x1="${px}" y1="${PT}" x2="${px}" y2="${PT + cH}" stroke="#388bfd" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"/>
+    <circle cx="${px}" cy="${py}" r="5" fill="#388bfd" stroke="#161b22" stroke-width="2.5"/>
+    <rect x="${+px - 30}" y="${+py - 23}" width="60" height="16" rx="3" fill="#1c2736" stroke="#388bfd" stroke-width="1"/>
+    <text x="${px}" y="${+py - 12}" text-anchor="middle" style="font-size:9px;fill:#79c0ff;">Peak ${fmt(mx)}</text>`;
+
+  document.getElementById('vol-chart').innerHTML =
+    gridLines + xLabels +
+    `<polygon points="${areaPts}" fill="url(#vol-grad)"/>` +
+    `<polyline points="${linePts}" fill="none" stroke="#388bfd" stroke-width="2" stroke-linejoin="round"/>` +
+    dots + peakMark;
+
+  document.getElementById('vol-chart-subtitle').textContent = rc.volLabel;
+  document.getElementById('vol-peak-lbl').innerHTML =
+    `<span style="color:#7d8590;">Peak </span><span style="color:#388bfd;">${rc.peakFmt(pi)}</span>`;
+}
+
+// ── Heatmap ──
+function renderHeatmap() {
+  const data = genHeatmap7d(ST.tenant.id);
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const CW = 27, CH = 18, PL = 34, PT = 22, G = 2;
+
+  let cells = data.map((row, d) =>
+    row.map((v, h) => {
+      const x = PL + h * (CW + G), y = PT + d * (CH + G);
+      const tt = `${days[d]} ${String(h).padStart(2,'0')}:00 — ${(v * 100).toFixed(0)}% load`;
+      return `<rect x="${x}" y="${y}" width="${CW}" height="${CH}" rx="2" fill="${heatCol(v)}"
+        onmouseenter="showTT(event,'${tt}')" onmouseleave="hideTT()"/>`;
+    }).join('')
+  ).join('');
+
+  const dayLabels = days.map((d, i) =>
+    `<text x="${PL - 5}" y="${PT + i * (CH + G) + CH / 2}" text-anchor="end" dominant-baseline="middle" style="font-size:10px;fill:#7d8590;">${d}</text>`
+  ).join('');
+
+  const hourLabels = [0, 3, 6, 9, 12, 15, 18, 21, 23].map(h => {
+    const x = PL + h * (CW + G) + CW / 2;
+    return `<text x="${x}" y="${PT - 7}" text-anchor="middle" style="font-size:9px;fill:#7d8590;">${String(h).padStart(2,'0')}h</text>`;
+  }).join('');
+
+  // Maintenance window annotation (low traffic band: 02:00–05:00)
+  const mwX = PL + 2 * (CW + G), mwW = 4 * (CW + G) - G;
+  const mwY = PT + 7 * (CH + G) + 6;
+  const mwAnnotation = `
+    <rect x="${mwX}" y="${mwY}" width="${mwW}" height="12" rx="2" fill="#0d3d1f" stroke="#3fb950" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="${mwX + mwW / 2}" y="${mwY + 8}" text-anchor="middle" style="font-size:8.5px;fill:#3fb950;">✓ Maintenance window</text>`;
+
+  // Time-window overlay for short ranges
+  let windowOverlay = '';
+  if (ST.range === '1h') {
+    const h = 10; // approximate peak hour
+    const x = PL + h * (CW + G), wH = 7 * (CH + G) - G;
+    windowOverlay = `<rect x="${x}" y="${PT}" width="${CW}" height="${wH}" rx="2" fill="none" stroke="#388bfd" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.85"/>
+      <text x="${x + CW/2}" y="${PT + wH + 14}" text-anchor="middle" style="font-size:8.5px;fill:#388bfd;">10:00–11:00 window</text>`;
+  } else if (ST.range === '6h') {
+    const h1 = 9, h2 = 15;
+    const x = PL + h1 * (CW + G), wW = (h2 - h1) * (CW + G) - G, wH = 7 * (CH + G) - G;
+    windowOverlay = `<rect x="${x}" y="${PT}" width="${wW}" height="${wH}" rx="2" fill="none" stroke="#388bfd" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.85"/>
+      <text x="${x + wW/2}" y="${PT + wH + 14}" text-anchor="middle" style="font-size:8.5px;fill:#388bfd;">09:00–15:00 window</text>`;
+  }
+
+  document.getElementById('hm-chart').innerHTML = cells + dayLabels + hourLabels + mwAnnotation + windowOverlay;
+}
+
+// ── API list ──
+function renderApiList() {
+  const t = ST.tenant;
+  const scale = RANGE_CONFIG[ST.range].scale;
+  let rows = APIS.map(a => {
+    const m = genMetrics(t.id, a.id);
+    return { a, m, displayVol: Math.round(m.baseVol * scale) };
+  });
+  const maxVol = Math.max(...rows.map(r => r.displayVol));
+
+  if (ST.sort === 'volume')  rows.sort((a, b) => b.displayVol - a.displayVol);
+  if (ST.sort === 'latency') rows.sort((a, b) => b.m.p95 - a.m.p95);
+  if (ST.sort === 'health')  rows.sort((a, b) => {
+    const o = { red: 0, yellow: 1, green: 2 };
+    return o[a.m.health] - o[b.m.health];
+  });
+
+  const html = rows.map(({ a, m, displayVol }) => `
+    <div class="api-row ${ST.api === a.id ? 'sel' : ''}" onclick="selApi('${a.id}')">
+      <div class="health-dot h-${m.health}"></div>
+      <span class="method-badge ${a.method}">${a.method}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:11.5px;color:#e6edf3;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${a.path}</div>
+        <div class="vol-bar"><div class="vol-fill" style="width:${(displayVol / maxVol * 100).toFixed(1)}%"></div></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:12px;font-variant-numeric:tabular-nums;">${fmt(displayVol)}</div>
+        <div style="font-size:10.5px;color:${m.p95 > a.latSLA ? '#da3633' : '#7d8590'};">p95 ${m.p95}ms</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('api-list').innerHTML = html;
+  document.getElementById('api-range-label').textContent = ST.range;
+}
+
+// ── API Detail ──
+function renderDetail() {
+  if (!ST.api) return;
+  const t = ST.tenant;
+  const api = APIS.find(a => a.id === ST.api);
+  const m = genMetrics(t.id, api.id);
+  const displayVol = Math.round(m.baseVol * RANGE_CONFIG[ST.range].scale);
+
+  // Header
+  const mb = document.getElementById('d-method');
+  mb.textContent = api.method; mb.className = `method-badge ${api.method}`;
+  document.getElementById('d-path').textContent = api.path;
+  document.getElementById('d-group').textContent = api.group;
+
+  const hb = document.getElementById('d-health');
+  const HC = { green: ['#0d3d1f','#3fb950','Healthy'], yellow: ['#3d2b0d','#d29922','Degraded'], red: ['#3d0d0d','#da3633','Critical'] };
+  hb.style.cssText = `background:${HC[m.health][0]};color:${HC[m.health][1]};font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;`;
+  hb.textContent = `● ${HC[m.health][2]}`;
+
+  // Latency bars
+  const lMax = m.p99 * 1.1;
+  const bars = [
+    { l: 'p50', v: m.p50, c: '#3fb950' },
+    { l: 'p95', v: m.p95, c: m.p95 > api.latSLA ? '#da3633' : '#d29922' },
+    { l: 'p99', v: m.p99, c: '#7d8590' },
+  ];
+  document.getElementById('d-latency').innerHTML = bars.map(b => `
+    <div style="margin-bottom:9px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+        <span style="font-size:11px;color:#7d8590;">${b.l}</span>
+        <span style="font-size:12px;font-weight:600;color:${b.c};font-variant-numeric:tabular-nums;">${b.v}ms</span>
+      </div>
+      <div style="background:#21262d;height:5px;border-radius:3px;overflow:hidden;">
+        <div style="background:${b.c};height:100%;width:${(b.v / lMax * 100).toFixed(1)}%;transition:width 0.5s ease;border-radius:3px;"></div>
+      </div>
+    </div>`).join('');
+  document.getElementById('d-lat-sla').innerHTML =
+    `SLA limit: <span style="color:${m.p95 > api.latSLA ? '#da3633' : '#3fb950'};">${api.latSLA}ms</span>
+     <span style="margin-left:6px;color:${m.p95 > api.latSLA ? '#da3633' : '#3fb950'};">${m.p95 > api.latSLA ? '✗ Breach' : '✓ Pass'}</span>`;
+
+  // Availability ring
+  const r = 38, circ = 2 * Math.PI * r;
+  const aC = document.getElementById('avail-ring');
+  const availColor = m.avail >= api.availSLA ? '#3fb950' : m.avail >= api.availSLA - 0.1 ? '#d29922' : '#da3633';
+  aC.setAttribute('stroke-dasharray', circ.toFixed(1));
+  aC.setAttribute('stroke-dashoffset', (circ - (m.avail / 100) * circ).toFixed(1));
+  aC.setAttribute('stroke', availColor);
+  document.getElementById('avail-pct').textContent = m.avail.toFixed(2) + '%';
+  document.getElementById('avail-sla').innerHTML =
+    `<span style="color:#7d8590;">SLA: </span><span style="color:${availColor};">${api.availSLA}%</span>
+     <span style="margin-left:4px;color:${availColor};">${m.avail >= api.availSLA ? '✓' : '✗'}</span>`;
+
+  // Error rate
+  const eC = m.errRate < 0.1 ? '#3fb950' : m.errRate < 0.5 ? '#d29922' : '#da3633';
+  document.getElementById('d-errors').innerHTML = `
+    <div style="font-size:26px;font-weight:700;color:${eC};font-variant-numeric:tabular-nums;">${m.errRate.toFixed(3)}%</div>
+    <div style="font-size:11px;color:#7d8590;margin-top:4px;">of ${fmt(displayVol)} requests</div>
+    <div style="font-size:11px;color:#7d8590;margin-top:2px;">≈ ${fmt(m.errRate / 100 * displayVol)} errors</div>
+    <div style="margin-top:10px;border-top:1px solid #21262d;padding-top:8px;">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#7d8590;margin-bottom:3px;"><span>4xx Client</span><span>${(m.errRate * 0.62).toFixed(3)}%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:#7d8590;">5xx Server</span><span style="color:${m.errRate * 0.38 > 0.1 ? '#da3633' : '#7d8590'};">${(m.errRate * 0.38).toFixed(3)}%</span></div>
+    </div>`;
+
+  // Thresholds
+  const thItems = [
+    { l: 'p95 Latency',  v: `${m.p95}ms`,             lim: `${api.latSLA}ms`,     ok: m.p95 <= api.latSLA },
+    { l: 'Availability', v: `${m.avail.toFixed(3)}%`,  lim: `${api.availSLA}%`,    ok: m.avail >= api.availSLA },
+    { l: 'Error Rate',   v: `${m.errRate.toFixed(3)}%`,lim: '0.5%',               ok: m.errRate < 0.5 },
+  ];
+  document.getElementById('d-thresh').innerHTML = thItems.map(ti => `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div>
+        <div style="font-size:10.5px;color:#7d8590;">${ti.l}</div>
+        <div style="font-size:13px;font-weight:600;margin-top:1px;">${ti.v}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:10px;color:#7d8590;">limit: ${ti.lim}</div>
+        <div style="font-size:12px;color:${ti.ok ? '#3fb950' : '#da3633'};margin-top:2px;">${ti.ok ? '✓ Pass' : '✗ Breach'}</div>
+      </div>
+    </div>`).join('');
+
+  renderApiHm();
+  renderNoise();
+}
+
+function renderApiHm() {
+  const data = genApiHeatmap(ST.tenant.id, ST.api);
+  const days = ['Mon','Tue','Wed','Thu','Fri'];
+  const CW = 18, CH = 16, PL = 28, PT = 20, G = 2;
+
+  const cells = data.map((row, d) =>
+    row.map((v, h) => {
+      const x = PL + h * (CW + G), y = PT + d * (CH + G);
+      return `<rect x="${x}" y="${y}" width="${CW}" height="${CH}" rx="2" fill="${heatCol(v)}"
+        onmouseenter="showTT(event,'${days[d]} ${String(h).padStart(2,'0')}:00 — ${(v * 100).toFixed(0)}% intensity')" onmouseleave="hideTT()"/>`;
+    }).join('')
+  ).join('');
+
+  const dayLbls = days.map((d, i) =>
+    `<text x="${PL - 4}" y="${PT + i * (CH + G) + CH / 2}" text-anchor="end" dominant-baseline="middle" style="font-size:9px;fill:#7d8590;">${d}</text>`
+  ).join('');
+
+  const hrLbls = [0, 4, 8, 12, 16, 20, 23].map(h =>
+    `<text x="${PL + h * (CW + G) + CW / 2}" y="12" text-anchor="middle" style="font-size:8px;fill:#7d8590;">${String(h).padStart(2,'0')}h</text>`
+  ).join('');
+
+  // Find peak window
+  const flat = data.map(row => row.reduce((s, v) => s + v, 0));
+  const peakDay = flat.indexOf(Math.max(...flat));
+  const peakRowH = data[peakDay].indexOf(Math.max(...data[peakDay]));
+  const px = PL + peakRowH * (CW + G), py = PT + peakDay * (CH + G);
+  const peakMark = `<rect x="${px}" y="${py}" width="${CW}" height="${CH}" rx="2" fill="none" stroke="#d29922" stroke-width="1.5"/>`;
+
+  const legend = `<text x="${PL}" y="${PT + 5 * (CH + G) + 18}" style="font-size:9px;fill:#7d8590;">
+    <tspan style="fill:#d29922;">□</tspan> Peak usage window
+  </text>`;
+
+  document.getElementById('api-hm').innerHTML = cells + dayLbls + hrLbls + peakMark + legend;
+}
+
+function renderNoise() {
+  const t = ST.tenant;
+  const el = document.getElementById('noise-content');
+
+  if (t.type === 'dedicated') {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <div style="width:10px;height:10px;background:#3fb950;border-radius:50%;box-shadow:0 0 6px #3fb95088;"></div>
+        <span style="font-size:14px;font-weight:600;color:#3fb950;">No Risk</span>
+      </div>
+      <div style="font-size:12px;color:#7d8590;line-height:1.6;margin-bottom:12px;">
+        <strong style="color:#e6edf3;">${t.name}</strong> runs on dedicated infrastructure.
+        No shared compute — this API's SLAs are fully isolated.
+      </div>
+      <div style="padding:10px;background:#0d3d1f;border:1px solid #23863633;border-radius:6px;">
+        <div style="font-size:10px;font-weight:600;color:#3fb950;margin-bottom:6px;">Infrastructure</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-size:11px;color:#7d8590;">Cluster: <code style="color:#e6edf3;font-size:11px;">${t.cluster}</code></div>
+          <div style="font-size:11px;color:#7d8590;">Region: <code style="color:#e6edf3;font-size:11px;">${t.region}</code></div>
+          <div style="font-size:11px;color:#7d8590;">Mode: <code style="color:#3fb950;font-size:11px;">dedicated</code></div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Shared — find cluster mates
+  const clusterKey = Object.keys(CLUSTER_MATES).find(k => CLUSTER_MATES[k].includes(t.id));
+  const mates = (clusterKey ? CLUSTER_MATES[clusterKey] : []).filter(id => id !== t.id)
+                .map(id => TENANTS.find(x => x.id === id));
+
+  const myPeakH = genVolSeries(t.id).indexOf(Math.max(...genVolSeries(t.id)));
+  let overlapCount = 0;
+  const mateData = mates.map(mt => {
+    const series = genVolSeries(mt.id);
+    const mPeak = series.indexOf(Math.max(...series));
+    const overlap = Math.abs(mPeak - myPeakH) <= 2;
+    if (overlap) overlapCount++;
+    return { mt, mPeak, overlap };
+  });
+
+  const riskLevel = overlapCount >= mates.length && mates.length > 0 ? 'HIGH'
+                  : overlapCount > 0 ? 'MEDIUM' : 'LOW';
+  const riskColor = { HIGH: '#da3633', MEDIUM: '#d29922', LOW: '#3fb950' }[riskLevel];
+  const noiseScore = { HIGH: 82, MEDIUM: 48, LOW: 14 }[riskLevel];
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <div style="width:10px;height:10px;background:${riskColor};border-radius:50%;box-shadow:0 0 6px ${riskColor}88;${riskLevel==='HIGH'?'animation:pulse 1.5s ease-in-out infinite;':''}"></div>
+      <span style="font-size:14px;font-weight:600;color:${riskColor};">${riskLevel} RISK</span>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#7d8590;margin-bottom:3px;">
+        <span>Noise Score</span><span style="color:${riskColor};">${noiseScore}/100</span>
+      </div>
+      <div style="background:#21262d;height:6px;border-radius:3px;overflow:hidden;">
+        <div style="background:${riskColor};height:100%;width:${noiseScore}%;border-radius:3px;transition:width 0.5s ease;"></div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:#7d8590;margin-bottom:8px;">
+      Cluster <code style="color:#e6edf3;font-size:11px;">${t.cluster}</code> shared with:
+    </div>
+
+    ${mateData.map(({ mt, mPeak, overlap }) => `
+      <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#1c2128;border-radius:6px;border:1px solid ${overlap ? '#da363325' : '#21262d'};margin-bottom:6px;">
+        <div style="width:7px;height:7px;border-radius:50%;background:${overlap ? '#da3633' : '#3fb950'};flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div style="font-size:12px;color:#e6edf3;">${mt.name}</div>
+          <div style="font-size:10px;color:#7d8590;">
+            Peak: ${String(mPeak).padStart(2,'0')}:00 UTC
+            ${overlap ? '· <span style="color:#da3633;">overlaps your peak</span>' : '· no conflict'}
+          </div>
+        </div>
+      </div>`).join('')}
+
+    ${riskLevel !== 'LOW' ? `
+      <div style="margin-top:8px;padding:10px;background:#2d1a0d;border:1px solid #d2992230;border-radius:6px;">
+        <div style="font-size:10px;font-weight:600;color:#d29922;margin-bottom:4px;">⚠ Recommendation</div>
+        <div style="font-size:11px;color:#7d8590;line-height:1.6;">Schedule maintenance & batch jobs at <strong style="color:#e6edf3;">02:00–05:00 UTC</strong> when all co-tenants are at minimum load.</div>
+      </div>` : `
+      <div style="margin-top:8px;padding:10px;background:#0d3d1f;border:1px solid #3fb95025;border-radius:6px;">
+        <div style="font-size:11px;color:#3fb950;line-height:1.5;">✓ Peak hours don't overlap with co-tenants. Noisy neighbor impact is minimal.</div>
+      </div>`}
+  `;
+}
+
+// ── Actions ──
+function selTenant(id) {
+  ST.tenant = TENANTS.find(t => t.id === id);
+  ST.api = null;
+  document.getElementById('tb-name').textContent = ST.tenant.name;
+  const tag = document.getElementById('tb-tag');
+  tag.textContent = ST.tenant.type;
+  tag.className = `tag tag-${ST.tenant.type}`;
+  document.getElementById('tenant-dd').style.display = 'none';
+  renderTenantList();
+  renderKPIs();
+  renderVolChart();
+  renderHeatmap();
+  renderApiList();
+  closeDetail();
+}
+
+function selApi(id) {
+  ST.api = id;
+  renderApiList();
+  renderDetail();
+  document.getElementById('detail-panel').classList.add('open');
+  setTimeout(() => document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+}
+
+function closeDetail() {
+  ST.api = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  renderApiList();
+}
+
+function sortBy(s) {
+  ST.sort = s;
+  ['volume','latency','health'].forEach(k => {
+    const b = document.getElementById(`sb-${k}`);
+    b.classList.toggle('active', k === s);
+  });
+  renderApiList();
+}
+
+function setRange(r) {
+  ST.range = r;
+  ['1h','6h','24h','7d'].forEach(k => {
+    document.getElementById(`r-${k}`).classList.toggle('active', k === r);
+  });
+  renderKPIs();
+  renderVolChart();
+  renderHeatmap();
+  renderApiList();
+  if (ST.api) renderDetail();
+}
+
+// ── Tooltip ──
+function showTT(e, text) {
+  const tt = document.getElementById('tooltip');
+  tt.textContent = text;
+  tt.style.display = 'block';
+  tt.style.left = (e.clientX + 14) + 'px';
+  tt.style.top  = (e.clientY - 10) + 'px';
+}
+function hideTT() { document.getElementById('tooltip').style.display = 'none'; }
+
+// ── Boot ──
+renderTenantList();
+selTenant('abn');
+</script>
+</body>
+</html>
