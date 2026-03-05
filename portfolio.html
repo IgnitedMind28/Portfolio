@@ -1849,10 +1849,11 @@ function renderNoise() {
   const mates = (clusterKey ? CLUSTER_MATES[clusterKey] : []).filter(id => id !== t.id)
                 .map(id => TENANTS.find(x => x.id === id));
 
-  const myPeakH = genVolSeries(t.id).indexOf(Math.max(...genVolSeries(t.id)));
+  const myPeakSeries = genVolSeriesForRange(t.id, '24h');
+  const myPeakH = myPeakSeries.indexOf(Math.max(...myPeakSeries));
   let overlapCount = 0;
   const mateData = mates.map(mt => {
-    const series = genVolSeries(mt.id);
+    const series = genVolSeriesForRange(mt.id, '24h');
     const mPeak = series.indexOf(Math.max(...series));
     const overlap = Math.abs(mPeak - myPeakH) <= 2;
     if (overlap) overlapCount++;
