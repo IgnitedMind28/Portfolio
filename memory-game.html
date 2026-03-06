@@ -222,9 +222,11 @@
       <span style="font-size:1.6rem;">🔵</span>
       <div class="flex-1 min-w-0">
         <div id="p1-label" class="text-white font-bold truncate" style="font-size:0.88rem;">Player 1</div>
-        <div class="text-slate-500 font-medium uppercase tracking-wide" style="font-size:0.6rem;">pairs found</div>
       </div>
-      <div id="p1-score" class="font-black text-indigo-400" style="font-size:2.4rem; line-height:1;">0</div>
+      <div style="text-align:center;">
+        <div id="p1-score" class="font-black text-indigo-400" style="font-size:2.4rem; line-height:1;">0</div>
+        <div class="text-slate-500 font-medium uppercase tracking-wide" style="font-size:0.55rem;">score</div>
+      </div>
     </div>
 
     <!-- Centre: pairs + VS + turn -->
@@ -242,9 +244,11 @@
       <span style="font-size:1.6rem;">🔴</span>
       <div class="flex-1 min-w-0 text-right">
         <div id="p2-label" class="text-white font-bold truncate" style="font-size:0.88rem;">Player 2</div>
-        <div class="text-slate-500 font-medium uppercase tracking-wide" style="font-size:0.6rem;">pairs found</div>
       </div>
-      <div id="p2-score" class="font-black text-red-400" style="font-size:2.4rem; line-height:1;">0</div>
+      <div style="text-align:center;">
+        <div id="p2-score" class="font-black text-red-400" style="font-size:2.4rem; line-height:1;">0</div>
+        <div class="text-slate-500 font-medium uppercase tracking-wide" style="font-size:0.55rem;">score</div>
+      </div>
     </div>
 
   </div>
@@ -289,7 +293,7 @@
   <div class="text-center w-full" style="max-width:380px;">
 
     <div id="win-trophy" class="mb-2 opacity-0" style="font-size:5rem;">🏆</div>
-    <p class="text-slate-400 font-semibold text-lg mb-1">Winner!</p>
+    <p id="win-label" class="text-slate-400 font-semibold text-lg mb-1">Winner!</p>
     <h1 id="win-name" class="font-black text-white mb-2" style="font-size:3.2rem;"></h1>
     <p id="win-msg" class="text-slate-400 text-base mb-8"></p>
 
@@ -513,7 +517,8 @@
     const trophy = document.getElementById('win-trophy');
     trophy.textContent = tie ? '🤝' : '🏆'; trophy.style.opacity = '0';
     setTimeout(() => { trophy.style.opacity = '1'; trophy.classList.add('trophy-in'); }, 50);
-    document.getElementById('win-name').textContent = tie ? "It's a Tie!" : ST.players[winnerIdx];
+    document.getElementById('win-label').textContent = tie ? "It's a Draw!" : 'Winner!';
+    document.getElementById('win-name').textContent = tie ? "Both tied!" : ST.players[winnerIdx];
     document.getElementById('win-msg').textContent = tie
       ? `Both players found ${s0} pair${s0!==1?'s':''}. What a game!`
       : `Found ${ST.scores[winnerIdx]} pairs to win! 🎊`;
@@ -524,13 +529,13 @@
            style="background:rgba(99,102,241,0.14);border:2px solid ${col0};">
         <div class="text-white font-bold text-sm truncate mb-1">${n0}</div>
         <div class="text-4xl font-black text-indigo-400">${s0}</div>
-        <div class="text-[10px] text-slate-500 mt-1">pairs</div>
+        <div class="text-[10px] text-slate-500 mt-1">score</div>
       </div>
       <div class="flex-1 rounded-2xl px-5 py-4 text-center"
            style="background:rgba(239,68,68,0.1);border:2px solid ${col1};">
         <div class="text-white font-bold text-sm truncate mb-1">${n1}</div>
         <div class="text-4xl font-black text-red-400">${s1}</div>
-        <div class="text-[10px] text-slate-500 mt-1">pairs</div>
+        <div class="text-[10px] text-slate-500 mt-1">score</div>
       </div>`;
     if (!tie) setTimeout(launchConfetti, 200);
   }

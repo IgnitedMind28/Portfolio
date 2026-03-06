@@ -2566,9 +2566,11 @@ selTenant('abn');
       <span style=&quot;font-size:1.6rem;&quot;>🔵</span>
       <div class=&quot;flex-1 min-w-0&quot;>
         <div id=&quot;p1-label&quot; class=&quot;text-white font-bold truncate&quot; style=&quot;font-size:0.88rem;&quot;>Player 1</div>
-        <div class=&quot;text-slate-500 font-medium uppercase tracking-wide&quot; style=&quot;font-size:0.6rem;&quot;>pairs found</div>
       </div>
-      <div id=&quot;p1-score&quot; class=&quot;font-black text-indigo-400&quot; style=&quot;font-size:2.4rem; line-height:1;&quot;>0</div>
+      <div style=&quot;text-align:center;&quot;>
+        <div id=&quot;p1-score&quot; class=&quot;font-black text-indigo-400&quot; style=&quot;font-size:2.4rem; line-height:1;&quot;>0</div>
+        <div class=&quot;text-slate-500 font-medium uppercase tracking-wide&quot; style=&quot;font-size:0.55rem;&quot;>score</div>
+      </div>
     </div>
 
     <!-- Centre: pairs + VS + turn -->
@@ -2586,9 +2588,11 @@ selTenant('abn');
       <span style=&quot;font-size:1.6rem;&quot;>🔴</span>
       <div class=&quot;flex-1 min-w-0 text-right&quot;>
         <div id=&quot;p2-label&quot; class=&quot;text-white font-bold truncate&quot; style=&quot;font-size:0.88rem;&quot;>Player 2</div>
-        <div class=&quot;text-slate-500 font-medium uppercase tracking-wide&quot; style=&quot;font-size:0.6rem;&quot;>pairs found</div>
       </div>
-      <div id=&quot;p2-score&quot; class=&quot;font-black text-red-400&quot; style=&quot;font-size:2.4rem; line-height:1;&quot;>0</div>
+      <div style=&quot;text-align:center;&quot;>
+        <div id=&quot;p2-score&quot; class=&quot;font-black text-red-400&quot; style=&quot;font-size:2.4rem; line-height:1;&quot;>0</div>
+        <div class=&quot;text-slate-500 font-medium uppercase tracking-wide&quot; style=&quot;font-size:0.55rem;&quot;>score</div>
+      </div>
     </div>
 
   </div>
@@ -2633,7 +2637,7 @@ selTenant('abn');
   <div class=&quot;text-center w-full&quot; style=&quot;max-width:380px;&quot;>
 
     <div id=&quot;win-trophy&quot; class=&quot;mb-2 opacity-0&quot; style=&quot;font-size:5rem;&quot;>🏆</div>
-    <p class=&quot;text-slate-400 font-semibold text-lg mb-1&quot;>Winner!</p>
+    <p id=&quot;win-label&quot; class=&quot;text-slate-400 font-semibold text-lg mb-1&quot;>Winner!</p>
     <h1 id=&quot;win-name&quot; class=&quot;font-black text-white mb-2&quot; style=&quot;font-size:3.2rem;&quot;></h1>
     <p id=&quot;win-msg&quot; class=&quot;text-slate-400 text-base mb-8&quot;></p>
 
@@ -2857,7 +2861,8 @@ selTenant('abn');
     const trophy = document.getElementById('win-trophy');
     trophy.textContent = tie ? '🤝' : '🏆'; trophy.style.opacity = '0';
     setTimeout(() => { trophy.style.opacity = '1'; trophy.classList.add('trophy-in'); }, 50);
-    document.getElementById('win-name').textContent = tie ? &quot;It's a Tie!&quot; : ST.players[winnerIdx];
+    document.getElementById('win-label').textContent = tie ? &quot;It's a Draw!&quot; : 'Winner!';
+    document.getElementById('win-name').textContent = tie ? &quot;Both tied!&quot; : ST.players[winnerIdx];
     document.getElementById('win-msg').textContent = tie
       ? `Both players found ${s0} pair${s0!==1?'s':''}. What a game!`
       : `Found ${ST.scores[winnerIdx]} pairs to win! 🎊`;
@@ -2868,13 +2873,13 @@ selTenant('abn');
            style=&quot;background:rgba(99,102,241,0.14);border:2px solid ${col0};&quot;>
         <div class=&quot;text-white font-bold text-sm truncate mb-1&quot;>${n0}</div>
         <div class=&quot;text-4xl font-black text-indigo-400&quot;>${s0}</div>
-        <div class=&quot;text-[10px] text-slate-500 mt-1&quot;>pairs</div>
+        <div class=&quot;text-[10px] text-slate-500 mt-1&quot;>score</div>
       </div>
       <div class=&quot;flex-1 rounded-2xl px-5 py-4 text-center&quot;
            style=&quot;background:rgba(239,68,68,0.1);border:2px solid ${col1};&quot;>
         <div class=&quot;text-white font-bold text-sm truncate mb-1&quot;>${n1}</div>
         <div class=&quot;text-4xl font-black text-red-400&quot;>${s1}</div>
-        <div class=&quot;text-[10px] text-slate-500 mt-1&quot;>pairs</div>
+        <div class=&quot;text-[10px] text-slate-500 mt-1&quot;>score</div>
       </div>`;
     if (!tie) setTimeout(launchConfetti, 200);
   }
