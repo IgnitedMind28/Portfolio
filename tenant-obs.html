@@ -305,13 +305,13 @@ function mkRng(seed) {
 
 // ── Static data ──
 const TENANTS = [
-  { id: 'abn',      name: 'ABN AMRO',     type: 'dedicated', region: 'EU-West-1',    cluster: 'abn-prod-01',    country: 'NL' },
-  { id: 'starling', name: 'Starling Bank', type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB' },
-  { id: 'monzo',    name: 'Monzo',         type: 'dedicated', region: 'EU-West-1',    cluster: 'monzo-prod-01',  country: 'GB' },
-  { id: 'revolut',  name: 'Revolut',       type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB' },
-  { id: 'n26',      name: 'N26',           type: 'dedicated', region: 'EU-Central-1', cluster: 'n26-prod-01',    country: 'DE' },
-  { id: 'tide',     name: 'Tide',          type: 'shared',    region: 'EU-West-2',    cluster: 'eu-shared-02',   country: 'GB' },
-  { id: 'bunq',     name: 'Bunq',          type: 'dedicated', region: 'EU-West-1',    cluster: 'bunq-prod-01',   country: 'NL' },
+  { id: 'abn',      name: 'ABN AMRO',     type: 'dedicated', region: 'EU-West-1',    cluster: 'abn-prod-01',    country: 'NL', tz: 'CET',  tzOffset: 1 },
+  { id: 'starling', name: 'Starling Bank', type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB', tz: 'GMT',  tzOffset: 0 },
+  { id: 'monzo',    name: 'Monzo',         type: 'dedicated', region: 'EU-West-1',    cluster: 'monzo-prod-01',  country: 'GB', tz: 'GMT',  tzOffset: 0 },
+  { id: 'revolut',  name: 'Revolut',       type: 'shared',    region: 'EU-West-1',    cluster: 'eu-shared-01',   country: 'GB', tz: 'GMT',  tzOffset: 0 },
+  { id: 'n26',      name: 'N26',           type: 'dedicated', region: 'EU-Central-1', cluster: 'n26-prod-01',    country: 'DE', tz: 'CET',  tzOffset: 1 },
+  { id: 'tide',     name: 'Tide',          type: 'shared',    region: 'EU-West-2',    cluster: 'eu-shared-02',   country: 'GB', tz: 'GMT',  tzOffset: 0 },
+  { id: 'bunq',     name: 'Bunq',          type: 'dedicated', region: 'EU-West-1',    cluster: 'bunq-prod-01',   country: 'NL', tz: 'CET',  tzOffset: 1 },
 ];
 
 const CLUSTER_MATES = {
@@ -352,22 +352,25 @@ function genMetrics(tid, aid) {
 
 function genVolSeriesForRange(tid, range) {
   const baseSeed = tid.split('').reduce((s,c) => s * 31 + c.charCodeAt(0), 333);
+  const tenant = TENANTS.find(t => t.id === tid);
+  const tz = tenant ? tenant.tzOffset : 0;
+  // Business hours in UTC: 09:00–18:00 local minus tz offset
+  const ps = 9 - tz, pe = 18 - tz; // peak start/end in UTC
 
   if (range === '24h') {
-    // Preserve original behavior exactly
     const rng = mkRng(baseSeed);
     const base = ((rng() * 80000 + 30000) | 0);
     return Array.from({ length: 24 }, (_, h) => {
-      const m = h >= 9 && h <= 18 ? 2.2 + rng() * 1.5
-              : h >= 20 && h <= 22 ? 1.3 + rng() * 0.7
-              : h >= 0  && h <= 5  ? 0.15 + rng() * 0.2
+      const m = h >= ps && h <= pe     ? 2.2 + rng() * 1.5
+              : h >= pe+2 && h <= pe+4 ? 1.3 + rng() * 0.7
+              : h >= 0   && h <= ps-4  ? 0.15 + rng() * 0.2
               : 0.55 + rng() * 0.6;
       return ((base * m) | 0);
     });
   }
 
   if (range === '1h') {
-    // 12 five-minute buckets during the peak hour
+    // 12 five-minute buckets during peak hour
     const rng = mkRng(baseSeed ^ 0xABCDE1);
     const base = ((rng() * 80000 + 30000) | 0);
     const peakBase = ((base * 3.2) | 0);
@@ -375,7 +378,7 @@ function genVolSeriesForRange(tid, range) {
   }
 
   if (range === '6h') {
-    // 12 thirty-minute slots covering 09:00–15:00 (peak window)
+    // 12 thirty-minute slots covering local 09:00–15:00
     const rng = mkRng(baseSeed ^ 0xABCDE2);
     const base = ((rng() * 80000 + 30000) | 0);
     return Array.from({ length: 12 }, (_, i) => {
@@ -393,9 +396,9 @@ function genVolSeriesForRange(tid, range) {
     return Array.from({ length: 7 }, (_, d) => {
       const wd = d < 5 ? 1.0 : 0.42;
       const daySum = Array.from({ length: 24 }, (__, h) => {
-        const m = h >= 9 && h <= 18 ? 2.2 + rng() * 1.5
-                : h >= 20 && h <= 22 ? 1.3 + rng() * 0.7
-                : h >= 0  && h <= 5  ? 0.15 + rng() * 0.2
+        const m = h >= ps && h <= pe     ? 2.2 + rng() * 1.5
+                : h >= pe+2 && h <= pe+4 ? 1.3 + rng() * 0.7
+                : h >= 0   && h <= ps-4  ? 0.15 + rng() * 0.2
                 : 0.55 + rng() * 0.6;
         return base * m * wd;
       }).reduce((s,v) => s + v, 0);
@@ -406,14 +409,17 @@ function genVolSeriesForRange(tid, range) {
 
 function genHeatmap7d(tid) {
   const rng = mkRng(tid.split('').reduce((s,c) => s * 31 + c.charCodeAt(0), 777));
+  const tenant = TENANTS.find(t => t.id === tid);
+  const tz = tenant ? tenant.tzOffset : 0;
+  const ps = 9 - tz, pe = 18 - tz;
   return Array.from({ length: 7 }, (_, d) => {
     const wd = d < 5 ? 1.0 : 0.35;
     return Array.from({ length: 24 }, (_, h) => {
-      const t = h >= 9 && h <= 18 ? 2.4 + rng() * 1.2
-              : h >= 19 && h <= 22 ? 1.1 + rng() * 0.6
-              : h >= 0  && h <= 5  ? 0.08 + rng() * 0.15
+      const v = h >= ps && h <= pe     ? 2.4 + rng() * 1.2
+              : h >= pe+1 && h <= pe+4 ? 1.1 + rng() * 0.6
+              : h >= 0   && h <= ps-4  ? 0.08 + rng() * 0.15
               : 0.4 + rng() * 0.5;
-      return Math.min(1, wd * t * (rng() * 0.25 + 0.75));
+      return Math.min(1, wd * v * (rng() * 0.25 + 0.75));
     });
   });
 }
@@ -421,9 +427,12 @@ function genHeatmap7d(tid) {
 function genApiHeatmap(tid, aid) {
   const seed = tid.charCodeAt(0) * 113 + aid.charCodeAt(0) * 37;
   const rng = mkRng(seed);
+  const tenant = TENANTS.find(t => t.id === tid);
+  const tz = tenant ? tenant.tzOffset : 0;
+  // Peak window anchored to local business hours, expressed in UTC
   return Array.from({ length: 5 }, () =>
     Array.from({ length: 24 }, (_, h) => {
-      const peak = 9 + ((rng() * 9) | 0);
+      const peak = (9 - tz) + ((rng() * 9) | 0);
       return Math.max(0, 1 - Math.abs(h - peak) * 0.13) * (0.5 + rng() * 0.5);
     })
   );
@@ -462,6 +471,7 @@ function renderTenantList() {
     <div class="tenant-opt ${ST.tenant?.id === t.id ? 'sel' : ''}" onclick="selTenant('${t.id}')">
       <div style="flex:1;font-size:13px;color:#e6edf3;">${t.name}</div>
       <span class="tag tag-${t.type}">${t.type}</span>
+      <div style="font-size:10px;color:#7d8590;">${t.tz}</div>
       <div style="font-size:10px;color:#7d8590;">${t.region}</div>
     </div>`).join('');
 }
@@ -498,8 +508,9 @@ function renderKPIs() {
     `<span style="color:${+delta >= 0 ? '#3fb950' : '#da3633'}">${+delta >= 0 ? '↑' : '↓'} ${Math.abs(delta)}%</span>
      <span style="color:#7d8590;"> ${rc.deltaLabel}</span>`;
 
-  document.getElementById('kpi-peak').textContent = `${String(peakH).padStart(2, '0')}:00`;
-  document.getElementById('kpi-peak-s').textContent = `${fmt(Math.max(...series24))} calls/hr`;
+  const localPeak = peakH + t.tzOffset;
+  document.getElementById('kpi-peak').textContent = `${String(localPeak).padStart(2, '0')}:00`;
+  document.getElementById('kpi-peak-s').textContent = `${fmt(Math.max(...series24))} calls/hr · ${t.tz}`;
 
   const score = Math.round(healthy / all.length * 100);
   const hEl = document.getElementById('kpi-health');
@@ -569,9 +580,14 @@ function renderVolChart() {
     `<polyline points="${linePts}" fill="none" stroke="#388bfd" stroke-width="2" stroke-linejoin="round"/>` +
     dots + peakMark;
 
-  document.getElementById('vol-chart-subtitle').textContent = rc.volLabel;
+  const tzNote = (ST.range === '24h' || ST.range === '6h') ? ' · x-axis UTC' : '';
+  document.getElementById('vol-chart-subtitle').textContent = rc.volLabel + tzNote;
+  const localPi = (ST.range === '24h') ? pi + ST.tenant.tzOffset : pi;
+  const peakLocal = (ST.range === '24h')
+    ? `${String(localPi).padStart(2,'0')}:00 ${ST.tenant.tz}`
+    : rc.peakFmt(pi);
   document.getElementById('vol-peak-lbl').innerHTML =
-    `<span style="color:#7d8590;">Peak </span><span style="color:#388bfd;">${rc.peakFmt(pi)}</span>`;
+    `<span style="color:#7d8590;">Peak </span><span style="color:#388bfd;">${peakLocal}</span>`;
 }
 
 // ── Heatmap ──
@@ -795,6 +811,7 @@ function renderNoise() {
         <div style="display:flex;flex-direction:column;gap:4px;">
           <div style="font-size:11px;color:#7d8590;">Cluster: <code style="color:#e6edf3;font-size:11px;">${t.cluster}</code></div>
           <div style="font-size:11px;color:#7d8590;">Region: <code style="color:#e6edf3;font-size:11px;">${t.region}</code></div>
+          <div style="font-size:11px;color:#7d8590;">Timezone: <code style="color:#e6edf3;font-size:11px;">${t.tz} (UTC${t.tzOffset >= 0 ? '+' : ''}${t.tzOffset})</code></div>
           <div style="font-size:11px;color:#7d8590;">Mode: <code style="color:#3fb950;font-size:11px;">dedicated</code></div>
         </div>
       </div>`;
@@ -807,14 +824,16 @@ function renderNoise() {
                 .map(id => TENANTS.find(x => x.id === id));
 
   const myPeakSeries = genVolSeriesForRange(t.id, '24h');
-  const myPeakH = myPeakSeries.indexOf(Math.max(...myPeakSeries));
+  const myPeakH = myPeakSeries.indexOf(Math.max(...myPeakSeries)); // UTC
+  const myPeakLocal = myPeakH + t.tzOffset;
   let overlapCount = 0;
   const mateData = mates.map(mt => {
     const series = genVolSeriesForRange(mt.id, '24h');
-    const mPeak = series.indexOf(Math.max(...series));
-    const overlap = Math.abs(mPeak - myPeakH) <= 2;
+    const mPeak = series.indexOf(Math.max(...series)); // UTC
+    const mPeakLocal = mPeak + mt.tzOffset;
+    const overlap = Math.abs(mPeak - myPeakH) <= 2; // compare in UTC
     if (overlap) overlapCount++;
-    return { mt, mPeak, overlap };
+    return { mt, mPeak, mPeakLocal, overlap };
   });
 
   const riskLevel = overlapCount >= mates.length && mates.length > 0 ? 'HIGH'
@@ -837,18 +856,23 @@ function renderNoise() {
       </div>
     </div>
 
-    <div style="font-size:11px;color:#7d8590;margin-bottom:8px;">
+    <div style="font-size:11px;color:#7d8590;margin-bottom:4px;">
       Cluster <code style="color:#e6edf3;font-size:11px;">${t.cluster}</code> shared with:
     </div>
+    <div style="font-size:10px;color:#7d8590;margin-bottom:8px;">
+      Your peak: <span style="color:#e6edf3;">${String(myPeakLocal).padStart(2,'0')}:00 ${t.tz}</span>
+      <span style="color:#484f58;"> · ${String(myPeakH).padStart(2,'0')}:00 UTC</span>
+    </div>
 
-    ${mateData.map(({ mt, mPeak, overlap }) => `
+    ${mateData.map(({ mt, mPeakLocal, mPeak, overlap }) => `
       <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#1c2128;border-radius:6px;border:1px solid ${overlap ? '#da363325' : '#21262d'};margin-bottom:6px;">
         <div style="width:7px;height:7px;border-radius:50%;background:${overlap ? '#da3633' : '#3fb950'};flex-shrink:0;"></div>
         <div style="flex:1;">
-          <div style="font-size:12px;color:#e6edf3;">${mt.name}</div>
+          <div style="font-size:12px;color:#e6edf3;">${mt.name} <span style="font-size:10px;color:#7d8590;">${mt.tz}</span></div>
           <div style="font-size:10px;color:#7d8590;">
-            Peak: ${String(mPeak).padStart(2,'0')}:00 UTC
-            ${overlap ? '· <span style="color:#da3633;">overlaps your peak</span>' : '· no conflict'}
+            Peak: <span style="color:#e6edf3;">${String(mPeakLocal).padStart(2,'0')}:00 ${mt.tz}</span>
+            <span style="color:#484f58;"> · ${String(mPeak).padStart(2,'0')}:00 UTC</span>
+            ${overlap ? '· <span style="color:#da3633;">overlaps in UTC</span>' : '· no UTC conflict'}
           </div>
         </div>
       </div>`).join('')}
