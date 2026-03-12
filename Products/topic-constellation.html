@@ -1109,7 +1109,7 @@
         selectEpisode(ep.id);
         setEpStatus('success', `"${ep.title.slice(0, 48)}${ep.title.length > 48 ? '…' : ''}" added to constellation ↑`);
       } catch (err) {
-        setEpStatus('error', `Couldn't load episode — make sure it's a valid YouTube URL.`);
+        setEpStatus('error', err.message || `Couldn't load episode — make sure it's a valid YouTube URL.`);
       } finally {
         btn.disabled = false;
       }
