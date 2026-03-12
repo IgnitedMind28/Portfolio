@@ -1107,19 +1107,6 @@
             </button>
           </div>
           <div id="ep-url-status" class="hidden mt-3 text-[12px] rounded-lg px-3 py-2"></div>
-
-          <!-- Description paste area — shown after episode loads -->
-          <div id="ep-desc-area" class="hidden mt-4 pt-4 border-t border-slate-700/60">
-            <p class="text-slate-400 text-[12px] mb-1">Add timestamps & insights</p>
-            <p class="text-slate-600 text-[11px] mb-2">Open the YouTube video → click <strong class="text-slate-500">Show more</strong> → copy and paste the description below</p>
-            <textarea id="ep-desc-input" rows="4"
-              placeholder="Paste the video description here…"
-              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-[12px] text-slate-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none transition-colors"></textarea>
-            <button onclick="applyCustomDescription()"
-              class="mt-2 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-[12px] font-medium rounded-lg transition-colors">
-              Extract timestamps →
-            </button>
-          </div>
         </div>
       </div>
 
@@ -3903,13 +3890,7 @@ selTenant('abn');
             </div>`
           ).join('');
       } else {
-        if (ep.custom) {
-          tsWrap.style.display = '';
-          document.getElementById('detail-timestamps').innerHTML =
-            `<p class="text-slate-600 text-[12px] italic">Paste the YouTube description below to extract timestamps</p>`;
-        } else {
-          tsWrap.style.display = 'none';
-        }
+        tsWrap.style.display = 'none';
       }
 
       const insEl = document.getElementById('detail-insights');
@@ -4652,60 +4633,6 @@ selTenant('abn');
       return "Lenny's Guest";
     }
 
-    function parseRSSTimestamps(text) {
-      // RSS HTML-stripped content has timestamps on their own line: "00:00\n) Label"
-      // Also handles inline format: "(00:00) Label" or "00:00 - Label"
-      const results = [];
-      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-
-      for (let i = 0; i < lines.length && results.length < 8; i++) {
-        // Match a line that IS just a timestamp (possibly with surrounding parens)
-        const tsOnly = lines[i].match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?$/);
-        if (tsOnly) {
-          // Label is on the next non-empty, non-paren-only, non-timestamp line
-          for (let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
-            const candidate = lines[j].replace(/^\)\s*/, '').replace(/^\(\s*$/, '').trim();
-            if (
-              candidate.length > 3 &&
-              !/^[\(\)\s]+$/.test(candidate) &&
-              !/^\d{1,2}:\d{2}/.test(candidate) &&
-              !/^(GMT|UTC|http)/i.test(candidate)
-            ) {
-              results.push({ time: tsOnly[1], label: candidate.slice(0, 80) });
-              break;
-            }
-          }
-          continue;
-        }
-        // Also catch inline format: "(00:00) Label text" or "00:00 - Label"
-        const inline = lines[i].match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\s*[-–—·]?\s*(.{5,80})$/);
-        if (inline) {
-          const h = parseInt(inline[1].split(':')[0]);
-          if (h <= 4 && !/^(GMT|UTC|http|\d{4})/i.test(inline[2])) {
-            results.push({ time: inline[1], label: inline[2].trim().slice(0, 80) });
-          }
-        }
-      }
-      return results;
-    }
-
-    function parseRSSInsights(text) {
-      // Find "What you'll learn:" section
-      const learnIdx = text.search(/What you.{0,5}ll learn:?/i);
-      if (learnIdx === -1) return [];
-      const section = text.slice(learnIdx, learnIdx + 1500);
-      const lines = section.split('\n').map(l => l.trim()).filter(Boolean);
-      const bullets = [];
-      for (const line of lines.slice(1)) {
-        if (/^(What you|Listen|Watch|Subscribe|Timestamps?|Follow|Find|Connect)/i.test(line)) break;
-        if (line.length > 20 && line.length < 200) {
-          bullets.push(line.replace(/^[-•·*\d\.]+\s*/, ''));
-          if (bullets.length >= 3) break;
-        }
-      }
-      return bullets;
-    }
-
     function mapToTopics(title, timestamps, plainText) {
       const haystack = {
         title: title.toLowerCase(),
@@ -4733,63 +4660,117 @@ selTenant('abn');
       return filtered;
     }
 
-    // Tracks the last loaded custom episode id for description enrichment
-    let _lastCustomId = null;
+    // Invidious instances to try in order (all have CORS: *)
+    const INVIDIOUS = [
+      'https://invidious.darkness.services',
+      'https://invidious.privacydev.net',
+      'https://inv.nadeko.net',
+    ];
+
+    async function fetchInvidious(videoId) {
+      for (const base of INVIDIOUS) {
+        try {
+          const r = await fetch(
+            `${base}/api/v1/videos/${videoId}?fields=title,author,lengthSeconds,description,chapters`,
+            { signal: AbortSignal.timeout(6000) }
+          );
+          if (!r.ok) continue;
+          const j = await r.json();
+          if (j.title) return j;
+        } catch (_) {}
+      }
+      return null;
+    }
 
     async function fetchEpisodeData(videoId) {
-      // oEmbed — title + thumbnail, always CORS-safe, no API key needed
-      const oembedRes = await fetch(
-        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
-      );
-      if (!oembedRes.ok) throw new Error('Video not found — check the URL');
-      const oembed = await oembedRes.json();
+      // Try Invidious first (has chapters, description, duration — CORS: *)
+      const inv = await fetchInvidious(videoId);
 
-      const title = oembed.title || 'Unknown Title';
-      const guest = extractGuest(title);
-      const topics = mapToTopics(title, [], '');
+      // Fallback to oEmbed for title if Invidious fails
+      let title, guest, timestamps = [], insights = [], durationStr = '—';
+
+      if (inv) {
+        title = inv.title || 'Unknown Title';
+
+        // Duration from lengthSeconds
+        const s = inv.lengthSeconds || 0;
+        const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+        durationStr = h > 0 ? `${h}h ${m}m` : (m > 0 ? `${m}m` : '—');
+
+        // Official chapters take priority
+        if (inv.chapters && inv.chapters.length) {
+          timestamps = inv.chapters.slice(0, 8).map(c => ({
+            time: formatSeconds(c.start),
+            label: c.title,
+          }));
+        } else if (inv.description) {
+          // Parse timestamps from description text
+          timestamps = parseDescTimestamps(inv.description);
+        }
+
+        // Insights from "We discuss:" / numbered bullet section
+        if (inv.description) insights = parseDescInsights(inv.description);
+
+      } else {
+        // Fallback: oEmbed only
+        const oeRes = await fetch(
+          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+        );
+        if (!oeRes.ok) throw new Error('Video not found — check the URL');
+        const oe = await oeRes.json();
+        title = oe.title || 'Unknown Title';
+      }
+
+      guest = extractGuest(title);
+      const topics = mapToTopics(title, timestamps, inv?.description || '');
 
       return {
         id: 'custom-' + videoId,
         title,
         guest,
-        duration: '—',
+        duration: durationStr,
         yt: `https://www.youtube.com/watch?v=${videoId}`,
         topics,
-        timestamps: [],
-        insights: [],
+        timestamps,
+        insights,
         custom: true,
       };
     }
 
-    function applyCustomDescription() {
-      const desc = document.getElementById('ep-desc-input').value.trim();
-      if (!desc || !_lastCustomId) return;
+    function formatSeconds(secs) {
+      const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60), s = secs % 60;
+      if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      return `${m}:${String(s).padStart(2,'0')}`;
+    }
 
-      const ep = EPISODES.find(e => e.id === _lastCustomId);
-      if (!ep) return;
-
-      const timestamps = parseRSSTimestamps(desc);
-      const insights = parseRSSInsights(desc);
-
-      // Re-score topics with full description text
-      ep.timestamps = timestamps;
-      ep.insights = insights;
-      ep.topics = mapToTopics(ep.title, timestamps, desc);
-
-      // Estimate duration from last timestamp
-      if (timestamps.length) {
-        const last = timestamps[timestamps.length - 1].time;
-        const parts = last.split(':').map(Number);
-        if (parts.length === 3 && parts[0] > 0) ep.duration = `${parts[0]}h ${parts[1]}m+`;
-        else if (parts.length === 2 && parts[0] > 0) ep.duration = `${parts[0]}m+`;
+    function parseDescTimestamps(desc) {
+      const results = [];
+      for (const line of desc.split('\n').map(l => l.trim()).filter(Boolean)) {
+        if (results.length >= 8) break;
+        const m = line.match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\s*[-–—·]?\s*(.{4,90})$/);
+        if (m) {
+          const h = parseInt(m[1].split(':')[0]);
+          if (h <= 4 && !/^(GMT|UTC|http)/i.test(m[2])) {
+            results.push({ time: m[1], label: m[2].trim() });
+          }
+        }
       }
+      return results;
+    }
 
-      redrawConstellation();
-      resetAll();
-      selectEpisode(ep.id);
-
-      // Update status
-      setEpStatus('success', `Found ${timestamps.length} timestamps · ${Object.keys(ep.topics).length} topics identified ↑`);
+    function parseDescInsights(desc) {
+      // Look for numbered list ("We discuss:", "In this episode:", or just "1. ...")
+      const sectionStart = desc.search(/\*?(?:We discuss|In this episode|What you.{0,5}ll learn):?\*?/i);
+      const section = sectionStart > -1 ? desc.slice(sectionStart, sectionStart + 2000) : desc;
+      const bullets = [];
+      for (const line of section.split('\n').map(l => l.trim())) {
+        if (/^(Listen|Watch|Subscribe|Timestamps?|Follow|Find|Connect|Where to|Links?)/i.test(line)) break;
+        if (/^\d+[.)]\s+.{15,}/.test(line) || /^[-•·*]\s+.{15,}/.test(line)) {
+          bullets.push(line.replace(/^[\d\.\)\-•·*]+\s*/, '').trim());
+          if (bullets.length >= 3) break;
+        }
+      }
+      return bullets;
     }
 
     function setEpStatus(type, msg) {
@@ -4837,10 +4818,7 @@ selTenant('abn');
         redrawConstellation();
         resetAll();
         selectEpisode(ep.id);
-        setEpStatus('success', `"${ep.title.slice(0, 48)}${ep.title.length > 48 ? '…' : ''}" placed in constellation ↑`);
-        // Show description paste area
-        document.getElementById('ep-desc-area').classList.remove('hidden');
-        document.getElementById('ep-desc-input').value = '';
+        setEpStatus('success', `"${ep.title.slice(0, 48)}${ep.title.length > 48 ? '…' : ''}" added to constellation ↑`);
       } catch (err) {
         setEpStatus('error', `Couldn't load episode — make sure it's a valid YouTube URL.`);
       } finally {
