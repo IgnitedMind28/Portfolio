@@ -953,58 +953,35 @@
       return filtered;
     }
 
-    const INVIDIOUS = [
-      'https://invidious.darkness.services',
-      'https://invidious.privacydev.net',
-      'https://inv.nadeko.net',
-    ];
-
-    async function fetchInvidious(videoId) {
-      for (const base of INVIDIOUS) {
-        try {
-          const r = await fetch(
-            `${base}/api/v1/videos/${videoId}?fields=title,author,lengthSeconds,description,chapters`,
-            { signal: AbortSignal.timeout(6000) }
-          );
-          if (!r.ok) continue;
-          const j = await r.json();
-          if (j.title) return j;
-        } catch (_) {}
-      }
-      return null;
-    }
+    const YT_PROXY = 'https://yt-proxy.mukherjee-utpal86.workers.dev';
 
     async function fetchEpisodeData(videoId) {
-      const inv = await fetchInvidious(videoId);
-      let title, guest, timestamps = [], insights = [], durationStr = '—';
+      const r = await fetch(`${YT_PROXY}/?id=${videoId}`, { signal: AbortSignal.timeout(15000) });
+      if (!r.ok) throw new Error('Video not found — check the URL');
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
 
-      if (inv) {
-        title = inv.title || 'Unknown Title';
-        const s = inv.lengthSeconds || 0;
+      let title = data.title || 'Unknown Title';
+      let timestamps = [], insights = [], durationStr = '—';
+
+      if (data.lengthSeconds) {
+        const s = data.lengthSeconds;
         const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
         durationStr = h > 0 ? `${h}h ${m}m` : (m > 0 ? `${m}m` : '—');
-
-        if (inv.chapters && inv.chapters.length) {
-          timestamps = inv.chapters.slice(0, 8).map(c => ({
-            time: formatSeconds(c.start), label: c.title,
-          }));
-        } else if (inv.description) {
-          timestamps = parseDescTimestamps(inv.description);
-        }
-        if (inv.description) insights = parseDescInsights(inv.description);
-      } else {
-        // Fallback: noembed.com (CORS-safe, no API key needed)
-        const oeRes = await fetch(
-          `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`
-        );
-        if (!oeRes.ok) throw new Error('Video not found — check the URL');
-        const oe = await oeRes.json();
-        if (oe.error) throw new Error('Video not found — check the URL');
-        title = oe.title || 'Unknown Title';
       }
 
-      guest = extractGuest(title);
-      const topics = mapToTopics(title, timestamps, inv?.description || '');
+      if (data.chapters && data.chapters.length) {
+        timestamps = data.chapters.slice(0, 8).map(c => ({
+          time: formatSeconds(c.start), label: c.title,
+        }));
+      } else if (data.description) {
+        timestamps = parseDescTimestamps(data.description);
+      }
+
+      if (data.description) insights = parseDescInsights(data.description);
+
+      const guest = extractGuest(title);
+      const topics = mapToTopics(title, timestamps, data.description || '');
 
       return {
         id: 'custom-' + videoId,
