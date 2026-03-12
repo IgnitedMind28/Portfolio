@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geo-Intelligent Tweet Trend Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #06080f; color: #c9d1d9; margin: 0; }
+    .tt-city-tip {
+      background: #0f1e35;
+      border: 1px solid #1e3a5a;
+      color: #e2e8f0;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      white-space: nowrap;
+    }
+    .tt-city-tip::before { display: none; }
+  </style>
+</head>
+
+<body>
+  <section class="py-20 px-6 relative overflow-hidden" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(14,165,233,0.26) 0%, transparent 65%), #06080f; min-height:100vh;">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 80% 55% at 50% 40%, rgba(14,165,233,0.05) 0%, transparent 70%);"></div>
+    <div class="max-w-6xl mx-auto relative z-10">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h2 class="text-[32px] sm:text-[38px] font-bold text-white mb-3 tracking-tight">Geo-Intelligent Tweet Trend Tracker</h2>
+        <p class="text-slate-400 text-[15px] max-w-2xl mx-auto leading-relaxed">
+          A PM's take on signal vs. noise: select a country, surface the top five trending topics via a live heat map
+          of regional tweet velocity, then drill into any city to rank the most influential posts by reach.
+        </p>
+      </div>
+
+      <!-- Country Selector -->
+      <div class="flex items-center justify-center gap-2 flex-wrap mb-6">
+        <button data-country="US" class="px-4 py-1.5 rounded-full text-[12px] font-semibold" style="background:#0ea5e9;color:white;">🇺🇸 United States</button>
+        <button data-country="GB" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇬🇧 United Kingdom</button>
+        <button data-country="IN" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇮🇳 India</button>
+        <button data-country="BR" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇧🇷 Brazil</button>
+        <button data-country="JP" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇯🇵 Japan</button>
+        <button data-country="DE" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇩🇪 Germany</button>
+        <button data-country="NG" class="px-4 py-1.5 rounded-full text-[12px] font-medium" style="background:#1e293b;color:#94a3b8;border:1px solid #2d3f57;">🇳🇬 Nigeria</button>
+      </div>
+
+      <!-- Map + Trends -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+        <!-- Map panel -->
+        <div class="lg:col-span-2 rounded-2xl overflow-hidden" style="background:#0c1625;border:1px solid #1e3050;">
+          <div class="flex items-center justify-between px-5 py-3" style="border-bottom:1px solid #1a2d48;">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+              <span class="text-[11px] font-semibold text-white">Live Heat Map</span>
+              <span id="tt-map-subtitle" class="text-[10px] text-slate-500">· United States · Updated 8s ago</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#ef4444;"></span><span class="text-[11px] text-slate-400">High</span></div>
+              <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#f97316;"></span><span class="text-[11px] text-slate-400">Medium</span></div>
+              <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#eab308;"></span><span class="text-[11px] text-slate-400">Low</span></div>
+            </div>
+          </div>
+          <div id="tt-map" style="height:380px;width:100%;"></div>
+          <div class="grid grid-cols-4" style="border-top:1px solid #1a2d48;">
+            <div class="px-4 py-3">
+              <p class="text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Top Trend</p>
+              <p id="tt-stat-top" class="text-[13px] font-bold text-sky-400 truncate">#AI2026</p>
+            </div>
+            <div class="px-4 py-3" style="border-left:1px solid #1a2d48;">
+              <p class="text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Fastest Rising</p>
+              <p id="tt-stat-rise" class="text-[13px] font-bold text-emerald-400">+182%</p>
+            </div>
+            <div class="px-4 py-3" style="border-left:1px solid #1a2d48;">
+              <p class="text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Breaking Now</p>
+              <p id="tt-stat-brk" class="text-[13px] font-bold text-red-400">2 topics 🔥</p>
+            </div>
+            <div class="px-4 py-3" style="border-left:1px solid #1a2d48;">
+              <p class="text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Hotspot</p>
+              <p id="tt-stat-region" class="text-[13px] font-bold text-white truncate">New York Metro</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trends panel -->
+        <div class="lg:col-span-1 rounded-2xl p-5 flex flex-col" style="background:#0c1625;border:1px solid #1e3050;">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 mb-0.5">Top 5 Trends</p>
+              <p id="tt-trends-country" class="text-[14px] font-bold text-white">🇺🇸 United States</p>
+            </div>
+            <span class="text-[10px] px-2 py-1 rounded-full font-semibold" style="background:rgba(239,68,68,0.12);color:#f87171;">● Live</span>
+          </div>
+          <div id="tt-trends-list" class="space-y-3 flex-1">
+            <div class="rounded-xl p-3" style="background:#0f2035;border:1px solid #1e3a5a;">
+              <div class="flex items-start justify-between mb-2">
+                <div><span class="text-[12px] font-bold text-sky-400">#AI2026</span><p class="text-[9px] text-slate-500 mt-0.5">Technology · Breaking</p></div>
+                <span class="text-[10px] font-semibold text-emerald-400">▲ +182%</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="flex-1 h-1.5 rounded-full" style="background:#1a3050;"><div class="h-1.5 rounded-full" style="width:94%;background:linear-gradient(to right,#38bdf8,#818cf8);"></div></div>
+                <span class="text-[9px] text-slate-500">2.4M</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Influential Tweets -->
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <p class="text-[12px] font-semibold text-white">Most Influential Posts</p>
+          <div class="flex-1 h-px" style="background:#1e3050;"></div>
+          <p id="tt-tweets-region" class="text-[10px] text-slate-500">Ranked by Reposts · New York Metro</p>
+        </div>
+        <div id="tt-tweets-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // ─── TWEET TRACKER ─────────────────────────────────────────────
+    // ─── LEAFLET MAP DATA ──────────────────────────────────────────
+    const COUNTRY_GEO = {
+      US: { center: [38, -97],   zoom: 4, spots: [[40.7,-74.0,120,'h','New York'],[34.1,-118.2,110,'h','Los Angeles'],[41.9,-87.6,85,'m','Chicago'],[29.8,-95.4,70,'m','Houston'],[47.6,-122.3,65,'l','Seattle'],[38.9,-77.0,55,'l','Washington DC'],[25.8,-80.2,50,'l','Miami']] },
+      GB: { center: [54, -2],    zoom: 5, spots: [[51.5,-0.1,80,'h','London'],[53.5,-2.2,60,'m','Manchester'],[55.9,-3.2,45,'l','Edinburgh']] },
+      IN: { center: [22, 80],    zoom: 4, spots: [[19.1,72.9,100,'h','Mumbai'],[28.6,77.2,90,'h','Delhi'],[12.9,77.6,70,'m','Bangalore'],[22.6,88.4,55,'l','Kolkata']] },
+      BR: { center: [-14, -52],  zoom: 4, spots: [[-23.5,-46.6,110,'h','São Paulo'],[-22.9,-43.2,90,'m','Rio de Janeiro'],[-3.7,-38.5,55,'l','Fortaleza']] },
+      JP: { center: [37, 137],   zoom: 5, spots: [[35.7,139.7,100,'h','Tokyo'],[34.7,135.5,70,'m','Osaka'],[43.1,141.4,40,'l','Sapporo']] },
+      DE: { center: [51, 10],    zoom: 5, spots: [[52.5,13.4,90,'h','Berlin'],[48.1,11.6,70,'m','Munich'],[53.6,10.0,55,'l','Hamburg']] },
+      NG: { center: [9, 8],      zoom: 5, spots: [[6.5,3.4,100,'h','Lagos'],[9.1,7.4,60,'m','Abuja'],[11.8,13.2,40,'l','Kano']] },
+    };
+
+    let _tweetMap = null;
+    let _heatLayers = [];
+    let _selectedCityDot = null;
+    let _selectedCityColor = null;
+
+    function clearHeatLayers() {
+      _heatLayers.forEach(l => _tweetMap.removeLayer(l));
+      _heatLayers = [];
+    }
+
+    function addHeatspots(spots, code) {
+      const colors  = { h: '#ef4444', m: '#f97316', l: '#eab308' };
+      const alphas  = { h: [0.40, 0.22, 0.09], m: [0.32, 0.16, 0.06], l: [0.22, 0.11, 0.04] };
+      spots.forEach(([lat, lng, r_km, int, cityName]) => {
+        const color = colors[int];
+        const ops   = alphas[int];
+        [1, 2.2, 4].forEach((mult, i) => {
+          const c = L.circle([lat, lng], { radius: r_km * 1000 * mult, color: 'transparent', fillColor: color, fillOpacity: ops[i], interactive: false }).addTo(_tweetMap);
+          _heatLayers.push(c);
+        });
+        const dot = L.circleMarker([lat, lng], { radius: 5, color: '#fff', weight: 1.5, fillColor: color, fillOpacity: 1, interactive: true })
+          .addTo(_tweetMap)
+          .bindTooltip(cityName, { direction: 'top', offset: [0, -6], className: 'tt-city-tip' })
+          .on('click', () => selectCity(cityName, CITY_TWEETS[cityName] || TT[code].tweets, dot, color));
+        _heatLayers.push(dot);
+      });
+    }
+
+    const TT = {
+      US: {
+        name: '🇺🇸 United States', label: 'United States', region: 'New York Metro',
+        glowPath: 'M 55,55 C 80,40 132,36 178,44 L 212,57 C 230,67 237,84 232,108 L 224,138 L 218,162 L 205,182 L 188,190 L 172,183 L 158,186 L 136,182 L 112,165 L 88,140 L 66,115 L 55,85 Z',
+        glowColor: '#0ea5e9',
+        hot: [[183, 103, 62, 'hr', 11, '#ef4444', 0.50], [183, 103, 30, 'hr', 0, null, 0], [88, 117, 55, 'hr', 24, '#ef4444', 0.45], [152, 97, 44, 'ho', 16, '#f97316', 0.40], [138, 136, 40, 'ho', 14, '#f97316', 0.38], [172, 147, 32, 'hy', 0, null, 0], [77, 80, 30, 'hy', 0, null, 0], [162, 132, 26, 'hy', 0, null, 0]],
+        pulse: [[183, 103, 10, '#ef4444', 1.5, 26, 2.4], [88, 117, 10, '#ef4444', 1.5, 24, 2.9], [152, 97, 8, '#f97316', 1.2, 20, 3.1]],
+        cool: [[278, 63], [296, 79], [456, 166], [667, 100], [190, 262], [616, 110], [294, 177], [703, 278]],
+        trends: [
+          { tag: '#AI2026', cat: 'Technology · Breaking', vol: '2.4M', chg: '+182%', pct: 94, up: true, brk: true },
+          { tag: '#NBAPlayoffs', cat: 'Sports', vol: '1.8M', chg: '+94%', pct: 72, up: true },
+          { tag: '#ClimateAction', cat: 'Politics · Global', vol: '1.2M', chg: '−12%', pct: 50, up: false },
+          { tag: '#TechLayoffs', cat: 'Business', vol: '985K', chg: '+67%', pct: 40, up: true },
+          { tag: '#MarsLaunch', cat: 'Science', vol: '742K', chg: '+1240%', pct: 30, up: true, brk: true }
+        ],
+        tweets: [
+          { init: 'SM', grad: '#6366f1,#8b5cf6', name: 'Sam Morrison', handle: '@sammorrison_nyc', text: "The pace at which <span class='text-sky-400 font-semibold'>#AI2026</span> is reshaping product teams is unlike anything I've seen in 15 years of tech. What took a sprint now takes an afternoon. 🧵", reposts: '142K', likes: '89K', loc: 'NYC' },
+          { init: 'JR', grad: '#f97316,#eab308', name: 'Jordan Riley', handle: '@jriley_sports', text: "Lakers vs. Celtics Finals after 15 years. <span class='text-sky-400 font-semibold'>#NBAPlayoffs</span> this year is everything we wanted. Game 7 was peak basketball. Historic night.", reposts: '89K', likes: '254K', loc: 'LA' },
+          { init: 'AK', grad: '#10b981,#0891b2', name: 'Anya Kovacs', handle: '@anya_climatenow', text: "New IPCC projections just dropped and they're alarming. <span class='text-sky-400 font-semibold'>#ClimateAction</span> can't wait for the next election cycle. We need binding commitments now. 🧵", reposts: '67K', likes: '112K', loc: 'DC' }
+        ]
+      },
+      GB: {
+        name: '🇬🇧 United Kingdom', label: 'United Kingdom', region: 'London Metro',
+        glowPath: 'M 263,53 C 272,46 284,47 292,54 L 294,68 L 285,75 L 270,71 L 262,61 Z',
+        glowColor: '#0ea5e9',
+        hot: [[278, 63, 38, 'hr', 10, '#ef4444', 0.52], [278, 63, 18, 'hr', 0, null, 0], [271, 54, 28, 'ho', 12, '#f97316', 0.42], [276, 59, 22, 'ho', 8, '#f97316', 0.35], [268, 48, 16, 'hy', 0, null, 0]],
+        pulse: [[278, 63, 10, '#ef4444', 1.5, 24, 2.2], [271, 54, 7, '#f97316', 1.2, 17, 3.0]],
+        cool: [[183, 103], [456, 166], [667, 100], [190, 262], [616, 110], [138, 136], [703, 278]],
+        trends: [
+          { tag: '#BrexitTax', cat: 'Politics · Breaking', vol: '1.9M', chg: '+143%', pct: 90, up: true, brk: true },
+          { tag: '#PremierLeague', cat: 'Sports', vol: '1.4M', chg: '+88%', pct: 68, up: true },
+          { tag: '#NHSCrisis', cat: 'Health', vol: '980K', chg: '+55%', pct: 52, up: true },
+          { tag: '#AIRegulation', cat: 'Technology', vol: '720K', chg: '+34%', pct: 38, up: true },
+          { tag: '#RoyalNews', cat: 'Culture', vol: '540K', chg: '+21%', pct: 28, up: true }
+        ],
+        tweets: [
+          { init: 'OB', grad: '#3b82f6,#06b6d4', name: 'Oliver Bennett', handle: '@oliverbennett_uk', text: "Post-Brexit trade friction just got worse. The new digital service tax is hitting SMEs the hardest. <span class='text-sky-400 font-semibold'>#BrexitTax</span> is no longer abstract — it's a payroll problem. 🧵", reposts: '95K', likes: '76K', loc: 'London' },
+          { init: 'CD', grad: '#ef4444,#f97316', name: 'Charlotte Davies', handle: '@charlottedfc', text: "What a season finale. City and Arsenal went to stoppage time on the final day. <span class='text-sky-400 font-semibold'>#PremierLeague</span> 2026 was everything. Absolutely unreal.", reposts: '78K', likes: '182K', loc: 'Manchester' },
+          { init: 'PS', grad: '#10b981,#6366f1', name: 'Priya Sharma', handle: '@priya_nhs', text: "Wait times hit 4 years for non-emergency ops in some trusts. <span class='text-sky-400 font-semibold'>#NHSCrisis</span> isn't a slogan — it's a systemic failure and the data proves it.", reposts: '52K', likes: '93K', loc: 'Birmingham' }
+        ]
+      },
+      IN: {
+        name: '🇮🇳 India', label: 'India', region: 'Mumbai Metro',
+        glowPath: 'M 454,138 C 470,132 500,135 514,149 L 522,170 L 517,200 L 499,220 L 475,227 L 452,213 L 440,188 L 438,162 Z',
+        glowColor: '#f97316',
+        hot: [[456, 185, 50, 'hr', 14, '#ef4444', 0.52], [468, 152, 46, 'hr', 14, '#ef4444', 0.48], [463, 208, 36, 'ho', 12, '#f97316', 0.40], [468, 190, 32, 'ho', 10, '#f97316', 0.36], [500, 170, 28, 'hy', 0, null, 0], [475, 215, 24, 'hy', 0, null, 0]],
+        pulse: [[456, 185, 10, '#ef4444', 1.5, 26, 2.1], [468, 152, 10, '#ef4444', 1.5, 24, 2.7], [463, 208, 8, '#f97316', 1.2, 20, 3.2]],
+        cool: [[183, 103], [278, 63], [667, 100], [190, 262], [296, 79], [138, 136], [703, 278]],
+        trends: [
+          { tag: '#IPL2026', cat: 'Sports · Breaking', vol: '3.2M', chg: '+220%', pct: 96, up: true, brk: true },
+          { tag: '#BudgetSession', cat: 'Politics', vol: '2.1M', chg: '+112%', pct: 80, up: true },
+          { tag: '#StartupIndia', cat: 'Business', vol: '1.5M', chg: '+78%', pct: 65, up: true },
+          { tag: '#AI4Bharat', cat: 'Technology', vol: '1.1M', chg: '+91%', pct: 55, up: true },
+          { tag: '#Bollywood', cat: 'Entertainment', vol: '890K', chg: '+44%', pct: 42, up: true }
+        ],
+        tweets: [
+          { init: 'RG', grad: '#f97316,#ef4444', name: 'Rahul Gupta', handle: '@rahulg_ipl', text: "CSK vs RCB final and Dhoni walks out for the last time. 1.8 billion people holding their breath. <span class='text-sky-400 font-semibold'>#IPL2026</span> is not cricket anymore, it's a religion. 🏏", reposts: '220K', likes: '480K', loc: 'Mumbai' },
+          { init: 'PT', grad: '#6366f1,#8b5cf6', name: 'Prerna Tiwari', handle: '@prerna_fintech', text: "India now has 180+ unicorns. The next 50 will come from Tier 2 cities. <span class='text-sky-400 font-semibold'>#StartupIndia</span> is just getting started. The infrastructure is finally here.", reposts: '88K', likes: '145K', loc: 'Delhi' },
+          { init: 'AN', grad: '#10b981,#0ea5e9', name: 'Arjun Nair', handle: '@arjun_airesearch', text: "We just shipped a multilingual LLM handling 22 Indian languages. <span class='text-sky-400 font-semibold'>#AI4Bharat</span> — the world is watching India's AI moment unfold in real time.", reposts: '65K', likes: '102K', loc: 'Bangalore' }
+        ]
+      },
+      BR: {
+        name: '🇧🇷 Brazil', label: 'Brazil', region: 'Rio de Janeiro',
+        glowPath: 'M 158,210 C 172,204 200,207 220,220 L 230,242 L 232,270 L 222,300 L 208,328 L 186,342 L 163,342 L 144,326 L 133,296 L 130,265 L 136,238 L 147,218 Z',
+        glowColor: '#10b981',
+        hot: [[190, 262, 52, 'hr', 14, '#ef4444', 0.52], [202, 254, 46, 'hr', 14, '#ef4444', 0.48], [174, 246, 36, 'ho', 12, '#f97316', 0.40], [160, 236, 30, 'hy', 0, null, 0], [207, 270, 26, 'hy', 0, null, 0]],
+        pulse: [[190, 262, 10, '#ef4444', 1.5, 26, 2.3], [202, 254, 10, '#ef4444', 1.5, 24, 2.8]],
+        cool: [[183, 103], [278, 63], [456, 166], [667, 100], [616, 110], [296, 79], [703, 278]],
+        trends: [
+          { tag: '#Carnaval', cat: 'Culture · Breaking', vol: '2.8M', chg: '+340%', pct: 95, up: true, brk: true },
+          { tag: '#SelecaoBrasileira', cat: 'Sports', vol: '1.6M', chg: '+88%', pct: 72, up: true },
+          { tag: '#AmazoniaSalva', cat: 'Environment', vol: '1.1M', chg: '−18%', pct: 52, up: false },
+          { tag: '#BolsaFamilia', cat: 'Politics', vol: '780K', chg: '+23%', pct: 38, up: true },
+          { tag: '#CriptoReal', cat: 'Finance', vol: '560K', chg: '+67%', pct: 30, up: true }
+        ],
+        tweets: [
+          { init: 'BO', grad: '#f97316,#ef4444', name: 'Beatriz Oliveira', handle: '@beatriz_carnaval', text: "Rio de Janeiro está em chamas (de amor). O maior <span class='text-sky-400 font-semibold'>#Carnaval</span> da história — 3M de pessoas no sambódromo. Que país incrível. 🇧🇷🎉", reposts: '185K', likes: '392K', loc: 'Rio' },
+          { init: 'CM', grad: '#10b981,#6366f1', name: 'Carlos Mendes', handle: '@carlosm_futebol', text: "Vini Jr. hat-trick. Rodrygo assist. <span class='text-sky-400 font-semibold'>#SelecaoBrasileira</span> está de volta ao topo. Copa do Mundo 2026 — é nossa.", reposts: '112K', likes: '267K', loc: 'São Paulo' },
+          { init: 'FL', grad: '#10b981,#0ea5e9', name: 'Fernanda Lima', handle: '@fernanda_eco', text: "Deforestation dropped 94% in 2025. But illegal logging is rising again. <span class='text-sky-400 font-semibold'>#AmazoniaSalva</span> needs permanent enforcement — not just headlines.", reposts: '74K', likes: '128K', loc: 'Manaus' }
+        ]
+      },
+      JP: {
+        name: '🇯🇵 Japan', label: 'Japan', region: 'Tokyo Metro',
+        glowPath: 'M 660,86 C 667,80 678,82 680,94 L 677,108 L 664,112 L 658,101 Z',
+        glowColor: '#f43f5e',
+        hot: [[667, 100, 38, 'hr', 12, '#ef4444', 0.55], [663, 107, 28, 'ho', 10, '#f97316', 0.42], [673, 82, 20, 'hy', 0, null, 0]],
+        pulse: [[667, 100, 8, '#ef4444', 1.5, 22, 2.0], [663, 107, 6, '#f97316', 1.2, 16, 2.8]],
+        cool: [[183, 103], [278, 63], [456, 166], [190, 262], [616, 110], [296, 79], [294, 177]],
+        trends: [
+          { tag: '#AI日本', cat: 'Technology', vol: '1.7M', chg: '+167%', pct: 88, up: true },
+          { tag: '#桜2026', cat: 'Culture · Trending', vol: '1.4M', chg: '+212%', pct: 75, up: true },
+          { tag: '#Nikkei高値', cat: 'Finance · Breaking', vol: '1.0M', chg: '+134%', pct: 62, up: true, brk: true },
+          { tag: '#J-Pop', cat: 'Entertainment', vol: '760K', chg: '+45%', pct: 42, up: true },
+          { tag: '#東京五輪記念', cat: 'Sports', vol: '520K', chg: '+22%', pct: 32, up: true }
+        ],
+        tweets: [
+          { init: 'KY', grad: '#ef4444,#f97316', name: 'Kenji Yamamoto', handle: '@kenji_nikkei', text: "日経平均が55,000円突破。バブル期の最高値を超えた。<span class='text-sky-400 font-semibold'>#Nikkei高値</span> — これは構造的な成長。円安と海外資金流入が原動力。", reposts: '88K', likes: '156K', loc: 'Tokyo' },
+          { init: 'ST', grad: '#f472b6,#a78bfa', name: 'Sakura Tanaka', handle: '@sakura_pop', text: "今年の<span class='text-sky-400 font-semibold'>#桜2026</span>は観測史上最も早い満開。気候変動の証拠であると同時に、息をのむほど美しい光景。複雑な気持ちです🌸", reposts: '142K', likes: '318K', loc: 'Tokyo' },
+          { init: 'HK', grad: '#6366f1,#0ea5e9', name: 'Hiroshi Kobayashi', handle: '@hiroshi_ai', text: "SoftBank just committed ¥20T to domestic AI infrastructure. <span class='text-sky-400 font-semibold'>#AI日本</span> — with this investment, Japan could lead the next hardware wave.", reposts: '67K', likes: '98K', loc: 'Osaka' }
+        ]
+      },
+      DE: {
+        name: '🇩🇪 Germany', label: 'Germany', region: 'Berlin Metro',
+        glowPath: 'M 300,56 L 368,56 L 385,88 L 362,110 L 302,110 L 284,80 Z',
+        glowColor: '#facc15',
+        hot: [[338, 70, 42, 'hr', 14, '#ef4444', 0.50], [320, 90, 34, 'ho', 11, '#f97316', 0.42], [315, 58, 30, 'ho', 10, '#f97316', 0.38], [304, 78, 26, 'hy', 0, null, 0], [348, 88, 22, 'hy', 0, null, 0]],
+        pulse: [[338, 70, 9, '#ef4444', 1.5, 23, 2.1], [320, 90, 7, '#f97316', 1.2, 18, 3.0]],
+        cool: [[183, 103], [456, 166], [667, 100], [190, 262], [616, 110], [294, 177], [703, 278]],
+        trends: [
+          { tag: '#KI2026', cat: 'Technology', vol: '1.3M', chg: '+122%', pct: 85, up: true },
+          { tag: '#Bundesliga', cat: 'Sports', vol: '1.1M', chg: '+76%', pct: 70, up: true },
+          { tag: '#GrueneEnergie', cat: 'Environment', vol: '850K', chg: '+45%', pct: 55, up: true },
+          { tag: '#Bundestag', cat: 'Politics', vol: '620K', chg: '+18%', pct: 40, up: true },
+          { tag: '#AutoIndustrie', cat: 'Business', vol: '480K', chg: '−8%', pct: 30, up: false }
+        ],
+        tweets: [
+          { init: 'LM', grad: '#facc15,#f97316', name: 'Lukas Müller', handle: '@lukasm_ki', text: "Deutschland hat jetzt 340+ KI-Startups mit Millionen-Finanzierung. <span class='text-sky-400 font-semibold'>#KI2026</span> — der Mittelstand integriert KI schneller als Silicon Valley erwartet hat.", reposts: '72K', likes: '118K', loc: 'Berlin' },
+          { init: 'AS', grad: '#ef4444,#1e293b', name: 'Anna Schneider', handle: '@annasfc', text: "Bayern vs. Dortmund in the Champions League final AND Bundesliga title race on the same weekend. <span class='text-sky-400 font-semibold'>#Bundesliga</span> at its absolute peak. 🏆", reposts: '89K', likes: '204K', loc: 'Munich' },
+          { init: 'MW', grad: '#10b981,#22d3ee', name: 'Max Weber', handle: '@max_gruen', text: "Germany hit 94% renewable electricity for the first time ever this week. <span class='text-sky-400 font-semibold'>#GrueneEnergie</span> — the Energiewende was declared impossible. 15 years later, here we are.", reposts: '55K', likes: '87K', loc: 'Hamburg' }
+        ]
+      },
+      NG: {
+        name: '🇳🇬 Nigeria', label: 'Nigeria', region: 'Lagos Metro',
+        glowPath: 'M 273,162 L 326,162 L 336,196 L 300,210 L 268,194 Z',
+        glowColor: '#22c55e',
+        hot: [[295, 187, 44, 'hr', 13, '#ef4444', 0.52], [308, 178, 34, 'ho', 11, '#f97316', 0.42], [305, 166, 26, 'hy', 0, null, 0], [298, 193, 22, 'hy', 0, null, 0]],
+        pulse: [[295, 187, 9, '#ef4444', 1.5, 23, 2.0], [308, 178, 7, '#f97316', 1.2, 18, 2.9]],
+        cool: [[183, 103], [278, 63], [456, 166], [667, 100], [190, 262], [616, 110], [703, 278]],
+        trends: [
+          { tag: '#NaijaTech', cat: 'Technology · Breaking', vol: '1.4M', chg: '+188%', pct: 90, up: true, brk: true },
+          { tag: '#AFCON2026', cat: 'Sports', vol: '1.1M', chg: '+95%', pct: 72, up: true },
+          { tag: '#NigeriaElects', cat: 'Politics', vol: '870K', chg: '+63%', pct: 58, up: true },
+          { tag: '#PetrolSubsidy', cat: 'Economics', vol: '680K', chg: '−22%', pct: 42, up: false },
+          { tag: '#AfriBeats', cat: 'Entertainment', vol: '520K', chg: '+38%', pct: 32, up: true }
+        ],
+        tweets: [
+          { init: 'EO', grad: '#22c55e,#0ea5e9', name: 'Emeka Okafor', handle: '@emeka_naija', text: "Flutterwave just hit $10B valuation. Paystack, Moniepoint, Interswitch — all unicorns from Lagos. <span class='text-sky-400 font-semibold'>#NaijaTech</span> is not a buzzword. It is the continent's economic engine. 🔥", reposts: '98K', likes: '165K', loc: 'Lagos' },
+          { init: 'AN', grad: '#f97316,#ef4444', name: 'Adaeze Nwosu', handle: '@adaeze_afcon', text: "Super Eagles won AFCON. We waited 10 years. Osimhen sealed it with a 90th minute header. <span class='text-sky-400 font-semibold'>#AFCON2026</span> — NIGERIA! 🦅🏆 The whole country is on the streets right now.", reposts: '82K', likes: '198K', loc: 'Lagos' },
+          { init: 'TA', grad: '#6366f1,#8b5cf6', name: 'Taiwo Adesanya', handle: '@taiwo_naija', text: "First fully digital general election in Nigeria's history. 78% voter turnout on mobile. <span class='text-sky-400 font-semibold'>#NigeriaElects</span> — democracy is evolving and Nigerians are leading the way. 🗳️", reposts: '61K', likes: '94K', loc: 'Abuja' }
+        ]
+      }
+    };
+
+    const CITY_TWEETS = {
+      // ── United States ─────────────────────────────────────────────
+      'New York': [
+        { init: 'SM', grad: '#6366f1,#8b5cf6', name: 'Sam Morrison', handle: '@sammorrison_nyc', text: "The pace at which <span class='text-sky-400 font-semibold'>#AI2026</span> is reshaping product teams is unlike anything I've seen in 15 years of tech. What took a sprint now takes an afternoon. 🧵", reposts: '142K', likes: '89K', loc: 'NYC' },
+        { init: 'TW', grad: '#f97316,#ef4444', name: 'Tyler Wang', handle: '@tylerw_wallst', text: "S&amp;P 500 hit 7,000 today. The AI infrastructure build-out is the largest capital cycle since the internet era. Every sector repricing in real time. <span class='text-sky-400 font-semibold'>#WallStreet</span>", reposts: '98K', likes: '134K', loc: 'NYC' },
+        { init: 'MH', grad: '#10b981,#0ea5e9', name: 'Maya Hart', handle: '@maya_nycarts', text: "NYC just announced $2B arts district in the Bronx. The boroughs are having their renaissance moment. Culture doesn't live in Manhattan anymore. <span class='text-sky-400 font-semibold'>#NYCArts</span>", reposts: '45K', likes: '89K', loc: 'Bronx' }
+      ],
+      'Los Angeles': [
+        { init: 'JR', grad: '#f97316,#eab308', name: 'Jordan Riley', handle: '@jriley_sports', text: "Lakers vs. Celtics Finals after 15 years. <span class='text-sky-400 font-semibold'>#NBAPlayoffs</span> this year is everything we wanted. Game 7 was peak basketball. Historic night.", reposts: '89K', likes: '254K', loc: 'LA' },
+        { init: 'KP', grad: '#8b5cf6,#f43f5e', name: 'Kira Pierce', handle: '@kira_hollywood', text: "Hollywood has gone fully AI-assisted. 40% of VFX studios now use generative tools. The WGA is back at the table. <span class='text-sky-400 font-semibold'>#HollywoodAI</span> — this is the new normal.", reposts: '67K', likes: '112K', loc: 'LA' },
+        { init: 'DC', grad: '#0ea5e9,#6366f1', name: 'Diego Cortez', handle: '@diego_silicon_beach', text: "LA just surpassed SF in venture funding for Q1 2026. Silicon Beach is real. 3 new unicorns this quarter alone. <span class='text-sky-400 font-semibold'>#LATech</span>", reposts: '52K', likes: '78K', loc: 'Santa Monica' }
+      ],
+      'Chicago': [
+        { init: 'RB', grad: '#0ea5e9,#22d3ee', name: 'Rachel Brooks', handle: '@rbrooks_cme', text: "CME Group just launched the first AI derivatives exchange. Options pricing in microseconds using ML. <span class='text-sky-400 font-semibold'>#ChicagoFinance</span> — the city invented futures and it's doing it again.", reposts: '72K', likes: '98K', loc: 'Chicago' },
+        { init: 'MP', grad: '#ef4444,#f97316', name: 'Marcus Powell', handle: '@mp_chi_bulls', text: "Chicago Bulls made the playoffs for the first time in 9 years. United Center sold out in 4 minutes. This city NEEDED this. <span class='text-sky-400 font-semibold'>#BullsNation</span> 🐂", reposts: '55K', likes: '134K', loc: 'Chicago' },
+        { init: 'LJ', grad: '#10b981,#6366f1', name: 'Laura Johnson', handle: '@laura_midwest_tech', text: "Chicago's West Loop is now home to 500+ startups. The Midwest talent migration reversed — people are staying. <span class='text-sky-400 font-semibold'>#ChicagoTech</span> has arrived.", reposts: '38K', likes: '62K', loc: 'Chicago' }
+      ],
+      'Houston': [
+        { init: 'BT', grad: '#f97316,#facc15', name: 'Brandon Torres', handle: '@btorres_energy', text: "Houston oil majors committed $80B to clean energy transition. The energy capital is pivoting. <span class='text-sky-400 font-semibold'>#HoustonEnergy</span> — this isn't PR, it's survival strategy.", reposts: '62K', likes: '88K', loc: 'Houston' },
+        { init: 'NS', grad: '#6366f1,#0ea5e9', name: 'Neha Shah', handle: '@neha_spacecity', text: "SpaceX just completed its 200th successful landing. Johnson Space Center is hiring 3,000 engineers. <span class='text-sky-400 font-semibold'>#SpaceCity</span> is not a nickname, it's a mission.", reposts: '94K', likes: '156K', loc: 'Houston' },
+        { init: 'JG', grad: '#10b981,#22d3ee', name: 'James Garcia', handle: '@jamesgar_htx', text: "Houston is now the most diverse major city in the US — 145 languages spoken, best food scene in America. <span class='text-sky-400 font-semibold'>#HTX</span> doesn't get enough credit.", reposts: '41K', likes: '77K', loc: 'Houston' }
+      ],
+      'Seattle': [
+        { init: 'AB', grad: '#0ea5e9,#6366f1', name: 'Alex Berg', handle: '@alex_uw_ml', text: "Amazon just deployed AI agents replacing entire procurement workflows — 10,000 vendor calls/day fully automated. <span class='text-sky-400 font-semibold'>#TechLayoffs</span> — the Seattle wave hits white-collar first.", reposts: '112K', likes: '145K', loc: 'Seattle' },
+        { init: 'CH', grad: '#10b981,#38bdf8', name: 'Claire Huang', handle: '@claire_msft', text: "Microsoft Copilot reached 500M monthly users. The productivity layer is becoming the OS. <span class='text-sky-400 font-semibold'>#AI2026</span> — Seattle is quietly running the world's enterprise software stack.", reposts: '78K', likes: '102K', loc: 'Redmond' },
+        { init: 'TN', grad: '#6366f1,#f43f5e', name: 'Tyler Nash', handle: '@tyler_seapnw', text: "Puget Sound ferry system fully electric by 2026. Seattle leads the US in green transit. <span class='text-sky-400 font-semibold'>#GreenSeattle</span> — the Pacific Northwest is walking the talk.", reposts: '33K', likes: '55K', loc: 'Seattle' }
+      ],
+      'Washington DC': [
+        { init: 'AK', grad: '#10b981,#0891b2', name: 'Anya Kovacs', handle: '@anya_climatenow', text: "New IPCC projections just dropped and they're alarming. <span class='text-sky-400 font-semibold'>#ClimateAction</span> can't wait for the next election cycle. We need binding commitments now. 🧵", reposts: '67K', likes: '112K', loc: 'DC' },
+        { init: 'PL', grad: '#6366f1,#8b5cf6', name: 'Patricia Lee', handle: '@patricia_dcpolicy', text: "Senate AI Safety Act passed 89-11. The most bipartisan vote in 10 years. <span class='text-sky-400 font-semibold'>#AIRegulation</span> — DC is finally treating AI governance like infrastructure. Historic.", reposts: '85K', likes: '118K', loc: 'DC' },
+        { init: 'MW', grad: '#f97316,#facc15', name: 'Marcus Wright', handle: '@marcus_wonk', text: "Treasury just released the federal AI procurement framework. Every agency buying AI must meet security + bias audits. <span class='text-sky-400 font-semibold'>#GovTech</span> — slow but meaningful.", reposts: '42K', likes: '68K', loc: 'DC' }
+      ],
+      'Miami': [
+        { init: 'EC', grad: '#f43f5e,#f97316', name: 'Elena Cruz', handle: '@elena_miami_crypto', text: "Bitcoin crossed $200K in Miami's spot ETF volume. Florida has no state income tax AND the best crypto regs in the US. <span class='text-sky-400 font-semibold'>#MiamiCrypto</span> is real.", reposts: '92K', likes: '148K', loc: 'Miami' },
+        { init: 'RV', grad: '#8b5cf6,#0ea5e9', name: 'Roberto Vargas', handle: '@roberto_latamtech', text: "Miami is now the gateway for Latin American tech. 200+ LatAm startups landed here in 2025. <span class='text-sky-400 font-semibold'>#LatamTech</span> — the ecosystem is real and growing fast.", reposts: '58K', likes: '84K', loc: 'Miami' },
+        { init: 'JD', grad: '#10b981,#22d3ee', name: 'Jake Donovan', handle: '@jake_miami_re', text: "Miami luxury real estate up 34% YoY. Climate risk? Everyone knows and nobody cares. <span class='text-sky-400 font-semibold'>#MiamiRealEstate</span> — the money is here and it's not leaving.", reposts: '45K', likes: '72K', loc: 'Brickell' }
+      ],
+      // ── United Kingdom ─────────────────────────────────────────────
+      'London': [
+        { init: 'OB', grad: '#3b82f6,#06b6d4', name: 'Oliver Bennett', handle: '@oliverbennett_uk', text: "Post-Brexit trade friction just got worse. The new digital service tax is hitting SMEs the hardest. <span class='text-sky-400 font-semibold'>#BrexitTax</span> is no longer abstract — it's a payroll problem. 🧵", reposts: '95K', likes: '76K', loc: 'London' },
+        { init: 'FS', grad: '#6366f1,#8b5cf6', name: 'Fiona Sterling', handle: '@fionas_fintech', text: "London FinTech Week 2026: 40K attendees, 600 startups, 200 VCs. Despite Brexit, the City is still Europe's financial capital. <span class='text-sky-400 font-semibold'>#LondonFinTech</span>", reposts: '62K', likes: '89K', loc: 'London' },
+        { init: 'BH', grad: '#10b981,#22d3ee', name: 'Ben Hughes', handle: '@ben_nhs_eng', text: "London is piloting AI triage for A&amp;E across 12 hospitals. Avg wait time cut from 4.5h to 2.1h. <span class='text-sky-400 font-semibold'>#NHSCrisis</span> may actually have a tech solution. Cautiously hopeful.", reposts: '48K', likes: '82K', loc: 'London' }
+      ],
+      'Manchester': [
+        { init: 'CD', grad: '#ef4444,#1e293b', name: 'Charlotte Davies', handle: '@charlottedfc', text: "What a season finale. City and Arsenal went to stoppage time on the final day. <span class='text-sky-400 font-semibold'>#PremierLeague</span> 2026 was everything. Absolutely unreal.", reposts: '78K', likes: '182K', loc: 'Manchester' },
+        { init: 'GW', grad: '#6366f1,#0ea5e9', name: 'Gareth Williams', handle: '@gareth_mcr_tech', text: "Manchester Digital: 15,000 new tech jobs in the North in 2025. Salford Quays is the new Shoreditch. <span class='text-sky-400 font-semibold'>#NorthernPowerhouse</span> is not a slogan anymore.", reposts: '43K', likes: '67K', loc: 'Manchester' },
+        { init: 'LT', grad: '#f97316,#ef4444', name: 'Lisa Taylor', handle: '@lisa_mcr_music', text: "Manchester's music scene just got a UNESCO heritage designation. From Joy Division to Oasis to today — this city never stopped creating. <span class='text-sky-400 font-semibold'>#Madchester</span>", reposts: '35K', likes: '58K', loc: 'Manchester' }
+      ],
+      'Edinburgh': [
+        { init: 'IA', grad: '#4ade80,#0ea5e9', name: 'Iain Anderson', handle: '@iain_scotland_fin', text: "Edinburgh is Europe's 5th largest financial centre. ScotGovt AI Strategy launched with £500M commitment. <span class='text-sky-400 font-semibold'>#ScotlandTech</span> — quietly becoming one of the best places to build in Europe.", reposts: '38K', likes: '55K', loc: 'Edinburgh' },
+        { init: 'MK', grad: '#8b5cf6,#f43f5e', name: 'Morag Kerr', handle: '@morag_edi', text: "Edinburgh Fringe broke attendance records for the 3rd year running. 3.8M tickets sold. Arts economy here outperforms any UK city per capita. <span class='text-sky-400 font-semibold'>#EdFringe</span>", reposts: '29K', likes: '48K', loc: 'Edinburgh' },
+        { init: 'DS', grad: '#f97316,#facc15', name: 'Douglas Scott', handle: '@douglas_scotland', text: "Scottish independence polling at 58% — highest ever. The Brexit divergence is now undeniable. <span class='text-sky-400 font-semibold'>#ScotRef</span> 2027 is looking more likely by the week.", reposts: '72K', likes: '94K', loc: 'Edinburgh' }
+      ],
+      // ── India ──────────────────────────────────────────────────────
+      'Mumbai': [
+        { init: 'RG', grad: '#f97316,#ef4444', name: 'Rahul Gupta', handle: '@rahulg_ipl', text: "CSK vs RCB final and Dhoni walks out for the last time. 1.8 billion people holding their breath. <span class='text-sky-400 font-semibold'>#IPL2026</span> is not cricket anymore, it's a religion. 🏏", reposts: '220K', likes: '480K', loc: 'Mumbai' },
+        { init: 'PT', grad: '#6366f1,#8b5cf6', name: 'Prerna Tiwari', handle: '@prerna_fintech', text: "India now has 180+ unicorns. The next 50 will come from Tier 2 cities. <span class='text-sky-400 font-semibold'>#StartupIndia</span> is just getting started — the infrastructure is finally here.", reposts: '88K', likes: '145K', loc: 'Mumbai' },
+        { init: 'SJ', grad: '#f43f5e,#8b5cf6', name: 'Shilpa Joshi', handle: '@shilpa_bse', text: "BSE Sensex crossed 1,00,000 today. First time in history. Retail investor base hit 180M. <span class='text-sky-400 font-semibold'>#BullishIndia</span> — the middle class is finally in the market. Historic.", reposts: '95K', likes: '162K', loc: 'Mumbai' }
+      ],
+      'Delhi': [
+        { init: 'VK', grad: '#f97316,#facc15', name: 'Vikram Kumar', handle: '@vikram_budget', text: "Budget 2026 allocated ₹50,000 crore for AI infrastructure. PM announced India will lead global AI governance. <span class='text-sky-400 font-semibold'>#BudgetSession</span> — historic allocation, execution is everything.", reposts: '112K', likes: '178K', loc: 'Delhi' },
+        { init: 'AS', grad: '#0ea5e9,#6366f1', name: 'Ananya Singh', handle: '@ananya_delhi', text: "Delhi's air quality hit 'Good' for the first time in recorded history. Electric buses + metro expansion + stubble burning ban = results. <span class='text-sky-400 font-semibold'>#DelhiAir</span>", reposts: '145K', likes: '234K', loc: 'Delhi' },
+        { init: 'PB', grad: '#10b981,#0891b2', name: 'Prashant Bahl', handle: '@prashant_startup', text: "Delhi-NCR just surpassed Bengaluru in startup funding for Q1 2026. Gurgaon + Noida ecosystem is real. <span class='text-sky-400 font-semibold'>#DelhiStartups</span> — two tech capitals are better than one.", reposts: '58K', likes: '92K', loc: 'Gurgaon' }
+      ],
+      'Bangalore': [
+        { init: 'AN', grad: '#10b981,#0ea5e9', name: 'Arjun Nair', handle: '@arjun_airesearch', text: "We just shipped a multilingual LLM handling 22 Indian languages. <span class='text-sky-400 font-semibold'>#AI4Bharat</span> — the world is watching India's AI moment unfold in real time.", reposts: '65K', likes: '102K', loc: 'Bangalore' },
+        { init: 'DM', grad: '#8b5cf6,#6366f1', name: 'Deepa Menon', handle: '@deepa_vc', text: "Bengaluru minted 3 unicorns this quarter. Fintech, deep-tech, and climate-tech. The city is diversifying beyond IT services. <span class='text-sky-400 font-semibold'>#BengaluruTech</span>", reposts: '52K', likes: '78K', loc: 'Bangalore' },
+        { init: 'SBt', grad: '#f97316,#ef4444', name: 'Sanjay Bhat', handle: '@sanjay_blr', text: "Bengaluru metro Phase 3 opens — 75km of new lines. The city that invented WFH culture is finally getting infrastructure to match. <span class='text-sky-400 font-semibold'>#NammaMetro</span>", reposts: '38K', likes: '67K', loc: 'Bangalore' }
+      ],
+      'Kolkata': [
+        { init: 'SO', grad: '#10b981,#0ea5e9', name: 'Soumya Bose', handle: '@soumya_kol', text: "Kolkata's new fintech corridor launched with 50 startups. The City of Joy is reinventing itself as the City of Innovation. <span class='text-sky-400 font-semibold'>#KolkataTech</span>", reposts: '34K', likes: '55K', loc: 'Kolkata' },
+        { init: 'AM', grad: '#f43f5e,#8b5cf6', name: 'Arunima Mitra', handle: '@arunima_durga', text: "Durga Puja 2026 UNESCO celebration: 14M attendees, live-streamed to 40M globally. Kolkata's soft power is unmatched. <span class='text-sky-400 font-semibold'>#DurgaPuja</span>", reposts: '92K', likes: '168K', loc: 'Kolkata' },
+        { init: 'RD', grad: '#6366f1,#f97316', name: 'Ravi Das', handle: '@ravi_howrah', text: "Kolkata just got ₹2,000 crore state fund for tech. Howrah Bridge to Silicon Corridor. <span class='text-sky-400 font-semibold'>#EastIndiaTech</span> — the East is waking up.", reposts: '28K', likes: '44K', loc: 'Kolkata' }
+      ],
+      // ── Brazil ─────────────────────────────────────────────────────
+      'São Paulo': [
+        { init: 'CM', grad: '#10b981,#6366f1', name: 'Carlos Mendes', handle: '@carlosm_futebol', text: "Vini Jr. hat-trick. Rodrygo assist. <span class='text-sky-400 font-semibold'>#SelecaoBrasileira</span> está de volta ao topo. Copa do Mundo 2026 — é nossa.", reposts: '112K', likes: '267K', loc: 'São Paulo' },
+        { init: 'LF', grad: '#f97316,#facc15', name: 'Lucas Ferreira', handle: '@lucas_fintechbr', text: "PIX ultrapassou 2 bilhões de transações em um único mês. O Brasil tem o melhor sistema de pagamentos do mundo. <span class='text-sky-400 font-semibold'>#FintechBR</span> — por que ninguém está copiando?", reposts: '78K', likes: '124K', loc: 'São Paulo' },
+        { init: 'IS', grad: '#6366f1,#8b5cf6', name: 'Isabella Santos', handle: '@isa_sp_tech', text: "São Paulo: 3,000+ startups, 30+ unicorns, R$15B in VC funding in 2025. <span class='text-sky-400 font-semibold'>#SPtech</span> — the Silicon Valley of Latin America is not a future aspiration.", reposts: '55K', likes: '88K', loc: 'São Paulo' }
+      ],
+      'Rio de Janeiro': [
+        { init: 'BO', grad: '#f97316,#ef4444', name: 'Beatriz Oliveira', handle: '@beatriz_carnaval', text: "Rio de Janeiro está em chamas (de amor). O maior <span class='text-sky-400 font-semibold'>#Carnaval</span> da história — 3M de pessoas no sambódromo. Que país incrível. 🇧🇷🎉", reposts: '185K', likes: '392K', loc: 'Rio' },
+        { init: 'RN', grad: '#0ea5e9,#10b981', name: 'Rafael Nunes', handle: '@rafael_rio_tech', text: "Porto Maravilha 2.0: Rio's tech hub is attracting gaming studios, AI labs, and creative tech. The city's reinvention is real. <span class='text-sky-400 font-semibold'>#RioTech</span>", reposts: '38K', likes: '62K', loc: 'Rio de Janeiro' },
+        { init: 'GM', grad: '#f43f5e,#f97316', name: 'Gabriel Moura', handle: '@gabriel_carioca', text: "Ipanema beach electric mobility zone launched. No combustion vehicles by 2027. Rio is taking climate action street by street. <span class='text-sky-400 font-semibold'>#RioVerde</span>", reposts: '42K', likes: '71K', loc: 'Rio de Janeiro' }
+      ],
+      'Fortaleza': [
+        { init: 'FL', grad: '#10b981,#0ea5e9', name: 'Fernanda Lima', handle: '@fernanda_eco', text: "Deforestation dropped 94% in 2025. But illegal logging is rising again. <span class='text-sky-400 font-semibold'>#AmazoniaSalva</span> needs permanent enforcement — not just headlines.", reposts: '74K', likes: '128K', loc: 'Manaus' },
+        { init: 'MC', grad: '#f97316,#facc15', name: 'Marina Cavalcante', handle: '@marina_nordeste', text: "Fortaleza startup scene: 200 tech companies in 3 years. The Northeast of Brazil is no longer the tech periphery. <span class='text-sky-400 font-semibold'>#NordesteTech</span> is rising.", reposts: '32K', likes: '51K', loc: 'Fortaleza' },
+        { init: 'AC', grad: '#6366f1,#0ea5e9', name: 'André Cardoso', handle: '@andre_ceara', text: "Ceará now produces 40% of Brazil's wind energy. The sun and wind capitals of the country are in the Northeast. <span class='text-sky-400 font-semibold'>#EnergiaLimpa</span>", reposts: '45K', likes: '72K', loc: 'Fortaleza' }
+      ],
+      // ── Japan ──────────────────────────────────────────────────────
+      'Tokyo': [
+        { init: 'KY', grad: '#ef4444,#f97316', name: 'Kenji Yamamoto', handle: '@kenji_nikkei', text: "日経平均が55,000円突破。バブル期の最高値を超えた。<span class='text-sky-400 font-semibold'>#Nikkei高値</span> — これは構造的な成長。円安と海外資金流入が原動力。", reposts: '88K', likes: '156K', loc: 'Tokyo' },
+        { init: 'ST', grad: '#f472b6,#a78bfa', name: 'Sakura Tanaka', handle: '@sakura_pop', text: "今年の<span class='text-sky-400 font-semibold'>#桜2026</span>は観測史上最も早い満開。気候変動の証拠であると同時に、息をのむほど美しい光景。複雑な気持ちです🌸", reposts: '142K', likes: '318K', loc: 'Tokyo' },
+        { init: 'RT', grad: '#0ea5e9,#6366f1', name: 'Ryo Tanaka', handle: '@ryo_tokyo_ai', text: "Tokyo became the first city to deploy AI traffic management city-wide. 28% reduction in accidents. <span class='text-sky-400 font-semibold'>#AI日本</span> — Japan's precision culture + AI is unstoppable.", reposts: '62K', likes: '94K', loc: 'Tokyo' }
+      ],
+      'Osaka': [
+        { init: 'HK', grad: '#6366f1,#0ea5e9', name: 'Hiroshi Kobayashi', handle: '@hiroshi_ai', text: "SoftBank just committed ¥20T to domestic AI infrastructure. <span class='text-sky-400 font-semibold'>#AI日本</span> — with this investment, Japan could lead the next hardware wave.", reposts: '67K', likes: '98K', loc: 'Osaka' },
+        { init: 'YM', grad: '#f97316,#ef4444', name: 'Yuki Matsuda', handle: '@yuki_osaka_food', text: "大阪の食いだおれ文化が世界遺産候補に。世界のフードツーリストが注目。<span class='text-sky-400 font-semibold'>#大阪グルメ</span> — 東京より美味しい、が世界の結論。", reposts: '85K', likes: '178K', loc: 'Osaka' },
+        { init: 'NK', grad: '#10b981,#22d3ee', name: 'Nana Kimura', handle: '@nana_expo', text: "Osaka Expo 2026 breaks world record: 8M visitors in the first month. Japan's moment on the world stage. <span class='text-sky-400 font-semibold'>#OsakaExpo</span> 🎌", reposts: '92K', likes: '145K', loc: 'Osaka' }
+      ],
+      'Sapporo': [
+        { init: 'TW', grad: '#0ea5e9,#a78bfa', name: 'Takeshi Watanabe', handle: '@takeshi_hokkaido', text: "Hokkaido just became Japan's first 100% renewable electricity region. Cold climate + wind + geothermal = perfect combo. <span class='text-sky-400 font-semibold'>#GreenJapan</span>", reposts: '45K', likes: '72K', loc: 'Sapporo' },
+        { init: 'AH', grad: '#f43f5e,#f97316', name: 'Aiko Hashimoto', handle: '@aiko_snow', text: "Sapporo Snow Festival: 2M visitors, 200 sculptures, and this year a fully AI-designed main sculpture won the public vote. <span class='text-sky-400 font-semibold'>#SapporoYuki</span>", reposts: '58K', likes: '102K', loc: 'Sapporo' },
+        { init: 'KS', grad: '#10b981,#6366f1', name: 'Koji Sato', handle: '@koji_data_farm', text: "Microsoft, Amazon, and Google all opened Hokkaido data centres in 2025. Cold air = free cooling. Japan's north is becoming the AI backbone. <span class='text-sky-400 font-semibold'>#HokkaidoTech</span>", reposts: '38K', likes: '56K', loc: 'Sapporo' }
+      ],
+      // ── Germany ────────────────────────────────────────────────────
+      'Berlin': [
+        { init: 'LM', grad: '#facc15,#f97316', name: 'Lukas Müller', handle: '@lukasm_ki', text: "Deutschland hat jetzt 340+ KI-Startups mit Millionen-Finanzierung. <span class='text-sky-400 font-semibold'>#KI2026</span> — der Mittelstand integriert KI schneller als Silicon Valley erwartet hat.", reposts: '72K', likes: '118K', loc: 'Berlin' },
+        { init: 'SF', grad: '#8b5cf6,#f43f5e', name: 'Sophie Fischer', handle: '@sophie_berlin_tech', text: "Berlin just became the largest startup hub in Europe by headcount — 80K+ startup employees. The talent is here, the capital is following. <span class='text-sky-400 font-semibold'>#BerlinTech</span>", reposts: '55K', likes: '84K', loc: 'Berlin' },
+        { init: 'JP', grad: '#0ea5e9,#10b981', name: 'Jan Peters', handle: '@jan_berlin_kultur', text: "Berliner Philharmoniker performed an AI-composed symphony to a standing ovation. Half the audience were furious. Half were amazed. That's exactly what art should do. <span class='text-sky-400 font-semibold'>#KI2026</span>", reposts: '42K', likes: '68K', loc: 'Berlin' }
+      ],
+      'Munich': [
+        { init: 'AS', grad: '#ef4444,#1e293b', name: 'Anna Schneider', handle: '@annasfc', text: "Bayern vs. Dortmund in the Champions League final AND Bundesliga title race on the same weekend. <span class='text-sky-400 font-semibold'>#Bundesliga</span> at its absolute peak. 🏆", reposts: '89K', likes: '204K', loc: 'Munich' },
+        { init: 'TB', grad: '#facc15,#f97316', name: 'Thomas Braun', handle: '@thomas_bmw', text: "BMW just unveiled the neue Klasse EV — 600km range, 15min fast charge, built in Munich. Germany's auto industry isn't dying. It's reinventing itself. <span class='text-sky-400 font-semibold'>#AutoIndustrie</span>", reposts: '76K', likes: '112K', loc: 'Munich' },
+        { init: 'KH', grad: '#6366f1,#8b5cf6', name: 'Klaus Hermann', handle: '@klausoh', text: "Oktoberfest 2026: 7.8M visitors, 8.2M liters served, €1.8B economic impact. Munich knows how to throw a party. <span class='text-sky-400 font-semibold'>#Oktoberfest</span> — tradition that scales. 🍺", reposts: '65K', likes: '132K', loc: 'Munich' }
+      ],
+      'Hamburg': [
+        { init: 'MW', grad: '#10b981,#22d3ee', name: 'Max Weber', handle: '@max_gruen', text: "Germany hit 94% renewable electricity for the first time ever this week. <span class='text-sky-400 font-semibold'>#GrueneEnergie</span> — the Energiewende was declared impossible. 15 years later, here we are.", reposts: '55K', likes: '87K', loc: 'Hamburg' },
+        { init: 'NK', grad: '#0ea5e9,#6366f1', name: 'Nina Koch', handle: '@nina_hafen', text: "Hamburg Hafen just completed full autonomous logistics deployment — 40% efficiency gain. <span class='text-sky-400 font-semibold'>#AutoIndustrie</span> went maritime.", reposts: '44K', likes: '67K', loc: 'Hamburg' },
+        { init: 'BL', grad: '#f97316,#ef4444', name: 'Ben Lang', handle: '@ben_elbphil', text: "The Elbphilharmonie just celebrated 10 years. Still the most acoustically perfect concert hall ever built. Hamburg doesn't just ship goods — it ships culture. <span class='text-sky-400 font-semibold'>#Hamburg</span>", reposts: '38K', likes: '58K', loc: 'Hamburg' }
+      ],
+      // ── Nigeria ────────────────────────────────────────────────────
+      'Lagos': [
+        { init: 'EO', grad: '#22c55e,#0ea5e9', name: 'Emeka Okafor', handle: '@emeka_naija', text: "Flutterwave just hit $10B valuation. Paystack, Moniepoint, Interswitch — all unicorns from Lagos. <span class='text-sky-400 font-semibold'>#NaijaTech</span> is not a buzzword. It is the continent's economic engine. 🔥", reposts: '98K', likes: '165K', loc: 'Lagos' },
+        { init: 'AN', grad: '#f97316,#ef4444', name: 'Adaeze Nwosu', handle: '@adaeze_afcon', text: "Super Eagles won AFCON. We waited 10 years. Osimhen sealed it with a 90th minute header. <span class='text-sky-400 font-semibold'>#AFCON2026</span> — NIGERIA! 🦅🏆 The whole country is on the streets right now.", reposts: '82K', likes: '198K', loc: 'Lagos' },
+        { init: 'ZA', grad: '#f43f5e,#8b5cf6', name: 'Zara Adebayo', handle: '@zara_afrobeats', text: "Burna Boy, Wizkid, Davido — all in the top 10 global Spotify charts simultaneously. Afrobeats is not a genre, it's a global movement. <span class='text-sky-400 font-semibold'>#AfriBeats</span> from Lagos to London to LA. 🎵", reposts: '115K', likes: '234K', loc: 'Lagos' }
+      ],
+      'Abuja': [
+        { init: 'TA', grad: '#6366f1,#8b5cf6', name: 'Taiwo Adesanya', handle: '@taiwo_naija', text: "First fully digital general election in Nigeria's history. 78% voter turnout on mobile. <span class='text-sky-400 font-semibold'>#NigeriaElects</span> — democracy is evolving and Nigerians are leading the way. 🗳️", reposts: '61K', likes: '94K', loc: 'Abuja' },
+        { init: 'OK', grad: '#10b981,#0ea5e9', name: 'Olumide Kayode', handle: '@olumide_policy', text: "Nigerian government just launched the National AI Strategy with ₦500B investment fund. <span class='text-sky-400 font-semibold'>#NaijaTech</span> — when the government backs the ecosystem, watch what happens. 🇳🇬", reposts: '48K', likes: '76K', loc: 'Abuja' },
+        { init: 'CB', grad: '#f97316,#facc15', name: 'Chioma Bello', handle: '@chioma_govtech', text: "Abuja's new tech district approved: 50,000 sqm, 200 tech companies, 10K jobs by 2028. Nigeria is building infrastructure to match its ambition. <span class='text-sky-400 font-semibold'>#NigeriaTech</span>", reposts: '35K', likes: '55K', loc: 'Abuja' }
+      ],
+      'Kano': [
+        { init: 'MU', grad: '#22c55e,#facc15', name: 'Musa Usman', handle: '@musa_kano', text: "Kano State just launched mobile banking for 3M unbanked traders — Hausa language first UX. This is what inclusive fintech looks like. <span class='text-sky-400 font-semibold'>#NaijaTech</span>", reposts: '42K', likes: '68K', loc: 'Kano' },
+        { init: 'FA', grad: '#f97316,#ef4444', name: 'Fatima Abdullahi', handle: '@fatima_kano_edu', text: "Kano State University just partnered with MIT for AI curriculum. Northern Nigeria's education revolution is underway. <span class='text-sky-400 font-semibold'>#NigeriaTech</span> starts in schools.", reposts: '35K', likes: '56K', loc: 'Kano' },
+        { init: 'AA', grad: '#6366f1,#0ea5e9', name: 'Ahmad Aliyu', handle: '@ahmad_trade', text: "Kano's leather industry went digital — QR-tracked, blockchain-verified exports to 40 countries. Ancient trade routes, modern rails. <span class='text-sky-400 font-semibold'>#MadeInNigeria</span>", reposts: '28K', likes: '44K', loc: 'Kano' }
+      ],
+    };
+
+    const CITY_TRENDS = {
+      // ── United States ─────────────────────────────────────────────
+      'New York': [
+        { tag: '#WallStreet2026', cat: 'Finance · Breaking', vol: '1.8M', chg: '+156%', pct: 92, up: true, brk: true },
+        { tag: '#AI2026',         cat: 'Technology',         vol: '1.4M', chg: '+182%', pct: 80, up: true },
+        { tag: '#NYCHousing',     cat: 'Real Estate',        vol: '820K', chg: '+44%',  pct: 55, up: true },
+        { tag: '#TechLayoffs',    cat: 'Business',           vol: '640K', chg: '+67%',  pct: 40, up: true },
+        { tag: '#NYCArts',        cat: 'Culture',            vol: '380K', chg: '+28%',  pct: 28, up: true },
+      ],
+      'Los Angeles': [
+        { tag: '#NBAPlayoffs',    cat: 'Sports · Breaking',  vol: '2.1M', chg: '+94%',  pct: 90, up: true, brk: true },
+        { tag: '#HollywoodAI',   cat: 'Entertainment',      vol: '1.1M', chg: '+138%', pct: 72, up: true },
+        { tag: '#LATech',         cat: 'Business',           vol: '740K', chg: '+58%',  pct: 52, up: true },
+        { tag: '#ClimateAction',  cat: 'Environment',        vol: '520K', chg: '−9%',   pct: 38, up: false },
+        { tag: '#Coachella',      cat: 'Music',              vol: '410K', chg: '+212%', pct: 28, up: true },
+      ],
+      'Chicago': [
+        { tag: '#ChicagoFinance', cat: 'Finance',            vol: '980K', chg: '+88%',  pct: 82, up: true },
+        { tag: '#BullsNation',    cat: 'Sports · Breaking',  vol: '860K', chg: '+142%', pct: 74, up: true, brk: true },
+        { tag: '#ChicagoTech',   cat: 'Business',           vol: '520K', chg: '+55%',  pct: 52, up: true },
+        { tag: '#AI2026',         cat: 'Technology',         vol: '380K', chg: '+182%', pct: 38, up: true },
+        { tag: '#WindyCity',      cat: 'Culture',            vol: '220K', chg: '+18%',  pct: 24, up: true },
+      ],
+      'Houston': [
+        { tag: '#HoustonEnergy',  cat: 'Energy · Breaking',  vol: '1.2M', chg: '+112%', pct: 88, up: true, brk: true },
+        { tag: '#SpaceCity',      cat: 'Science',            vol: '880K', chg: '+94%',  pct: 68, up: true },
+        { tag: '#CleanEnergy',    cat: 'Environment',        vol: '560K', chg: '+48%',  pct: 50, up: true },
+        { tag: '#TexasEconomy',   cat: 'Business',           vol: '380K', chg: '+22%',  pct: 36, up: true },
+        { tag: '#HTX',            cat: 'Culture',            vol: '210K', chg: '+15%',  pct: 22, up: true },
+      ],
+      'Seattle': [
+        { tag: '#TechLayoffs',    cat: 'Technology · Breaking', vol: '1.5M', chg: '+178%', pct: 90, up: true, brk: true },
+        { tag: '#AI2026',         cat: 'Technology',         vol: '1.1M', chg: '+182%', pct: 78, up: true },
+        { tag: '#AmazonEffect',   cat: 'Business',           vol: '680K', chg: '+62%',  pct: 55, up: true },
+        { tag: '#GreenSeattle',   cat: 'Environment',        vol: '420K', chg: '+38%',  pct: 40, up: true },
+        { tag: '#SeahawksNation', cat: 'Sports',             vol: '290K', chg: '+24%',  pct: 28, up: true },
+      ],
+      'Washington DC': [
+        { tag: '#AIRegulation',   cat: 'Politics · Breaking', vol: '1.6M', chg: '+198%', pct: 92, up: true, brk: true },
+        { tag: '#ClimateAction',  cat: 'Policy',             vol: '1.2M', chg: '−12%',  pct: 72, up: false },
+        { tag: '#GovTech',        cat: 'Technology',         vol: '740K', chg: '+55%',  pct: 55, up: true },
+        { tag: '#DCPolitics',     cat: 'Politics',           vol: '580K', chg: '+34%',  pct: 42, up: true },
+        { tag: '#FedBudget',      cat: 'Government',         vol: '340K', chg: '+18%',  pct: 28, up: true },
+      ],
+      'Miami': [
+        { tag: '#MiamiCrypto',    cat: 'Finance · Breaking', vol: '1.4M', chg: '+224%', pct: 94, up: true, brk: true },
+        { tag: '#LatamTech',      cat: 'Business',           vol: '820K', chg: '+88%',  pct: 70, up: true },
+        { tag: '#MiamiRealEstate',cat: 'Real Estate',        vol: '640K', chg: '+34%',  pct: 52, up: true },
+        { tag: '#SunbeltBoom',    cat: 'Economics',          vol: '420K', chg: '+28%',  pct: 38, up: true },
+        { tag: '#AfriBeats',      cat: 'Entertainment',      vol: '280K', chg: '+45%',  pct: 25, up: true },
+      ],
+      // ── United Kingdom ─────────────────────────────────────────────
+      'London': [
+        { tag: '#BrexitTax',      cat: 'Politics · Breaking', vol: '1.9M', chg: '+143%', pct: 90, up: true, brk: true },
+        { tag: '#LondonFinTech',  cat: 'Finance',            vol: '1.1M', chg: '+76%',  pct: 72, up: true },
+        { tag: '#NHSCrisis',      cat: 'Health',             vol: '880K', chg: '+55%',  pct: 58, up: true },
+        { tag: '#AIRegulation',   cat: 'Technology',         vol: '620K', chg: '+34%',  pct: 42, up: true },
+        { tag: '#RoyalNews',      cat: 'Culture',            vol: '410K', chg: '+21%',  pct: 28, up: true },
+      ],
+      'Manchester': [
+        { tag: '#PremierLeague',  cat: 'Sports · Breaking',  vol: '2.2M', chg: '+188%', pct: 95, up: true, brk: true },
+        { tag: '#ManCityFinal',   cat: 'Sports',             vol: '1.4M', chg: '+142%', pct: 78, up: true },
+        { tag: '#NorthernPowerhouse', cat: 'Business',       vol: '580K', chg: '+48%',  pct: 52, up: true },
+        { tag: '#ManchesterTech', cat: 'Technology',         vol: '380K', chg: '+38%',  pct: 38, up: true },
+        { tag: '#Madchester',     cat: 'Culture',            vol: '240K', chg: '+22%',  pct: 24, up: true },
+      ],
+      'Edinburgh': [
+        { tag: '#ScotRef',        cat: 'Politics · Breaking', vol: '1.1M', chg: '+168%', pct: 88, up: true, brk: true },
+        { tag: '#EdFringe',       cat: 'Culture',            vol: '780K', chg: '+212%', pct: 72, up: true },
+        { tag: '#ScotlandTech',   cat: 'Technology',         vol: '420K', chg: '+55%',  pct: 50, up: true },
+        { tag: '#BrexitTax',      cat: 'Politics',           vol: '310K', chg: '+88%',  pct: 38, up: true },
+        { tag: '#HighlandsTravel',cat: 'Tourism',            vol: '190K', chg: '+34%',  pct: 25, up: true },
+      ],
+      // ── India ──────────────────────────────────────────────────────
+      'Mumbai': [
+        { tag: '#IPL2026',        cat: 'Sports · Breaking',  vol: '3.8M', chg: '+220%', pct: 98, up: true, brk: true },
+        { tag: '#BullishIndia',   cat: 'Finance',            vol: '1.6M', chg: '+145%', pct: 78, up: true },
+        { tag: '#BollywoodHits',  cat: 'Entertainment',      vol: '1.1M', chg: '+68%',  pct: 60, up: true },
+        { tag: '#StartupIndia',   cat: 'Business',           vol: '740K', chg: '+78%',  pct: 45, up: true },
+        { tag: '#MumbaiRains',    cat: 'Local',              vol: '380K', chg: '−22%',  pct: 28, up: false },
+      ],
+      'Delhi': [
+        { tag: '#BudgetSession',  cat: 'Politics · Breaking', vol: '2.4M', chg: '+112%', pct: 92, up: true, brk: true },
+        { tag: '#DelhiAir',       cat: 'Environment',        vol: '1.8M', chg: '+88%',  pct: 76, up: true },
+        { tag: '#DelhiStartups',  cat: 'Business',           vol: '940K', chg: '+72%',  pct: 58, up: true },
+        { tag: '#AI4Bharat',      cat: 'Technology',         vol: '680K', chg: '+91%',  pct: 45, up: true },
+        { tag: '#MetroExpansion', cat: 'Infrastructure',     vol: '390K', chg: '+42%',  pct: 30, up: true },
+      ],
+      'Bangalore': [
+        { tag: '#AI4Bharat',      cat: 'Technology · Breaking', vol: '1.8M', chg: '+168%', pct: 92, up: true, brk: true },
+        { tag: '#BengaluruTech',  cat: 'Business',           vol: '1.3M', chg: '+112%', pct: 76, up: true },
+        { tag: '#StartupIndia',   cat: 'Business',           vol: '880K', chg: '+78%',  pct: 58, up: true },
+        { tag: '#NammaMetro',     cat: 'Infrastructure',     vol: '520K', chg: '+55%',  pct: 42, up: true },
+        { tag: '#IPL2026',        cat: 'Sports',             vol: '380K', chg: '+220%', pct: 30, up: true },
+      ],
+      'Kolkata': [
+        { tag: '#DurgaPuja',      cat: 'Culture · Breaking', vol: '2.1M', chg: '+280%', pct: 95, up: true, brk: true },
+        { tag: '#IPL2026',        cat: 'Sports',             vol: '1.4M', chg: '+220%', pct: 74, up: true },
+        { tag: '#KolkataTech',    cat: 'Business',           vol: '480K', chg: '+88%',  pct: 48, up: true },
+        { tag: '#EastIndiaTech',  cat: 'Technology',         vol: '310K', chg: '+72%',  pct: 35, up: true },
+        { tag: '#HowrahBridge',   cat: 'Culture',            vol: '190K', chg: '+18%',  pct: 22, up: true },
+      ],
+      // ── Brazil ─────────────────────────────────────────────────────
+      'São Paulo': [
+        { tag: '#SelecaoBrasileira', cat: 'Sports · Breaking', vol: '2.4M', chg: '+88%', pct: 90, up: true, brk: true },
+        { tag: '#FintechBR',      cat: 'Finance',            vol: '1.4M', chg: '+112%', pct: 72, up: true },
+        { tag: '#SPtech',         cat: 'Business',           vol: '880K', chg: '+68%',  pct: 55, up: true },
+        { tag: '#CriptoReal',     cat: 'Finance',            vol: '580K', chg: '+67%',  pct: 40, up: true },
+        { tag: '#BolsaFamilia',   cat: 'Politics',           vol: '340K', chg: '+23%',  pct: 28, up: true },
+      ],
+      'Rio de Janeiro': [
+        { tag: '#Carnaval',       cat: 'Culture · Breaking', vol: '3.2M', chg: '+340%', pct: 98, up: true, brk: true },
+        { tag: '#SelecaoBrasileira', cat: 'Sports',          vol: '1.6M', chg: '+88%',  pct: 74, up: true },
+        { tag: '#RioTech',        cat: 'Business',           vol: '520K', chg: '+58%',  pct: 48, up: true },
+        { tag: '#RioVerde',       cat: 'Environment',        vol: '380K', chg: '+38%',  pct: 35, up: true },
+        { tag: '#BRICS2026',      cat: 'Economics',          vol: '240K', chg: '+28%',  pct: 22, up: true },
+      ],
+      'Fortaleza': [
+        { tag: '#NordesteTech',   cat: 'Business · Breaking', vol: '620K', chg: '+198%', pct: 88, up: true, brk: true },
+        { tag: '#EnergiaLimpa',   cat: 'Environment',        vol: '480K', chg: '+88%',  pct: 68, up: true },
+        { tag: '#AmazoniaSalva',  cat: 'Environment',        vol: '340K', chg: '−18%',  pct: 50, up: false },
+        { tag: '#SelecaoBrasileira', cat: 'Sports',          vol: '280K', chg: '+88%',  pct: 38, up: true },
+        { tag: '#CulturaFortaleza', cat: 'Culture',          vol: '160K', chg: '+22%',  pct: 25, up: true },
+      ],
+      // ── Japan ──────────────────────────────────────────────────────
+      'Tokyo': [
+        { tag: '#Nikkei高値',     cat: 'Finance · Breaking', vol: '1.8M', chg: '+134%', pct: 90, up: true, brk: true },
+        { tag: '#AI日本',         cat: 'Technology',         vol: '1.4M', chg: '+167%', pct: 76, up: true },
+        { tag: '#桜2026',         cat: 'Culture',            vol: '1.1M', chg: '+212%', pct: 62, up: true },
+        { tag: '#J-Pop',          cat: 'Entertainment',      vol: '680K', chg: '+45%',  pct: 44, up: true },
+        { tag: '#東京五輪記念',   cat: 'Sports',             vol: '420K', chg: '+22%',  pct: 30, up: true },
+      ],
+      'Osaka': [
+        { tag: '#OsakaExpo',      cat: 'Culture · Breaking', vol: '2.2M', chg: '+320%', pct: 96, up: true, brk: true },
+        { tag: '#大阪グルメ',     cat: 'Food · Trending',    vol: '1.2M', chg: '+188%', pct: 76, up: true },
+        { tag: '#AI日本',         cat: 'Technology',         vol: '820K', chg: '+167%', pct: 58, up: true },
+        { tag: '#Nikkei高値',     cat: 'Finance',            vol: '580K', chg: '+134%', pct: 42, up: true },
+        { tag: '#J-Pop',          cat: 'Entertainment',      vol: '340K', chg: '+45%',  pct: 28, up: true },
+      ],
+      'Sapporo': [
+        { tag: '#HokkaidoTech',   cat: 'Technology · Breaking', vol: '580K', chg: '+188%', pct: 88, up: true, brk: true },
+        { tag: '#GreenJapan',     cat: 'Environment',        vol: '440K', chg: '+112%', pct: 68, up: true },
+        { tag: '#SapporoYuki',    cat: 'Culture',            vol: '380K', chg: '+145%', pct: 55, up: true },
+        { tag: '#北海道',         cat: 'Tourism',            vol: '260K', chg: '+62%',  pct: 40, up: true },
+        { tag: '#Nikkei高値',     cat: 'Finance',            vol: '180K', chg: '+134%', pct: 28, up: true },
+      ],
+      // ── Germany ────────────────────────────────────────────────────
+      'Berlin': [
+        { tag: '#KI2026',         cat: 'Technology · Breaking', vol: '1.4M', chg: '+122%', pct: 88, up: true, brk: true },
+        { tag: '#BerlinTech',     cat: 'Business',           vol: '880K', chg: '+98%',  pct: 72, up: true },
+        { tag: '#Bundesliga',     cat: 'Sports',             vol: '680K', chg: '+76%',  pct: 55, up: true },
+        { tag: '#GrueneEnergie',  cat: 'Environment',        vol: '460K', chg: '+45%',  pct: 40, up: true },
+        { tag: '#Bundestag',      cat: 'Politics',           vol: '280K', chg: '+18%',  pct: 26, up: true },
+      ],
+      'Munich': [
+        { tag: '#Bundesliga',     cat: 'Sports · Breaking',  vol: '1.8M', chg: '+142%', pct: 92, up: true, brk: true },
+        { tag: '#AutoIndustrie',  cat: 'Business',           vol: '1.1M', chg: '−8%',   pct: 68, up: false },
+        { tag: '#Oktoberfest',    cat: 'Culture',            vol: '880K', chg: '+188%', pct: 60, up: true },
+        { tag: '#KI2026',         cat: 'Technology',         vol: '520K', chg: '+122%', pct: 42, up: true },
+        { tag: '#BayernChampions',cat: 'Sports',             vol: '340K', chg: '+96%',  pct: 28, up: true },
+      ],
+      'Hamburg': [
+        { tag: '#GrueneEnergie',  cat: 'Environment · Breaking', vol: '820K', chg: '+158%', pct: 88, up: true, brk: true },
+        { tag: '#Hamburg',        cat: 'Culture',            vol: '580K', chg: '+44%',  pct: 65, up: true },
+        { tag: '#AutoIndustrie',  cat: 'Business',           vol: '440K', chg: '−8%',   pct: 48, up: false },
+        { tag: '#KI2026',         cat: 'Technology',         vol: '320K', chg: '+122%', pct: 35, up: true },
+        { tag: '#Bundestag',      cat: 'Politics',           vol: '200K', chg: '+18%',  pct: 22, up: true },
+      ],
+      // ── Nigeria ────────────────────────────────────────────────────
+      'Lagos': [
+        { tag: '#NaijaTech',      cat: 'Technology · Breaking', vol: '1.6M', chg: '+188%', pct: 92, up: true, brk: true },
+        { tag: '#AFCON2026',      cat: 'Sports',             vol: '1.2M', chg: '+95%',  pct: 74, up: true },
+        { tag: '#AfriBeats',      cat: 'Entertainment',      vol: '880K', chg: '+38%',  pct: 58, up: true },
+        { tag: '#FlutterwaveUnicorn', cat: 'Finance',        vol: '580K', chg: '+224%', pct: 42, up: true },
+        { tag: '#PetrolSubsidy',  cat: 'Economics',          vol: '340K', chg: '−22%',  pct: 28, up: false },
+      ],
+      'Abuja': [
+        { tag: '#NigeriaElects',  cat: 'Politics · Breaking', vol: '1.1M', chg: '+178%', pct: 90, up: true, brk: true },
+        { tag: '#NaijaTech',      cat: 'Technology',         vol: '740K', chg: '+188%', pct: 68, up: true },
+        { tag: '#NigeriaTech',    cat: 'Business',           vol: '520K', chg: '+112%', pct: 52, up: true },
+        { tag: '#PetrolSubsidy',  cat: 'Economics',          vol: '380K', chg: '−22%',  pct: 38, up: false },
+        { tag: '#AFCON2026',      cat: 'Sports',             vol: '260K', chg: '+95%',  pct: 26, up: true },
+      ],
+      'Kano': [
+        { tag: '#MadeInNigeria',  cat: 'Business · Breaking', vol: '520K', chg: '+142%', pct: 85, up: true, brk: true },
+        { tag: '#NaijaTech',      cat: 'Technology',         vol: '380K', chg: '+188%', pct: 66, up: true },
+        { tag: '#NigeriaElects',  cat: 'Politics',           vol: '280K', chg: '+178%', pct: 50, up: true },
+        { tag: '#NorthernNigeria',cat: 'Culture',            vol: '180K', chg: '+38%',  pct: 35, up: true },
+        { tag: '#AFCON2026',      cat: 'Sports',             vol: '140K', chg: '+95%',  pct: 24, up: true },
+      ],
+    };
+
+    function buildHeatSVG(code) {
+      const c = TT[code];
+      let s = '';
+      c.cool.forEach(([cx, cy]) => {
+        s += `<circle cx="${cx}" cy="${cy}" r="28" fill="url(#hb)"/>`;
+        s += `<circle cx="${cx}" cy="${cy}" r="8" fill="#38bdf8" opacity="0.20"/>`;
+      });
+      if (c.cool.length) {
+        const [cx, cy] = c.cool[0];
+        s += `<circle cx="${cx}" cy="${cy}" r="6" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.5"><animate attributeName="r" values="6;16;6" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"/></circle>`;
+      }
+      c.hot.forEach(([cx, cy, r, grad, dotR, dotColor, dotOp]) => {
+        s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#${grad})"/>`;
+        if (dotR > 0) s += `<circle cx="${cx}" cy="${cy}" r="${dotR}" fill="${dotColor}" opacity="${dotOp}"/>`;
+      });
+      c.pulse.forEach(([cx, cy, r0, stroke, sw, r1, dur]) => {
+        s += `<circle cx="${cx}" cy="${cy}" r="${r0}" fill="none" stroke="${stroke}" stroke-width="${sw}" opacity="0.8"><animate attributeName="r" values="${r0};${r1};${r0}" dur="${dur}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="${dur}s" repeatCount="indefinite"/></circle>`;
+      });
+      s += `<path d="${c.glowPath}" fill="none" stroke="${c.glowColor}" stroke-width="1.8" opacity="0.55"/>`;
+      return s;
+    }
+
+    function buildTrendHTML(t) {
+      const tagColor = t.brk ? '#f87171' : '#38bdf8';
+      const badge = t.brk
+        ? `<div class="mt-0.5"><span class="text-[8px] font-semibold px-1.5 py-0.5 rounded" style="background:rgba(239,68,68,0.15);color:#f87171;">🔥 Breaking</span></div>`
+        : `<p class="text-[9px] text-slate-500 mt-0.5">${t.cat}</p>`;
+      const chgColor = t.brk ? '#fb923c' : (t.up ? '#34d399' : '#f87171');
+      const arrow = t.up ? '▲' : '▼';
+      const barGrad = t.brk ? 'linear-gradient(to right,#f87171,#fb923c)' : 'linear-gradient(to right,#38bdf8,#818cf8)';
+      const border = t.brk ? 'border:1px solid rgba(239,68,68,0.25);' : 'border:1px solid #1e3a5a;';
+      return `<div class="rounded-xl p-3" style="background:#0f2035;${border}">
+        <div class="flex items-start justify-between mb-2">
+          <div><span class="text-[12px] font-bold" style="color:${tagColor};">${t.tag}</span>${badge}</div>
+          <span class="text-[10px] font-semibold" style="color:${chgColor};">${arrow} ${t.chg}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-1.5 rounded-full" style="background:#1a3050;">
+            <div class="h-1.5 rounded-full" style="width:${t.pct}%;background:${barGrad};"></div>
+          </div>
+          <span class="text-[9px] text-slate-500">${t.vol}</span>
+        </div>
+      </div>`;
+    }
+
+    const _xIcon = `<svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="#1da1f2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
+    const _repostIcon = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5a4 4 0 01-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5a4 4 0 014 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46L17.5 20.45V8a2 2 0 00-1-1.73V6z"/></svg>`;
+    const _heartIcon = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z"/></svg>`;
+
+    function buildTweetHTML(tw) {
+      return `<div class="rounded-xl p-4" style="background:#0c1625;border:1px solid #1e3050;">
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0" style="background:linear-gradient(135deg,${tw.grad});">${tw.init}</div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[12px] font-semibold text-white leading-tight">${tw.name}</p>
+            <p class="text-[10px] text-slate-500">${tw.handle}</p>
+          </div>
+          ${_xIcon}
+        </div>
+        <p class="text-[12px] text-slate-300 leading-relaxed mb-3">${tw.text}</p>
+        <div class="flex items-center gap-4 pt-3" style="border-top:1px solid #1a2d48;">
+          <div class="flex items-center gap-1.5 text-slate-400">${_repostIcon}<span class="text-[11px] font-semibold text-white">${tw.reposts}</span></div>
+          <div class="flex items-center gap-1.5 text-slate-500">${_heartIcon}<span class="text-[11px]">${tw.likes}</span></div>
+          <span class="ml-auto text-[9px] px-2 py-0.5 rounded-full" style="background:#1e3050;color:#64748b;">📍 ${tw.loc}</span>
+        </div>
+      </div>`;
+    }
+
+    function selectCountry(code) {
+      _selectedCityDot = null;
+      _selectedCityColor = null;
+      const c = TT[code];
+      const geo = COUNTRY_GEO[code];
+      document.querySelectorAll('[data-country]').forEach(btn => {
+        if (btn.dataset.country === code) {
+          btn.style.background = '#0ea5e9'; btn.style.color = 'white'; btn.style.border = 'none';
+        } else {
+          btn.style.background = '#1e293b'; btn.style.color = '#94a3b8'; btn.style.border = '1px solid #2d3f57';
+        }
+      });
+      const secs = Math.floor(Math.random() * 14) + 3;
+      document.getElementById('tt-map-subtitle').textContent = `· ${c.label} · Updated ${secs}s ago`;
+      document.getElementById('tt-trends-country').textContent = c.name;
+      document.getElementById('tt-trends-list').innerHTML = c.trends.map(buildTrendHTML).join('');
+      document.getElementById('tt-tweets-region').textContent = `Ranked by Reposts · ${c.region}`;
+      document.getElementById('tt-tweets-grid').innerHTML = c.tweets.map(buildTweetHTML).join('');
+      // Stats strip
+      const top = c.trends[0];
+      const fastest = c.trends.reduce((a, b) => parseFloat(b.chg) > parseFloat(a.chg) ? b : a);
+      const brkCount = c.trends.filter(t => t.brk).length;
+      document.getElementById('tt-stat-top').textContent = top.tag;
+      document.getElementById('tt-stat-rise').textContent = fastest.chg.startsWith('+') ? fastest.chg : '+' + fastest.chg;
+      document.getElementById('tt-stat-brk').textContent = brkCount ? `${brkCount} topic${brkCount > 1 ? 's' : ''} 🔥` : 'None';
+      document.getElementById('tt-stat-region').textContent = c.region;
+      // Map
+      if (_tweetMap && geo) {
+        clearHeatLayers();
+        _tweetMap.flyTo(geo.center, geo.zoom, { duration: 1.2 });
+        setTimeout(() => addHeatspots(geo.spots, code), 400);
+      }
+    }
+
+    function selectCity(cityName, tweets, dot, dotColor) {
+      if (_selectedCityDot) {
+        _selectedCityDot.setStyle({ fillColor: _selectedCityColor, radius: 5, weight: 1.5 });
+      }
+      _selectedCityDot = dot;
+      _selectedCityColor = dotColor;
+      dot.setStyle({ fillColor: '#ffffff', radius: 7, weight: 2.5 });
+      // Trends
+      const trends = CITY_TRENDS[cityName] || [];
+      document.getElementById('tt-trends-country').textContent = `📍 ${cityName}`;
+      if (trends.length) {
+        document.getElementById('tt-trends-list').innerHTML = trends.map(buildTrendHTML).join('');
+        const top = trends[0];
+        const fastest = trends.reduce((a, b) => parseFloat(b.chg) > parseFloat(a.chg) ? b : a);
+        const brkCount = trends.filter(t => t.brk).length;
+        document.getElementById('tt-stat-top').textContent = top.tag;
+        document.getElementById('tt-stat-rise').textContent = fastest.chg.startsWith('+') ? fastest.chg : '+' + fastest.chg;
+        document.getElementById('tt-stat-brk').textContent = brkCount ? `${brkCount} topic${brkCount > 1 ? 's' : ''} 🔥` : 'None';
+        document.getElementById('tt-stat-region').textContent = cityName;
+      }
+      // Tweets
+      document.getElementById('tt-tweets-region').textContent = `Ranked by Reposts · ${cityName}`;
+      document.getElementById('tt-tweets-grid').innerHTML = tweets.map(buildTweetHTML).join('');
+    }
+
+
+    // ─── BOOT ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const map = L.map('tt-map', {
+        center: [20, 0], zoom: 2,
+        zoomControl: true,
+        attributionControl: true,
+        scrollWheelZoom: false,
+      });
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19,
+        attribution: '© <a href="https://carto.com/attributions" style="color:#475569">CARTO</a>'
+      }).addTo(map);
+      _tweetMap = map;
+
+      document.querySelectorAll('[data-country]').forEach(btn => {
+        btn.addEventListener('click', () => selectCountry(btn.dataset.country));
+      });
+      selectCountry('US');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic Constellation — Lenny's Podcast Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* Episode floating animations */
+    @keyframes float-a {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(-5px) }
+    }
+    @keyframes float-b {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(4px) }
+    }
+    @keyframes float-c {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(-3px) }
+    }
+
+    .ep-dot {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      cursor: pointer;
+    }
+    .ep-dot-1  { animation: float-a 3.2s ease-in-out infinite; }
+    .ep-dot-2  { animation: float-b 3.8s ease-in-out infinite; }
+    .ep-dot-3  { animation: float-c 4.1s ease-in-out infinite; }
+    .ep-dot-4  { animation: float-a 3.5s ease-in-out infinite 0.5s; }
+    .ep-dot-5  { animation: float-b 4.3s ease-in-out infinite 0.3s; }
+    .ep-dot-6  { animation: float-c 3.7s ease-in-out infinite 0.8s; }
+    .ep-dot-7  { animation: float-a 4.0s ease-in-out infinite 1.0s; }
+    .ep-dot-8  { animation: float-b 3.3s ease-in-out infinite 0.2s; }
+    .ep-dot-9  { animation: float-c 3.9s ease-in-out infinite 0.7s; }
+    .ep-dot-10 { animation: float-a 4.2s ease-in-out infinite 0.4s; }
+    .ep-dot-11 { animation: float-b 3.6s ease-in-out infinite 0.9s; }
+    .ep-dot-12 { animation: float-c 4.4s ease-in-out infinite 0.1s; }
+    .ep-dot-13 { animation: float-a 3.4s ease-in-out infinite 0.6s; }
+    .ep-dot-14 { animation: float-b 4.0s ease-in-out infinite 1.1s; }
+    .ep-dot-15 { animation: float-c 3.8s ease-in-out infinite 0.3s; }
+
+    .topic-planet { cursor: pointer; }
+    .planet-main  { transition: opacity 0.3s ease; }
+    .planet-ring  { transition: opacity 0.3s ease; }
+    .conn-line    { transition: opacity 0.3s ease, stroke-width 0.2s ease; }
+
+    .ep-card { transition: border-color 0.2s ease, transform 0.2s ease; }
+    .ep-card:hover { border-color: rgba(99, 102, 241, 0.5); transform: translateY(-2px); }
+
+    #episode-detail {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+    #episode-detail.open { max-height: 1100px; opacity: 1; }
+
+    #ep-tooltip {
+      position: fixed;
+      background: #1a2035;
+      border: 1px solid #2a3050;
+      border-radius: 10px;
+      padding: 0;
+      font-size: 11px;
+      color: #e2e8f0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      font-family: 'Inter', sans-serif;
+      width: 224px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    }
+    #ep-tooltip.show { opacity: 1; }
+
+    #episode-panel { transition: opacity 0.3s ease; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+
+<body class="bg-[#060810] text-gray-100 overflow-x-hidden">
+
+  <!-- Tooltip -->
+  <div id="ep-tooltip"></div>
+
+  <!-- Topic Constellation Section -->
+  <section id="podcast" class="py-20 px-4 sm:px-6" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(99,102,241,0.28) 0%, transparent 65%), #060810; min-height: 100vh;">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <p class="text-[11px] font-semibold text-indigo-400 uppercase tracking-[0.16em] mb-3">Lenny's Podcast Explorer</p>
+        <h2 class="text-[38px] font-bold text-white leading-tight tracking-tight mb-3">Topic Constellation</h2>
+        <p class="text-[14px] text-slate-400 max-w-sm mx-auto leading-relaxed">
+          Click a <span class="text-white font-medium">topic planet</span> to explore related episodes.
+          Click a <span class="text-white font-medium">satellite dot</span> to read PM insights.
+        </p>
+      </div>
+
+      <!-- SVG Canvas -->
+      <div class="relative rounded-2xl overflow-hidden border border-white/5" style="background:#060810;">
+        <svg id="constellation" width="100%" height="580" viewBox="0 0 1000 580" preserveAspectRatio="xMidYMid meet" style="display:block;">
+          <defs>
+            <filter id="glow-strategy" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-discovery" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-growth" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-plg" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-prioritization" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-leadership" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-metrics" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="glow-career" x="-70%" y="-70%" width="240%" height="240%">
+              <feGaussianBlur stdDeviation="9" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          <!-- JS renders content here -->
+        </svg>
+      </div>
+
+      <!-- Custom Episode Loader -->
+      <div class="max-w-xl mx-auto mt-10 px-4">
+        <div class="rounded-xl border border-slate-700/60 bg-slate-900/50 p-5" style="backdrop-filter:blur(8px);">
+          <p class="text-slate-400 text-[13px] mb-3">Load any Lenny's Podcast episode from YouTube</p>
+          <div class="flex gap-2">
+            <input id="ep-url-input" type="text"
+              placeholder="https://youtube.com/watch?v=..."
+              class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-[13px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors" />
+            <button id="ep-url-btn" onclick="loadCustomEpisode()"
+              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-semibold rounded-lg transition-colors whitespace-nowrap">
+              Analyze →
+            </button>
+          </div>
+          <div id="ep-url-status" class="hidden mt-3 text-[12px] rounded-lg px-3 py-2"></div>
+        </div>
+      </div>
+
+      <!-- Episode Panel -->
+      <div id="episode-panel" style="display:none; opacity:0;" class="mt-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div id="panel-dot" class="w-3 h-3 rounded-full flex-shrink-0"></div>
+          <span id="panel-label" class="text-white font-bold text-[16px]"></span>
+          <span id="panel-count" class="text-slate-500 text-[12px]"></span>
+          <button onclick="resetAll()"
+            class="ml-auto text-[12px] text-slate-500 hover:text-slate-200 transition-colors px-3 py-1 border border-slate-700 rounded-full hover:border-slate-500">
+            × Clear selection
+          </button>
+        </div>
+        <div id="episode-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </div>
+
+      <!-- Detail Drawer -->
+      <div id="episode-detail">
+        <div class="bg-[#111827] border border-[#2a3050] rounded-2xl p-6 mt-4">
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex-1 mr-4">
+              <h3 id="detail-title" class="text-white font-bold text-[20px] leading-snug mb-1"></h3>
+              <p id="detail-guest" class="text-slate-400 text-[13px]"></p>
+              <div id="detail-meta" class="flex items-center gap-3 mt-2"></div>
+            </div>
+            <button onclick="closeDetail()"
+              class="text-slate-500 hover:text-white text-2xl leading-none flex-shrink-0 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10">×</button>
+          </div>
+          <div id="detail-topics" class="flex flex-wrap gap-2 mb-5"></div>
+
+          <div id="detail-timestamps-wrap" class="mb-6">
+            <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.14em] mb-3">Key Moments & Timestamps</p>
+            <div id="detail-timestamps" class="space-y-2"></div>
+          </div>
+
+          <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-[0.14em] mb-4">Key PM Insights</p>
+          <ul id="detail-insights" class="space-y-4 mb-7"></ul>
+          <a id="detail-yt" href="#" target="_blank"
+            class="inline-flex items-center gap-2.5 bg-red-600 hover:bg-red-700 text-white text-[13px] font-semibold px-5 py-2.5 rounded-full transition-colors">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            Watch on Lenny's YouTube
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    const TOPICS = [
+      { id: 'strategy',       label: 'Product Strategy',    color: '#6366f1' },
+      { id: 'discovery',      label: 'Discovery & Research', color: '#f59e0b' },
+      { id: 'growth',         label: 'Growth & Retention',  color: '#10b981' },
+      { id: 'plg',            label: 'Product-Led Growth',  color: '#8b5cf6' },
+      { id: 'prioritization', label: 'Prioritization',      color: '#3b82f6' },
+      { id: 'leadership',     label: 'Product Leadership',  color: '#ef4444' },
+      { id: 'metrics',        label: 'Metrics & Analytics', color: '#06b6d4' },
+      { id: 'career',         label: 'PM Career',           color: '#f97316' },
+    ];
+
+    const TOPIC_POS = {
+      strategy:       { x: 175, y: 140 },
+      discovery:      { x: 500, y: 90  },
+      leadership:     { x: 825, y: 140 },
+      prioritization: { x: 125, y: 290 },
+      metrics:        { x: 875, y: 290 },
+      plg:            { x: 200, y: 440 },
+      career:         { x: 800, y: 440 },
+      growth:         { x: 500, y: 480 },
+    };
+
+    const EPISODES = [
+      {
+        id: 1, title: 'The Ultimate Guide to Strategy', guest: 'Roger Martin', duration: '1h 22m',
+        yt: 'https://www.youtube.com/watch?v=y7SN4FK8noY',
+        topics: { strategy: 95, leadership: 70, prioritization: 60 },
+        timestamps: [
+          { time: '2:27',    label: 'Why strategy is so hard to get right' },
+          { time: '17:40',   label: 'Defining strategy and the choice cascade' },
+          { time: '23:20',   label: 'Playing to win vs. playing not to lose' },
+          { time: '43:39',   label: 'Customer-centric strategy in practice' },
+          { time: '1:14:32', label: 'Practical strategy tips for product leaders' },
+        ],
+        insights: [
+          'Strategy is an integrated set of choices that compels a desired customer action — not a vision, a goal, or a plan. Most companies confuse aspiration with strategy and wonder why nothing changes.',
+          'You must choose where to play and how to win together: picking the right arena without a clear winning move is just wishful thinking, and a strong "how to win" in the wrong market is equally futile.',
+          'The best strategies are defensible because they build reinforcing capabilities and management systems — sustainable advantage comes from a system of choices, not a single clever bet.'
+        ]
+      },
+      {
+        id: 2, title: 'Live Q&A: Career & Product Advice', guest: 'Shreyas Doshi', duration: '52m',
+        yt: 'https://www.youtube.com/watch?v=atS060bNpE0',
+        topics: { career: 90, leadership: 70, strategy: 55 },
+        timestamps: [
+          { time: '5:35',  label: 'Why most PMs optimize the wrong things' },
+          { time: '10:08', label: 'The importance of working with great managers' },
+          { time: '16:48', label: 'How to build leverage early in your career' },
+          { time: '25:20', label: 'Picking the right company stage to join' },
+          { time: '38:09', label: 'Managing up and influencing without authority' },
+        ],
+        insights: [
+          'Most PMs optimize for the wrong career metrics early on — optimizing for learning speed and working with exceptional people compounds far better than title or salary.',
+          'The single most important career decision is who you work for: a great manager can 10x your growth, while a poor one can set you back years regardless of how hard you work.',
+          'Influence without authority is the core PM challenge; the PMs who master it do so by building deep trust through relentless follow-through, not through persuasion tactics.'
+        ]
+      },
+      {
+        id: 3, title: 'The Nature of Product', guest: 'Marty Cagan', duration: '1h 15m',
+        yt: 'https://www.youtube.com/watch?v=h-KVGHoQ_98',
+        topics: { leadership: 85, discovery: 75, strategy: 60 },
+        timestamps: [
+          { time: '5:10',   label: 'Why most companies do product wrong' },
+          { time: '18:45',  label: 'Outcome-based vs. output-based teams' },
+          { time: '34:20',  label: 'What "empowered" really means' },
+          { time: '52:30',  label: 'Discovery as a continuous team practice' },
+          { time: '1:08:00',label: 'Building product culture from scratch' },
+        ],
+        insights: [
+          'Most companies treat their product teams as delivery teams — given a roadmap and asked to execute — rather than as empowered teams trusted to solve hard customer problems.',
+          'The shift from feature teams to product teams requires leaders to stop giving solutions and start giving problems: clear outcome targets, honest constraints, and genuine autonomy to discover the path.',
+          'Continuous discovery is not a sprint or a phase — it\'s a weekly discipline where teams maintain a living connection to real customers to inform every decision they make.'
+        ]
+      },
+      {
+        id: 4, title: 'Product Management Theater', guest: 'Marty Cagan', duration: '40m',
+        yt: 'https://www.youtube.com/watch?v=9N4ZgNaWvI0',
+        topics: { leadership: 90, discovery: 80, prioritization: 60 },
+        timestamps: [
+          { time: '4:46',  label: 'What is PM theater and why it spreads' },
+          { time: '12:08', label: 'How fake agile hides feature-factory problems' },
+          { time: '18:33', label: 'The danger of roadmaps masquerading as strategy' },
+          { time: '24:48', label: 'Metrics theater — when numbers become theater too' },
+          { time: '29:27', label: 'How leaders accidentally create theater' },
+        ],
+        insights: [
+          'PM theater is the use of product processes — OKRs, sprints, discovery sessions — as performance rather than substance: the motions without the outcomes.',
+          'Feature roadmaps are the most common form of theater; they give the appearance of strategy while actually just being a backlog dressed up with dates and Gantt charts.',
+          'Leaders inadvertently create theater by rewarding teams for delivery velocity and visible busyness rather than actual customer outcomes and measurable business impact.'
+        ]
+      },
+      {
+        id: 5, title: 'The Ultimate Guide to Product-Led Sales', guest: 'Elena Verna', duration: '1h 16m',
+        yt: 'https://www.youtube.com/watch?v=bxghtN-OlJQ',
+        topics: { plg: 90, metrics: 75, growth: 65 },
+        timestamps: [
+          { time: '7:13',    label: 'Product-led sales vs. product-led growth' },
+          { time: '20:30',   label: 'When to add sales to a PLG motion' },
+          { time: '28:37',   label: 'PQAs, PQs, PQLs, and MQLs — the full acronym map' },
+          { time: '42:01',   label: 'Metrics for identifying qualified accounts' },
+          { time: '1:06:28', label: 'Common PLS implementation pitfalls' },
+        ],
+        insights: [
+          'Product-Led Sales is not PLG vs. sales — it\'s PLG first, then sales amplifying the signals the product already generates through Product Qualified Leads.',
+          'PQLs beat MQLs in product-led models because they\'re based on demonstrated product behavior (usage depth, feature adoption, team expansion) rather than intent signals like form fills.',
+          'In product-led companies, Net Revenue Retention is a more important north star than new ARR: healthy NRR above 120% means your growth engine is compounding, not leaking.'
+        ]
+      },
+      {
+        id: 6, title: '10 Growth Tactics That Never Work', guest: 'Elena Verna', duration: '1h 35m',
+        yt: 'https://www.youtube.com/watch?v=IHwS2By9UKM',
+        topics: { growth: 95, metrics: 80, strategy: 55 },
+        timestamps: [
+          { time: '6:02',    label: 'Common mistakes growth teams make' },
+          { time: '8:31',    label: '#1: Hiring for growth roles too soon' },
+          { time: '25:11',   label: '#4: Obsessing over your competition' },
+          { time: '42:32',   label: '#6: Prioritising earned channels over paid' },
+          { time: '1:05:55', label: '#9: Over-experimenting' },
+        ],
+        insights: [
+          'Most growth tactics fail because they\'re applied before the underlying product creates genuine value — growth amplifies what\'s already there, good or bad.',
+          'Hiring a head of growth to fix broken fundamentals is a mistake: growth roles accelerate a working motion, they can\'t create one from scratch.',
+          'Over-experimenting is as dangerous as under-experimenting — running too many tests without enough traffic dilutes statistical power and produces false signals that misdirect the roadmap.'
+        ]
+      },
+      {
+        id: 7, title: 'How Lovable Hit $200M ARR in One Year — The New AI Growth Playbook', guest: 'Elena Verna', duration: '1h 32m',
+        yt: 'https://www.youtube.com/watch?v=6qAB6aUMIeA',
+        topics: { plg: 85, growth: 75, strategy: 65 },
+        timestamps: [
+          { time: '5:19',    label: 'The scale and speed of Lovable\'s growth' },
+          { time: '15:02',   label: 'Lovable\'s unique growth levers' },
+          { time: '28:13',   label: 'The role of marketing in Lovable\'s success' },
+          { time: '49:46',   label: 'Why community is the real growth engine' },
+          { time: '1:00:23', label: 'Product-market-fit challenges at speed' },
+        ],
+        insights: [
+          'AI fundamentally collapses time-to-value: what previously took days of onboarding can now happen in a single session, which completely changes PLG motion design.',
+          'Community is the growth engine at Lovable — not paid acquisition. Users who feel ownership over the product evangelize it; that word-of-mouth compounds faster than any ad spend.',
+          'Giving away your product for free is a deliberate growth lever when the viral coefficient is high enough — Lovable\'s free tier seeded the community that drove $200M ARR in under a year.'
+        ]
+      },
+      {
+        id: 8, title: 'Thinking Beyond Frameworks', guest: 'Casey Winters', duration: '1h 20m',
+        yt: 'https://www.youtube.com/watch?v=QMFvz8utx-Q',
+        topics: { strategy: 85, growth: 70, discovery: 60 },
+        timestamps: [
+          { time: '6:15',    label: 'Why frameworks become crutches at senior levels' },
+          { time: '22:30',   label: 'First-principles thinking in product and growth' },
+          { time: '40:00',   label: 'How context changes which framework wins' },
+          { time: '58:20',   label: 'Building your own mental models over time' },
+          { time: '1:12:45', label: 'When to break the rules deliberately' },
+        ],
+        insights: [
+          'Frameworks are useful scaffolding for junior PMs but become a ceiling for senior ones — the best product leaders internalize frameworks so deeply that they can break them deliberately.',
+          'First-principles thinking in product means asking "what is actually true about this customer problem?" rather than "which framework applies here?" — context always beats templates.',
+          'The most important meta-skill in product is building your own mental model library through repeated application, reflection, and honest assessment of where each model failed you.'
+        ]
+      },
+      {
+        id: 9, title: '10 Lessons on Career, Growth & Life', guest: 'Brian Balfour', duration: '1h 33m',
+        yt: 'https://www.youtube.com/watch?v=ZG3iNH4vvMA',
+        topics: { career: 90, growth: 75, strategy: 55 },
+        timestamps: [
+          { time: '4:29',  label: 'Optimize for learning, not compensation' },
+          { time: '7:35',  label: 'Work for exceptional people early on' },
+          { time: '12:39', label: 'Say no to most opportunities' },
+          { time: '20:25', label: 'Build before you need the network' },
+          { time: '30:24', label: 'Become obsessed with one domain' },
+        ],
+        insights: [
+          'The single most important early career decision is optimizing for learning velocity: the compound interest on skills acquired early vastly outweighs any short-term compensation difference.',
+          'Working for exceptional people creates an asymmetric career outcome — great managers teach you mental models and open doors that mediocre environments can\'t replicate regardless of effort.',
+          'Domain obsession beats broad exposure for career differentiation: becoming the world\'s leading expert in one valuable intersection creates far more leverage than being good at many things.'
+        ]
+      },
+      {
+        id: 10, title: 'Why ChatGPT Will Be the Next Big Growth Channel', guest: 'Brian Balfour', duration: '1h 22m',
+        yt: 'https://www.youtube.com/watch?v=cX4cL6B-_aU',
+        topics: { growth: 85, metrics: 70, strategy: 65 },
+        timestamps: [
+          { time: '4:13',  label: 'Why ChatGPT changes discovery and distribution' },
+          { time: '8:14',  label: 'How AI search is replacing traditional SEO' },
+          { time: '17:38', label: 'Optimizing for AI recommendation as a growth channel' },
+          { time: '30:01', label: 'Measuring AI-driven growth attribution' },
+          { time: '44:47', label: 'Building products that AI recommends first' },
+        ],
+        insights: [
+          'ChatGPT and AI assistants are becoming a discovery layer above traditional search — products that don\'t appear in AI-generated recommendations will be invisible to a growing segment of buyers.',
+          'AI-driven growth requires a different optimization strategy: instead of keywords and backlinks, you need comprehensive data presence, citation authority, and clear value proposition for AI synthesis.',
+          'The early movers in AI-native distribution will build durable advantages — AI recommendations are stickier than search rankings because they\'re based on reasoning, not just link graphs.'
+        ]
+      },
+      {
+        id: 11, title: 'What It Takes to Become a Top 1% PM', guest: 'Ian McAllister', duration: '1h 10m',
+        yt: 'https://www.youtube.com/watch?v=7gaPPrAd7nc',
+        topics: { career: 90, leadership: 70, prioritization: 55 },
+        timestamps: [
+          { time: '5:20',    label: 'What separates the top 1% from the top 10%' },
+          { time: '18:45',   label: 'Writing as the highest-leverage PM skill' },
+          { time: '33:00',   label: 'How great PMs prioritize their own time' },
+          { time: '48:30',   label: 'Building a reputation that attracts great opportunities' },
+          { time: '1:02:15', label: 'Habits and routines of exceptional PMs' },
+        ],
+        insights: [
+          'The gap between good and great PMs is almost always judgment under ambiguity — top 1% PMs make better decisions faster with less information, which compounds enormously over a career.',
+          'Writing is the highest-leverage skill for a PM: the ability to structure thinking clearly in a document is the prerequisite for all other high-leverage PM activities — strategy, alignment, and decision-making.',
+          'Top PMs are ruthless about time allocation: they systematically protect time for high-leverage activities (strategy, customer interaction, cross-functional alignment) and aggressively delegate or decline everything else.'
+        ]
+      },
+      {
+        id: 12, title: 'Crafting a Compelling Product Vision', guest: 'Ebi Atawodi', duration: '1h 39m',
+        yt: 'https://www.youtube.com/watch?v=tBPTwUmaxDs',
+        topics: { leadership: 90, strategy: 85, discovery: 55 },
+        timestamps: [
+          { time: '6:20',    label: 'The four key elements of a great vision statement' },
+          { time: '22:00',   label: 'Three ways to determine your mission' },
+          { time: '38:45',   label: 'The four pillars of great product management' },
+          { time: '58:10',   label: 'How writing helps you gain strategic clarity' },
+          { time: '1:18:30', label: 'How culture shapes what the product becomes' },
+        ],
+        insights: [
+          'A great product vision has four elements: it is inspiring, directional, durable, and distinct — visions that lack any one of these four become decoration rather than a north star the team actually uses.',
+          'Writing is the most underused tool for gaining strategic clarity: the act of explaining a vision in plain language forces the thinking that reveals where strategy is still fuzzy.',
+          'Culture is not separate from product — the behaviors a leader rewards and ignores directly shape what the product becomes; teams build to the culture they live in.'
+        ]
+      },
+      {
+        id: 13, title: "Brian Chesky's New Playbook", guest: 'Brian Chesky', duration: '1h 13m',
+        yt: 'https://www.youtube.com/watch?v=4ef0juAMqoE',
+        topics: { strategy: 90, leadership: 85, growth: 70 },
+        timestamps: [
+          { time: '5:30',    label: 'How Airbnb shifted their thinking on product management' },
+          { time: '20:15',   label: 'Why bureaucracy happens — and how founders prevent it' },
+          { time: '36:40',   label: 'The case for founders staying deep in the details' },
+          { time: '52:00',   label: 'Why Airbnb moved away from traditional growth channels' },
+          { time: '1:05:20', label: 'Setting goals ambitious enough to change behavior' },
+        ],
+        insights: [
+          'Bureaucracy is not a feature of company size — it\'s a failure of clarity; when leaders stop explaining the "why," managers fill the vacuum with process, and process compounds into bureaucracy.',
+          'Founders staying deeply involved in product details is not micromanagement — it\'s the fastest feedback loop in the company; the CEO who can\'t describe the product at feature level has already lost strategic fidelity.',
+          'Airbnb\'s shift away from performance marketing toward word-of-mouth and PR-worthy product launches is a bet that brand trust compounds over time in ways that paid acquisition never can.'
+        ]
+      },
+      {
+        id: 14, title: 'Winning in India, Second-Order Thinking & the Delta 4 Framework', guest: 'Kunal Shah', duration: '1h 18m',
+        yt: 'https://www.youtube.com/watch?v=EgBOVDzUUAA',
+        topics: { strategy: 80, growth: 75, metrics: 65 },
+        timestamps: [
+          { time: '7:45',    label: 'Why Indian users grow DAUs but not ARPU' },
+          { time: '22:10',   label: 'What makes India\'s market fundamentally different' },
+          { time: '38:30',   label: 'The Delta 4 framework — building products people switch to' },
+          { time: '55:00',   label: 'Lessons from building CRED' },
+          { time: '1:08:20', label: 'Second-order thinking as a product superpower' },
+        ],
+        insights: [
+          'The Delta 4 framework says products only get adopted when the improvement over the existing solution scores 4 or higher on a 10-point scale — below that threshold, habit inertia wins and the product stays niche.',
+          'India\'s market paradox is that products can attract enormous user bases (DAU) while monetization (ARPU) stays minimal — this forces a fundamentally different strategy for building businesses versus building audiences.',
+          'Second-order thinking in product means asking "what happens after the thing we\'re building succeeds?" — most product failures aren\'t failures of execution but failures of anticipating second-order consequences.'
+        ]
+      },
+      {
+        id: 15, title: 'Zigging vs. Zagging: How HubSpot Built a $30B Company', guest: 'Dharmesh Shah', duration: '1h 41m',
+        yt: 'https://www.youtube.com/watch?v=dpw9Ue1HU48',
+        topics: { strategy: 85, growth: 75, plg: 65, leadership: 60 },
+        timestamps: [
+          { time: '8:00',    label: 'Biggest lessons from building HubSpot to $30B' },
+          { time: '24:30',   label: 'The power of leaning into your strengths vs. fixing weaknesses' },
+          { time: '42:15',   label: 'How HubSpot\'s Culture Code came to be' },
+          { time: '58:40',   label: 'Zigging when the market is zagging — the strategy behind inbound' },
+          { time: '1:22:00', label: 'Dharmesh\'s investment philosophy and what he looks for' },
+        ],
+        insights: [
+          'HubSpot\'s defining strategic bet was to zig when the market was zagging — instead of competing on outbound sales tactics like everyone else, they invented inbound marketing and became the category king.',
+          'The HubSpot Culture Code worked because it was specific and honest, not aspirational platitudes — culture documents that acknowledge real trade-offs and actual behaviors build trust; ones that only celebrate virtues build cynicism.',
+          'The greatest leverage in company building comes from leaning into distinctive strengths rather than closing gaps — competitive advantage is almost always built on asymmetry, not on being good at everything.'
+        ]
+      },
+    ];
+
+    // ─── UTILITIES ─────────────────────────────────────────────────
+    function seededRand(seed) {
+      let s = seed;
+      return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    }
+    function topicColor(id) { return (TOPICS.find(t => t.id === id) || {}).color || '#888'; }
+    function topicLabel(id) { return (TOPICS.find(t => t.id === id) || {}).label || id; }
+    function primaryTopic(ep) { return Object.entries(ep.topics).sort((a, b) => b[1] - a[1])[0][0]; }
+    function svgEl(tag) { return document.createElementNS('http://www.w3.org/2000/svg', tag); }
+
+    // ─── POSITIONS ─────────────────────────────────────────────────
+    const EP_POS = {};
+
+    function computeEpPositions() {
+      const cx = 500, cy = 290;
+      const groups = {};
+      EPISODES.forEach(ep => {
+        const p = primaryTopic(ep);
+        (groups[p] = groups[p] || []).push(ep);
+      });
+      Object.entries(groups).forEach(([tid, eps]) => {
+        const { x, y } = TOPIC_POS[tid];
+        const n = eps.length;
+        const a0 = Math.atan2(cy - y, cx - x);
+        const spread = Math.PI * 0.7;
+        const r = 95;
+        eps.forEach((ep, i) => {
+          const angle = n === 1 ? a0 : a0 + (i / (n - 1) - 0.5) * spread;
+          EP_POS[ep.id] = { x: Math.round(x + Math.cos(angle) * r), y: Math.round(y + Math.sin(angle) * r) };
+        });
+      });
+    }
+
+    // ─── SVG DRAW ──────────────────────────────────────────────────
+    function drawStarfield(svg) {
+      const rand = seededRand(42);
+      const g = svgEl('g'); g.id = 'sf';
+      for (let i = 0; i < 65; i++) {
+        const c = svgEl('circle');
+        c.setAttribute('cx', (rand() * 1000).toFixed(1));
+        c.setAttribute('cy', (rand() * 580).toFixed(1));
+        c.setAttribute('r',  (rand() * 1.3 + 0.2).toFixed(2));
+        c.setAttribute('fill', 'white');
+        c.setAttribute('opacity', (rand() * 0.35 + 0.04).toFixed(2));
+        g.appendChild(c);
+      }
+      svg.appendChild(g);
+    }
+
+    function drawLines(svg) {
+      const g = svgEl('g'); g.id = 'lines';
+      EPISODES.forEach(ep => {
+        const ep_pos = EP_POS[ep.id];
+        Object.entries(ep.topics).forEach(([tid, rel]) => {
+          const tp = TOPIC_POS[tid];
+          const def = (rel / 100 * 0.45).toFixed(2);
+          const ln = svgEl('line');
+          ln.setAttribute('x1', ep_pos.x); ln.setAttribute('y1', ep_pos.y);
+          ln.setAttribute('x2', tp.x);     ln.setAttribute('y2', tp.y);
+          ln.setAttribute('stroke', topicColor(tid));
+          ln.setAttribute('stroke-width', '1.5');
+          ln.setAttribute('opacity', def);
+          ln.classList.add('conn-line');
+          ln.dataset.epId = ep.id;
+          ln.dataset.tid  = tid;
+          ln.dataset.def  = def;
+          g.appendChild(ln);
+        });
+      });
+      svg.appendChild(g);
+    }
+
+    function drawPlanets(svg) {
+      TOPICS.forEach(t => {
+        const { x, y } = TOPIC_POS[t.id];
+        const g = svgEl('g');
+        g.classList.add('topic-planet');
+        g.dataset.tid = t.id;
+
+        const aura = svgEl('circle');
+        aura.setAttribute('cx', x); aura.setAttribute('cy', y); aura.setAttribute('r', 55);
+        aura.setAttribute('fill', t.color); aura.setAttribute('opacity', '0.1');
+        g.appendChild(aura);
+
+        const planet = svgEl('circle');
+        planet.setAttribute('cx', x); planet.setAttribute('cy', y); planet.setAttribute('r', 38);
+        planet.setAttribute('fill', t.color);
+        planet.setAttribute('filter', `url(#glow-${t.id})`);
+        planet.classList.add('planet-main');
+        g.appendChild(planet);
+
+        const ring = svgEl('circle');
+        ring.setAttribute('cx', x); ring.setAttribute('cy', y); ring.setAttribute('r', 43);
+        ring.setAttribute('fill', 'none'); ring.setAttribute('stroke', 'white');
+        ring.setAttribute('stroke-width', '2'); ring.setAttribute('opacity', '0');
+        ring.classList.add('planet-ring');
+        g.appendChild(ring);
+
+        const words = t.label.split(' ');
+        const mid = Math.ceil(words.length / 2);
+        const l1 = words.slice(0, mid).join(' ').toUpperCase();
+        const l2 = words.slice(mid).join(' ').toUpperCase();
+        const addTxt = (txt, dy) => {
+          const el = svgEl('text');
+          el.setAttribute('x', x); el.setAttribute('y', dy);
+          el.setAttribute('text-anchor', 'middle');
+          el.setAttribute('fill', 'white');
+          el.setAttribute('font-size', l2 ? '8.5' : '9');
+          el.setAttribute('font-weight', '700');
+          el.setAttribute('font-family', 'Inter, sans-serif');
+          el.setAttribute('letter-spacing', '0.4');
+          el.textContent = txt;
+          g.appendChild(el);
+        };
+        if (l2) { addTxt(l1, y - 4); addTxt(l2, y + 9); }
+        else     { addTxt(l1, y + 4); }
+
+        g.addEventListener('click', () => selectTopic(t.id));
+        svg.appendChild(g);
+      });
+    }
+
+    function drawSatellites(svg) {
+      EPISODES.forEach(ep => {
+        const { x, y } = EP_POS[ep.id];
+        const color = topicColor(primaryTopic(ep));
+        const g = svgEl('g');
+        g.classList.add('ep-node');
+        g.dataset.epId = ep.id;
+
+        const hit = svgEl('circle');
+        hit.setAttribute('cx', x); hit.setAttribute('cy', y); hit.setAttribute('r', 20);
+        hit.setAttribute('fill', 'transparent'); hit.style.cursor = 'pointer';
+        g.appendChild(hit);
+
+        const halo = svgEl('circle');
+        halo.setAttribute('cx', x); halo.setAttribute('cy', y); halo.setAttribute('r', 11);
+        halo.setAttribute('fill', color); halo.setAttribute('opacity', '0.18');
+        g.appendChild(halo);
+
+        const dot = svgEl('circle');
+        dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', '7');
+        dot.setAttribute('fill', color);
+        dot.classList.add('ep-dot', `ep-dot-${ep.id}`);
+        g.appendChild(dot);
+
+        const ring = svgEl('circle');
+        ring.setAttribute('cx', x); ring.setAttribute('cy', y); ring.setAttribute('r', '10.5');
+        ring.setAttribute('fill', 'none'); ring.setAttribute('stroke', 'white');
+        ring.setAttribute('stroke-width', '1.5'); ring.setAttribute('opacity', '0');
+        ring.classList.add('ep-ring');
+        g.appendChild(ring);
+
+        if (ep.custom) {
+          const customRing = svgEl('circle');
+          customRing.setAttribute('cx', x); customRing.setAttribute('cy', y); customRing.setAttribute('r', '14');
+          customRing.setAttribute('fill', 'none'); customRing.setAttribute('stroke', color);
+          customRing.setAttribute('stroke-width', '1'); customRing.setAttribute('opacity', '0.6');
+          customRing.setAttribute('stroke-dasharray', '3 3');
+          g.appendChild(customRing);
+        }
+
+        g.addEventListener('click', (e) => { e.stopPropagation(); selectEpisode(ep.id); });
+        g.addEventListener('mouseenter', (e) => showTip(e, ep));
+        g.addEventListener('mouseleave', hideTip);
+        svg.appendChild(g);
+      });
+    }
+
+    // ─── TOOLTIP ───────────────────────────────────────────────────
+    const tip = document.getElementById('ep-tooltip');
+
+    function showTip(e, ep) {
+      const ytId = ep.yt.replace('https://www.youtube.com/watch?v=', '').split('&')[0];
+      tip.innerHTML = `<img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" style="width:224px;height:126px;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display='none'"><div style="padding:8px 12px 10px;"><div style="font-weight:600;color:#e2e8f0;font-size:11px;line-height:1.4;">${ep.title}</div><div style="color:#64748b;font-size:10px;margin-top:3px;">with ${ep.guest} · ${ep.duration}</div></div>`;
+      tip.style.left = (e.clientX + 16) + 'px';
+      tip.style.top  = (e.clientY - 80) + 'px';
+      tip.classList.add('show');
+    }
+    function hideTip() { tip.classList.remove('show'); }
+    document.addEventListener('mousemove', e => {
+      if (tip.classList.contains('show')) {
+        tip.style.left = (e.clientX + 14) + 'px';
+        tip.style.top  = (e.clientY - 8) + 'px';
+      }
+    });
+
+    // ─── STATE ─────────────────────────────────────────────────────
+    let activeTopic = null, activeEp = null;
+
+    function selectTopic(tid) {
+      if (activeTopic === tid) { resetAll(); return; }
+      activeTopic = tid; activeEp = null;
+      hideDetail();
+      applyTopicVisuals(tid);
+      renderPanel(tid);
+    }
+
+    function selectEpisode(epId) {
+      activeEp = epId;
+      document.querySelectorAll('.ep-ring').forEach(r => r.setAttribute('opacity', '0'));
+      const node = document.querySelector(`.ep-node[data-ep-id="${epId}"]`);
+      if (node) node.querySelector('.ep-ring').setAttribute('opacity', '1');
+      const ep = EPISODES.find(e => e.id === epId);
+      renderDetail(ep);
+    }
+
+    function applyTopicVisuals(tid) {
+      document.querySelectorAll('.ep-node').forEach(g => {
+        const epId = g.dataset.epId;
+        const ep = EPISODES.find(e => String(e.id) === epId);
+        const rel = ep ? (ep.topics[tid] || 0) : 0;
+        const dot = g.querySelector('.ep-dot');
+        if (rel > 0) {
+          const sc = (1 + (rel / 100) * 0.75).toFixed(2);
+          dot.style.opacity = '1';
+          dot.style.transform = `scale(${sc})`;
+        } else {
+          dot.style.opacity = '0.07';
+          dot.style.transform = 'scale(0.75)';
+        }
+        g.querySelector('.ep-ring').setAttribute('opacity', '0');
+      });
+      document.querySelectorAll('.topic-planet').forEach(g => {
+        const sel = g.dataset.tid === tid;
+        g.querySelector('.planet-main').style.opacity = sel ? '1' : '0.3';
+        g.querySelector('.planet-ring').setAttribute('opacity', sel ? '1' : '0');
+      });
+      document.querySelectorAll('.conn-line').forEach(l => {
+        if (l.dataset.tid === tid) { l.setAttribute('opacity', '0.75'); l.setAttribute('stroke-width', '2.5'); }
+        else { l.setAttribute('opacity', '0.03'); l.setAttribute('stroke-width', '1'); }
+      });
+    }
+
+    function resetAll() {
+      activeTopic = null; activeEp = null;
+      document.querySelectorAll('.ep-dot').forEach(d => { d.style.opacity = '1'; d.style.transform = 'scale(1)'; });
+      document.querySelectorAll('.ep-ring').forEach(r => r.setAttribute('opacity', '0'));
+      document.querySelectorAll('.topic-planet').forEach(g => {
+        g.querySelector('.planet-main').style.opacity = '1';
+        g.querySelector('.planet-ring').setAttribute('opacity', '0');
+      });
+      document.querySelectorAll('.conn-line').forEach(l => { l.setAttribute('opacity', l.dataset.def); l.setAttribute('stroke-width', '1.5'); });
+      hidePanel();
+      hideDetail();
+    }
+
+    // ─── PANELS ────────────────────────────────────────────────────
+    function renderPanel(tid) {
+      const topic = TOPICS.find(t => t.id === tid);
+      const eps = EPISODES.filter(e => e.topics[tid]).sort((a, b) => b.topics[tid] - a.topics[tid]);
+
+      document.getElementById('panel-dot').style.backgroundColor = topic.color;
+      document.getElementById('panel-label').textContent = topic.label;
+      document.getElementById('panel-count').textContent = `— ${eps.length} episode${eps.length !== 1 ? 's' : ''}`;
+
+      const cont = document.getElementById('episode-cards');
+      cont.innerHTML = '';
+      eps.forEach(ep => {
+        const rel = ep.topics[tid];
+        const card = document.createElement('div');
+        card.className = 'ep-card bg-[#1a2035] border border-[#2a3050] rounded-xl p-4 cursor-pointer';
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <div class="flex-1 min-w-0">
+              <p class="text-white text-[13px] font-semibold leading-snug">${ep.title}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">with ${ep.guest}</p>
+            </div>
+            <span class="flex-shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
+                  style="color:${topic.color};background:${topic.color}22;">${rel}%</span>
+          </div>
+          <div class="flex flex-wrap gap-1 mt-3">
+            ${Object.entries(ep.topics).map(([t, r]) =>
+              `<span class="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                     style="color:${topicColor(t)};background:${topicColor(t)}22;">${topicLabel(t).split(' ')[0]}</span>`
+            ).join('')}
+          </div>
+          <p class="text-slate-600 text-[10px] mt-3 font-medium">Click for insights →</p>
+        `;
+        card.addEventListener('click', () => selectEpisode(ep.id));
+        cont.appendChild(card);
+      });
+
+      const panel = document.getElementById('episode-panel');
+      panel.style.display = 'block';
+      requestAnimationFrame(() => { panel.style.opacity = '1'; });
+    }
+
+    function renderDetail(ep) {
+      const pColor = topicColor(primaryTopic(ep));
+      document.getElementById('detail-title').textContent = ep.title;
+      document.getElementById('detail-guest').textContent = `with ${ep.guest}`;
+      document.getElementById('detail-yt').href = ep.yt;
+
+      document.getElementById('detail-meta').innerHTML = `
+        ${ep.custom ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background:#312e81;color:#a5b4fc;">
+          <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          Loaded from YouTube
+        </span>` : ''}
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          ${ep.duration}
+        </span>
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4"/>
+          </svg>
+          ${ep.timestamps.length} key moments
+        </span>`;
+
+      document.getElementById('detail-topics').innerHTML =
+        Object.entries(ep.topics).sort((a, b) => b[1] - a[1]).map(([tid, rel]) =>
+          `<span class="text-[11px] px-3 py-1 rounded-full font-semibold"
+               style="color:${topicColor(tid)};background:${topicColor(tid)}22;">
+           ${topicLabel(tid)} · ${rel}%
+         </span>`
+        ).join('');
+
+      const tsWrap = document.getElementById('detail-timestamps-wrap');
+      if (ep.timestamps.length) {
+        tsWrap.style.display = '';
+        document.getElementById('detail-timestamps').innerHTML =
+          ep.timestamps.map((ts) => `
+            <div class="flex items-start gap-3 py-2 border-b border-slate-800 last:border-0">
+              <span class="flex-shrink-0 font-mono text-[11px] font-bold px-2 py-0.5 rounded"
+                    style="color:${pColor};background:${pColor}20;min-width:42px;text-align:center;">
+                ${ts.time}
+              </span>
+              <p class="text-slate-300 text-[12px] leading-snug pt-0.5">${ts.label}</p>
+            </div>`
+          ).join('');
+      } else {
+        tsWrap.style.display = 'none';
+      }
+
+      const insEl = document.getElementById('detail-insights');
+      if (ep.insights.length) {
+        insEl.innerHTML = ep.insights.map(ins =>
+          `<li class="flex gap-3">
+             <span style="color:${pColor};margin-top:3px;flex-shrink:0;font-size:10px;">◆</span>
+             <p class="text-slate-300 text-[13px] leading-relaxed">${ins}</p>
+           </li>`
+        ).join('');
+        insEl.previousElementSibling.style.display = '';
+      } else if (ep.custom) {
+        insEl.innerHTML = '';
+        insEl.previousElementSibling.style.display = 'none';
+      } else {
+        insEl.innerHTML = '';
+        insEl.previousElementSibling.style.display = '';
+      }
+
+      const detail = document.getElementById('episode-detail');
+      detail.classList.add('open');
+      setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+    }
+
+    function hidePanel() {
+      const p = document.getElementById('episode-panel');
+      p.style.opacity = '0';
+      setTimeout(() => { p.style.display = 'none'; }, 300);
+    }
+    function hideDetail() { document.getElementById('episode-detail').classList.remove('open'); }
+    function closeDetail() {
+      hideDetail();
+      document.querySelectorAll('.ep-ring').forEach(r => r.setAttribute('opacity', '0'));
+      activeEp = null;
+    }
+
+    function initSVGReset() {
+      document.getElementById('constellation').addEventListener('click', e => {
+        if (!e.target.closest('.topic-planet') && !e.target.closest('.ep-node')) resetAll();
+      });
+    }
+
+    // ─── CUSTOM EPISODE LOADER ─────────────────────────────────────
+    const TOPIC_KEYWORDS = {
+      strategy:       ['strategy','vision','roadmap','positioning','market','competitive','bets','long-term','where to play','choices','winning','framework'],
+      discovery:      ['discovery','research','user research','interview','customer','problem','insight','qualitative','feedback','design','ux','process','user need','empathy','prototype'],
+      growth:         ['growth','retention','activation','churn','engagement','north star','loops','viral','referral','acquisition','monetize','revenue','conversion'],
+      plg:            ['product-led','plg','self-serve','freemium','viral','trial','expansion','bottoms-up','land and expand','onboarding'],
+      prioritization: ['prioritization','priority','trade-off','backlog','focus','ruthless','cut','scope','say no','sequencing','now next later'],
+      leadership:     ['leadership','culture','hiring','manager','team','executive','cpo','vp','director','org','founder','ceo','head of','managing','report'],
+      metrics:        ['metrics','analytics','data','kpi','okr','measure','experiment','a/b','north star','funnel','dashboard','tracking','instrumentation'],
+      career:         ['career','job','interview','transition','skills','resume','break in','getting hired','pm role','coach','advice','salary'],
+    };
+
+    function extractVideoId(url) {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/,
+        /youtube\.com\/.*[?&]v=([A-Za-z0-9_-]{11})/,
+      ];
+      for (const p of patterns) {
+        const m = url.match(p);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    function extractGuest(title) {
+      const m = title.match(/\bwith\s+([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i)
+        || title.match(/[|\-–]\s*([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i)
+        || title.match(/\bft\.?\s+([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i);
+      if (m) return m[1].trim().replace(/\s+/g, ' ');
+      return "Lenny's Guest";
+    }
+
+    function mapToTopics(title, timestamps, plainText) {
+      const haystack = {
+        title: title.toLowerCase(),
+        ts: timestamps.map(t => t.label.toLowerCase()).join(' '),
+        body: plainText.toLowerCase().slice(0, 800),
+      };
+      const scores = {};
+      for (const [tid, kws] of Object.entries(TOPIC_KEYWORDS)) {
+        let score = 0;
+        for (const kw of kws) {
+          const re = new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+          score += (haystack.title.match(re) || []).length * 3;
+          score += (haystack.ts.match(re) || []).length * 2;
+          score += (haystack.body.match(re) || []).length * 1;
+        }
+        if (score > 0) scores[tid] = score;
+      }
+      if (!Object.keys(scores).length) scores['strategy'] = 1;
+      const max = Math.max(...Object.values(scores));
+      const normalized = {};
+      for (const [tid, s] of Object.entries(scores)) normalized[tid] = Math.round((s / max) * 100);
+      const filtered = Object.fromEntries(Object.entries(normalized).filter(([, s]) => s >= 20));
+      const topTid = Object.entries(normalized).sort((a, b) => b[1] - a[1])[0][0];
+      if (!filtered[topTid]) filtered[topTid] = normalized[topTid];
+      return filtered;
+    }
+
+    const INVIDIOUS = [
+      'https://invidious.darkness.services',
+      'https://invidious.privacydev.net',
+      'https://inv.nadeko.net',
+    ];
+
+    async function fetchInvidious(videoId) {
+      for (const base of INVIDIOUS) {
+        try {
+          const r = await fetch(
+            `${base}/api/v1/videos/${videoId}?fields=title,author,lengthSeconds,description,chapters`,
+            { signal: AbortSignal.timeout(6000) }
+          );
+          if (!r.ok) continue;
+          const j = await r.json();
+          if (j.title) return j;
+        } catch (_) {}
+      }
+      return null;
+    }
+
+    async function fetchEpisodeData(videoId) {
+      const inv = await fetchInvidious(videoId);
+      let title, guest, timestamps = [], insights = [], durationStr = '—';
+
+      if (inv) {
+        title = inv.title || 'Unknown Title';
+        const s = inv.lengthSeconds || 0;
+        const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+        durationStr = h > 0 ? `${h}h ${m}m` : (m > 0 ? `${m}m` : '—');
+
+        if (inv.chapters && inv.chapters.length) {
+          timestamps = inv.chapters.slice(0, 8).map(c => ({
+            time: formatSeconds(c.start), label: c.title,
+          }));
+        } else if (inv.description) {
+          timestamps = parseDescTimestamps(inv.description);
+        }
+        if (inv.description) insights = parseDescInsights(inv.description);
+      } else {
+        const oeRes = await fetch(
+          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+        );
+        if (!oeRes.ok) throw new Error('Video not found — check the URL');
+        const oe = await oeRes.json();
+        title = oe.title || 'Unknown Title';
+      }
+
+      guest = extractGuest(title);
+      const topics = mapToTopics(title, timestamps, inv?.description || '');
+
+      return {
+        id: 'custom-' + videoId,
+        title, guest, duration: durationStr,
+        yt: `https://www.youtube.com/watch?v=${videoId}`,
+        topics, timestamps, insights, custom: true,
+      };
+    }
+
+    function formatSeconds(secs) {
+      const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60), s = secs % 60;
+      if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      return `${m}:${String(s).padStart(2,'0')}`;
+    }
+
+    function parseDescTimestamps(desc) {
+      const results = [];
+      for (const line of desc.split('\n').map(l => l.trim()).filter(Boolean)) {
+        if (results.length >= 8) break;
+        const m = line.match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\s*[-–—·]?\s*(.{4,90})$/);
+        if (m) {
+          const h = parseInt(m[1].split(':')[0]);
+          if (h <= 4 && !/^(GMT|UTC|http)/i.test(m[2])) {
+            results.push({ time: m[1], label: m[2].trim() });
+          }
+        }
+      }
+      return results;
+    }
+
+    function parseDescInsights(desc) {
+      const sectionStart = desc.search(/\*?(?:We discuss|In this episode|What you.{0,5}ll learn):?\*?/i);
+      const section = sectionStart > -1 ? desc.slice(sectionStart, sectionStart + 2000) : desc;
+      const bullets = [];
+      for (const line of section.split('\n').map(l => l.trim())) {
+        if (/^(Listen|Watch|Subscribe|Timestamps?|Follow|Find|Connect|Where to|Links?)/i.test(line)) break;
+        if (/^\d+[.)]\s+.{15,}/.test(line) || /^[-•·*]\s+.{15,}/.test(line)) {
+          bullets.push(line.replace(/^[\d\.\)\-•·*]+\s*/, '').trim());
+          if (bullets.length >= 3) break;
+        }
+      }
+      return bullets;
+    }
+
+    function setEpStatus(type, msg) {
+      const el = document.getElementById('ep-url-status');
+      el.className = 'mt-3 text-[12px] rounded-lg px-3 py-2';
+      if (type === 'loading') {
+        el.classList.add('bg-indigo-900/40', 'text-indigo-300');
+        el.innerHTML = `<span style="display:inline-block;animation:spin 1s linear infinite;margin-right:6px;">⟳</span>${msg}`;
+      } else if (type === 'success') {
+        el.classList.add('bg-emerald-900/40', 'text-emerald-300');
+        el.textContent = '✓ ' + msg;
+      } else {
+        el.classList.add('bg-red-900/40', 'text-red-400');
+        el.textContent = '✕ ' + msg;
+      }
+      el.classList.remove('hidden');
+    }
+
+    function redrawConstellation() {
+      const svg = document.getElementById('constellation');
+      svg.innerHTML = '';
+      // Re-add defs (filters) after clearing
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      TOPICS.forEach(t => {
+        const f = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+        f.setAttribute('id', `glow-${t.id}`);
+        f.setAttribute('x', '-70%'); f.setAttribute('y', '-70%');
+        f.setAttribute('width', '240%'); f.setAttribute('height', '240%');
+        const blur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
+        blur.setAttribute('stdDeviation', '9'); blur.setAttribute('result', 'b');
+        const merge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
+        const n1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+        n1.setAttribute('in', 'b');
+        const n2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+        n2.setAttribute('in', 'SourceGraphic');
+        merge.appendChild(n1); merge.appendChild(n2);
+        f.appendChild(blur); f.appendChild(merge);
+        defs.appendChild(f);
+      });
+      svg.appendChild(defs);
+      computeEpPositions();
+      drawStarfield(svg);
+      drawLines(svg);
+      drawPlanets(svg);
+      drawSatellites(svg);
+      initSVGReset();
+    }
+
+    async function loadCustomEpisode() {
+      const url = document.getElementById('ep-url-input').value.trim();
+      const videoId = extractVideoId(url);
+      if (!videoId) { setEpStatus('error', 'Not a valid YouTube URL'); return; }
+
+      const btn = document.getElementById('ep-url-btn');
+      btn.disabled = true;
+      setEpStatus('loading', 'Fetching episode data…');
+
+      try {
+        const ep = await fetchEpisodeData(videoId);
+        const idx = EPISODES.findIndex(e => e.id === ep.id);
+        if (idx > -1) EPISODES.splice(idx, 1);
+        EPISODES.push(ep);
+        redrawConstellation();
+        resetAll();
+        selectEpisode(ep.id);
+        setEpStatus('success', `"${ep.title.slice(0, 48)}${ep.title.length > 48 ? '…' : ''}" added to constellation ↑`);
+      } catch (err) {
+        setEpStatus('error', `Couldn't load episode — make sure it's a valid YouTube URL.`);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // ─── BOOT ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const svg = document.getElementById('constellation');
+      computeEpPositions();
+      drawStarfield(svg);
+      drawLines(svg);
+      drawPlanets(svg);
+      drawSatellites(svg);
+      initSVGReset();
+    });
+  </script>
+</body>
+</html>
