@@ -3760,9 +3760,8 @@ selTenant('abn');
     function applyTopicVisuals(tid) {
       // Dots
       document.querySelectorAll('.ep-node').forEach(g => {
-        const epId = parseInt(g.dataset.epId);
-        const ep = EPISODES.find(e => e.id === epId);
-        const rel = ep.topics[tid] || 0;
+        const ep = EPISODES.find(e => String(e.id) === g.dataset.epId);
+        const rel = ep ? (ep.topics[tid] || 0) : 0;
         const dot = g.querySelector('.ep-dot');
         if (rel > 0) {
           const sc = (1 + (rel / 100) * 0.75).toFixed(2);
@@ -4712,12 +4711,13 @@ selTenant('abn');
         if (inv.description) insights = parseDescInsights(inv.description);
 
       } else {
-        // Fallback: oEmbed only
+        // Fallback: noembed.com (CORS-safe, no API key needed)
         const oeRes = await fetch(
-          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+          `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`
         );
         if (!oeRes.ok) throw new Error('Video not found — check the URL');
         const oe = await oeRes.json();
+        if (oe.error) throw new Error('Video not found — check the URL');
         title = oe.title || 'Unknown Title';
       }
 
@@ -4792,6 +4792,24 @@ selTenant('abn');
     function redrawConstellation() {
       const svg = document.getElementById('constellation');
       svg.innerHTML = '';
+      // Recreate glow filter defs (cleared by innerHTML = '')
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      TOPICS.forEach(t => {
+        const f = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+        f.setAttribute('id', `glow-${t.id}`);
+        f.setAttribute('x', '-70%'); f.setAttribute('y', '-70%');
+        f.setAttribute('width', '240%'); f.setAttribute('height', '240%');
+        const blur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
+        blur.setAttribute('stdDeviation', '9'); blur.setAttribute('result', 'b');
+        const merge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
+        ['b', 'SourceGraphic'].forEach(src => {
+          const n = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+          n.setAttribute('in', src); merge.appendChild(n);
+        });
+        f.appendChild(blur); f.appendChild(merge);
+        defs.appendChild(f);
+      });
+      svg.appendChild(defs);
       computeEpPositions();
       drawStarfield(svg);
       drawLines(svg);

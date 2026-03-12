@@ -988,11 +988,13 @@
         }
         if (inv.description) insights = parseDescInsights(inv.description);
       } else {
+        // Fallback: noembed.com (CORS-safe, no API key needed)
         const oeRes = await fetch(
-          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+          `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`
         );
         if (!oeRes.ok) throw new Error('Video not found — check the URL');
         const oe = await oeRes.json();
+        if (oe.error) throw new Error('Video not found — check the URL');
         title = oe.title || 'Unknown Title';
       }
 
