@@ -194,15 +194,8 @@
 
 <!-- ═══════════════ LOGIN PAGE ═══════════════ -->
 <div id="login-page" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f4;">
-  <div style="width:100%;max-width:1100px;padding:48px 24px;">
-    <!-- Brand -->
-    <div style="text-align:center;margin-bottom:40px;">
-      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:8px;">
-        <svg width="38" height="38" viewBox="0 0 34 34" fill="none"><polygon points="20,2 28,6.5 28,15.5 20,20 12,15.5 12,6.5" fill="#059669"/><polyline points="17,11 19.5,13.5 23,8.5" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><polygon points="14,14 22,18.5 22,27.5 14,32 6,27.5 6,18.5" fill="#f87171"/><line x1="11" y1="20" x2="17" y2="26" stroke="white" stroke-width="2.4" stroke-linecap="round"/><line x1="17" y1="20" x2="11" y2="26" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg>
-        <span style="font-size:22px;font-weight:800;color:#e6edf3;letter-spacing:-0.5px;">MakerChecker</span>
-      </div>
-      <p style="font-size:14px;color:#8b949e;margin-top:4px;">Select your profile to continue</p>
-    </div>
+  <div style="width:100%;max-width:1100px;padding:40px 24px;">
+    <p style="text-align:center;font-size:22px;font-weight:600;color:#e6edf3;margin-bottom:32px;">Select a profile to continue</p>
     <!-- Persona cards -->
     <div id="login-personas"></div>
   </div>
@@ -527,20 +520,20 @@ const navConfig = {
 // ═══════════════════════════════════════════
 function icon(name, cls='w-4 h-4') {
   const icons = {
-    home:     \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>\`,
-    list:     \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>\`,
-    check:    \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>\`,
-    plus:     \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v16m8-8H4"/></svg>\`,
-    je:       \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>\`,
-    clock:    \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>\`,
-    settings: \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="1.8"/></svg>\`,
-    chevron:  \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>\`,
-    eye:      \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>\`,
-    x:        \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>\`,
-    info:     \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>\`,
-    alert:    \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>\`,
-    tasks:    \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>\`,
-    stack:    \`<svg class="\${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>\`,
+    home:     `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>`,
+    list:     `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>`,
+    check:    `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+    plus:     `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v16m8-8H4"/></svg>`,
+    je:       `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`,
+    clock:    `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+    settings: `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="1.8"/></svg>`,
+    chevron:  `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`,
+    eye:      `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`,
+    x:        `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`,
+    info:     `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+    alert:    `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`,
+    tasks:    `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>`,
+    stack:    `<svg class="${cls}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>`,
   };
   return icons[name] || '';
 }
@@ -552,12 +545,12 @@ function fmtAmt(a, c) {
 
 function renderCheckerSelector(preselectedId, recommendedId, subtype) {
   const queueColors = (n) => n === 0 ? '#059669' : n <= 3 ? '#d97706' : '#dc2626';
-  const queueLabel  = (n) => n === 0 ? 'Queue clear' : n === 1 ? '1 request in queue' : \`\${n} requests in queue\`;
+  const queueLabel  = (n) => n === 0 ? 'Queue clear' : n === 1 ? '1 request in queue' : `${n} requests in queue`;
   // Default is always "Best Available" (empty string = system decides). preselectedId is only
   // set when editing an existing request that already had a checker assigned.
   const effectiveSelected = preselectedId || '';
   const recChecker = recommendedId ? checkerPool.find(c => c.id === recommendedId) : null;
-  return \`<div class="border border-gray-200 rounded-lg overflow-hidden">
+  return `<div class="border border-gray-200 rounded-lg overflow-hidden">
     <div class="px-4 py-2.5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="text-xs font-semibold text-gray-700">Assign Checker</span>
@@ -567,13 +560,13 @@ function renderCheckerSelector(preselectedId, recommendedId, subtype) {
     </div>
     <div class="divide-y divide-gray-100">
       <label class="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors">
-        <input type="radio" name="assigned-checker" value="" class="accent-teal-600" \${!effectiveSelected ? 'checked' : ''} />
+        <input type="radio" name="assigned-checker" value="" class="accent-teal-600" ${!effectiveSelected ? 'checked' : ''} />
         <div>
           <span class="text-xs font-semibold text-gray-700">Best Available</span>
           <span class="text-xs text-gray-400 ml-1.5">— system picks the most suitable checker based on authorisation, branch &amp; queue</span>
         </div>
       </label>
-      \${checkerPool.map(c => {
+      ${checkerPool.map(c => {
         const authorised = !subtype || c.canApprove.includes(subtype);
         const q   = checkerQueueCount(c.id);
         const ooo = isOOO(c.id);
@@ -581,50 +574,50 @@ function renderCheckerSelector(preselectedId, recommendedId, subtype) {
         const isRec      = authorised && c.id === recommendedId;
         const isSelected = effectiveSelected === c.id;
         const disabled   = !authorised || ooo;
-        return \`<label class="flex items-center gap-3 px-4 py-2.5 \${authorised ? 'cursor-pointer hover:bg-gray-50' : 'cursor-not-allowed'} transition-colors \${authorised ? '' : 'opacity-40'} \${isRec ? 'bg-teal-50' : ''}">
-        <input type="radio" name="assigned-checker" value="\${c.id}" class="accent-teal-600" \${isSelected && authorised ? 'checked' : ''} \${disabled ? 'disabled' : ''} />
+        return `<label class="flex items-center gap-3 px-4 py-2.5 ${authorised ? 'cursor-pointer hover:bg-gray-50' : 'cursor-not-allowed'} transition-colors ${authorised ? '' : 'opacity-40'} ${isRec ? 'bg-teal-50' : ''}">
+        <input type="radio" name="assigned-checker" value="${c.id}" class="accent-teal-600" ${isSelected && authorised ? 'checked' : ''} ${disabled ? 'disabled' : ''} />
         <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;">
-          <img src="\${c.photo}" width="28" height="28" style="width:28px;height:28px;object-fit:cover;" onerror="this.outerHTML='<div style=\\'width:28px;height:28px;border-radius:50%;background:\${c.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;\\'>\${c.name.split(' ').map(n=>n[0]).join('')}</div>'" />
+          <img src="${c.photo}" width="28" height="28" style="width:28px;height:28px;object-fit:cover;" onerror="this.outerHTML='<div style=\'width:28px;height:28px;border-radius:50%;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;\'>${c.name.split(' ').map(n=>n[0]).join('')}</div>'" />
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="text-xs font-semibold text-gray-800">\${c.name}</span>
-            \${isRec ? \`<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:9999px;background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;">Recommended</span>\` : ''}
-            \${!authorised ? \`<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:9999px;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;">Not authorised</span>\` : ''}
-            \${ooo && authorised ? \`<span class="text-amber-500 text-xs">(Out of office)</span>\` : ''}
+            <span class="text-xs font-semibold text-gray-800">${c.name}</span>
+            ${isRec ? `<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:9999px;background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;">Recommended</span>` : ''}
+            ${!authorised ? `<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:9999px;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;">Not authorised</span>` : ''}
+            ${ooo && authorised ? `<span class="text-amber-500 text-xs">(Out of office)</span>` : ''}
           </div>
-          <div class="text-xs text-gray-400">\${c.title} · \${c.department}</div>
+          <div class="text-xs text-gray-400">${c.title} · ${c.department}</div>
         </div>
         <div class="flex items-center gap-1.5 flex-shrink-0">
-          \${authorised ? \`<span class="inline-block w-2 h-2 rounded-full" style="background:\${col};"></span>
-          <span class="text-xs font-semibold" style="color:\${col};">\${queueLabel(q)}</span>\` : ''}
+          ${authorised ? `<span class="inline-block w-2 h-2 rounded-full" style="background:${col};"></span>
+          <span class="text-xs font-semibold" style="color:${col};">${queueLabel(q)}</span>` : ''}
         </div>
-      </label>\`;
+      </label>`;
       }).join('')}
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function priorityDot(p) {
   const c = {high:'#ef4444', medium:'#f59e0b', low:'#10b981'}[p]||'#9ca3af';
-  return \`<span class="inline-block w-2 h-2 rounded-full mr-1.5 flex-shrink-0" style="background:\${c}; margin-top:1px;"></span>\`;
+  return `<span class="inline-block w-2 h-2 rounded-full mr-1.5 flex-shrink-0" style="background:${c}; margin-top:1px;"></span>`;
 }
 
 // ═══════════════════════════════════════════
 // RENDER SHELL (persona + nav)
 // ═══════════════════════════════════════════
 function avatarImg(p, size=30) {
-  const s = \`width:\${size}px;height:\${size}px;border-radius:50%;object-fit:cover;flex-shrink:0;\`;
+  const s = `width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;flex-shrink:0;`;
   if(p.photo) {
     const photoUrl = p.photo.replace('/40?', '/' + size + '?');
-    return \`<img src="\${photoUrl}" alt="\${p.initials}"
-      style="\${s}" onerror="this.outerHTML=avatarFallback('\${p.initials}','\${p.color}',\${size})">\`;
+    return `<img src="${photoUrl}" alt="${p.initials}"
+      style="${s}" onerror="this.outerHTML=avatarFallback('${p.initials}','${p.color}',${size})">`;
   }
   return avatarFallback(p.initials, p.color, size);
 }
 function avatarFallback(initials, color, size=30) {
   const fs = Math.round(size * 0.38);
-  return \`<div style="width:\${size}px;height:\${size}px;border-radius:50%;background:\${color};display:flex;align-items:center;justify-content:center;font-size:\${fs}px;font-weight:700;color:#fff;flex-shrink:0;">\${initials}</div>\`;
+  return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:700;color:#fff;flex-shrink:0;">${initials}</div>`;
 }
 
 
@@ -634,20 +627,20 @@ function renderShell() {
   const oooOnForMe = isCheckerOOO();
   document.getElementById('topbar-avatar').innerHTML =
     avatarImg(p, 28) +
-    (oooOnForMe ? \`<span style="position:absolute;bottom:-2px;right:-2px;width:10px;height:10px;border-radius:50%;background:#f59e0b;border:2px solid #fff;" title="Out of office"></span>\` : '');
+    (oooOnForMe ? `<span style="position:absolute;bottom:-2px;right:-2px;width:10px;height:10px;border-radius:50%;background:#f59e0b;border:2px solid #fff;" title="Out of office"></span>` : '');
 
   // Nav
   const nav = document.getElementById('sidebar-nav');
   const items = navConfig[myRole()] || navConfig.maker;
   nav.innerHTML = items.map(item=>{
-    if(item.section) return \`<div class="nav-section">\${item.section}</div>\`;
+    if(item.section) return `<div class="nav-section">${item.section}</div>`;
     const badge = item.badge ? item.badge() : null;
-    return \`
-      <div class="nav-link \${item.id===currentPage?'active':''}" onclick="showPage('\${item.id}')">
-        \${icon(item.icon)}
-        <span class="flex-1">\${item.label}</span>
-        \${badge ? \`<span class="nav-badge">\${badge}</span>\` : ''}
-      </div>\`;
+    return `
+      <div class="nav-link ${item.id===currentPage?'active':''}" onclick="showPage('${item.id}')">
+        ${icon(item.icon)}
+        <span class="flex-1">${item.label}</span>
+        ${badge ? `<span class="nav-badge">${badge}</span>` : ''}
+      </div>`;
   }).join('');
 
   // Role-specific notifications
@@ -660,8 +653,8 @@ function renderShell() {
         icon: a.status==='approved' ? 'check' : 'alert',
         iconBg: a.status==='approved' ? '#dcfce7' : '#fee2e2',
         iconColor: a.status==='approved' ? '#16a34a' : '#dc2626',
-        title: \`\${a.id} was \${a.status}\`,
-        body: a.status==='approved' ? \`Approved by \${a.approvedBy}\` : \`Rejected: \${(a.rejectionReason||'').slice(0,48)}\`,
+        title: `${a.id} was ${a.status}`,
+        body: a.status==='approved' ? `Approved by ${a.approvedBy}` : `Rejected: ${(a.rejectionReason||'').slice(0,48)}`,
         time: a.approvedAt || a.rejectedAt || a.created,
         page: 'my-requests'
       }));
@@ -674,7 +667,7 @@ function renderShell() {
         icon: 'alert',
         iconBg: '#fef3c7',
         iconColor: '#d97706',
-        title: \`\${a.id} awaiting your approval\`,
+        title: `${a.id} awaiting your approval`,
         body: a.description.slice(0,55) + (a.description.length>55?'…':''),
         time: a.created,
         page: myRole()==='admin' ? 'all-requests' : 'approvals'
@@ -693,27 +686,27 @@ function renderShell() {
   }
 
   document.getElementById('notif-list').innerHTML = notifs.length === 0
-    ? \`<div class="px-4 py-8 text-center text-xs text-gray-400">No new notifications</div>\`
-    : notifs.slice(0,6).map(n=>\`
-      <div class="px-4 py-3 border-b border-gray-50 cursor-pointer hover:bg-gray-50" onclick="closeNotifPanel(); showPage('\${n.page}');">
+    ? `<div class="px-4 py-8 text-center text-xs text-gray-400">No new notifications</div>`
+    : notifs.slice(0,6).map(n=>`
+      <div class="px-4 py-3 border-b border-gray-50 cursor-pointer hover:bg-gray-50" onclick="closeNotifPanel(); showPage('${n.page}');">
         <div class="flex gap-2.5">
-          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:\${n.iconBg}; color:\${n.iconColor};">
-            \${icon(n.icon,'w-3.5 h-3.5')}
+          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:${n.iconBg}; color:${n.iconColor};">
+            ${icon(n.icon,'w-3.5 h-3.5')}
           </div>
           <div>
-            <div class="text-xs font-semibold text-gray-800">\${n.title}</div>
-            <div class="text-xs text-gray-500 mt-0.5">\${n.body}</div>
-            <div class="text-xs text-gray-400 mt-1">\${n.time}</div>
+            <div class="text-xs font-semibold text-gray-800">${n.title}</div>
+            <div class="text-xs text-gray-500 mt-0.5">${n.body}</div>
+            <div class="text-xs text-gray-400 mt-1">${n.time}</div>
           </div>
         </div>
       </div>
-    \`).join('') + \`<div class="px-4 py-2.5 text-center border-t border-gray-100"><span class="text-xs font-medium cursor-pointer hover:underline" style="color:#1a7f6e;" onclick="closeNotifPanel(); showPage('\${viewAllPage}')">View all</span></div>\`;
+    `).join('') + `<div class="px-4 py-2.5 text-center border-t border-gray-100"><span class="text-xs font-medium cursor-pointer hover:underline" style="color:#1a7f6e;" onclick="closeNotifPanel(); showPage('${viewAllPage}')">View all</span></div>`;
 }
 
 
 function switchPersona(k) {
   // Navigate via hash — handleRoute() will reset state and render
-  window.location.hash = \`#/\${k}/dashboard\`;
+  window.location.hash = `#/${k}/dashboard`;
 }
 
 // ═══════════════════════════════════════════
@@ -737,14 +730,14 @@ function toggleBranchMenu() {
   if(menu.style.display === 'block') { menu.style.display = 'none'; return; }
   // Build items dynamically from actual data
   const branches = allBranches();
-  document.getElementById('branch-menu-items').innerHTML = branches.map(b => \`
-    <button onclick="selectBranch('\${b}')"
+  document.getElementById('branch-menu-items').innerHTML = branches.map(b => `
+    <button onclick="selectBranch('${b}')"
       class="w-full text-left px-3 py-2 text-xs hover:bg-gray-50 flex items-center justify-between"
-      style="font-weight:\${b===selectedBranch?'600':'400'}; color:\${b===selectedBranch?'#1a7f6e':'#374151'};">
-      <span>\${b === 'all' ? 'All Branches' : b}</span>
-      \${b===selectedBranch ? \`<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>\` : ''}
+      style="font-weight:${b===selectedBranch?'600':'400'}; color:${b===selectedBranch?'#1a7f6e':'#374151'};">
+      <span>${b === 'all' ? 'All Branches' : b}</span>
+      ${b===selectedBranch ? `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>` : ''}
     </button>
-  \`).join('');
+  `).join('');
   menu.style.display = 'block';
 }
 
@@ -811,7 +804,7 @@ function showPage(id) {
   renderPageContent(id);
   // Keep nav active state in sync
   document.querySelectorAll('.nav-link').forEach(el=>{
-    el.classList.toggle('active', el.getAttribute('onclick')===\`showPage('\${id}')\`);
+    el.classList.toggle('active', el.getAttribute('onclick')===`showPage('${id}')`);
   });
 }
 
@@ -859,74 +852,74 @@ function renderDashboard() {
   const ooo = getOOO(myId());
   const oooActive = isCheckerOOO();
 
-  return \`
+  return `
   <div class="p-6 max-w-6xl mx-auto slide-in">
 
     <!-- Welcome banner -->
     <div class="mb-5">
-      <h1 class="text-xl font-bold text-gray-800">Welcome back, \${p.name.split(' ')[0]}</h1>
-      <p class="text-sm text-gray-500 mt-0.5">\${p.title} · \${p.department}</p>
+      <h1 class="text-xl font-bold text-gray-800">Welcome back, ${p.name.split(' ')[0]}</h1>
+      <p class="text-sm text-gray-500 mt-0.5">${p.title} · ${p.department}</p>
     </div>
 
-    \${myRole()==='checker' && ooo ? \`
-    <div class="mb-5 rounded-lg border px-4 py-3 flex items-center justify-between gap-3 \${oooActive
+    ${myRole()==='checker' && ooo ? `
+    <div class="mb-5 rounded-lg border px-4 py-3 flex items-center justify-between gap-3 ${oooActive
       ? 'bg-amber-50 border-amber-200'
       : 'bg-blue-50 border-blue-200'}">
       <div class="flex items-center gap-2.5">
-        <svg class="w-4 h-4 flex-shrink-0 \${oooActive?'text-amber-500':'text-blue-400'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <svg class="w-4 h-4 flex-shrink-0 ${oooActive?'text-amber-500':'text-blue-400'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <div>
-          <span class="text-xs font-semibold \${oooActive?'text-amber-700':'text-blue-700'}">
-            \${oooActive ? 'You are currently out of office' : 'Out-of-office scheduled'}
+          <span class="text-xs font-semibold ${oooActive?'text-amber-700':'text-blue-700'}">
+            ${oooActive ? 'You are currently out of office' : 'Out-of-office scheduled'}
           </span>
-          <span class="text-xs \${oooActive?'text-amber-600':'text-blue-600'} ml-1.5">
-            \${ooo.start} → \${ooo.end}
+          <span class="text-xs ${oooActive?'text-amber-600':'text-blue-600'} ml-1.5">
+            ${ooo.start} → ${ooo.end}
           </span>
-          \${oooActive ? \`<span class="text-xs text-amber-500 ml-2">· Approval actions are paused</span>\` : ''}
+          ${oooActive ? `<span class="text-xs text-amber-500 ml-2">· Approval actions are paused</span>` : ''}
         </div>
       </div>
-      <button class="text-xs font-medium underline \${oooActive?'text-amber-600':'text-blue-500'}" onclick="openOOOModal()">Edit</button>
+      <button class="text-xs font-medium underline ${oooActive?'text-amber-600':'text-blue-500'}" onclick="openOOOModal()">Edit</button>
     </div>
-    \` : ''}
-    \${myRole()==='checker' && !ooo ? \`
+    ` : ''}
+    ${myRole()==='checker' && !ooo ? `
     <div class="mb-5 rounded-lg border border-dashed border-gray-200 px-4 py-2.5 flex items-center justify-between">
       <span class="text-xs text-gray-400">Going away? Set your out-of-office dates to pause approval requests.</span>
       <button class="text-xs font-semibold text-teal-600 hover:underline ml-3" onclick="openOOOModal()">Set Out of Office</button>
     </div>
-    \` : ''}
+    ` : ''}
 
     <!-- Stats row -->
-    <div class="grid grid-cols-2 gap-3 mb-5" style="grid-template-columns: repeat(\${Math.min(stats.length,4)}, 1fr);">
-      \${stats.map(s=>\`
+    <div class="grid grid-cols-2 gap-3 mb-5" style="grid-template-columns: repeat(${Math.min(stats.length,4)}, 1fr);">
+      ${stats.map(s=>`
         <div class="card p-4 flex items-center gap-3">
-          <div style="width:36px;height:36px;border-radius:8px;background:\${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:\${s.color};">
-            \${icon(s.icon,'w-4 h-4').replace('<svg','<svg style="color:inherit"')}
+          <div style="width:36px;height:36px;border-radius:8px;background:${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;color:${s.color};">
+            ${icon(s.icon,'w-4 h-4').replace('<svg','<svg style="color:inherit"')}
           </div>
           <div>
-            <div class="text-2xl font-bold text-gray-800">\${s.value}</div>
-            <div class="text-xs text-gray-500">\${s.label}</div>
+            <div class="text-2xl font-bold text-gray-800">${s.value}</div>
+            <div class="text-xs text-gray-500">${s.label}</div>
           </div>
         </div>
-      \`).join('')}
+      `).join('')}
     </div>
 
-    <div class="grid gap-4" style="grid-template-columns: \${myRole()==='maker'?'1fr':'2fr 1fr'};">
+    <div class="grid gap-4" style="grid-template-columns: ${myRole()==='maker'?'1fr':'2fr 1fr'};">
 
       <!-- Queue / Submissions -->
       <div class="card overflow-hidden">
         <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
           <h2 class="text-sm font-semibold text-gray-800">
-            \${myRole()==='maker'?'My Pending Submissions':'Pending Approval Queue'}
+            ${myRole()==='maker'?'My Pending Submissions':'Pending Approval Queue'}
           </h2>
-          <button class="btn-ghost text-xs py-1 px-2.5" onclick="showPage('\${myRole()==='maker'?'my-requests':'approvals'}')">View All</button>
+          <button class="btn-ghost text-xs py-1 px-2.5" onclick="showPage('${myRole()==='maker'?'my-requests':'approvals'}')">View All</button>
         </div>
 
-        \${(myRole()==='maker'?myPending:queueItems).length===0 ? \`
+        ${(myRole()==='maker'?myPending:queueItems).length===0 ? `
           <div class="flex flex-col items-center py-10 text-center">
-            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2.5">\${icon('check','w-5 h-5 text-gray-400')}</div>
+            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2.5">${icon('check','w-5 h-5 text-gray-400')}</div>
             <div class="text-sm font-medium text-gray-500">All clear!</div>
-            <div class="text-xs text-gray-400 mt-1">\${myRole()==='maker'?'No pending submissions':'No items awaiting approval'}</div>
+            <div class="text-xs text-gray-400 mt-1">${myRole()==='maker'?'No pending submissions':'No items awaiting approval'}</div>
           </div>
-        \` : \`
+        ` : `
           <table class="tbl">
             <thead><tr>
               <th>ID</th>
@@ -936,37 +929,37 @@ function renderDashboard() {
               <th></th>
             </tr></thead>
             <tbody>
-              \${(myRole()==='maker'?myPending:queueItems).map(a=>\`
+              ${(myRole()==='maker'?myPending:queueItems).map(a=>`
                 <tr>
-                  <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('\${a.id}')">\${a.id}</span></td>
+                  <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('${a.id}')">${a.id}</span></td>
                   <td>
                     <div class="flex items-center gap-1.5">
-                      \${priorityDot(a.priority)}
-                      <span class="text-xs text-gray-600">\${a.subtype}</span>
+                      ${priorityDot(a.priority)}
+                      <span class="text-xs text-gray-600">${a.subtype}</span>
                     </div>
                   </td>
-                  <td class="font-medium text-gray-800">\${fmtAmt(a.amount,a.currency)}</td>
-                  <td><span class="badge-\${a.status}">\${a.status}</span></td>
+                  <td class="font-medium text-gray-800">${fmtAmt(a.amount,a.currency)}</td>
+                  <td><span class="badge-${a.status}">${a.status}</span></td>
                   <td>
-                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('\${a.id}')">Review</button>
+                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('${a.id}')">Review</button>
                   </td>
                 </tr>
-              \`).join('')}
+              `).join('')}
             </tbody>
           </table>
-          \${myRole()!=='maker' && totalPages>1 ? \`
+          ${myRole()!=='maker' && totalPages>1 ? `
             <div class="px-4 py-2.5 border-t border-gray-100 flex items-center justify-between">
-              <span class="text-xs text-gray-500">Showing \${dashboardQueuePage*QUEUE_PER_PAGE+1}–\${Math.min((dashboardQueuePage+1)*QUEUE_PER_PAGE,pendingApprovals.length)} of \${pendingApprovals.length}</span>
+              <span class="text-xs text-gray-500">Showing ${dashboardQueuePage*QUEUE_PER_PAGE+1}–${Math.min((dashboardQueuePage+1)*QUEUE_PER_PAGE,pendingApprovals.length)} of ${pendingApprovals.length}</span>
               <div class="flex gap-1.5">
-                <button class="btn-ghost py-1 px-2.5 text-xs \${dashboardQueuePage===0?'opacity-40 pointer-events-none':''}" onclick="dashboardQueuePage--;showPage('dashboard')">← Prev</button>
-                <button class="btn-ghost py-1 px-2.5 text-xs \${dashboardQueuePage>=totalPages-1?'opacity-40 pointer-events-none':''}" onclick="dashboardQueuePage++;showPage('dashboard')">Next →</button>
+                <button class="btn-ghost py-1 px-2.5 text-xs ${dashboardQueuePage===0?'opacity-40 pointer-events-none':''}" onclick="dashboardQueuePage--;showPage('dashboard')">← Prev</button>
+                <button class="btn-ghost py-1 px-2.5 text-xs ${dashboardQueuePage>=totalPages-1?'opacity-40 pointer-events-none':''}" onclick="dashboardQueuePage++;showPage('dashboard')">Next →</button>
               </div>
             </div>
-          \` : ''}
-        \`}
+          ` : ''}
+        `}
       </div>
 
-      \${myRole()!=='maker' ? \`
+      ${myRole()!=='maker' ? `
       <!-- Quick actions / Summary -->
       <div class="space-y-3">
         <!-- Quick stats -->
@@ -975,27 +968,27 @@ function renderDashboard() {
           <div class="space-y-2.5">
             <div class="flex justify-between items-center">
               <span class="text-xs text-gray-600">Approved</span>
-              <span class="text-xs font-semibold text-emerald-600">\${fa.filter(a=>a.status==='approved'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
+              <span class="text-xs font-semibold text-emerald-600">${fa.filter(a=>a.status==='approved'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-xs text-gray-600">Rejected</span>
-              <span class="text-xs font-semibold text-red-600">\${fa.filter(a=>a.status==='rejected'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
+              <span class="text-xs font-semibold text-red-600">${fa.filter(a=>a.status==='rejected'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-xs text-gray-600">Pending</span>
-              <span class="text-xs font-semibold text-amber-600">\${fa.filter(a=>a.status==='pending'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
+              <span class="text-xs font-semibold text-amber-600">${fa.filter(a=>a.status==='pending'&&(myRole()==='admin'||a.assignedCheckerId===myId())).length}</span>
             </div>
             <div class="pt-2 border-t border-gray-100 flex justify-between items-center">
               <span class="text-xs text-gray-600">Total Value (pending)</span>
-              <span class="text-xs font-bold text-gray-800">\${fmtAmt(fa.filter(a=>a.status==='pending'&&(myRole()==='admin'||a.assignedCheckerId===myId())).reduce((s,a)=>s+a.amount,0))}</span>
+              <span class="text-xs font-bold text-gray-800">${fmtAmt(fa.filter(a=>a.status==='pending'&&(myRole()==='admin'||a.assignedCheckerId===myId())).reduce((s,a)=>s+a.amount,0))}</span>
             </div>
           </div>
         </div>
       </div>
-      \` : ''}
+      ` : ''}
 
     </div>
-  </div>\`;
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -1011,37 +1004,37 @@ function renderApprovals() {
     return true;
   });
 
-  if(!canApprove) return \`
+  if(!canApprove) return `
     <div class="p-8 text-center">
-      <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">\${icon('alert','w-6 h-6 text-gray-400')}</div>
+      <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">${icon('alert','w-6 h-6 text-gray-400')}</div>
       <h3 class="text-sm font-semibold text-gray-700">Access Restricted</h3>
       <p class="text-xs text-gray-400 mt-1">Only Checkers and Admins can access the approval queue.</p>
-    </div>\`;
+    </div>`;
 
   const checkerOOO = isCheckerOOO();
-  return \`
+  return `
   <div class="p-6 slide-in">
     <div class="flex items-center justify-between mb-4">
       <div>
         <h2 class="text-base font-bold text-gray-800">Approval Queue</h2>
-        <p class="text-xs text-gray-500 mt-0.5">\${queue.length} item\${queue.length!==1?'s':''} awaiting your review</p>
+        <p class="text-xs text-gray-500 mt-0.5">${queue.length} item${queue.length!==1?'s':''} awaiting your review</p>
       </div>
     </div>
 
-    \${checkerOOO ? \`
+    ${checkerOOO ? `
     <div class="mb-4 flex items-center gap-2.5 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
       <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-      <p class="text-xs text-amber-700">You are out of office (\${getOOO(myId()).start} – \${getOOO(myId()).end}). Approval actions are paused. <button class="underline font-semibold" onclick="openOOOModal()">Edit dates</button></p>
+      <p class="text-xs text-amber-700">You are out of office (${getOOO(myId()).start} – ${getOOO(myId()).end}). Approval actions are paused. <button class="underline font-semibold" onclick="openOOOModal()">Edit dates</button></p>
     </div>
-    \` : ''}
+    ` : ''}
 
-    \${queue.length===0 ? \`
+    ${queue.length===0 ? `
       <div class="card p-12 text-center">
-        <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-3">\${icon('check','w-6 h-6 text-emerald-500')}</div>
+        <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-3">${icon('check','w-6 h-6 text-emerald-500')}</div>
         <h3 class="text-sm font-semibold text-gray-700">Queue is empty</h3>
         <p class="text-xs text-gray-400 mt-1">All items have been reviewed.</p>
       </div>
-    \` : \`
+    ` : `
       <div class="card overflow-hidden">
         <table class="tbl">
           <thead><tr>
@@ -1056,39 +1049,39 @@ function renderApprovals() {
             <th>Actions</th>
           </tr></thead>
           <tbody>
-            \${queue.map(a=>\`
+            ${queue.map(a=>`
               <tr>
-                <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('\${a.id}')">\${a.id}</span></td>
-                <td class="text-xs text-gray-700">\${a.maker}</td>
-                <td><span class="text-xs text-gray-600">\${a.subtype}</span></td>
-                <td class="text-xs text-gray-500 max-w-xs truncate">\${a.description}</td>
-                <td class="font-semibold text-gray-800 text-xs">\${fmtAmt(a.amount,a.currency)}</td>
+                <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('${a.id}')">${a.id}</span></td>
+                <td class="text-xs text-gray-700">${a.maker}</td>
+                <td><span class="text-xs text-gray-600">${a.subtype}</span></td>
+                <td class="text-xs text-gray-500 max-w-xs truncate">${a.description}</td>
+                <td class="font-semibold text-gray-800 text-xs">${fmtAmt(a.amount,a.currency)}</td>
                 <td>
                   <div class="flex items-center gap-1.5">
-                    \${priorityDot(a.priority)}
-                    <span class="text-xs text-gray-600 capitalize">\${a.priority}</span>
+                    ${priorityDot(a.priority)}
+                    <span class="text-xs text-gray-600 capitalize">${a.priority}</span>
                   </div>
                 </td>
-                <td class="text-xs text-gray-500">\${a.assignedCheckerName
-                  ? \`<span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>\${a.assignedCheckerName}</span>\`
-                  : \`<span class="text-gray-300">Any</span>\`}</td>
-                <td class="text-xs text-gray-400">\${a.created.split(' ')[0]}</td>
+                <td class="text-xs text-gray-500">${a.assignedCheckerName
+                  ? `<span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>${a.assignedCheckerName}</span>`
+                  : `<span class="text-gray-300">Any</span>`}</td>
+                <td class="text-xs text-gray-400">${a.created.split(' ')[0]}</td>
                 <td>
                   <div class="flex gap-1.5">
-                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('\${a.id}')">Review</button>
-                    \${checkerOOO
-                      ? \`<button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-gray-200 text-gray-300 cursor-not-allowed" disabled title="You are out of office">Approve</button>\`
-                      : \`<button class="btn-approve py-1 px-2.5 text-xs" onclick="quickApprove('\${a.id}')">Approve</button>\`
+                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('${a.id}')">Review</button>
+                    ${checkerOOO
+                      ? `<button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-gray-200 text-gray-300 cursor-not-allowed" disabled title="You are out of office">Approve</button>`
+                      : `<button class="btn-approve py-1 px-2.5 text-xs" onclick="quickApprove('${a.id}')">Approve</button>`
                     }
                   </div>
                 </td>
               </tr>
-            \`).join('')}
+            `).join('')}
           </tbody>
         </table>
       </div>
-    \`}
-  </div>\`;
+    `}
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -1096,12 +1089,12 @@ function renderApprovals() {
 // ═══════════════════════════════════════════
 function renderMyRequests() {
   const mine = filteredApprovals().filter(a=>a.makerId===myId());
-  return \`
+  return `
   <div class="p-6 slide-in">
     <div class="flex items-center justify-between mb-4">
       <div>
         <h2 class="text-base font-bold text-gray-800">My Submissions</h2>
-        <p class="text-xs text-gray-500 mt-0.5">\${mine.length} total submission\${mine.length!==1?'s':''}</p>
+        <p class="text-xs text-gray-500 mt-0.5">${mine.length} total submission${mine.length!==1?'s':''}</p>
       </div>
       <div class="flex gap-2">
         <button class="btn-ghost text-xs" onclick="showPage('create-transaction')">+ New Transaction</button>
@@ -1109,14 +1102,14 @@ function renderMyRequests() {
       </div>
     </div>
 
-    \${mine.length===0 ? \`
+    ${mine.length===0 ? `
       <div class="card p-12 text-center">
-        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">\${icon('list','w-6 h-6 text-gray-400')}</div>
+        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">${icon('list','w-6 h-6 text-gray-400')}</div>
         <h3 class="text-sm font-semibold text-gray-700">No submissions yet</h3>
         <p class="text-xs text-gray-400 mt-1">Create a transaction or journal entry to get started.</p>
         <button class="btn-primary mt-4" onclick="showPage('create-transaction')">Create Transaction</button>
       </div>
-    \` : \`
+    ` : `
       <div class="card overflow-hidden">
         <table class="tbl">
           <thead><tr>
@@ -1129,35 +1122,35 @@ function renderMyRequests() {
             <th>Actions</th>
           </tr></thead>
           <tbody>
-            \${mine.map(a=>\`
+            ${mine.map(a=>`
               <tr>
-                <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('\${a.id}')">\${a.id}</span></td>
-                <td class="text-xs text-gray-600">\${a.subtype}</td>
-                <td class="text-xs text-gray-500 max-w-xs truncate">\${a.description}</td>
-                <td class="font-semibold text-xs text-gray-800">\${fmtAmt(a.amount,a.currency)}</td>
-                <td><span class="badge-\${a.status}">\${a.status}</span></td>
-                <td class="text-xs text-gray-400">\${a.created.split(' ')[0]}</td>
+                <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('${a.id}')">${a.id}</span></td>
+                <td class="text-xs text-gray-600">${a.subtype}</td>
+                <td class="text-xs text-gray-500 max-w-xs truncate">${a.description}</td>
+                <td class="font-semibold text-xs text-gray-800">${fmtAmt(a.amount,a.currency)}</td>
+                <td><span class="badge-${a.status}">${a.status}</span></td>
+                <td class="text-xs text-gray-400">${a.created.split(' ')[0]}</td>
                 <td>
                   <div class="flex gap-1.5">
-                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('\${a.id}')">
-                      \${icon('eye','w-3 h-3')} View
+                    <button class="btn-ghost py-1 px-2.5 text-xs" onclick="openRequestModal('${a.id}')">
+                      ${icon('eye','w-3 h-3')} View
                     </button>
-                    \${a.status==='pending' ? \`
-                    <button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors" onclick="editRequest('\${a.id}')">
+                    ${a.status==='pending' ? `
+                    <button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors" onclick="editRequest('${a.id}')">
                       Edit
                     </button>
-                    <button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-red-200 text-red-600 hover:bg-red-50 transition-colors" onclick="cancelRequest('\${a.id}')">
+                    <button class="py-1 px-2.5 text-xs font-semibold rounded-md border border-red-200 text-red-600 hover:bg-red-50 transition-colors" onclick="cancelRequest('${a.id}')">
                       Cancel
-                    </button>\` : ''}
+                    </button>` : ''}
                   </div>
                 </td>
               </tr>
-            \`).join('')}
+            `).join('')}
           </tbody>
         </table>
       </div>
-    \`}
-  </div>\`;
+    `}
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -1170,32 +1163,32 @@ function renderAllRequests() {
   const rows = allRequestsStatusFilter === 'all' ? base : base.filter(a => a.status === allRequestsStatusFilter);
   const counts = {};
   statuses.forEach(s => counts[s] = s==='all' ? base.length : base.filter(a=>a.status===s).length);
-  return \`
+  return `
   <div class="p-6 slide-in">
     <div class="flex items-center justify-between mb-4">
       <div>
         <h2 class="text-base font-bold text-gray-800">All Requests</h2>
-        <p class="text-xs text-gray-500 mt-0.5">\${rows.length} of \${base.length} request\${base.length!==1?'s':''}</p>
+        <p class="text-xs text-gray-500 mt-0.5">${rows.length} of ${base.length} request${base.length!==1?'s':''}</p>
       </div>
     </div>
 
     <!-- Status filter pills -->
     <div class="flex gap-2 mb-4 flex-wrap">
-      \${statuses.filter(s => counts[s] > 0 || s === 'all').map(s => \`
-        <button onclick="setAllRequestsFilter('\${s}')"
+      ${statuses.filter(s => counts[s] > 0 || s === 'all').map(s => `
+        <button onclick="setAllRequestsFilter('${s}')"
           class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors"
-          style="\${allRequestsStatusFilter===s
+          style="${allRequestsStatusFilter===s
             ? 'background:#1a7f6e;color:#fff;border-color:#1a7f6e;'
             : 'background:#21262d;color:#8b949e;border-color:#30363d;'}">
-          \${statusLabels[s]}\${s!=='all' ? \` <span style="opacity:0.75">(\${counts[s]})</span>\` : ''}
+          ${statusLabels[s]}${s!=='all' ? ` <span style="opacity:0.75">(${counts[s]})</span>` : ''}
         </button>
-      \`).join('')}
+      `).join('')}
     </div>
 
     <div class="card overflow-hidden">
-      \${rows.length === 0 ? \`
+      ${rows.length === 0 ? `
         <div class="p-12 text-center text-xs text-gray-400">No requests match the selected filter.</div>
-      \` : \`
+      ` : `
       <table class="tbl">
         <thead><tr>
           <th>ID</th>
@@ -1208,23 +1201,23 @@ function renderAllRequests() {
           <th>Date</th>
         </tr></thead>
         <tbody>
-          \${rows.map(a=>\`
+          ${rows.map(a=>`
             <tr>
-              <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('\${a.id}')">\${a.id}</span></td>
-              <td class="text-xs text-gray-700">\${a.maker}</td>
-              <td class="text-xs text-gray-600">\${a.subtype}</td>
-              <td class="text-xs text-gray-500 max-w-xs truncate">\${a.description}</td>
-              <td class="font-semibold text-xs text-gray-800">\${fmtAmt(a.amount,a.currency)}</td>
-              <td><span class="badge-\${a.status}">\${a.status}</span></td>
-              <td class="text-xs text-gray-500">\${a.branch}</td>
-              <td class="text-xs text-gray-400">\${a.created.split(' ')[0]}</td>
+              <td><span class="tbl-link font-mono text-xs" onclick="openRequestModal('${a.id}')">${a.id}</span></td>
+              <td class="text-xs text-gray-700">${a.maker}</td>
+              <td class="text-xs text-gray-600">${a.subtype}</td>
+              <td class="text-xs text-gray-500 max-w-xs truncate">${a.description}</td>
+              <td class="font-semibold text-xs text-gray-800">${fmtAmt(a.amount,a.currency)}</td>
+              <td><span class="badge-${a.status}">${a.status}</span></td>
+              <td class="text-xs text-gray-500">${a.branch}</td>
+              <td class="text-xs text-gray-400">${a.created.split(' ')[0]}</td>
             </tr>
-          \`).join('')}
+          `).join('')}
         </tbody>
       </table>
-      \`}
+      `}
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function setAllRequestsFilter(status) {
@@ -1239,11 +1232,11 @@ function renderCreateTransaction() {
   const editing = editingRequestId ? approvals.find(r=>r.id===editingRequestId) : null;
   const subtypes = ['Wire Transfer','Internal Transfer','Deposit Reversal','Loan Disbursement','Payment'];
   const branches = ['HQ Branch','South Branch','North Branch'];
-  return \`
+  return `
   <div class="p-6 slide-in max-w-2xl">
     <div class="mb-5">
-      <h2 class="text-base font-bold text-gray-800">\${editing ? \`Edit Transaction <span class="font-mono text-sm text-gray-400">\${editing.id}</span>\` : 'New Transaction'}</h2>
-      <p class="text-xs text-gray-500 mt-0.5">\${editing ? 'Update this pending transaction and resubmit for approval' : 'Submit a financial transaction for approval'}</p>
+      <h2 class="text-base font-bold text-gray-800">${editing ? `Edit Transaction <span class="font-mono text-sm text-gray-400">${editing.id}</span>` : 'New Transaction'}</h2>
+      <p class="text-xs text-gray-500 mt-0.5">${editing ? 'Update this pending transaction and resubmit for approval' : 'Submit a financial transaction for approval'}</p>
     </div>
 
     <div class="card p-5">
@@ -1253,46 +1246,46 @@ function renderCreateTransaction() {
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Transaction Type</label>
             <select class="input" id="txn-subtype" onchange="updateCheckerSelector()">
-              \${subtypes.map(s=>\`<option\${editing&&editing.subtype===s?' selected':''}>\${s}</option>\`).join('')}
+              ${subtypes.map(s=>`<option${editing&&editing.subtype===s?' selected':''}>${s}</option>`).join('')}
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Amount</label>
-            <input type="number" class="input" placeholder="0.00" id="txn-amount" value="\${editing?editing.amount:''}" required />
+            <input type="number" class="input" placeholder="0.00" id="txn-amount" value="${editing?editing.amount:''}" required />
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Currency</label>
             <div class="input flex items-center gap-2" style="background:#f9fafb;cursor:default;">
-              <span class="font-semibold text-gray-700">\${workflowConfig.baseCurrency}</span>
-              <span class="text-xs text-gray-400">\${allCurrencies.find(c=>c.code===workflowConfig.baseCurrency)?.name||''}</span>
+              <span class="font-semibold text-gray-700">${workflowConfig.baseCurrency}</span>
+              <span class="text-xs text-gray-400">${allCurrencies.find(c=>c.code===workflowConfig.baseCurrency)?.name||''}</span>
             </div>
           </div>
 
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Account Number</label>
-            <input type="text" class="input" placeholder="ACC-XXXX-XXXX" id="txn-account" value="\${editing?editing.account:''}" required />
+            <input type="text" class="input" placeholder="ACC-XXXX-XXXX" id="txn-account" value="${editing?editing.account:''}" required />
           </div>
 
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Description</label>
-            <textarea class="input" rows="3" placeholder="Describe the purpose of this transaction..." id="txn-desc" required style="resize:vertical;">\${editing?editing.description:''}</textarea>
+            <textarea class="input" rows="3" placeholder="Describe the purpose of this transaction..." id="txn-desc" required style="resize:vertical;">${editing?editing.description:''}</textarea>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Priority</label>
             <select class="input" id="txn-priority">
-              <option value="low"\${editing&&editing.priority==='low'?' selected':''}>Low</option>
-              <option value="medium"\${!editing||editing.priority==='medium'?' selected':''}>Medium</option>
-              <option value="high"\${editing&&editing.priority==='high'?' selected':''}>High</option>
+              <option value="low"${editing&&editing.priority==='low'?' selected':''}>Low</option>
+              <option value="medium"${!editing||editing.priority==='medium'?' selected':''}>Medium</option>
+              <option value="high"${editing&&editing.priority==='high'?' selected':''}>High</option>
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Branch</label>
             <select class="input" id="txn-branch" onchange="updateCheckerSelector()">
-              \${branches.map(b=>\`<option\${editing&&editing.branch===b?' selected':''}>\${b}</option>\`).join('')}
+              ${branches.map(b=>`<option${editing&&editing.branch===b?' selected':''}>${b}</option>`).join('')}
             </select>
           </div>
 
@@ -1300,7 +1293,7 @@ function renderCreateTransaction() {
 
         <!-- Checker selector -->
         <div id="checker-selector-container" class="mt-4">
-          \${(()=>{
+          ${(()=>{
             const initSubtype = editing?.subtype || subtypes[0];
             const initBranch  = editing?.branch  || branches[0];
             const recId = getRecommendedChecker(initSubtype, initBranch);
@@ -1310,17 +1303,17 @@ function renderCreateTransaction() {
 
         <!-- SoD notice -->
         <div class="mt-4 flex items-start gap-2.5 bg-blue-50 border border-blue-200 rounded-lg p-3">
-          \${icon('info','w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5')}
-          <p class="text-xs text-blue-700">\${editing ? 'Saving changes will resubmit this request for review.' : 'This transaction will be submitted for review. You cannot approve your own submissions (Segregation of Duties).'}</p>
+          ${icon('info','w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5')}
+          <p class="text-xs text-blue-700">${editing ? 'Saving changes will resubmit this request for review.' : 'This transaction will be submitted for review. You cannot approve your own submissions (Segregation of Duties).'}</p>
         </div>
 
         <div class="flex gap-2.5 mt-5 justify-end">
-          <button type="button" class="btn-ghost" onclick="editingRequestId=null; showPage('my-requests')">\${editing ? 'Discard Changes' : 'Cancel'}</button>
-          <button type="submit" class="btn-primary">\${editing ? 'Save &amp; Resubmit' : 'Submit for Approval'}</button>
+          <button type="button" class="btn-ghost" onclick="editingRequestId=null; showPage('my-requests')">${editing ? 'Discard Changes' : 'Cancel'}</button>
+          <button type="submit" class="btn-primary">${editing ? 'Save &amp; Resubmit' : 'Submit for Approval'}</button>
         </div>
       </form>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function getSelectedChecker() {
@@ -1382,8 +1375,8 @@ function submitTransaction(e) {
       a.priority = pri; a.subtype = subtype; a.currency = currency; a.branch = branch;
       Object.assign(a, checkerAssign);
       a.editedAt = now;
-      auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED', resource:editingRequestId, details:\`Transaction updated and resubmitted\`, type:'create'});
-      showToast(\`\${editingRequestId} updated and resubmitted\`,'success');
+      auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED', resource:editingRequestId, details:`Transaction updated and resubmitted`, type:'create'});
+      showToast(`${editingRequestId} updated and resubmitted`,'success');
     }
     editingRequestId = null;
   } else {
@@ -1399,7 +1392,7 @@ function submitTransaction(e) {
       ...checkerAssign
     });
     const autoMsg = rules.status === 'approved' ? ' (auto-approved — below threshold)' : rules.requiredApprovals > 1 ? ' (dual approval required)' : '';
-    auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'SUBMIT_FOR_APPROVAL', resource:id, details:\`Transaction \${fmtAmt(amt,currency)} submitted\${checkerAssign.assignedCheckerName?' — assigned to '+checkerAssign.assignedCheckerName:''}\${autoMsg}\`, type:'create'});
+    auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'SUBMIT_FOR_APPROVAL', resource:id, details:`Transaction ${fmtAmt(amt,currency)} submitted${checkerAssign.assignedCheckerName?' — assigned to '+checkerAssign.assignedCheckerName:''}${autoMsg}`, type:'create'});
     showToast(rules.status==='approved' ? 'Transaction auto-approved (below threshold)' : rules.requiredApprovals>1 ? 'Submitted — dual approval required' : 'Transaction submitted for approval', rules.status==='approved'?'success':'success');
   }
   showPage('my-requests');
@@ -1410,11 +1403,11 @@ function submitTransaction(e) {
 // ═══════════════════════════════════════════
 function renderCreateJE() {
   const editing = editingRequestId ? approvals.find(r=>r.id===editingRequestId) : null;
-  return \`
+  return `
   <div class="p-6 slide-in max-w-2xl">
     <div class="mb-5">
-      <h2 class="text-base font-bold text-gray-800">\${editing ? \`Edit Journal Entry <span class="font-mono text-sm text-gray-400">\${editing.id}</span>\` : 'New Journal Entry'}</h2>
-      <p class="text-xs text-gray-500 mt-0.5">\${editing ? 'Update this pending journal entry and resubmit for approval' : 'Submit a manual journal entry for approval'}</p>
+      <h2 class="text-base font-bold text-gray-800">${editing ? `Edit Journal Entry <span class="font-mono text-sm text-gray-400">${editing.id}</span>` : 'New Journal Entry'}</h2>
+      <p class="text-xs text-gray-500 mt-0.5">${editing ? 'Update this pending journal entry and resubmit for approval' : 'Submit a manual journal entry for approval'}</p>
     </div>
 
     <div class="card p-5">
@@ -1423,26 +1416,26 @@ function renderCreateJE() {
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">GL Account</label>
-            <input type="text" class="input" placeholder="GL-XXXX-XXXX" id="je-account" value="\${editing?editing.account:''}" required />
+            <input type="text" class="input" placeholder="GL-XXXX-XXXX" id="je-account" value="${editing?editing.account:''}" required />
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Description / Narrative</label>
-            <textarea class="input" rows="3" placeholder="Describe the journal entry..." id="je-desc" required style="resize:vertical;">\${editing?editing.description:''}</textarea>
+            <textarea class="input" rows="3" placeholder="Describe the journal entry..." id="je-desc" required style="resize:vertical;">${editing?editing.description:''}</textarea>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Branch</label>
             <select class="input" id="je-branch" onchange="updateCheckerSelector()">
-              \${['HQ Branch','South Branch','North Branch'].map(b=>\`<option\${editing&&editing.branch===b?' selected':''}>\${b}</option>\`).join('')}
+              ${['HQ Branch','South Branch','North Branch'].map(b=>`<option${editing&&editing.branch===b?' selected':''}>${b}</option>`).join('')}
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Currency</label>
             <div class="input flex items-center gap-2" style="background:#f9fafb;cursor:default;">
-              <span class="font-semibold text-gray-700">\${workflowConfig.baseCurrency}</span>
-              <span class="text-xs text-gray-400">\${allCurrencies.find(c=>c.code===workflowConfig.baseCurrency)?.name||''}</span>
+              <span class="font-semibold text-gray-700">${workflowConfig.baseCurrency}</span>
+              <span class="text-xs text-gray-400">${allCurrencies.find(c=>c.code===workflowConfig.baseCurrency)?.name||''}</span>
             </div>
           </div>
 
@@ -1453,8 +1446,8 @@ function renderCreateJE() {
                 <thead><tr>
                   <th>Account</th>
                   <th>Description</th>
-                  <th>Debit (\${workflowConfig.baseCurrency})</th>
-                  <th>Credit (\${workflowConfig.baseCurrency})</th>
+                  <th>Debit (${workflowConfig.baseCurrency})</th>
+                  <th>Credit (${workflowConfig.baseCurrency})</th>
                 </tr></thead>
                 <tbody>
                   <tr>
@@ -1478,7 +1471,7 @@ function renderCreateJE() {
 
         <!-- Checker selector -->
         <div id="checker-selector-container" class="mt-4">
-          \${(()=>{
+          ${(()=>{
             const initBranch = editing?.branch || 'HQ Branch';
             const recId = getRecommendedChecker('Manual JE', initBranch);
             return renderCheckerSelector(editing?.assignedCheckerId ?? '', recId, 'Manual JE');
@@ -1486,12 +1479,12 @@ function renderCreateJE() {
         </div>
 
         <div class="flex gap-2.5 mt-5 justify-end">
-          <button type="button" class="btn-ghost" onclick="editingRequestId=null; showPage('my-requests')">\${editing ? 'Discard Changes' : 'Cancel'}</button>
-          <button type="submit" class="btn-primary">\${editing ? 'Save &amp; Resubmit' : 'Submit for Approval'}</button>
+          <button type="button" class="btn-ghost" onclick="editingRequestId=null; showPage('my-requests')">${editing ? 'Discard Changes' : 'Cancel'}</button>
+          <button type="submit" class="btn-primary">${editing ? 'Save &amp; Resubmit' : 'Submit for Approval'}</button>
         </div>
       </form>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function submitJE(e) {
@@ -1508,8 +1501,8 @@ function submitJE(e) {
     if(a) {
       a.account = acc; a.description = desc; a.amount = amt; a.currency = currency; a.branch = branch; a.editedAt = now;
       Object.assign(a, checkerAssign);
-      auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED', resource:editingRequestId, details:\`Journal entry updated and resubmitted\`, type:'create'});
-      showToast(\`\${editingRequestId} updated and resubmitted\`,'success');
+      auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED', resource:editingRequestId, details:`Journal entry updated and resubmitted`, type:'create'});
+      showToast(`${editingRequestId} updated and resubmitted`,'success');
     }
     editingRequestId = null;
     showPage('my-requests');
@@ -1527,7 +1520,7 @@ function submitJE(e) {
     ...checkerAssign
   });
   const autoMsg = rules.status === 'approved' ? ' (auto-approved — below JE threshold)' : '';
-  auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'SUBMIT_FOR_APPROVAL', resource:id, details:\`Journal entry submitted\${checkerAssign.assignedCheckerName?' — assigned to '+checkerAssign.assignedCheckerName:''}\${autoMsg}\`, type:'create'});
+  auditLog.unshift({id:'AUD-'+Date.now(), timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'SUBMIT_FOR_APPROVAL', resource:id, details:`Journal entry submitted${checkerAssign.assignedCheckerName?' — assigned to '+checkerAssign.assignedCheckerName:''}${autoMsg}`, type:'create'});
   showToast(rules.status==='approved' ? 'Journal entry auto-approved (below threshold)' : 'Journal entry submitted for approval','success');
   showPage('my-requests');
 }
@@ -1561,7 +1554,7 @@ function renderAuditLog() {
 
   const hasFilters = auditFilterRequest!=='all'||auditFilterUser!=='all'||auditFilterType!=='all'||auditFilterDateFrom||auditFilterDateTo;
 
-  return \`
+  return `
   <div class="p-6 slide-in">
 
     <!-- Header -->
@@ -1569,8 +1562,8 @@ function renderAuditLog() {
       <div>
         <h2 class="text-base font-bold text-gray-800">Audit Log</h2>
         <p class="text-xs text-gray-500 mt-0.5">
-          Showing <span class="font-semibold text-gray-700">\${filtered.length}</span> of \${auditLog.length} events
-          \${hasFilters ? \`<button class="ml-2 text-teal-600 hover:underline font-medium" onclick="clearAuditFilters()">Clear filters</button>\` : ''}
+          Showing <span class="font-semibold text-gray-700">${filtered.length}</span> of ${auditLog.length} events
+          ${hasFilters ? `<button class="ml-2 text-teal-600 hover:underline font-medium" onclick="clearAuditFilters()">Clear filters</button>` : ''}
         </p>
       </div>
       <!-- Export buttons -->
@@ -1592,16 +1585,16 @@ function renderAuditLog() {
 
     <!-- Summary stat chips -->
     <div class="flex flex-wrap gap-2 mb-4">
-      \${Object.entries(countByType).map(([t,n])=>\`
+      ${Object.entries(countByType).map(([t,n])=>`
         <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border cursor-pointer transition-colors"
-          style="\${auditFilterType===t
-            ? \`background:\${typeBg[t]||'#f3f4f6'};color:\${typeColors[t]||'#374151'};border-color:\${typeColors[t]||'#d1d5db'};\`
+          style="${auditFilterType===t
+            ? `background:${typeBg[t]||'#f3f4f6'};color:${typeColors[t]||'#374151'};border-color:${typeColors[t]||'#d1d5db'};`
             : 'background:#21262d;color:#8b949e;border-color:#30363d;'}"
-          onclick="setAuditFilter('type','\${t}')">
-          \${typeLabel[t]||t} <span style="opacity:0.65">(\${n})</span>
+          onclick="setAuditFilter('type','${t}')">
+          ${typeLabel[t]||t} <span style="opacity:0.65">(${n})</span>
         </div>
-      \`).join('')}
-      \${auditFilterType!=='all'?\`<button class="text-xs text-gray-400 hover:text-gray-600 px-2" onclick="setAuditFilter('type','all')">✕ clear</button>\`:''}
+      `).join('')}
+      ${auditFilterType!=='all'?`<button class="text-xs text-gray-400 hover:text-gray-600 px-2" onclick="setAuditFilter('type','all')">✕ clear</button>`:''}
     </div>
 
     <!-- Filter bar -->
@@ -1611,56 +1604,56 @@ function renderAuditLog() {
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">Request ID</label>
           <select class="input text-xs" onchange="setAuditFilter('request',this.value)">
-            <option value="all" \${auditFilterRequest==='all'?'selected':''}>All Requests</option>
-            \${allRequests.map(r=>\`<option value="\${r}" \${auditFilterRequest===r?'selected':''}>\${r}</option>\`).join('')}
+            <option value="all" ${auditFilterRequest==='all'?'selected':''}>All Requests</option>
+            ${allRequests.map(r=>`<option value="${r}" ${auditFilterRequest===r?'selected':''}>${r}</option>`).join('')}
           </select>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">User</label>
           <select class="input text-xs" onchange="setAuditFilter('user',this.value)">
-            <option value="all" \${auditFilterUser==='all'?'selected':''}>All Users</option>
-            \${allUsers.map(u=>\`<option value="\${u}" \${auditFilterUser===u?'selected':''}>\${u}</option>\`).join('')}
+            <option value="all" ${auditFilterUser==='all'?'selected':''}>All Users</option>
+            ${allUsers.map(u=>`<option value="${u}" ${auditFilterUser===u?'selected':''}>${u}</option>`).join('')}
           </select>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">Action Type</label>
           <select class="input text-xs" onchange="setAuditFilter('type',this.value)">
-            <option value="all" \${auditFilterType==='all'?'selected':''}>All Actions</option>
-            \${allTypes.map(t=>\`<option value="\${t}" \${auditFilterType===t?'selected':''}>\${typeLabel[t]||t}</option>\`).join('')}
+            <option value="all" ${auditFilterType==='all'?'selected':''}>All Actions</option>
+            ${allTypes.map(t=>`<option value="${t}" ${auditFilterType===t?'selected':''}>${typeLabel[t]||t}</option>`).join('')}
           </select>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">From Date</label>
-          <input type="date" class="input text-xs" value="\${auditFilterDateFrom}" onchange="setAuditFilter('dateFrom',this.value)" />
+          <input type="date" class="input text-xs" value="${auditFilterDateFrom}" onchange="setAuditFilter('dateFrom',this.value)" />
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1">To Date</label>
-          <input type="date" class="input text-xs" value="\${auditFilterDateTo}" onchange="setAuditFilter('dateTo',this.value)" />
+          <input type="date" class="input text-xs" value="${auditFilterDateTo}" onchange="setAuditFilter('dateTo',this.value)" />
         </div>
 
       </div>
     </div>
 
     <!-- Active filter pills -->
-    \${hasFilters ? \`
+    ${hasFilters ? `
     <div class="flex flex-wrap gap-2 mb-3">
-      \${auditFilterRequest!=='all'?\`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-medium text-indigo-700">Request: \${auditFilterRequest} <button class="ml-1 hover:text-indigo-900" onclick="setAuditFilter('request','all')">✕</button></span>\`:''}
-      \${auditFilterUser!=='all'?\`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-xs font-medium text-teal-700">User: \${auditFilterUser} <button class="ml-1 hover:text-teal-900" onclick="setAuditFilter('user','all')">✕</button></span>\`:''}
-      \${auditFilterType!=='all'?\`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium" style="background:\${typeBg[auditFilterType]||'#f3f4f6'};color:\${typeColors[auditFilterType]||'#374151'};border:1px solid \${typeColors[auditFilterType]||'#d1d5db'};">Type: \${typeLabel[auditFilterType]||auditFilterType} <button class="ml-1" onclick="setAuditFilter('type','all')">✕</button></span>\`:''}
-      \${auditFilterDateFrom?\`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 border border-gray-200 text-xs font-medium text-gray-600">From: \${auditFilterDateFrom} <button class="ml-1" onclick="setAuditFilter('dateFrom','')">✕</button></span>\`:''}
-      \${auditFilterDateTo?\`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 border border-gray-200 text-xs font-medium text-gray-600">To: \${auditFilterDateTo} <button class="ml-1" onclick="setAuditFilter('dateTo','')">✕</button></span>\`:''}
+      ${auditFilterRequest!=='all'?`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-medium text-indigo-700">Request: ${auditFilterRequest} <button class="ml-1 hover:text-indigo-900" onclick="setAuditFilter('request','all')">✕</button></span>`:''}
+      ${auditFilterUser!=='all'?`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-xs font-medium text-teal-700">User: ${auditFilterUser} <button class="ml-1 hover:text-teal-900" onclick="setAuditFilter('user','all')">✕</button></span>`:''}
+      ${auditFilterType!=='all'?`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium" style="background:${typeBg[auditFilterType]||'#f3f4f6'};color:${typeColors[auditFilterType]||'#374151'};border:1px solid ${typeColors[auditFilterType]||'#d1d5db'};">Type: ${typeLabel[auditFilterType]||auditFilterType} <button class="ml-1" onclick="setAuditFilter('type','all')">✕</button></span>`:''}
+      ${auditFilterDateFrom?`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 border border-gray-200 text-xs font-medium text-gray-600">From: ${auditFilterDateFrom} <button class="ml-1" onclick="setAuditFilter('dateFrom','')">✕</button></span>`:''}
+      ${auditFilterDateTo?`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 border border-gray-200 text-xs font-medium text-gray-600">To: ${auditFilterDateTo} <button class="ml-1" onclick="setAuditFilter('dateTo','')">✕</button></span>`:''}
     </div>
-    \` : ''}
+    ` : ''}
 
     <!-- Table -->
     <div class="card overflow-hidden">
-      \${filtered.length === 0 ? \`
+      ${filtered.length === 0 ? `
         <div class="p-12 text-center text-xs text-gray-400">No audit events match the selected filters.</div>
-      \` : \`
+      ` : `
       <table class="tbl">
         <thead><tr>
           <th>Timestamp</th>
@@ -1671,29 +1664,29 @@ function renderAuditLog() {
           <th>IP Address</th>
         </tr></thead>
         <tbody>
-          \${filtered.map(e=>\`
+          ${filtered.map(e=>`
             <tr>
-              <td class="font-mono text-xs text-gray-400 whitespace-nowrap">\${e.timestamp}</td>
+              <td class="font-mono text-xs text-gray-400 whitespace-nowrap">${e.timestamp}</td>
               <td>
-                <button class="text-xs font-medium text-gray-700 hover:text-teal-600 hover:underline text-left" onclick="setAuditFilter('user','\${e.actor}')">\${e.actor}</button>
+                <button class="text-xs font-medium text-gray-700 hover:text-teal-600 hover:underline text-left" onclick="setAuditFilter('user','${e.actor}')">${e.actor}</button>
               </td>
               <td>
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap" style="background:\${typeBg[e.type]||'#f3f4f6'}; color:\${typeColors[e.type]||'#374151'};">
-                  \${e.action}
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap" style="background:${typeBg[e.type]||'#f3f4f6'}; color:${typeColors[e.type]||'#374151'};">
+                  ${e.action}
                 </span>
               </td>
               <td>
-                <button class="tbl-link font-mono text-xs" onclick="setAuditFilter('request','\${e.resource}')">\${e.resource}</button>
+                <button class="tbl-link font-mono text-xs" onclick="setAuditFilter('request','${e.resource}')">${e.resource}</button>
               </td>
-              <td class="text-xs text-gray-500" style="max-width:320px;">\${e.details}</td>
-              <td class="font-mono text-xs text-gray-400">\${e.ip}</td>
+              <td class="text-xs text-gray-500" style="max-width:320px;">${e.details}</td>
+              <td class="font-mono text-xs text-gray-400">${e.ip}</td>
             </tr>
-          \`).join('')}
+          `).join('')}
         </tbody>
       </table>
-      \`}
+      `}
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function setAuditFilter(key, value) {
@@ -1725,14 +1718,14 @@ function getFilteredAuditRows() {
 function exportAuditCSV() {
   const rows = getFilteredAuditRows();
   const headers = ['ID','Timestamp','User','User ID','Action','Request','Details','IP Address'];
-  const escape = v => \`"\${String(v).replace(/"/g,'""')}"\`;
+  const escape = v => `"${String(v).replace(/"/g,'""')}"`;
   const csv = [headers.join(',')]
     .concat(rows.map(e=>[e.id,e.timestamp,e.actor,e.actorId,e.action,e.resource,e.details,e.ip].map(escape).join(',')))
-    .join('\\n');
+    .join('\n');
   const blob = new Blob([csv], {type:'text/csv'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = \`audit-log-\${new Date().toISOString().slice(0,10)}.csv\`;
+  a.download = `audit-log-${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
   showToast('Audit log exported as CSV','success');
 }
@@ -1743,7 +1736,7 @@ function exportAuditJSON() {
   const blob = new Blob([json], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = \`audit-log-\${new Date().toISOString().slice(0,10)}.json\`;
+  a.download = `audit-log-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   showToast('Audit log exported as JSON','success');
 }
@@ -1752,15 +1745,15 @@ function exportAuditPDF() {
   const rows = getFilteredAuditRows();
   const typeColors = {create:'#6366f1',approve:'#059669',reject:'#dc2626',comment:'#0891b2',cancel:'#9ca3af',edit:'#d97706'};
   const filterDesc = [
-    auditFilterRequest!=='all'?\`Request: \${auditFilterRequest}\`:'',
-    auditFilterUser!=='all'?\`User: \${auditFilterUser}\`:'',
-    auditFilterType!=='all'?\`Type: \${auditFilterType}\`:'',
-    auditFilterDateFrom?\`From: \${auditFilterDateFrom}\`:'',
-    auditFilterDateTo?\`To: \${auditFilterDateTo}\`:'',
+    auditFilterRequest!=='all'?`Request: ${auditFilterRequest}`:'',
+    auditFilterUser!=='all'?`User: ${auditFilterUser}`:'',
+    auditFilterType!=='all'?`Type: ${auditFilterType}`:'',
+    auditFilterDateFrom?`From: ${auditFilterDateFrom}`:'',
+    auditFilterDateTo?`To: ${auditFilterDateTo}`:'',
   ].filter(Boolean).join(' · ') || 'No filters applied';
 
   const win = window.open('','_blank');
-  win.document.write(\`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Audit Log</title>
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Audit Log</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;color:#1a1a1a;padding:32px;}
@@ -1776,23 +1769,23 @@ function exportAuditPDF() {
     @media print{body{padding:16px;}button{display:none;}}
   </style></head><body>
   <h1>Audit Log Export</h1>
-  <p class="meta">Generated: \${new Date().toLocaleString()} · \${rows.length} events</p>
-  <div class="filters">Filters: \${filterDesc}</div>
+  <p class="meta">Generated: ${new Date().toLocaleString()} · ${rows.length} events</p>
+  <div class="filters">Filters: ${filterDesc}</div>
   <table>
     <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Request</th><th>Details</th><th>IP</th></tr></thead>
     <tbody>
-      \${rows.map(e=>\`<tr>
-        <td class="mono">\${e.timestamp}</td>
-        <td>\${e.actor}</td>
-        <td><span class="badge" style="background:\${typeColors[e.type]||'#e5e7eb'}22;color:\${typeColors[e.type]||'#374151'};border:1px solid \${typeColors[e.type]||'#d1d5db'}44;">\${e.action}</span></td>
-        <td class="mono">\${e.resource}</td>
-        <td>\${e.details}</td>
-        <td class="mono">\${e.ip}</td>
-      </tr>\`).join('')}
+      ${rows.map(e=>`<tr>
+        <td class="mono">${e.timestamp}</td>
+        <td>${e.actor}</td>
+        <td><span class="badge" style="background:${typeColors[e.type]||'#e5e7eb'}22;color:${typeColors[e.type]||'#374151'};border:1px solid ${typeColors[e.type]||'#d1d5db'}44;">${e.action}</span></td>
+        <td class="mono">${e.resource}</td>
+        <td>${e.details}</td>
+        <td class="mono">${e.ip}</td>
+      </tr>`).join('')}
     </tbody>
   </table>
-  <script>window.onload=()=>{window.print();}<\\/script>
-  </body></html>\`);
+  <script>window.onload=()=>{window.print();}<\/script>
+  </body></html>`);
   win.document.close();
   showToast('PDF print dialog opened','success');
 }
@@ -1804,33 +1797,33 @@ function renderConfig() {
   const c = workflowConfig;
   function toggle(key, label) {
     const on = c[key];
-    return \`
+    return `
       <div class="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
         <div>
-          <div class="text-sm text-gray-700">\${label}</div>
+          <div class="text-sm text-gray-700">${label}</div>
         </div>
-        <button onclick="toggleConfig('\${key}')" class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none flex-shrink-0"
-          style="background:\${on?'#1a7f6e':'#d1d5db'};">
+        <button onclick="toggleConfig('${key}')" class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none flex-shrink-0"
+          style="background:${on?'#1a7f6e':'#d1d5db'};">
           <span class="inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform"
-            style="transform:translateX(\${on?'18px':'3px'});"></span>
+            style="transform:translateX(${on?'18px':'3px'});"></span>
         </button>
-      </div>\`;
+      </div>`;
   }
   function numField(key, label, prefix='', suffix='', min=0) {
-    return \`
+    return `
       <div class="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-        <div class="text-sm text-gray-700 flex-1 mr-4">\${label}</div>
+        <div class="text-sm text-gray-700 flex-1 mr-4">${label}</div>
         <div class="flex items-center gap-1.5">
-          \${prefix?\`<span class="text-sm text-gray-500">\${prefix}</span>\`:''}
-          <input type="number" value="\${c[key]}" min="\${min}"
-            onchange="updateConfig('\${key}', +this.value)"
+          ${prefix?`<span class="text-sm text-gray-500">${prefix}</span>`:''}
+          <input type="number" value="${c[key]}" min="${min}"
+            onchange="updateConfig('${key}', +this.value)"
             class="input text-right" style="width:100px; padding:5px 10px;" />
-          \${suffix?\`<span class="text-sm text-gray-500">\${suffix}</span>\`:''}
+          ${suffix?`<span class="text-sm text-gray-500">${suffix}</span>`:''}
         </div>
-      </div>\`;
+      </div>`;
   }
 
-  return \`
+  return `
   <div class="p-6 slide-in max-w-2xl">
     <div class="flex items-center justify-between mb-5">
       <div>
@@ -1843,17 +1836,17 @@ function renderConfig() {
     <div class="space-y-4" id="config-body">
 
       <!-- Currencies -->
-      \${renderCurrencySection()}
+      ${renderCurrencySection()}
 
       <!-- Approval Thresholds -->
       <div class="card p-5">
         <h3 class="text-sm font-semibold text-gray-700 mb-1">Approval Thresholds</h3>
         <p class="text-xs text-gray-400 mb-3">Define when dual approval is required and auto-approval limits.</p>
         <div class="space-y-0">
-          \${numField('wireTransferDualThreshold', 'Wire transfer amount requiring dual approval', workflowConfig.baseCurrency)}
-          \${numField('jeAutoApprovalLimit', 'Journal entry auto-approval limit (below this = no approval needed)', workflowConfig.baseCurrency)}
-          \${numField('maxApprovalDays', 'Maximum days before approval request escalates', '', 'days', 1)}
-          \${toggle('loanAlwaysDual', 'Loan disbursements always require dual approval')}
+          ${numField('wireTransferDualThreshold', 'Wire transfer amount requiring dual approval', workflowConfig.baseCurrency)}
+          ${numField('jeAutoApprovalLimit', 'Journal entry auto-approval limit (below this = no approval needed)', workflowConfig.baseCurrency)}
+          ${numField('maxApprovalDays', 'Maximum days before approval request escalates', '', 'days', 1)}
+          ${toggle('loanAlwaysDual', 'Loan disbursements always require dual approval')}
         </div>
       </div>
 
@@ -1862,10 +1855,10 @@ function renderConfig() {
         <h3 class="text-sm font-semibold text-gray-700 mb-1">Segregation of Duties</h3>
         <p class="text-xs text-gray-400 mb-3">Control who can approve what and whether bypass is allowed.</p>
         <div class="space-y-0">
-          \${toggle('makerCannotApproveSelf', 'Maker cannot approve their own requests')}
-          \${toggle('checkerCanSubmit', 'Checker is also allowed to submit requests')}
-          \${toggle('adminBypassApproval', 'Admin can bypass the approval workflow')}
-          \${toggle('requireCommentOnRejection', 'Require a comment when rejecting a request')}
+          ${toggle('makerCannotApproveSelf', 'Maker cannot approve their own requests')}
+          ${toggle('checkerCanSubmit', 'Checker is also allowed to submit requests')}
+          ${toggle('adminBypassApproval', 'Admin can bypass the approval workflow')}
+          ${toggle('requireCommentOnRejection', 'Require a comment when rejecting a request')}
         </div>
       </div>
 
@@ -1874,14 +1867,14 @@ function renderConfig() {
         <h3 class="text-sm font-semibold text-gray-700 mb-1">Notifications</h3>
         <p class="text-xs text-gray-400 mb-3">Choose which events trigger in-app notifications.</p>
         <div class="space-y-0">
-          \${toggle('notifyMakerOnApproval', 'Notify maker when their request is approved')}
-          \${toggle('notifyMakerOnRejection', 'Notify maker when their request is rejected')}
-          \${toggle('notifyCheckerOnSubmission', 'Notify checkers when a new request is submitted')}
+          ${toggle('notifyMakerOnApproval', 'Notify maker when their request is approved')}
+          ${toggle('notifyMakerOnRejection', 'Notify maker when their request is rejected')}
+          ${toggle('notifyCheckerOnSubmission', 'Notify checkers when a new request is submitted')}
         </div>
       </div>
 
       <!-- Checker Permissions -->
-      \${renderCheckerPermissionsSection()}
+      ${renderCheckerPermissionsSection()}
 
     </div>
 
@@ -1890,7 +1883,7 @@ function renderConfig() {
       <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Current Policy Summary</h4>
       <div id="config-summary" class="text-xs text-gray-600 space-y-1"></div>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function toggleConfig(key) {
@@ -1980,21 +1973,21 @@ function filterAddCheckerSearch(val) {
   const existing = new Set(checkerPool.map(c => c.id));
   const matches = employeeCandidates.filter(e => !existing.has(e.id) && (e.name.toLowerCase().includes(q) || e.department.toLowerCase().includes(q) || e.title.toLowerCase().includes(q)));
   if (!matches.length) {
-    list.innerHTML = \`<div style="padding:12px 16px;font-size:12px;color:#9ca3af;">No matches found</div>\`;
+    list.innerHTML = `<div style="padding:12px 16px;font-size:12px;color:#9ca3af;">No matches found</div>`;
     return;
   }
-  list.innerHTML = matches.map(e => \`
-    <div onclick="addCheckerFromCandidate('\${e.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #30363d;" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='#161b22'">
+  list.innerHTML = matches.map(e => `
+    <div onclick="addCheckerFromCandidate('${e.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #30363d;" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='#161b22'">
       <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;">
-        <img src="\${e.photo}" width="32" height="32" style="width:32px;height:32px;object-fit:cover;"
-          onerror="this.outerHTML='<div style=\\'width:32px;height:32px;border-radius:50%;background:\${e.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;\\'>\${e.name.split(' ').map(n=>n[0]).join('')}</div>'" />
+        <img src="${e.photo}" width="32" height="32" style="width:32px;height:32px;object-fit:cover;"
+          onerror="this.outerHTML='<div style=\'width:32px;height:32px;border-radius:50%;background:${e.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;\'>${e.name.split(' ').map(n=>n[0]).join('')}</div>'" />
       </div>
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;font-weight:600;color:#e6edf3;">\${e.name}</div>
-        <div style="font-size:11px;color:#8b949e;">\${e.title} · \${e.department}</div>
+        <div style="font-size:13px;font-weight:600;color:#e6edf3;">${e.name}</div>
+        <div style="font-size:11px;color:#8b949e;">${e.title} · ${e.department}</div>
       </div>
       <span style="font-size:11px;font-weight:600;color:#2dd4bf;background:#0d3d32;padding:2px 8px;border-radius:99px;">Add</span>
-    </div>\`).join('');
+    </div>`).join('');
 }
 function addCheckerFromCandidate(empId) {
   const emp = employeeCandidates.find(e => e.id === empId);
@@ -2017,7 +2010,7 @@ function addCheckerFromCandidate(empId) {
   addCheckerSearchQuery = '';
   const section = document.getElementById('checker-permissions-section');
   if (section) section.outerHTML = renderCheckerPermissionsSection();
-  showToast(\`\${emp.name} added as checker\`, 'success');
+  showToast(`${emp.name} added as checker`, 'success');
 }
 
 function renderCheckerPermissionsSection() {
@@ -2026,25 +2019,25 @@ function renderCheckerPermissionsSection() {
   const existing = new Set(checkerPool.map(c => c.id));
   const availableCandidates = employeeCandidates.filter(e => !existing.has(e.id));
 
-  return \`<div id="checker-permissions-section" class="card p-5">
+  return `<div id="checker-permissions-section" class="card p-5">
     <div class="flex items-center justify-between mb-1">
       <h3 class="text-sm font-semibold text-gray-700">Checker Permissions</h3>
-      \${availableCandidates.length > 0 ? \`
+      ${availableCandidates.length > 0 ? `
         <button type="button" onclick="openAddCheckerSearch()"
           style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;border:1px solid #1a7f6e;background:#0d3d32;color:#2dd4bf;font-size:12px;font-weight:600;cursor:pointer;">
           <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
           Add Checker
-        </button>\` : ''}
+        </button>` : ''}
     </div>
     <p class="text-xs text-gray-400 mb-4">Select a checker, then toggle which transaction types they are authorised to approve.</p>
 
     <!-- Add Checker search widget -->
-    \${addCheckerSearchOpen ? \`
+    ${addCheckerSearchOpen ? `
     <div style="border:1.5px solid #1a7f6e;border-radius:8px;overflow:hidden;margin-bottom:16px;">
       <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#1c2128;border-bottom:1px solid #30363d;">
         <svg width="14" height="14" fill="none" stroke="#8b949e" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         <input id="add-checker-search" type="text" placeholder="Search by name, title or branch…"
-          value="\${addCheckerSearchQuery}"
+          value="${addCheckerSearchQuery}"
           oninput="filterAddCheckerSearch(this.value)"
           style="flex:1;border:none;outline:none;font-size:13px;background:transparent;color:#e6edf3;font-family:inherit;" />
         <button onclick="closeAddCheckerSearch()" style="color:#8b949e;cursor:pointer;background:none;border:none;display:flex;align-items:center;">
@@ -2052,66 +2045,66 @@ function renderCheckerPermissionsSection() {
         </button>
       </div>
       <div id="add-checker-results" style="max-height:220px;overflow-y:auto;background:#161b22;">
-        \${(() => {
+        ${(() => {
           const q = addCheckerSearchQuery.toLowerCase();
           const matches = availableCandidates.filter(e => !q || e.name.toLowerCase().includes(q) || e.department.toLowerCase().includes(q) || e.title.toLowerCase().includes(q));
-          if (!matches.length) return \`<div style="padding:12px 16px;font-size:12px;color:#8b949e;">No matches found</div>\`;
-          return matches.map(e => \`
-            <div onclick="addCheckerFromCandidate('\${e.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #30363d;" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='#161b22'">
+          if (!matches.length) return `<div style="padding:12px 16px;font-size:12px;color:#8b949e;">No matches found</div>`;
+          return matches.map(e => `
+            <div onclick="addCheckerFromCandidate('${e.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #30363d;" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='#161b22'">
               <div style="width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;">
-                <img src="\${e.photo}" width="32" height="32" style="width:32px;height:32px;object-fit:cover;"
-                  onerror="this.outerHTML='<div style=\\\\'width:32px;height:32px;border-radius:50%;background:\${e.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;\\\\'>\${e.name.split(' ').map(n=>n[0]).join('')}</div>'" />
+                <img src="${e.photo}" width="32" height="32" style="width:32px;height:32px;object-fit:cover;"
+                  onerror="this.outerHTML='<div style=\\'width:32px;height:32px;border-radius:50%;background:${e.color};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;\\'>${e.name.split(' ').map(n=>n[0]).join('')}</div>'" />
               </div>
               <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:600;color:#e6edf3;">\${e.name}</div>
-                <div style="font-size:11px;color:#8b949e;">\${e.title} · \${e.department}</div>
+                <div style="font-size:13px;font-weight:600;color:#e6edf3;">${e.name}</div>
+                <div style="font-size:11px;color:#8b949e;">${e.title} · ${e.department}</div>
               </div>
               <span style="font-size:11px;font-weight:600;color:#2dd4bf;background:#0d3d32;padding:2px 8px;border-radius:99px;flex-shrink:0;">Add</span>
-            </div>\`).join('');
+            </div>`).join('');
         })()}
       </div>
-    </div>\` : ''}
+    </div>` : ''}
 
     <!-- Checker picker -->
     <div class="flex flex-wrap gap-2 mb-5">
-      \${checkerPool.map(c => {
+      ${checkerPool.map(c => {
         const isActive = c.id === selectedId;
-        return \`<button type="button" onclick="selectCheckerForConfig('\${c.id}')"
-          style="display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.15s;border:1.5px solid \${isActive?'#1a7f6e':'#30363d'};background:\${isActive?'#0d3d32':'#21262d'};">
+        return `<button type="button" onclick="selectCheckerForConfig('${c.id}')"
+          style="display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.15s;border:1.5px solid ${isActive?'#1a7f6e':'#30363d'};background:${isActive?'#0d3d32':'#21262d'};">
           <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;">
-            <img src="\${c.photo}" width="28" height="28" style="width:28px;height:28px;object-fit:cover;"
-              onerror="this.outerHTML='<div style=\\'width:28px;height:28px;border-radius:50%;background:\${c.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;\\'>\${c.name.split(' ').map(n=>n[0]).join('')}</div>'" />
+            <img src="${c.photo}" width="28" height="28" style="width:28px;height:28px;object-fit:cover;"
+              onerror="this.outerHTML='<div style=\'width:28px;height:28px;border-radius:50%;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;\'>${c.name.split(' ').map(n=>n[0]).join('')}</div>'" />
           </div>
           <div style="text-align:left;">
-            <div style="font-size:12px;font-weight:600;color:\${isActive?'#2dd4bf':'#c9d1d9'};">\${c.name}</div>
-            <div style="font-size:10px;color:#8b949e;">\${c.department}</div>
+            <div style="font-size:12px;font-weight:600;color:${isActive?'#2dd4bf':'#c9d1d9'};">${c.name}</div>
+            <div style="font-size:10px;color:#8b949e;">${c.department}</div>
           </div>
-        </button>\`;
+        </button>`;
       }).join('')}
     </div>
 
     <!-- Selected checker's permissions -->
-    \${checker ? \`
+    ${checker ? `
     <div class="border-t border-gray-100 pt-4">
       <div class="flex items-center gap-2 mb-3">
-        <span class="text-xs font-semibold text-gray-700">\${checker.name}</span>
-        <span class="text-xs text-gray-400">— \${checker.title} · \${checker.department}</span>
+        <span class="text-xs font-semibold text-gray-700">${checker.name}</span>
+        <span class="text-xs text-gray-400">— ${checker.title} · ${checker.department}</span>
       </div>
       <div class="flex flex-wrap gap-2">
-        \${checkerTypeOptions.map(type => {
+        ${checkerTypeOptions.map(type => {
           const active = checker.canApprove.includes(type);
-          return \`<button type="button" onclick="toggleCheckerPermission('\${checker.id}','\${type}')"
-            style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid \${active?'#a7f3d0':'#e5e7eb'};background:\${active?'#d1fae5':'#f9fafb'};color:\${active?'#065f46':'#9ca3af'};">
-            \${active
-              ? \`<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>\`
-              : \`<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="2" y1="2" x2="8" y2="8" stroke="#d1d5db" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="2" x2="2" y2="8" stroke="#d1d5db" stroke-width="1.8" stroke-linecap="round"/></svg>\`
+          return `<button type="button" onclick="toggleCheckerPermission('${checker.id}','${type}')"
+            style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid ${active?'#a7f3d0':'#e5e7eb'};background:${active?'#d1fae5':'#f9fafb'};color:${active?'#065f46':'#9ca3af'};">
+            ${active
+              ? `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,7.5 8.5,2" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+              : `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="2" y1="2" x2="8" y2="8" stroke="#d1d5db" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="2" x2="2" y2="8" stroke="#d1d5db" stroke-width="1.8" stroke-linecap="round"/></svg>`
             }
-            \${type}
-          </button>\`;
+            ${type}
+          </button>`;
         }).join('')}
       </div>
-    </div>\` : ''}
-  </div>\`;
+    </div>` : ''}
+  </div>`;
 }
 
 function refreshConfigSummary() {
@@ -2119,13 +2112,13 @@ function refreshConfigSummary() {
   if(!s) return;
   const c = workflowConfig;
   s.innerHTML = [
-    \`Wire transfers above <strong>\${fmtAmt(c.wireTransferDualThreshold)}</strong> require dual approval.\`,
-    \`Journal entries below <strong>\${fmtAmt(c.jeAutoApprovalLimit)}</strong> are auto-approved.\`,
-    \`Escalation after <strong>\${c.maxApprovalDays} day\${c.maxApprovalDays!==1?'s':''}</strong>.\`,
-    \`Makers <strong>\${c.makerCannotApproveSelf?'cannot':'can'}</strong> approve their own requests.\`,
-    \`Admin bypass: <strong>\${c.adminBypassApproval?'enabled':'disabled'}</strong>.\`,
-    \`Base currency: <strong>\${c.baseCurrency}</strong>.\`,
-  ].map(l=>\`<div>• \${l}</div>\`).join('');
+    `Wire transfers above <strong>${fmtAmt(c.wireTransferDualThreshold)}</strong> require dual approval.`,
+    `Journal entries below <strong>${fmtAmt(c.jeAutoApprovalLimit)}</strong> are auto-approved.`,
+    `Escalation after <strong>${c.maxApprovalDays} day${c.maxApprovalDays!==1?'s':''}</strong>.`,
+    `Makers <strong>${c.makerCannotApproveSelf?'cannot':'can'}</strong> approve their own requests.`,
+    `Admin bypass: <strong>${c.adminBypassApproval?'enabled':'disabled'}</strong>.`,
+    `Base currency: <strong>${c.baseCurrency}</strong>.`,
+  ].map(l=>`<div>• ${l}</div>`).join('');
 }
 
 // All currencies available for selection in config
@@ -2146,21 +2139,21 @@ function setBaseCurrency(code) {
 
 function renderCurrencySection() {
   const base = workflowConfig.baseCurrency;
-  return \`<div id="currency-config-section" class="card p-5">
+  return `<div id="currency-config-section" class="card p-5">
     <h3 class="text-sm font-semibold text-gray-700 mb-1">Base Currency</h3>
     <p class="text-xs text-gray-400 mb-4">The selected currency is used system-wide across all transaction forms and labels.</p>
     <div class="flex flex-wrap gap-2">
-      \${allCurrencies.map(({code, name}) => {
+      ${allCurrencies.map(({code, name}) => {
         const active = base === code;
-        return \`<button type="button" onclick="setBaseCurrency('\${code}')" title="\${name}"
-          style="display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid \${active?'#1a7f6e':'#e5e7eb'};background:\${active?'#e6f4f1':'#f9fafb'};color:\${active?'#1a7f6e':'#9ca3af'};">
-          \${active ? \`<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="#1a7f6e"/><circle cx="5" cy="5" r="4.5" stroke="#1a7f6e" stroke-width="1"/></svg>\` : \`<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="#d1d5db" stroke-width="1"/></svg>\`}
-          \${code}
-          <span style="font-weight:400;font-size:10px;opacity:0.75;">\${name}</span>
-        </button>\`;
+        return `<button type="button" onclick="setBaseCurrency('${code}')" title="${name}"
+          style="display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid ${active?'#1a7f6e':'#e5e7eb'};background:${active?'#e6f4f1':'#f9fafb'};color:${active?'#1a7f6e':'#9ca3af'};">
+          ${active ? `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3" fill="#1a7f6e"/><circle cx="5" cy="5" r="4.5" stroke="#1a7f6e" stroke-width="1"/></svg>` : `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="#d1d5db" stroke-width="1"/></svg>`}
+          ${code}
+          <span style="font-weight:400;font-size:10px;opacity:0.75;">${name}</span>
+        </button>`;
       }).join('')}
     </div>
-  </div>\`;
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -2175,46 +2168,46 @@ function openRequestModal(id) {
   const statusColor = {pending:'#92400e',approved:'#065f46',rejected:'#991b1b',draft:'#374151'}[a.status]||'#374151';
   const statusBg = {pending:'#fef3c7',approved:'#d1fae5',rejected:'#fee2e2',draft:'#f3f4f6'}[a.status]||'#f3f4f6';
 
-  document.getElementById('modal-container').innerHTML = \`
+  document.getElementById('modal-container').innerHTML = `
   <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="card slide-in" style="width:100%; max-width:580px; max-height:90vh; overflow-y:auto; border-radius:10px;">
       <!-- Header -->
       <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-10" style="border-radius:10px 10px 0 0;">
         <div class="flex items-center gap-3">
-          <span class="font-mono text-sm font-bold text-gray-800">\${a.id}</span>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background:\${statusBg}; color:\${statusColor};">\${a.status}</span>
+          <span class="font-mono text-sm font-bold text-gray-800">${a.id}</span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background:${statusBg}; color:${statusColor};">${a.status}</span>
         </div>
-        <button onclick="closeModal()" class="topbar-icon text-gray-400 hover:text-gray-600">\${icon('x','w-4 h-4')}</button>
+        <button onclick="closeModal()" class="topbar-icon text-gray-400 hover:text-gray-600">${icon('x','w-4 h-4')}</button>
       </div>
 
       <!-- Body -->
       <div class="px-5 py-4 space-y-4">
         <!-- Details grid -->
         <div class="grid grid-cols-2 gap-3">
-          \${[
+          ${[
             {label:'Type', value:a.subtype},
             {label:'Submitted By', value:a.maker},
-            {label:'Amount', value:\`<span class="font-bold text-gray-800">\${fmtAmt(a.amount,a.currency)}</span>\`},
-            {label:'Account', value:\`<span class="font-mono text-xs">\${a.account}</span>\`},
+            {label:'Amount', value:`<span class="font-bold text-gray-800">${fmtAmt(a.amount,a.currency)}</span>`},
+            {label:'Account', value:`<span class="font-mono text-xs">${a.account}</span>`},
             {label:'Branch', value:a.branch},
-            {label:'Priority', value:\`<div class="flex items-center gap-1.5">\${priorityDot(a.priority)}<span class="capitalize">\${a.priority}</span></div>\`},
+            {label:'Priority', value:`<div class="flex items-center gap-1.5">${priorityDot(a.priority)}<span class="capitalize">${a.priority}</span></div>`},
             {label:'Created', value:a.created},
-            ...(a.assignedCheckerName ? [{label:'Assigned Checker', value:\`<span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>\${a.assignedCheckerName}</span>\`}] : []),
-          ].map(d=>\`
+            ...(a.assignedCheckerName ? [{label:'Assigned Checker', value:`<span class="inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>${a.assignedCheckerName}</span>`}] : []),
+          ].map(d=>`
             <div>
-              <div class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">\${d.label}</div>
-              <div class="text-xs text-gray-700">\${d.value}</div>
+              <div class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-0.5">${d.label}</div>
+              <div class="text-xs text-gray-700">${d.value}</div>
             </div>
-          \`).join('')}
+          `).join('')}
         </div>
 
         <!-- Description -->
         <div>
           <div class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Description</div>
-          <div class="text-sm text-gray-700 bg-gray-50 rounded-lg px-3.5 py-2.5 border border-gray-100">\${a.description}</div>
+          <div class="text-sm text-gray-700 bg-gray-50 rounded-lg px-3.5 py-2.5 border border-gray-100">${a.description}</div>
         </div>
 
-        \${a.jeLines ? \`
+        ${a.jeLines ? `
         <!-- JE Lines -->
         <div>
           <div class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Journal Lines</div>
@@ -2222,47 +2215,47 @@ function openRequestModal(id) {
             <table class="tbl">
               <thead><tr><th>Account</th><th>Name</th><th>Debit</th><th>Credit</th></tr></thead>
               <tbody>
-                \${a.jeLines.map(l=>\`
+                ${a.jeLines.map(l=>`
                   <tr>
-                    <td class="font-mono text-xs">\${l.account}</td>
-                    <td class="text-xs">\${l.name}</td>
-                    <td class="text-xs font-mono">\${l.debit?fmtAmt(l.debit):'—'}</td>
-                    <td class="text-xs font-mono">\${l.credit?fmtAmt(l.credit):'—'}</td>
+                    <td class="font-mono text-xs">${l.account}</td>
+                    <td class="text-xs">${l.name}</td>
+                    <td class="text-xs font-mono">${l.debit?fmtAmt(l.debit):'—'}</td>
+                    <td class="text-xs font-mono">${l.credit?fmtAmt(l.credit):'—'}</td>
                   </tr>
-                \`).join('')}
+                `).join('')}
               </tbody>
             </table>
           </div>
         </div>
-        \` : ''}
+        ` : ''}
 
-        \${a.rejectionReason ? \`
+        ${a.rejectionReason ? `
         <!-- Rejection reason -->
         <div class="bg-red-50 border border-red-200 rounded-lg p-3.5">
           <div class="text-xs font-semibold text-red-600 mb-1">Rejection Reason</div>
-          <p class="text-xs text-red-700">\${a.rejectionReason}</p>
-          <div class="text-xs text-red-400 mt-1">By \${a.rejectedBy} · \${a.rejectedAt}</div>
+          <p class="text-xs text-red-700">${a.rejectionReason}</p>
+          <div class="text-xs text-red-400 mt-1">By ${a.rejectedBy} · ${a.rejectedAt}</div>
         </div>
-        \` : ''}
+        ` : ''}
 
-        \${a.approvedBy ? \`
+        ${a.approvedBy ? `
         <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3.5">
           <div class="text-xs font-semibold text-emerald-600 mb-1">Approval</div>
-          <p class="text-xs text-emerald-700">Approved by \${a.approvedBy}</p>
-          <div class="text-xs text-emerald-400 mt-1">\${a.approvedAt}</div>
+          <p class="text-xs text-emerald-700">Approved by ${a.approvedBy}</p>
+          <div class="text-xs text-emerald-400 mt-1">${a.approvedAt}</div>
         </div>
-        \` : ''}
+        ` : ''}
 
-        \${canApprove && isCheckerOOO() ? \`
+        ${canApprove && isCheckerOOO() ? `
         <!-- OOO block for checker -->
         <div class="border-t border-gray-100 pt-4">
           <div class="flex items-center gap-2.5 bg-amber-50 border border-amber-200 rounded-lg p-3">
             <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <p class="text-xs text-amber-700">You are currently out of office (\${getOOO(myId()).start} – \${getOOO(myId()).end}). Approval actions are paused until you return.</p>
+            <p class="text-xs text-amber-700">You are currently out of office (${getOOO(myId()).start} – ${getOOO(myId()).end}). Approval actions are paused until you return.</p>
           </div>
         </div>
-        \` : ''}
-        \${canApprove && !isCheckerOOO() ? \`
+        ` : ''}
+        ${canApprove && !isCheckerOOO() ? `
         <!-- Approve / Reject / Edit & Approve -->
         <div class="border-t border-gray-100 pt-4">
           <div class="mb-3">
@@ -2275,35 +2268,35 @@ function openRequestModal(id) {
             <p id="modal-comment-error" class="text-xs text-red-500 mt-1" style="display:none;">A reason is required when rejecting a request.</p>
           </div>
           <div class="flex items-center justify-between">
-            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-amber-200 text-amber-700 hover:bg-amber-50 transition-colors flex items-center gap-1.5" onclick="openCheckerEditModal('\${a.id}')">
+            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-amber-200 text-amber-700 hover:bg-amber-50 transition-colors flex items-center gap-1.5" onclick="openCheckerEditModal('${a.id}')">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
               Edit &amp; Approve
             </button>
             <div class="flex gap-2.5">
-              <button class="btn-reject" onclick="rejectFromModal('\${a.id}')">Reject</button>
-              <button class="btn-approve" onclick="approveFromModal('\${a.id}')">Approve</button>
+              <button class="btn-reject" onclick="rejectFromModal('${a.id}')">Reject</button>
+              <button class="btn-approve" onclick="approveFromModal('${a.id}')">Approve</button>
             </div>
           </div>
         </div>
-        \` : ''}
+        ` : ''}
 
-        \${isMyRequest && a.status==='pending' ? \`
+        ${isMyRequest && a.status==='pending' ? `
         <div class="border-t border-gray-100 pt-4 flex items-center justify-between">
           <span class="text-xs text-gray-400">Awaiting review — you cannot approve your own request.</span>
           <div class="flex gap-2">
-            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors" onclick="closeModal(); editRequest('\${a.id}')">
+            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors" onclick="closeModal(); editRequest('${a.id}')">
               Edit Request
             </button>
-            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-red-200 text-red-600 hover:bg-red-50 transition-colors" onclick="cancelRequest('\${a.id}')">
+            <button class="py-1.5 px-3.5 text-xs font-semibold rounded-md border border-red-200 text-red-600 hover:bg-red-50 transition-colors" onclick="cancelRequest('${a.id}')">
               Cancel Request
             </button>
           </div>
         </div>
-        \` : ''}
+        ` : ''}
 
       </div>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function openCheckerEditModal(id) {
@@ -2312,7 +2305,7 @@ function openCheckerEditModal(id) {
   const subtypes = ['Wire Transfer','Internal Transfer','Deposit Reversal','Loan Disbursement','Payment','Manual JE'];
   const currency = workflowConfig.baseCurrency;
   const priorities = ['low','medium','high'];
-  document.getElementById('modal-container').innerHTML = \`
+  document.getElementById('modal-container').innerHTML = `
   <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="card slide-in" style="width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-radius:10px;">
       <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-10" style="border-radius:10px 10px 0 0;">
@@ -2321,7 +2314,7 @@ function openCheckerEditModal(id) {
             <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
           </div>
           <div>
-            <div class="text-sm font-bold text-gray-800">Edit &amp; Approve — <span class="font-mono">\${a.id}</span></div>
+            <div class="text-sm font-bold text-gray-800">Edit &amp; Approve — <span class="font-mono">${a.id}</span></div>
             <div class="text-xs text-gray-400">Correct the request then approve in one step</div>
           </div>
         </div>
@@ -2333,30 +2326,30 @@ function openCheckerEditModal(id) {
         <div class="grid grid-cols-2 gap-3">
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1">Type</label>
-            <select id="ce-subtype" class="input text-xs">\${subtypes.map(s=>\`<option\${a.subtype===s?' selected':''}>\${s}</option>\`).join('')}</select>
+            <select id="ce-subtype" class="input text-xs">${subtypes.map(s=>`<option${a.subtype===s?' selected':''}>${s}</option>`).join('')}</select>
           </div>
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1">Amount</label>
-            <input id="ce-amount" type="number" class="input text-xs" value="\${a.amount}" />
+            <input id="ce-amount" type="number" class="input text-xs" value="${a.amount}" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1">Currency</label>
             <div class="input text-xs flex items-center gap-1.5" style="background:#f9fafb;cursor:default;">
-              <span class="font-semibold text-gray-700">\${currency}</span>
-              <span class="text-gray-400">\${allCurrencies.find(c=>c.code===currency)?.name||''}</span>
+              <span class="font-semibold text-gray-700">${currency}</span>
+              <span class="text-gray-400">${allCurrencies.find(c=>c.code===currency)?.name||''}</span>
             </div>
           </div>
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1">Account</label>
-            <input id="ce-account" type="text" class="input text-xs" value="\${a.account}" />
+            <input id="ce-account" type="text" class="input text-xs" value="${a.account}" />
           </div>
           <div class="col-span-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1">Description</label>
-            <textarea id="ce-desc" class="input text-xs" rows="2" style="resize:none;">\${a.description}</textarea>
+            <textarea id="ce-desc" class="input text-xs" rows="2" style="resize:none;">${a.description}</textarea>
           </div>
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1">Priority</label>
-            <select id="ce-priority" class="input text-xs">\${priorities.map(p=>\`<option value="\${p}"\${a.priority===p?' selected':''}>\${p.charAt(0).toUpperCase()+p.slice(1)}</option>\`).join('')}</select>
+            <select id="ce-priority" class="input text-xs">${priorities.map(p=>`<option value="${p}"${a.priority===p?' selected':''}>${p.charAt(0).toUpperCase()+p.slice(1)}</option>`).join('')}</select>
           </div>
         </div>
         <div class="pt-1">
@@ -2370,11 +2363,11 @@ function openCheckerEditModal(id) {
         </div>
       </div>
       <div class="px-5 py-3 border-t border-gray-100 flex justify-between items-center">
-        <button class="btn-ghost text-xs" onclick="openRequestModal('\${id}')">← Back</button>
-        <button class="btn-approve text-xs" onclick="saveCheckerEditAndApprove('\${id}')">Save &amp; Approve</button>
+        <button class="btn-ghost text-xs" onclick="openRequestModal('${id}')">← Back</button>
+        <button class="btn-approve text-xs" onclick="saveCheckerEditAndApprove('${id}')">Save &amp; Approve</button>
       </div>
     </div>
-  </div>\`;
+  </div>`;
   document.getElementById('modal-container').style.display = 'block';
 }
 
@@ -2395,21 +2388,21 @@ function saveCheckerEditAndApprove(id) {
   const newDesc     = document.getElementById('ce-desc').value.trim();
   const newPriority = document.getElementById('ce-priority').value;
   const changes = [];
-  if(newSubtype  !== a.subtype)      changes.push(\`Type: \${a.subtype} → \${newSubtype}\`);
-  if(newAmount   !== a.amount)       changes.push(\`Amount: \${fmtAmt(a.amount,a.currency)} → \${fmtAmt(newAmount,newCurrency)}\`);
-  if(newCurrency !== a.currency)     changes.push(\`Currency: \${a.currency} → \${newCurrency}\`);
-  if(newAccount  !== a.account)      changes.push(\`Account: \${a.account} → \${newAccount}\`);
-  if(newDesc     !== a.description)  changes.push(\`Description updated\`);
-  if(newPriority !== a.priority)     changes.push(\`Priority: \${a.priority} → \${newPriority}\`);
+  if(newSubtype  !== a.subtype)      changes.push(`Type: ${a.subtype} → ${newSubtype}`);
+  if(newAmount   !== a.amount)       changes.push(`Amount: ${fmtAmt(a.amount,a.currency)} → ${fmtAmt(newAmount,newCurrency)}`);
+  if(newCurrency !== a.currency)     changes.push(`Currency: ${a.currency} → ${newCurrency}`);
+  if(newAccount  !== a.account)      changes.push(`Account: ${a.account} → ${newAccount}`);
+  if(newDesc     !== a.description)  changes.push(`Description updated`);
+  if(newPriority !== a.priority)     changes.push(`Priority: ${a.priority} → ${newPriority}`);
   a.subtype = newSubtype; a.amount = newAmount; a.currency = newCurrency;
   a.account = newAccount; a.description = newDesc; a.priority = newPriority;
   a.editedBy = me().name; a.editedAt = now;
   a.status = 'approved'; a.approvedBy = me().name; a.approvedAt = now;
   const changeStr = changes.length ? changes.join('; ') : 'Minor corrections';
-  auditLog.unshift({ id:'AUD-'+Date.now()+'a', timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED',   resource:id, details:\`Checker correction: \${changeStr}\`, type:'edit' });
-  auditLog.unshift({ id:'AUD-'+Date.now()+'b', timestamp:now+':01', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'APPROVED', resource:id, details:\`Approved after correction — \${note}\`, type:'approve' });
+  auditLog.unshift({ id:'AUD-'+Date.now()+'a', timestamp:now+':00', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'EDITED',   resource:id, details:`Checker correction: ${changeStr}`, type:'edit' });
+  auditLog.unshift({ id:'AUD-'+Date.now()+'b', timestamp:now+':01', actor:me().name, actorId:myId(), ip:'127.0.0.1', action:'APPROVED', resource:id, details:`Approved after correction — ${note}`, type:'approve' });
   closeModal();
-  showToast(\`\${id} corrected and approved\`, 'success');
+  showToast(`${id} corrected and approved`, 'success');
   showPage(currentPage);
 }
 
@@ -2424,10 +2417,10 @@ function approveFromModal(id) {
     id:'AUD-'+Date.now(), timestamp:a.approvedAt+':00',
     actor:me().name, actorId:myId(), ip:'127.0.0.1',
     action:'APPROVED', resource:id,
-    details:\`Approved: \${a.description}\${comment?' — '+comment:''}\`, type:'approve'
+    details:`Approved: ${a.description}${comment?' — '+comment:''}`, type:'approve'
   });
   closeModal();
-  showToast(\`\${id} approved successfully\`,'success');
+  showToast(`${id} approved successfully`,'success');
   showPage(currentPage);
 }
 
@@ -2452,10 +2445,10 @@ function rejectFromModal(id) {
     id:'AUD-'+Date.now(), timestamp:a.rejectedAt+':00',
     actor:me().name, actorId:myId(), ip:'127.0.0.1',
     action:'REJECTED', resource:id,
-    details:\`Rejected: \${comment}\`, type:'reject'
+    details:`Rejected: ${comment}`, type:'reject'
   });
   closeModal();
-  showToast(\`\${id} rejected\`,'error');
+  showToast(`${id} rejected`,'error');
   showPage(currentPage);
 }
 
@@ -2470,18 +2463,18 @@ function openProfileMenu() {
   const menu = document.getElementById('profile-menu');
   if(menu.style.display !== 'none') { menu.style.display = 'none'; return; }
   const p = me();
-  menu.innerHTML = \`
+  menu.innerHTML = `
     <div class="px-4 py-3 border-b border-gray-100 flex items-center gap-2.5">
-      \${avatarImg(p, 32)}
+      ${avatarImg(p, 32)}
       <div>
-        <div class="text-xs font-semibold text-gray-800">\${p.name}</div>
-        <div class="text-xs text-gray-400">\${p.title} · \${p.roleLabel}</div>
+        <div class="text-xs font-semibold text-gray-800">${p.name}</div>
+        <div class="text-xs text-gray-400">${p.title} · ${p.roleLabel}</div>
       </div>
     </div>
     <div class="py-1">
-      \${myRole()==='checker' ? \`<button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-gray-50" onclick="closeProfileMenu(); openOOOModal()">Set Out of Office</button>\` : ''}
+      ${myRole()==='checker' ? `<button class="w-full text-left px-4 py-2 text-xs text-gray-600 hover:bg-gray-50" onclick="closeProfileMenu(); openOOOModal()">Set Out of Office</button>` : ''}
       <button class="w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 font-medium" onclick="closeProfileMenu(); handleRoute('#/login');">Switch User</button>
-    </div>\`;
+    </div>`;
   menu.style.display = 'block';
   setTimeout(()=>document.addEventListener('click', closeProfileMenuOutside, {once:true}), 0);
 }
@@ -2494,7 +2487,7 @@ function closeProfileMenuOutside(e) {
 function openOOOModal() {
   const ooo = getOOO(myId()) || { start:'', end:'' };
   const today = new Date().toISOString().slice(0,10);
-  document.getElementById('modal-container').innerHTML = \`
+  document.getElementById('modal-container').innerHTML = `
   <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="bg-white slide-in" style="width:100%;max-width:440px;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.15);overflow:hidden;">
       <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -2509,24 +2502,24 @@ function openOOOModal() {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">From</label>
-            <input type="date" id="ooo-start" class="input" value="\${ooo.start}" min="\${today}" />
+            <input type="date" id="ooo-start" class="input" value="${ooo.start}" min="${today}" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-gray-600 mb-1.5">Until</label>
-            <input type="date" id="ooo-end" class="input" value="\${ooo.end}" min="\${today}" />
+            <input type="date" id="ooo-end" class="input" value="${ooo.end}" min="${today}" />
           </div>
         </div>
         <p id="ooo-error" class="text-xs text-red-500" style="display:none;">Please enter a valid date range (start must be before or equal to end).</p>
       </div>
       <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
-        \${ooo.start ? \`<button class="text-xs text-gray-400 hover:text-red-500 font-medium" onclick="clearOOO()">Clear OOO</button>\` : '<span></span>'}
+        ${ooo.start ? `<button class="text-xs text-gray-400 hover:text-red-500 font-medium" onclick="clearOOO()">Clear OOO</button>` : '<span></span>'}
         <div class="flex gap-2">
           <button class="btn-ghost text-xs" onclick="closeModal()">Cancel</button>
           <button class="btn-primary text-xs" onclick="saveOOO()">Save</button>
         </div>
       </div>
     </div>
-  </div>\`;
+  </div>`;
   document.getElementById('modal-container').style.display = 'block';
 }
 
@@ -2558,16 +2551,16 @@ function cancelRequest(id) {
   if(!a || a.status !== 'pending') return;
 
   // Show confirmation inside a small modal
-  document.getElementById('modal-container').innerHTML = \`
+  document.getElementById('modal-container').innerHTML = `
   <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="bg-white slide-in" style="width:100%;max-width:400px;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.15);overflow:hidden;">
       <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
         <h3 class="text-sm font-semibold text-gray-800">Cancel Request</h3>
-        <button onclick="closeModal()" class="topbar-icon text-gray-400">\${icon('x','w-4 h-4')}</button>
+        <button onclick="closeModal()" class="topbar-icon text-gray-400">${icon('x','w-4 h-4')}</button>
       </div>
       <div class="px-5 py-4">
-        <p class="text-sm text-gray-600">Are you sure you want to cancel <span class="font-semibold text-gray-800">\${id}</span>?</p>
-        <p class="text-xs text-gray-400 mt-1">\${a.description.slice(0,72)}\${a.description.length>72?'…':''}</p>
+        <p class="text-sm text-gray-600">Are you sure you want to cancel <span class="font-semibold text-gray-800">${id}</span>?</p>
+        <p class="text-xs text-gray-400 mt-1">${a.description.slice(0,72)}${a.description.length>72?'…':''}</p>
         <div class="mt-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1.5">Reason for cancellation (optional)</label>
           <textarea id="cancel-reason" class="input" rows="2" placeholder="e.g. Entered incorrect amount, no longer required..." style="resize:none;"></textarea>
@@ -2575,10 +2568,10 @@ function cancelRequest(id) {
       </div>
       <div class="px-5 py-3 border-t border-gray-100 flex justify-end gap-2.5">
         <button class="btn-ghost" onclick="closeModal()">Keep Request</button>
-        <button class="py-2 px-4 text-sm font-semibold rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors" onclick="confirmCancel('\${id}')">Yes, Cancel It</button>
+        <button class="py-2 px-4 text-sm font-semibold rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors" onclick="confirmCancel('${id}')">Yes, Cancel It</button>
       </div>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 function confirmCancel(id) {
@@ -2592,10 +2585,10 @@ function confirmCancel(id) {
     id:'AUD-'+Date.now(), timestamp:a.cancelledAt+':00',
     actor:me().name, actorId:myId(), ip:'127.0.0.1',
     action:'CANCELLED', resource:id,
-    details:\`Cancelled by maker: \${reason}\`, type:'cancel'
+    details:`Cancelled by maker: ${reason}`, type:'cancel'
   });
   closeModal();
-  showToast(\`\${id} has been cancelled\`, 'info');
+  showToast(`${id} has been cancelled`, 'info');
   showPage(currentPage);
 }
 
@@ -2609,9 +2602,9 @@ function quickApprove(id) {
     id:'AUD-'+Date.now(), timestamp:a.approvedAt+':00',
     actor:me().name, actorId:myId(), ip:'127.0.0.1',
     action:'APPROVED', resource:id,
-    details:\`Quick approved: \${a.description}\`, type:'approve'
+    details:`Quick approved: ${a.description}`, type:'approve'
   });
-  showToast(\`\${id} approved\`,'success');
+  showToast(`${id} approved`,'success');
   showPage(currentPage);
 }
 
@@ -2623,7 +2616,7 @@ function closeModal() {
 // OVERDUE TASKS MODAL (matches Screenshot 2)
 // ═══════════════════════════════════════════
 function showOverdueTasks() {
-  document.getElementById('modal-container').innerHTML = \`
+  document.getElementById('modal-container').innerHTML = `
   <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="bg-white slide-in" style="width:100%; max-width:680px; border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,0.15); overflow:hidden;">
       <!-- Header -->
@@ -2646,15 +2639,15 @@ function showOverdueTasks() {
           </tr>
         </thead>
         <tbody>
-          \${[
+          ${[
             {name:'KYC Document Review', linked:'Ralph Edwards', due:'29/1/2026'},
             {name:'Address change', linked:'Cody Fisher', due:'30/1/2026'},
             {name:'Account Unfreeze', linked:'Kristin Watson', due:'30/1/2026'},
-          ].map(t=>\`
+          ].map(t=>`
             <tr>
-              <td style="padding-left:24px;" class="text-sm text-gray-700">\${t.name}</td>
-              <td class="text-sm text-gray-500">\${t.linked}</td>
-              <td class="text-sm text-gray-500">\${t.due}</td>
+              <td style="padding-left:24px;" class="text-sm text-gray-700">${t.name}</td>
+              <td class="text-sm text-gray-500">${t.linked}</td>
+              <td class="text-sm text-gray-500">${t.due}</td>
               <td class="pr-4">
                 <div class="flex items-center gap-3 text-gray-400">
                   <svg class="w-4 h-4 cursor-pointer hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 13l4 4L19 7"/></svg>
@@ -2663,7 +2656,7 @@ function showOverdueTasks() {
                 </div>
               </td>
             </tr>
-          \`).join('')}
+          `).join('')}
         </tbody>
       </table>
 
@@ -2672,7 +2665,7 @@ function showOverdueTasks() {
         <span class="text-sm font-medium cursor-pointer" style="color:#1a7f6e;">Go to All tasks →</span>
       </div>
     </div>
-  </div>\`;
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -2681,7 +2674,7 @@ function showOverdueTasks() {
 function showToast(msg, type='info') {
   const colors = {success:'#059669', error:'#dc2626', info:'#1a7f6e'};
   const t = document.createElement('div');
-  t.style.cssText = \`position:fixed;bottom:20px;right:20px;background:#161b22;border:1px solid #30363d;border-left:3px solid \${colors[type]||colors.info};border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;color:#e6edf3;box-shadow:0 4px 12px rgba(0,0,0,0.4);z-index:999;animation:slideIn 0.2s ease-out;max-width:320px;\`;
+  t.style.cssText = `position:fixed;bottom:20px;right:20px;background:#161b22;border:1px solid #30363d;border-left:3px solid ${colors[type]||colors.info};border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;color:#e6edf3;box-shadow:0 4px 12px rgba(0,0,0,0.4);z-index:999;animation:slideIn 0.2s ease-out;max-width:320px;`;
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 3500);
@@ -2692,7 +2685,7 @@ function showToast(msg, type='info') {
 // ═══════════════════════════════════════════
 
 function parseHash(h) {
-  const raw = (h || window.location.hash).replace(/^#\\/?/, '');
+  const raw = (h || window.location.hash).replace(/^#\/?/, '');
   if (!raw || raw === 'login') return { userId: null, page: 'login' };
   const parts = raw.split('/').filter(Boolean);
   return { userId: parts[0] || null, page: parts[1] || 'dashboard' };
@@ -2700,7 +2693,7 @@ function parseHash(h) {
 
 function navigate(page, userId) {
   const uid = userId || currentPersona;
-  const hash = \`#/\${uid}/\${page}\`;
+  const hash = `#/${uid}/${page}`;
   try { window.location.hash = hash; } catch(e) {}
   handleRoute(hash);
 }
@@ -2734,6 +2727,7 @@ function handleRoute(h) {
   // Show app, hide login
   document.getElementById('login-page').style.display = 'none';
   document.getElementById('app-shell').style.display = 'flex';
+  window.parent.postMessage({ type: 'mc-resize', height: 900 }, '*');
 
   // Always re-render shell when persona changes (updates avatar, nav, notifications)
   // Re-render page when page changes; skip only if both are already correct
@@ -2764,7 +2758,7 @@ function renderPageContent(id) {
     case 'create-je':          content.innerHTML = renderCreateJE(); break;
     case 'audit-log':          content.innerHTML = renderAuditLog(); break;
     case 'config':             content.innerHTML = renderConfig(); refreshConfigSummary(); break;
-    default: content.innerHTML = \`<div class="p-8 text-gray-400 text-sm">Page not found</div>\`;
+    default: content.innerHTML = `<div class="p-8 text-gray-400 text-sm">Page not found</div>`;
   }
 }
 
@@ -2783,35 +2777,40 @@ function renderLoginPage() {
   };
   const grouped = {};
   roleOrder.forEach(r => { grouped[r] = personas.filter(p => p.role === r); });
-  document.getElementById('login-personas').innerHTML = roleOrder.map(role => \`
+  document.getElementById('login-personas').innerHTML = roleOrder.map(role => `
     <div style="margin-bottom:44px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:\${roleColors[role]};background:\${roleBg[role]};padding:4px 12px;border-radius:99px;">\${roleLabels[role]}</div>
-        <span style="font-size:12.5px;color:#4b5563;">\${roleDesc[role]}</span>
+        <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:${roleColors[role]};background:${roleBg[role]};padding:4px 12px;border-radius:99px;">${roleLabels[role]}</div>
+        <span style="font-size:12.5px;color:#4b5563;">${roleDesc[role]}</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;">
-        \${grouped[role].map(p => \`
-          <div onclick="handleRoute('#/\${p.id}/dashboard')"
+        ${grouped[role].map(p => `
+          <div onclick="handleRoute('#/${p.id}/dashboard')"
             style="background:#161b22;border:1.5px solid #30363d;border-radius:16px;padding:28px 18px 22px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:box-shadow 0.2s,border-color 0.2s,transform 0.15s;"
-            onmouseover="this.style.boxShadow='0 8px 28px rgba(0,0,0,0.55)';this.style.borderColor='\${p.color}';this.style.transform='translateY(-2px)'"
+            onmouseover="this.style.boxShadow='0 8px 28px rgba(0,0,0,0.55)';this.style.borderColor='${p.color}';this.style.transform='translateY(-2px)'"
             onmouseout="this.style.boxShadow='none';this.style.borderColor='#30363d';this.style.transform='none'">
             <div style="position:relative;margin-bottom:16px;">
-              <div style="border-radius:50%;padding:3px;background:linear-gradient(135deg,\${p.color}44,\${p.color}11);">
-                \${avatarImg(p, 72)}
+              <div style="border-radius:50%;padding:3px;background:linear-gradient(135deg,${p.color}44,${p.color}11);">
+                ${avatarImg(p, 72)}
               </div>
-              <div style="position:absolute;bottom:3px;right:3px;width:22px;height:22px;border-radius:50%;background:\${p.color};border:2.5px solid #161b22;display:flex;align-items:center;justify-content:center;">
-                \${roleIcon[role]}
+              <div style="position:absolute;bottom:3px;right:3px;width:22px;height:22px;border-radius:50%;background:${p.color};border:2.5px solid #161b22;display:flex;align-items:center;justify-content:center;">
+                ${roleIcon[role]}
               </div>
             </div>
-            <div style="font-size:14.5px;font-weight:700;color:#e6edf3;line-height:1.3;">\${p.name}</div>
-            <div style="font-size:12px;color:#8b949e;margin-top:5px;">\${p.title}</div>
-            <div style="font-size:11px;color:#4b5563;margin-top:3px;">\${p.department}</div>
-            <div style="margin-top:16px;font-size:11px;font-weight:600;color:\${roleColors[role]};background:\${roleBg[role]};padding:4px 12px;border-radius:99px;letter-spacing:0.04em;">\${p.roleLabel}</div>
+            <div style="font-size:14.5px;font-weight:700;color:#e6edf3;line-height:1.3;">${p.name}</div>
+            <div style="font-size:12px;color:#8b949e;margin-top:5px;">${p.title}</div>
+            <div style="font-size:11px;color:#4b5563;margin-top:3px;">${p.department}</div>
+            <div style="margin-top:16px;font-size:11px;font-weight:600;color:${roleColors[role]};background:${roleBg[role]};padding:4px 12px;border-radius:99px;letter-spacing:0.04em;">${p.roleLabel}</div>
           </div>
-        \`).join('')}
+        `).join('')}
       </div>
     </div>
-  \`).join('');
+  `).join('');
+  // Tell parent iframe to expand to fit full login page height
+  setTimeout(function() {
+    var h = document.getElementById('login-page').scrollHeight;
+    window.parent.postMessage({ type: 'mc-resize', height: h }, '*');
+  }, 50);
 }
 
 // Browser back/forward support
