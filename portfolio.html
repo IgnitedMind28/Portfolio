@@ -4626,83 +4626,73 @@ selTenant('abn');
       return null;
     }
 
-    function parseDuration(iso) {
-      // PT1H22M3S → "1h 22m"
-      const h = (iso.match(/(\d+)H/) || [])[1];
-      const m = (iso.match(/(\d+)M/) || [])[1];
-      if (h && m) return `${h}h ${m}m`;
-      if (h) return `${h}h`;
-      if (m) return `${m}m`;
-      return '';
-    }
-
-    function extractTimestamps(html) {
-      // Try description meta tag content
-      const metaMatch = html.match(/<meta name="description" content="([^"]*?)"/i);
-      const descText = metaMatch ? metaMatch[1].replace(/&#?\w+;/g, ' ') : '';
-
-      // Try to grab more description from ytInitialData
-      let fullDesc = descText;
-      try {
-        const initDataMatch = html.match(/var ytInitialData\s*=\s*(\{.+?\});\s*(?:var |<\/script>)/s);
-        if (initDataMatch) {
-          const data = JSON.parse(initDataMatch[1]);
-          // Try macro markers (chapters) path
-          const panels = data?.engagementPanels || [];
-          for (const panel of panels) {
-            const items = panel?.engagementPanelSectionListRenderer?.content
-              ?.macroMarkersListRenderer?.contents;
-            if (items && items.length) {
-              return items.slice(0, 8).map(item => {
-                const r = item?.macroMarkersListItemRenderer;
-                return { time: r?.timeDescription?.simpleText || '', label: r?.title?.simpleText || '' };
-              }).filter(ts => ts.time && ts.label);
-            }
-          }
-          // Try structured description
-          const engItems = panels.flatMap(p =>
-            p?.engagementPanelSectionListRenderer?.content
-              ?.structuredDescriptionContentRenderer?.items || []
-          );
-          for (const item of engItems) {
-            const body = item?.expandableVideoDescriptionBodyRenderer
-              ?.attributedDescriptionBodyText?.content;
-            if (body) { fullDesc = body; break; }
-          }
-        }
-      } catch (_) {}
-
-      // Regex fallback on description text
-      const tsRegex = /\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\s*[-–—·]?\s*(.+)/gm;
-      const results = [];
-      let m;
-      while ((m = tsRegex.exec(fullDesc)) !== null && results.length < 8) {
-        const label = m[2].trim().replace(/\\n.*/s, '').trim();
-        if (label.length > 3) results.push({ time: m[1], label });
-      }
-      return results;
-    }
-
-    function extractDuration(html) {
-      const m = html.match(/itemprop="duration"\s+content="([^"]+)"/i)
-        || html.match(/content="([PT\dHMS]+)"\s+itemprop="duration"/i);
-      return m ? parseDuration(m[1]) : '';
-    }
-
     function extractGuest(title) {
-      // "Topic with Guest Name" or "Topic | Guest Name" or "Topic ft. Guest Name"
-      const m = title.match(/\bwith\s+([A-Z][a-zA-Z\s]+?)(?:\s*[|\-–,]|$)/i)
-        || title.match(/[|\-–]\s*([A-Z][a-zA-Z\s]+?)(?:\s*[|\-–,]|$)/i)
-        || title.match(/\bft\.?\s+([A-Z][a-zA-Z\s]+?)(?:\s*[|\-–,]|$)/i);
+      const m = title.match(/\bwith\s+([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i)
+        || title.match(/[|\-–]\s*([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i)
+        || title.match(/\bft\.?\s+([A-Z][a-zA-Z\s.]+?)(?:\s*[|\-–(,]|$)/i);
       if (m) return m[1].trim().replace(/\s+/g, ' ');
       return "Lenny's Guest";
     }
 
-    function mapToTopics(title, timestamps, descText) {
+    function parseRSSTimestamps(text) {
+      // RSS HTML-stripped content has timestamps on their own line: "00:00\n) Label"
+      // Also handles inline format: "(00:00) Label" or "00:00 - Label"
+      const results = [];
+      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+      for (let i = 0; i < lines.length && results.length < 8; i++) {
+        // Match a line that IS just a timestamp (possibly with surrounding parens)
+        const tsOnly = lines[i].match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?$/);
+        if (tsOnly) {
+          // Label is on the next non-empty, non-paren-only, non-timestamp line
+          for (let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
+            const candidate = lines[j].replace(/^\)\s*/, '').replace(/^\(\s*$/, '').trim();
+            if (
+              candidate.length > 3 &&
+              !/^[\(\)\s]+$/.test(candidate) &&
+              !/^\d{1,2}:\d{2}/.test(candidate) &&
+              !/^(GMT|UTC|http)/i.test(candidate)
+            ) {
+              results.push({ time: tsOnly[1], label: candidate.slice(0, 80) });
+              break;
+            }
+          }
+          continue;
+        }
+        // Also catch inline format: "(00:00) Label text" or "00:00 - Label"
+        const inline = lines[i].match(/^\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\s*[-–—·]?\s*(.{5,80})$/);
+        if (inline) {
+          const h = parseInt(inline[1].split(':')[0]);
+          if (h <= 4 && !/^(GMT|UTC|http|\d{4})/i.test(inline[2])) {
+            results.push({ time: inline[1], label: inline[2].trim().slice(0, 80) });
+          }
+        }
+      }
+      return results;
+    }
+
+    function parseRSSInsights(text) {
+      // Find "What you'll learn:" section
+      const learnIdx = text.search(/What you.{0,5}ll learn:?/i);
+      if (learnIdx === -1) return [];
+      const section = text.slice(learnIdx, learnIdx + 1500);
+      const lines = section.split('\n').map(l => l.trim()).filter(Boolean);
+      const bullets = [];
+      for (const line of lines.slice(1)) {
+        if (/^(What you|Listen|Watch|Subscribe|Timestamps?|Follow|Find|Connect)/i.test(line)) break;
+        if (line.length > 20 && line.length < 200) {
+          bullets.push(line.replace(/^[-•·*\d\.]+\s*/, ''));
+          if (bullets.length >= 3) break;
+        }
+      }
+      return bullets;
+    }
+
+    function mapToTopics(title, timestamps, plainText) {
       const haystack = {
         title: title.toLowerCase(),
         ts: timestamps.map(t => t.label.toLowerCase()).join(' '),
-        desc: descText.toLowerCase(),
+        body: plainText.toLowerCase().slice(0, 800),
       };
       const scores = {};
       for (const [tid, kws] of Object.entries(TOPIC_KEYWORDS)) {
@@ -4711,52 +4701,65 @@ selTenant('abn');
           const re = new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
           score += (haystack.title.match(re) || []).length * 3;
           score += (haystack.ts.match(re) || []).length * 2;
-          score += (haystack.desc.match(re) || []).length * 1;
+          score += (haystack.body.match(re) || []).length * 1;
         }
         if (score > 0) scores[tid] = score;
       }
-      if (!Object.keys(scores).length) scores['strategy'] = 1; // fallback
+      if (!Object.keys(scores).length) scores['strategy'] = 1;
       const max = Math.max(...Object.values(scores));
       const normalized = {};
-      for (const [tid, s] of Object.entries(scores)) {
-        normalized[tid] = Math.round((s / max) * 100);
-      }
-      // Keep only topics scoring ≥ 20, always include the top
-      const filtered = Object.fromEntries(
-        Object.entries(normalized).filter(([tid, s]) => s >= 20)
-      );
+      for (const [tid, s] of Object.entries(scores)) normalized[tid] = Math.round((s / max) * 100);
+      const filtered = Object.fromEntries(Object.entries(normalized).filter(([, s]) => s >= 20));
       const topTid = Object.entries(normalized).sort((a, b) => b[1] - a[1])[0][0];
       if (!filtered[topTid]) filtered[topTid] = normalized[topTid];
       return filtered;
     }
 
     async function fetchEpisodeData(videoId) {
-      // 1. oEmbed (CORS-safe, no key)
+      // 1. oEmbed — title, thumbnail (always CORS-safe, no API key)
       const oembedRes = await fetch(
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
       );
-      if (!oembedRes.ok) throw new Error('Video not found or not accessible');
+      if (!oembedRes.ok) throw new Error('Video not found — check the URL');
       const oembed = await oembedRes.json();
 
-      // 2. Full page via allorigins proxy
-      let html = '';
+      // 2. Lenny's Newsletter RSS feed — CORS-safe, has recent episode show notes with timestamps
+      let timestamps = [], insights = [], plainText = '';
       try {
-        const proxyRes = await fetch(
-          `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.youtube.com/watch?v=' + videoId)}`
-        );
-        if (proxyRes.ok) {
-          const json = await proxyRes.json();
-          html = json.contents || '';
+        const rssRes = await fetch('https://www.lennysnewsletter.com/feed', {
+          headers: { 'User-Agent': 'Mozilla/5.0' }
+        });
+        if (rssRes.ok) {
+          const xml = await rssRes.text();
+          const items = xml.split('<item>');
+          const match = items.find(item => item.includes(videoId));
+          if (match) {
+            const contentM = match.match(/<content:encoded><!\[CDATA\[([\s\S]*?)\]\]>/);
+            const html = contentM ? contentM[1] : '';
+            // Strip HTML tags → plain text
+            plainText = html
+              .replace(/<[^>]+>/g, '\n')
+              .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+              .replace(/&[a-z]+;/g, ' ').replace(/&#\d+;/g, ' ')
+              .replace(/\n{3,}/g, '\n\n');
+            timestamps = parseRSSTimestamps(plainText);
+            insights = parseRSSInsights(plainText);
+          }
         }
       } catch (_) {}
 
       const title = oembed.title || 'Unknown Title';
-      const timestamps = extractTimestamps(html);
-      const duration = extractDuration(html) || '—';
-      const descMeta = (html.match(/<meta name="description" content="([^"]*?)"/i) || [])[1] || '';
-      const topics = mapToTopics(title, timestamps, descMeta);
       const guest = extractGuest(title);
-      const insights = timestamps.slice(0, 3).map(ts => ts.label);
+      const topics = mapToTopics(title, timestamps, plainText);
+
+      // Estimate duration from last timestamp if available
+      let duration = '—';
+      if (timestamps.length) {
+        const last = timestamps[timestamps.length - 1].time;
+        const parts = last.split(':').map(Number);
+        if (parts.length === 3 && parts[0] > 0) duration = `${parts[0]}h ${parts[1]}m+`;
+        else if (parts.length === 2 && parts[0] > 0) duration = `${parts[0]}m+`;
+      }
 
       return {
         id: 'custom-' + videoId,
