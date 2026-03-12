@@ -845,6 +845,10 @@
               <p class="text-slate-300 text-[12px] leading-snug pt-0.5">${ts.label}</p>
             </div>`
           ).join('');
+      } else if (ep.custom) {
+        tsWrap.style.display = '';
+        document.getElementById('detail-timestamps').innerHTML =
+          `<p class="text-slate-500 text-[12px] italic py-2">Chapter timestamps unavailable — YouTube's metadata API is currently unreachable from the browser. <a href="${ep.yt}" target="_blank" class="text-indigo-400 hover:underline">Open on YouTube →</a></p>`;
       } else {
         tsWrap.style.display = 'none';
       }
@@ -859,8 +863,9 @@
         ).join('');
         insEl.previousElementSibling.style.display = '';
       } else if (ep.custom) {
-        insEl.innerHTML = '';
-        insEl.previousElementSibling.style.display = 'none';
+        insEl.innerHTML =
+          `<li class="flex gap-3"><p class="text-slate-500 text-[12px] italic">Key insights unavailable — topic mapping is based on the episode title only.</p></li>`;
+        insEl.previousElementSibling.style.display = '';
       } else {
         insEl.innerHTML = '';
         insEl.previousElementSibling.style.display = '';
