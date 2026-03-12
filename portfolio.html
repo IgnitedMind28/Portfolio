@@ -1107,6 +1107,19 @@
             </button>
           </div>
           <div id="ep-url-status" class="hidden mt-3 text-[12px] rounded-lg px-3 py-2"></div>
+
+          <!-- Description paste area — shown after episode loads -->
+          <div id="ep-desc-area" class="hidden mt-4 pt-4 border-t border-slate-700/60">
+            <p class="text-slate-400 text-[12px] mb-1">Add timestamps & insights</p>
+            <p class="text-slate-600 text-[11px] mb-2">Open the YouTube video → click <strong class="text-slate-500">Show more</strong> → copy and paste the description below</p>
+            <textarea id="ep-desc-input" rows="4"
+              placeholder="Paste the video description here…"
+              class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-[12px] text-slate-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none transition-colors"></textarea>
+            <button onclick="applyCustomDescription()"
+              class="mt-2 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-[12px] font-medium rounded-lg transition-colors">
+              Extract timestamps →
+            </button>
+          </div>
         </div>
       </div>
 
@@ -3890,8 +3903,13 @@ selTenant('abn');
             </div>`
           ).join('');
       } else {
-        tsWrap.style.display = ep.custom ? 'none' : '';
-        if (!ep.custom) document.getElementById('detail-timestamps').innerHTML = '';
+        if (ep.custom) {
+          tsWrap.style.display = '';
+          document.getElementById('detail-timestamps').innerHTML =
+            `<p class="text-slate-600 text-[12px] italic">Paste the YouTube description below to extract timestamps</p>`;
+        } else {
+          tsWrap.style.display = 'none';
+        }
       }
 
       const insEl = document.getElementById('detail-insights');
@@ -4604,14 +4622,14 @@ selTenant('abn');
     // ─── CUSTOM EPISODE LOADER ─────────────────────────────────────
 
     const TOPIC_KEYWORDS = {
-      strategy:       ['strategy','vision','roadmap','positioning','market','competitive','bets','long-term','where to play','choices'],
-      discovery:      ['discovery','research','user research','interview','customer','problem','insight','qualitative','feedback'],
-      growth:         ['growth','retention','activation','churn','engagement','north star','loops','viral','referral'],
-      plg:            ['product-led','plg','self-serve','freemium','viral','trial','expansion','bottoms-up','land and expand'],
-      prioritization: ['prioritization','priority','trade-off','backlog','focus','ruthless','cut','scope','say no'],
-      leadership:     ['leadership','culture','hiring','manager','team','executive','cpo','vp','director','org'],
-      metrics:        ['metrics','analytics','data','kpi','okr','measure','experiment','a/b','north star','funnel'],
-      career:         ['career','job','interview','transition','skills','resume','break in','getting hired','pm role'],
+      strategy:       ['strategy','vision','roadmap','positioning','market','competitive','bets','long-term','where to play','choices','winning','framework'],
+      discovery:      ['discovery','research','user research','interview','customer','problem','insight','qualitative','feedback','design','ux','process','user need','empathy','prototype'],
+      growth:         ['growth','retention','activation','churn','engagement','north star','loops','viral','referral','acquisition','monetize','revenue','conversion'],
+      plg:            ['product-led','plg','self-serve','freemium','viral','trial','expansion','bottoms-up','land and expand','onboarding'],
+      prioritization: ['prioritization','priority','trade-off','backlog','focus','ruthless','cut','scope','say no','sequencing','now next later'],
+      leadership:     ['leadership','culture','hiring','manager','team','executive','cpo','vp','director','org','founder','ceo','head of','managing','report'],
+      metrics:        ['metrics','analytics','data','kpi','okr','measure','experiment','a/b','north star','funnel','dashboard','tracking','instrumentation'],
+      career:         ['career','job','interview','transition','skills','resume','break in','getting hired','pm role','coach','advice','salary'],
     };
 
     function extractVideoId(url) {
@@ -4715,63 +4733,63 @@ selTenant('abn');
       return filtered;
     }
 
+    // Tracks the last loaded custom episode id for description enrichment
+    let _lastCustomId = null;
+
     async function fetchEpisodeData(videoId) {
-      // 1. oEmbed — title, thumbnail (always CORS-safe, no API key)
+      // oEmbed — title + thumbnail, always CORS-safe, no API key needed
       const oembedRes = await fetch(
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
       );
       if (!oembedRes.ok) throw new Error('Video not found — check the URL');
       const oembed = await oembedRes.json();
 
-      // 2. Lenny's Newsletter RSS feed — CORS-safe, has recent episode show notes with timestamps
-      let timestamps = [], insights = [], plainText = '';
-      try {
-        const rssRes = await fetch('https://www.lennysnewsletter.com/feed', {
-          headers: { 'User-Agent': 'Mozilla/5.0' }
-        });
-        if (rssRes.ok) {
-          const xml = await rssRes.text();
-          const items = xml.split('<item>');
-          const match = items.find(item => item.includes(videoId));
-          if (match) {
-            const contentM = match.match(/<content:encoded><!\[CDATA\[([\s\S]*?)\]\]>/);
-            const html = contentM ? contentM[1] : '';
-            // Strip HTML tags → plain text
-            plainText = html
-              .replace(/<[^>]+>/g, '\n')
-              .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-              .replace(/&[a-z]+;/g, ' ').replace(/&#\d+;/g, ' ')
-              .replace(/\n{3,}/g, '\n\n');
-            timestamps = parseRSSTimestamps(plainText);
-            insights = parseRSSInsights(plainText);
-          }
-        }
-      } catch (_) {}
-
       const title = oembed.title || 'Unknown Title';
       const guest = extractGuest(title);
-      const topics = mapToTopics(title, timestamps, plainText);
-
-      // Estimate duration from last timestamp if available
-      let duration = '—';
-      if (timestamps.length) {
-        const last = timestamps[timestamps.length - 1].time;
-        const parts = last.split(':').map(Number);
-        if (parts.length === 3 && parts[0] > 0) duration = `${parts[0]}h ${parts[1]}m+`;
-        else if (parts.length === 2 && parts[0] > 0) duration = `${parts[0]}m+`;
-      }
+      const topics = mapToTopics(title, [], '');
 
       return {
         id: 'custom-' + videoId,
         title,
         guest,
-        duration,
+        duration: '—',
         yt: `https://www.youtube.com/watch?v=${videoId}`,
         topics,
-        timestamps,
-        insights,
+        timestamps: [],
+        insights: [],
         custom: true,
       };
+    }
+
+    function applyCustomDescription() {
+      const desc = document.getElementById('ep-desc-input').value.trim();
+      if (!desc || !_lastCustomId) return;
+
+      const ep = EPISODES.find(e => e.id === _lastCustomId);
+      if (!ep) return;
+
+      const timestamps = parseRSSTimestamps(desc);
+      const insights = parseRSSInsights(desc);
+
+      // Re-score topics with full description text
+      ep.timestamps = timestamps;
+      ep.insights = insights;
+      ep.topics = mapToTopics(ep.title, timestamps, desc);
+
+      // Estimate duration from last timestamp
+      if (timestamps.length) {
+        const last = timestamps[timestamps.length - 1].time;
+        const parts = last.split(':').map(Number);
+        if (parts.length === 3 && parts[0] > 0) ep.duration = `${parts[0]}h ${parts[1]}m+`;
+        else if (parts.length === 2 && parts[0] > 0) ep.duration = `${parts[0]}m+`;
+      }
+
+      redrawConstellation();
+      resetAll();
+      selectEpisode(ep.id);
+
+      // Update status
+      setEpStatus('success', `Found ${timestamps.length} timestamps · ${Object.keys(ep.topics).length} topics identified ↑`);
     }
 
     function setEpStatus(type, msg) {
@@ -4812,16 +4830,19 @@ selTenant('abn');
 
       try {
         const ep = await fetchEpisodeData(videoId);
-        // Replace any existing custom episode with same id
         const idx = EPISODES.findIndex(e => e.id === ep.id);
         if (idx > -1) EPISODES.splice(idx, 1);
         EPISODES.push(ep);
+        _lastCustomId = ep.id;
         redrawConstellation();
         resetAll();
         selectEpisode(ep.id);
-        setEpStatus('success', `"${ep.title.slice(0, 50)}${ep.title.length > 50 ? '…' : ''}" added to the constellation ↑`);
+        setEpStatus('success', `"${ep.title.slice(0, 48)}${ep.title.length > 48 ? '…' : ''}" placed in constellation ↑`);
+        // Show description paste area
+        document.getElementById('ep-desc-area').classList.remove('hidden');
+        document.getElementById('ep-desc-input').value = '';
       } catch (err) {
-        setEpStatus('error', `Couldn't fetch episode details — make sure it's a Lenny's Podcast YouTube link.`);
+        setEpStatus('error', `Couldn't load episode — make sure it's a valid YouTube URL.`);
       } finally {
         btn.disabled = false;
       }
