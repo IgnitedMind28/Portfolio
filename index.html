@@ -3064,10 +3064,9 @@ selTenant('abn');
   </section>
 
   <!-- ══════════════════════════════════════ WORLD QUIZ ════ -->
-  <section id="world-quiz" class="py-20 px-4 sm:px-6" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(20,184,166,0.26) 0%, transparent 65%), #05090f;">
-    <div class="max-w-6xl mx-auto">
-
-      <div class="text-center mb-10">
+  <section id="world-quiz" class="py-20" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(20,184,166,0.26) 0%, transparent 65%), #05090f;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-10">
+      <div class="text-center">
         <h2 class="text-[38px] font-bold text-white leading-tight tracking-tight mb-3">Kids World Quiz</h2>
         <p class="text-[14px] text-slate-400 max-w-xl mx-auto leading-relaxed">
           An interactive geography quiz for kids featuring 30+ countries across 6 continents. Each country has a unique animal mascot character that introduces itself in its native language using Azure Neural TTS — with a faint English whisper track running alongside so kids can follow along.
@@ -3081,27 +3080,26 @@ selTenant('abn');
           <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(236,72,153,0.12);color:#f0abfc;border:1px solid rgba(236,72,153,0.25);">🎉 Celebration on Perfect Score</span>
         </div>
       </div>
+    </div>
 
-      <!-- Embedded quiz -->
-      <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(20,184,166,0.25);box-shadow:0 0 60px rgba(20,184,166,0.08);">
-        <iframe
-          src="Products/world-quiz/"
-          style="width:100%;height:760px;border:none;display:block;"
-          allow="autoplay; microphone"
-          loading="lazy"
-          title="Kids World Quiz"
-        ></iframe>
-      </div>
+    <!-- Embedded quiz — full section width, no max-w constraint -->
+    <div style="border-top:1px solid rgba(20,184,166,0.25);border-bottom:1px solid rgba(20,184,166,0.25);box-shadow:0 0 60px rgba(20,184,166,0.08);overflow:hidden;">
+      <iframe
+        src="Products/world-quiz/"
+        style="width:100%;height:780px;border:none;display:block;"
+        allow="autoplay; microphone"
+        loading="lazy"
+        title="Kids World Quiz"
+      ></iframe>
+    </div>
 
-      <!-- Open full screen link -->
-      <div class="text-center mt-5">
-        <a href="Products/world-quiz/" target="_blank"
-          style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5eead4;text-decoration:none;opacity:0.75;transition:opacity 0.2s"
-          onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
-          ↗ Open full screen
-        </a>
-      </div>
-
+    <!-- Open full screen link -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center mt-5">
+      <a href="Products/world-quiz/" target="_blank"
+        style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5eead4;text-decoration:none;opacity:0.75;transition:opacity 0.2s"
+        onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+        ↗ Open full screen
+      </a>
     </div>
   </section>
 

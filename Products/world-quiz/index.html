@@ -855,10 +855,10 @@
       const CARD_W = 138;  // card wrapper width
       const LABEL_H = 42;   // label height below orb
 
-      // Two-column layout — left column (cx≈20% vw), right column (cx≈80% vw)
+      // Two-column layout — left column (cx≈12% vw), right column (cx≈88% vw)
       // Clamped so the orbit ring (±75px) never clips the screen edge
-      const leftX = Math.max(RING_R + 4, Math.round(vw * 0.20));
-      const rightX = Math.min(vw - RING_R - 4, Math.round(vw * 0.80));
+      const leftX = Math.max(RING_R + 4, Math.round(vw * 0.12));
+      const rightX = Math.min(vw - RING_R - 4, Math.round(vw * 0.88));
 
       // Three row y-centres that avoid the quiz-master character and buttons:
       //   Character centre ≈ (195, 215), radius ≈ 110px
