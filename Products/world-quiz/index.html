@@ -678,124 +678,193 @@
       text-shadow: 0 0 40px rgba(0, 198, 251, 0.5), 0 0 80px rgba(0, 198, 251, 0.2)
     }
 
-    /* ── FORTUNE EGG SCREEN ─────────────────────────────── */
+    /* ── EASTER BASKET SCREEN ─────────────────────────────── */
 
-    .egg-sparkle {
+    #basket-handle {
       position: absolute;
-      pointer-events: none;
-      animation: sparkle 1.4s ease-in-out infinite;
-    }
-
-    @keyframes eggGlow {
-      0%, 100% { box-shadow: 0 0 35px rgba(255,200,0,0.55), 0 0 70px rgba(255,140,0,0.2), 0 20px 40px rgba(0,0,0,0.5); }
-      50%       { box-shadow: 0 0 60px rgba(255,215,0,0.9), 0 0 110px rgba(255,150,0,0.4), 0 20px 40px rgba(0,0,0,0.5); }
-    }
-
-    @keyframes eggBob {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-12px); }
-    }
-
-    @keyframes eggShake {
-      0%, 100% { transform: rotate(0deg) translateY(0); }
-      15%       { transform: rotate(-9deg) translateY(-4px); }
-      30%       { transform: rotate(11deg) translateY(-6px); }
-      50%       { transform: rotate(-12deg) translateY(-5px); }
-      70%       { transform: rotate(9deg) translateY(-3px); }
-      85%       { transform: rotate(-6deg) translateY(-2px); }
-    }
-
-    @keyframes eggTopFly {
-      0%   { transform: rotate(0deg) translateY(0) translateX(0); }
-      100% { transform: rotate(-42deg) translateY(-130px) translateX(-25px); }
-    }
-
-    @keyframes scrollRise {
-      0%   { transform: translateX(-50%) translateY(50px) scale(0.2) rotate(6deg); opacity: 0; }
-      55%  { transform: translateX(-50%) translateY(-12px) scale(1.08) rotate(-2deg); opacity: 1; }
-      75%  { transform: translateX(-50%) translateY(5px) scale(0.97) rotate(1deg); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(0) scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    #egg-crack { transition: opacity 0.2s ease-in; }
-
-    #egg-scene {
-      position: relative;
-      width: 170px;
-      height: 220px;
-      margin: 0 auto;
-      cursor: pointer;
-    }
-
-    .egg-half {
-      position: absolute;
-      width: 170px;
-      background: linear-gradient(145deg, #ffe566 0%, #ffb300 45%, #ff8c00 75%, #ffd700 100%);
-    }
-
-    #egg-top {
-      height: 115px;
-      top: 0;
-      border-radius: 85px 85px 6px 6px / 110px 110px 6px 6px;
-      transform-origin: center bottom;
-      z-index: 2;
-      animation: eggGlow 2s ease-in-out infinite, eggBob 2.8s ease-in-out infinite;
-    }
-
-    #egg-bottom {
-      height: 110px;
-      bottom: 0;
-      border-radius: 6px 6px 85px 85px / 6px 6px 110px 110px;
+      top: -30px; left: 12%; right: 12%;
+      height: 56px;
+      border: 11px solid #92400e;
+      border-bottom: none;
+      border-radius: 50% 50% 0 0;
+      box-shadow: 2px -4px 14px rgba(0,0,0,0.35);
       z-index: 1;
-      animation: eggGlow 2s ease-in-out infinite 0.3s;
+      pointer-events: none;
     }
 
-    #egg-top::after {
-      content: '';
+    #eggs-area {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 38px;
+    }
+
+    #back-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: -18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #front-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    .game-egg {
+      position: relative;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      cursor: inherit;
+      transition: transform 0.15s ease, filter 0.15s;
+      box-shadow: 2px 6px 18px rgba(0,0,0,0.42), inset 0 -4px 8px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+
+    .game-egg:hover:not(.egg-cracking):not(.egg-open) {
+      transform: scale(1.13) translateY(-7px);
+      filter: brightness(1.12);
+    }
+
+    .egg-shine {
       position: absolute;
-      top: 18px; left: 32px;
-      width: 42px; height: 55px;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 70%);
+      top: 9%; left: 18%;
+      width: 28%; height: 36%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.62) 0%, transparent 70%);
       border-radius: 50%;
       transform: rotate(-25deg);
       pointer-events: none;
     }
 
-    #fortune-scroll {
+    .egg-deco {
       position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%) translateY(50px) scale(0.2);
+      left: 0; right: 0;
+      pointer-events: none;
+    }
+
+    .egg-dot {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .egg-crack-svg {
+      position: absolute;
+      inset: 0; width: 100%; height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+
+    .egg-cracking .egg-crack-svg { opacity: 1; }
+
+    @keyframes eggShakeThis {
+      0%, 100% { transform: rotate(0deg); }
+      15%  { transform: rotate(-13deg) translateY(-4px); }
+      35%  { transform: rotate(15deg)  translateY(-7px); }
+      55%  { transform: rotate(-13deg) translateY(-5px); }
+      75%  { transform: rotate(10deg)  translateY(-2px); }
+    }
+
+    @keyframes eggSurprise {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      25% { transform: translateY(-11px) rotate(-5deg); }
+      55% { transform: translateY(-5px)  rotate(4deg);  }
+      80% { transform: translateY(-8px)  rotate(-2deg); }
+    }
+
+    @keyframes eggExplode {
+      0%   { transform: scale(1);    opacity: 1;   }
+      30%  { transform: scale(1.22); opacity: 1;   }
+      65%  { transform: scale(0.55); opacity: 0.4; }
+      100% { transform: scale(0);    opacity: 0;   }
+    }
+
+    .egg-cracking  { animation: eggShakeThis 0.5s ease-in-out; }
+    .egg-open      { animation: eggExplode   0.4s ease-in forwards; }
+    .egg-surprised { animation: eggSurprise  0.65s ease-in-out; }
+
+    .egg-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 8;
+      animation: particleFly 0.7s ease-out forwards;
+    }
+
+    @keyframes particleFly {
+      0%   { transform: translate(0,0)                    scale(1); opacity: 1; }
+      100% { transform: translate(var(--pdx),var(--pdy))  scale(0); opacity: 0; }
+    }
+
+    #basket-grass {
+      text-align: center;
+      font-size: 22px;
+      letter-spacing: -4px;
+      position: relative;
+      z-index: 6;
+      pointer-events: none;
+      margin-top: -2px;
+    }
+
+    #basket-rim {
+      height: 22px;
+      background: linear-gradient(to bottom, #b45309, #92400e);
+      border-radius: 14px;
+      border: 3px solid #78350f;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.1);
+      position: relative;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    #basket-body {
+      height: 72px;
+      background: repeating-linear-gradient(
+        45deg,
+        #92400e, #92400e 3px,
+        #a16207 3px, #a16207 13px
+      );
+      border-radius: 0 0 50% 50% / 0 0 40% 40%;
+      border: 4px solid #78350f;
+      border-top: none;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+      position: relative;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    #country-reveal {
+      position: absolute;
+      top: 22px; left: 50%;
+      transform: translateX(-50%) scale(0);
       opacity: 0;
       z-index: 10;
       background: linear-gradient(160deg, #fffef0, #fff8e1);
       border: 3px solid #f9c74f;
       border-radius: 18px;
-      padding: 16px 22px;
+      padding: 14px 22px;
       text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 24px rgba(249,199,79,0.5);
-      min-width: 150px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 28px rgba(249,199,79,0.5);
+      min-width: 140px;
       pointer-events: none;
       white-space: nowrap;
     }
 
-    #fortune-scroll.scroll-open {
-      animation: scrollRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    #country-reveal.reveal-open {
+      animation: revealPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    #egg-scene.cracking #egg-top,
-    #egg-scene.cracking #egg-bottom,
-    #egg-scene.open #egg-top,
-    #egg-scene.open #egg-bottom {
-      animation: none;
-    }
-
-    #egg-scene.cracking #egg-top {
-      animation: eggShake 0.5s ease-in-out forwards;
-    }
-
-    #egg-scene.open #egg-top {
-      animation: eggTopFly 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    @keyframes revealPop {
+      0%   { transform: translateX(-50%) scale(0.15) translateY(15px); opacity: 0; }
+      60%  { transform: translateX(-50%) scale(1.08) translateY(-5px); opacity: 1; }
+      100% { transform: translateX(-50%) scale(1)    translateY(0);    opacity: 1; }
     }
   </style>
 </head>
@@ -816,6 +885,20 @@
     // ═══════════════════════════════════════════════════════
     // GAME DATA
     // ═══════════════════════════════════════════════════════
+
+    // Easter-egg colour palette — 10 vibrant pairs [gradient, stripeColor, dot1, dot2]
+    const EGG_PALETTE = [
+      { bg:'linear-gradient(145deg,#ff9ff3,#f368e0)', s:'rgba(255,255,255,0.28)', d1:'#c44569', d2:'#ffeaa7' },
+      { bg:'linear-gradient(145deg,#ffeaa7,#fdcb6e)', s:'rgba(255,255,255,0.28)', d1:'#e17055', d2:'#fd79a8' },
+      { bg:'linear-gradient(145deg,#81ecec,#00cec9)', s:'rgba(255,255,255,0.28)', d1:'#0984e3', d2:'#a29bfe' },
+      { bg:'linear-gradient(145deg,#a29bfe,#6c5ce7)', s:'rgba(255,255,255,0.28)', d1:'#fd79a8', d2:'#ffeaa7' },
+      { bg:'linear-gradient(145deg,#55efc4,#00b894)', s:'rgba(255,255,255,0.28)', d1:'#fdcb6e', d2:'#81ecec' },
+      { bg:'linear-gradient(145deg,#fd79a8,#e84393)', s:'rgba(255,255,255,0.28)', d1:'#a29bfe', d2:'#ffeaa7' },
+      { bg:'linear-gradient(145deg,#74b9ff,#0984e3)', s:'rgba(255,255,255,0.28)', d1:'#fd79a8', d2:'#55efc4' },
+      { bg:'linear-gradient(145deg,#ff7675,#d63031)', s:'rgba(255,255,255,0.28)', d1:'#fdcb6e', d2:'#a29bfe' },
+      { bg:'linear-gradient(145deg,#badc58,#6ab04c)', s:'rgba(255,255,255,0.28)', d1:'#f9ca24', d2:'#ff7675' },
+      { bg:'linear-gradient(145deg,#f9ca24,#f0932b)', s:'rgba(255,255,255,0.28)', d1:'#6ab04c', d2:'#fd79a8' },
+    ];
 
     const CONTINENTS = [
       { id: 'europe', name: 'Europe', emoji: '🏰', sub: '44 countries', color: 'linear-gradient(135deg,#7c3aed,#4c1d95)', shadow: 'rgba(124,58,237,0.5)' },
@@ -898,7 +981,7 @@
     }
 
     function postRender() {
-      if (S.screen === 'cardDraw') { initEgg(); }
+      if (S.screen === 'cardDraw') { initBasket(); }
       if (S.screen === 'globe') {
         setTimeout(() => {
           const el = document.getElementById('globe-wrapper');
@@ -1755,46 +1838,88 @@
       if (_eggTimer) { clearTimeout(_eggTimer); _eggTimer = null; }
     }
 
-    function initEgg() {
-      const scene = document.getElementById('egg-scene');
+    function initBasket() {
+      const scene = document.getElementById('basket-scene');
       if (!scene) return;
+
+      // Pre-pick winner (random — independent of which egg the child clicks)
       const pool   = COUNTRIES.filter(c => c.continent === S.continent);
       const winner = pool[Math.floor(Math.random() * pool.length)];
 
-      scene.addEventListener('click', function handleTap() {
-        scene.removeEventListener('click', handleTap);
-        _ensureAC();
+      // Build hammer cursor from canvas emoji
+      const cur = document.createElement('canvas');
+      cur.width = 40; cur.height = 40;
+      const cx = cur.getContext('2d');
+      cx.font = '30px serif';
+      cx.fillText('🔨', 2, 30);
+      const cursorUrl = cur.toDataURL();
+      scene.style.cursor = `url(${cursorUrl}) 4 36, crosshair`;
 
-        // 1. Shake
-        scene.classList.add('cracking');
+      // Attach click handler to every egg
+      const eggs = scene.querySelectorAll('.game-egg');
+      eggs.forEach(egg => {
+        egg.addEventListener('click', function handleSmash() {
+          // Disable all eggs immediately
+          eggs.forEach(e => e.removeEventListener('click', handleSmash));
+          eggs.forEach(e => { e.style.pointerEvents = 'none'; });
+          _ensureAC();
 
-        // 2. Crack lines + sound after shake
-        _eggTimer = setTimeout(() => {
-          const crackSvg = document.getElementById('egg-crack');
-          if (crackSvg) crackSvg.style.opacity = '1';
-          playCrack();
+          // Surprise-bounce all OTHER eggs
+          eggs.forEach(e => {
+            if (e !== egg) {
+              e.classList.add('egg-surprised');
+              e.addEventListener('animationend', () => e.classList.remove('egg-surprised'), { once: true });
+            }
+          });
 
-          // 3. Split open + scroll rises
+          // 1. Shake the clicked egg
+          egg.classList.add('egg-cracking');
+
+          // 2. Show crack + sound after shake
           _eggTimer = setTimeout(() => {
-            scene.classList.remove('cracking');
-            scene.classList.add('open');
+            egg.querySelectorAll('.egg-crack-svg').forEach(s => s.style.opacity = '1');
+            playCrack();
 
-            const flagEl = document.getElementById('scroll-flag');
-            const nameEl = document.getElementById('scroll-name');
-            if (flagEl) flagEl.textContent = winner.flag;
-            if (nameEl) nameEl.textContent = winner.name;
-
-            const scroll = document.getElementById('fortune-scroll');
-            if (scroll) scroll.classList.add('scroll-open');
-
-            playClick();
-
-            // 4. Auto-advance
+            // 3. Explode egg + spray confetti
             _eggTimer = setTimeout(() => {
-              go('globe', { country: winner });
-            }, 1500);
-          }, 300);
-        }, 500);
+              egg.classList.remove('egg-cracking');
+              egg.classList.add('egg-open');
+
+              // Confetti burst relative to basket-scene
+              const eR  = egg.getBoundingClientRect();
+              const sR  = scene.getBoundingClientRect();
+              const cx2 = eR.left - sR.left + eR.width / 2;
+              const cy2 = eR.top  - sR.top  + eR.height / 2;
+              const pColors = ['#ff6b9d','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f43','#ff4d4d','#00d4aa'];
+              for (let i = 0; i < 14; i++) {
+                const p = document.createElement('div');
+                p.className = 'egg-particle';
+                const angle = (i / 14) * Math.PI * 2;
+                const dist  = 55 + Math.random() * 50;
+                const sz    = 7 + Math.random() * 7;
+                p.style.cssText = `width:${sz}px;height:${sz}px;
+                  background:${pColors[i % pColors.length]};
+                  left:${cx2 - sz/2}px;top:${cy2 - sz/2}px;
+                  --pdx:${Math.round(Math.cos(angle)*dist)}px;
+                  --pdy:${Math.round(Math.sin(angle)*dist)}px;`;
+                scene.appendChild(p);
+                setTimeout(() => p.remove(), 750);
+              }
+
+              // 4. Fill and show country reveal card
+              document.getElementById('reveal-flag').textContent = winner.flag;
+              document.getElementById('reveal-name').textContent = winner.name;
+              const revealEl = document.getElementById('country-reveal');
+              revealEl.classList.add('reveal-open');
+              playClick();
+
+              // 5. Auto-advance
+              _eggTimer = setTimeout(() => {
+                go('globe', { country: winner });
+              }, 1600);
+            }, 280);
+          }, 500);
+        });
       });
     }
 
@@ -1961,49 +2086,82 @@
     }
 
     function cardDraw() {
-      const cont = CONTINENTS.find(c => c.id === S.continent);
+      const cont  = CONTINENTS.find(c => c.id === S.continent);
+      const pool  = COUNTRIES.filter(c => c.continent === S.continent);
+      const n     = pool.length;
+      const useBack  = n > 5;
+      const backCnt  = useBack ? Math.ceil(n / 2) : 0;
+      const frontCnt = useBack ? Math.floor(n / 2) : n;
+
+      function makeEgg(idx, w) {
+        const p = EGG_PALETTE[idx % EGG_PALETTE.length];
+        const h = Math.round(w * 1.27);
+        const deco = idx % 3;
+        let decoHTML = '';
+        if (deco === 0) {
+          // horizontal stripe
+          decoHTML = `<div class="egg-deco" style="top:38%;height:22%;background:${p.s}"></div>`;
+        } else if (deco === 1) {
+          // two thin stripes
+          decoHTML = `<div class="egg-deco" style="top:26%;height:11%;background:${p.s}"></div>
+                      <div class="egg-deco" style="top:61%;height:11%;background:${p.s}"></div>`;
+        } else {
+          // dots
+          const ds = Math.round(w * 0.18);
+          decoHTML = `<div class="egg-dot" style="top:28%;left:18%;width:${ds}px;height:${ds}px;background:${p.d1}"></div>
+                      <div class="egg-dot" style="top:55%;right:20%;width:${Math.round(ds*0.8)}px;height:${Math.round(ds*0.8)}px;background:${p.d2}"></div>`;
+        }
+        const sw = w, sh = h;
+        return `<div class="game-egg" data-egg-idx="${idx}" style="width:${w}px;height:${h}px;background:${p.bg}">
+          ${decoHTML}
+          <div class="egg-shine"></div>
+          <svg class="egg-crack-svg" viewBox="0 0 ${sw} ${sh}">
+            <polyline points="${r(sw,.04)},${r(sh,.48)} ${r(sw,.2)},${r(sh,.43)} ${r(sw,.38)},${r(sh,.5)} ${r(sw,.57)},${r(sh,.44)} ${r(sw,.74)},${r(sh,.49)} ${r(sw,.9)},${r(sh,.46)} ${sw},${r(sh,.48)}"
+                      fill="none" stroke="rgba(80,40,0,0.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>`;
+      }
+
+      let backHTML = '', frontHTML = '';
+      for (let i = 0; i < backCnt;  i++) backHTML  += makeEgg(i, 55);
+      for (let i = 0; i < frontCnt; i++) frontHTML += makeEgg(backCnt + i, 68);
+
       return `
-<div style="text-align:center;max-width:520px;width:100%;
-            display:flex;flex-direction:column;align-items:center;gap:24px">
+<div style="text-align:center;max-width:580px;width:100%;
+            display:flex;flex-direction:column;align-items:center;gap:20px">
   <div>
     <div class="tf" style="font-size:32px;color:#e0f2fe">${cont.emoji} ${cont.name}</div>
     <div style="font-size:15px;color:rgba(255,255,255,0.45);font-weight:600;margin-top:4px">
-      Tap the egg to reveal your mystery country! 🥚
+      🔨 Smash an egg to reveal your mystery country!
     </div>
   </div>
 
-  <div style="position:relative;width:260px;height:280px;display:flex;align-items:center;justify-content:center">
-    <div class="egg-sparkle" style="top:14px;left:22px;font-size:18px">✨</div>
-    <div class="egg-sparkle" style="top:24px;right:18px;font-size:14px;animation-delay:.45s">⭐</div>
-    <div class="egg-sparkle" style="bottom:60px;left:12px;font-size:15px;animation-delay:.9s">✨</div>
-    <div class="egg-sparkle" style="bottom:70px;right:10px;font-size:12px;animation-delay:.25s">🌟</div>
-
-    <div id="egg-scene">
-      <div id="egg-bottom" class="egg-half"></div>
-      <div id="egg-top" class="egg-half">
-        <svg id="egg-crack" viewBox="0 0 170 20" xmlns="http://www.w3.org/2000/svg"
-             style="position:absolute;bottom:-4px;left:0;width:170px;height:20px;opacity:0;pointer-events:none">
-          <polyline points="0,10 28,3 50,16 80,4 105,15 130,5 155,13 170,10"
-                    fill="none" stroke="rgba(120,60,0,0.7)" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div id="fortune-scroll">
-        <div id="scroll-flag" style="font-size:52px;line-height:1;margin-bottom:6px"></div>
-        <div id="scroll-name" class="tf" style="font-size:22px;color:#0f172a"></div>
-        <div style="font-size:11px;color:#94a3b8;font-weight:700;margin-top:4px;
-                    letter-spacing:1px;text-transform:uppercase">Your country!</div>
-      </div>
+  <!-- Easter basket -->
+  <div id="basket-scene" style="position:relative;width:min(520px,94vw)">
+    <div id="basket-handle"></div>
+    <div id="eggs-area">
+      ${useBack ? `<div id="back-row">${backHTML}</div>` : ''}
+      <div id="front-row">${frontHTML}</div>
+    </div>
+    <div id="basket-grass">🌿🌱🌾🌱🌿</div>
+    <div id="basket-rim"></div>
+    <div id="basket-body"></div>
+    <div id="country-reveal">
+      <div id="reveal-flag" style="font-size:50px;line-height:1;margin-bottom:4px"></div>
+      <div id="reveal-name" class="tf" style="font-size:21px;color:#0f172a"></div>
+      <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:3px;
+                  letter-spacing:1px;text-transform:uppercase">Your country!</div>
     </div>
   </div>
-
-  <div style="font-size:14px;color:rgba(255,255,255,0.35);margin-top:-8px">👆 Tap the egg!</div>
 
   <button class="btn-outline" data-action="start" style="font-size:14px;padding:8px 20px">
     ← Choose a Different Continent
   </button>
 </div>`;
     }
+
+    // helper used in makeEgg
+    function r(total, frac) { return Math.round(total * frac); }
 
     function globeSpin() {
       const c = S.country;
