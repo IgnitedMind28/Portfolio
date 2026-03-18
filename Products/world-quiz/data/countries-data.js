@@ -6,7 +6,7 @@
 //   • Add a new country object to the COUNTRIES array below
 //   • Copy an existing entry as a template
 //   • Set `continent` to one of: europe | asia | africa | north-america | south-america | oceania
-//   • Add exactly 3 questions (more may be added later — the engine picks the first 3)
+//   • Add 12 questions — the engine picks 3 at random each game for variety
 //   • Add 5–6 `celebs` (famous personalities shown as ghost background on quiz screens)
 //     Each celeb: { n: 'Name', r: 'Role / Claim to Fame', e: '🎵' (field emoji) }
 //
@@ -34,7 +34,16 @@ const COUNTRIES = [
     questions:[
       {q:"The Eiffel Tower was built as a temporary structure for a World's Fair in Paris. In which year was it completed?", ch:["1889","1776","1900","1940"], a:0, cat:"📜 History"},
       {q:"France is world-famous for producing which two delicious things?", ch:["Wine & Cheese","Sushi & Noodles","Pizza & Pasta","Tacos & Guacamole"], a:0, cat:"🍷 Food"},
-      {q:"Which French scientist proved that tiny germs cause disease and invented 'pasteurisation' to make milk safe to drink?", ch:["Louis Pasteur","Marie Curie","René Descartes","Pierre Curie"], a:0, cat:"🔬 Science"}
+      {q:"Which French scientist proved that tiny germs cause disease and invented 'pasteurisation' to make milk safe to drink?", ch:["Louis Pasteur","Marie Curie","René Descartes","Pierre Curie"], a:0, cat:"🔬 Science"},
+      {q:"What is the world's most visited art museum — located in Paris and home to the famous Mona Lisa painting?", ch:["The Louvre","The British Museum","The Uffizi Gallery","The Prado Museum"], a:0, cat:"🎨 Art"},
+      {q:"France's most iconic bread — a long, thin crispy stick carried tucked under the arm — is called a...", ch:["Baguette","Croissant","Ciabatta","Brioche"], a:0, cat:"🥖 Food"},
+      {q:"Which French impressionist painter created the dreamy series of 'Water Lilies' paintings, showing reflections in a peaceful garden pond?", ch:["Claude Monet","Edgar Degas","Paul Cézanne","Henri Matisse"], a:0, cat:"🎨 Art"},
+      {q:"France's famous bicycle race — one of the toughest sporting events in the world — loops around the entire country each summer. What is it called?", ch:["Tour de France","Giro d'Italia","Vuelta a España","Paris-Roubaix"], a:0, cat:"🚴 Sports"},
+      {q:"Which magnificent royal palace outside Paris was built for King Louis XIV, with 700 rooms and a stunning Hall of Mirrors?", ch:["Palace of Versailles","Buckingham Palace","Schönbrunn Palace","Windsor Castle"], a:0, cat:"🏛️ Monuments"},
+      {q:"Which young French queen — famous for her extreme luxury — was executed by guillotine during the French Revolution in 1793?", ch:["Marie Antoinette","Catherine de Medici","Joan of Arc","Mary Queen of Scots"], a:0, cat:"📜 History"},
+      {q:"France's beautiful southern region — famous for lavender fields, rosé wine and warm sunshine — is called...", ch:["Provence","Normandy","Brittany","Alsace"], a:0, cat:"🌿 Nature"},
+      {q:"The famous river that flows through the heart of Paris, past the Eiffel Tower and Notre-Dame Cathedral, is called the...", ch:["The Seine","The Loire","The Rhine","The Rhône"], a:0, cat:"🌍 Geography"},
+      {q:"Brave French teenager Joan of Arc led the army to famous victories. She was eventually burned at the stake — but how old was she?", ch:["About 19 years old","About 30 years old","About 40 years old","About 50 years old"], a:0, cat:"📜 History"},
     ],
     celebs:[
       {n:'Napoleon Bonaparte', r:'Emperor of France', e:'👑'},
@@ -54,7 +63,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which famous wall divided the city of Berlin into two halves for 28 years, before being torn down in 1989?", ch:["The Berlin Wall","The Great Wall","Hadrian's Wall","The Iron Curtain"], a:0, cat:"📜 History"},
       {q:"Germany's most famous autumn festival celebrates beer, pretzels and traditional costumes. What is it called?", ch:["Oktoberfest","Mardi Gras","La Tomatina","Carnival"], a:0, cat:"🎭 Culture"},
-      {q:"Which world-famous German car brand has a logo of three interlocking silver rings?", ch:["Audi","BMW","Mercedes-Benz","Volkswagen"], a:0, cat:"🚗 Industry"}
+      {q:"Which world-famous German car brand has a logo of four interlocking silver rings?", ch:["Audi","BMW","Mercedes-Benz","Volkswagen"], a:0, cat:"🚗 Industry"},
+      {q:"Which legendary German composer wrote famous symphonies — including the iconic 'Ode to Joy' — while he was completely deaf?", ch:["Ludwig van Beethoven","Johann Sebastian Bach","Wolfgang A. Mozart","Franz Schubert"], a:0, cat:"🎵 Music"},
+      {q:"German inventor Johannes Gutenberg changed the world in the 1440s. What did he invent that allowed books to be printed quickly?", ch:["The printing press","The steam engine","The telephone","The camera"], a:0, cat:"🔬 Science"},
+      {q:"Which German-born physicist — famous for his wild hair — came up with the equation E=mc² and changed science forever?", ch:["Albert Einstein","Max Planck","Werner Heisenberg","Johannes Kepler"], a:0, cat:"🔬 Science"},
+      {q:"Germany's most famous twisted, salty bread snack — often served at Oktoberfest — is called a...", ch:["Pretzel","Bagel","Cracker","Biscuit"], a:0, cat:"🥨 Food"},
+      {q:"Two German brothers collected famous fairy tales including Snow White and Rapunzel. What were they called?", ch:["The Brothers Grimm","The Brothers Andersen","The Brothers Perrault","The Brothers Tolkien"], a:0, cat:"📚 Culture"},
+      {q:"Germany's romantic Rhine River valley is famous for being lined with what impressive ancient structures?", ch:["Medieval castles and vineyards","Tropical rainforests","Giant sand dunes","Ancient pyramids"], a:0, cat:"🌍 Geography"},
+      {q:"Which German company — founded in 1886 by Karl Benz — built the world's very first petrol-powered automobile?", ch:["Benz & Cie (Mercedes-Benz)","BMW","Volkswagen","Porsche"], a:0, cat:"🚗 History"},
+      {q:"What warm, spiced wine drink do Germans sip while shopping at magical Christmas markets in winter?", ch:["Glühwein (mulled wine)","Eggnog","Hot cider","Cocoa"], a:0, cat:"🎭 Culture"},
+      {q:"Germany invented a hugely popular board game in 1995 where players collect wool and build cities on an island. What is it called?", ch:["Settlers of Catan","Monopoly","Chess","Risk"], a:0, cat:"🎲 Culture"},
     ],
     celebs:[
       {n:'Albert Einstein', r:'Physicist · Theory of Relativity', e:'🔬'},
@@ -74,7 +92,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which fictional young wizard, created by British author J.K. Rowling, became one of the most beloved characters ever?", ch:["Harry Potter","Frodo Baggins","Merlin","Gandalf"], a:0, cat:"📚 Culture"},
       {q:"What is the name of the famous clock tower in London that rings every hour and is heard around the world?", ch:["Big Ben","Eiffel Tower","Burj Khalifa","Freedom Tower"], a:0, cat:"🏛️ Monuments"},
-      {q:"The UK is famous for inventing which sport, now played by over 250 million people worldwide?", ch:["Football (Soccer)","Baseball","Basketball","Volleyball"], a:0, cat:"⚽ Sports"}
+      {q:"The UK is famous for inventing which sport, now played by over 250 million people worldwide?", ch:["Football (Soccer)","Baseball","Basketball","Volleyball"], a:0, cat:"⚽ Sports"},
+      {q:"Which British rock band — featuring the legendary Freddie Mercury — sang 'Bohemian Rhapsody' and 'We Will Rock You'?", ch:["Queen","The Beatles","The Rolling Stones","Led Zeppelin"], a:0, cat:"🎵 Music"},
+      {q:"Which legendary English scientist described how gravity works after supposedly seeing an apple fall from a tree?", ch:["Sir Isaac Newton","Charles Darwin","Stephen Hawking","Michael Faraday"], a:0, cat:"🔬 Science"},
+      {q:"What mysterious 4,500-year-old circle of giant standing stones — one of the world's greatest ancient mysteries — is in England?", ch:["Stonehenge","Hadrian's Wall","Avebury Circle","Maiden Castle"], a:0, cat:"🏛️ History"},
+      {q:"Which British author wrote 'The Chronicles of Narnia' — stories about children who enter a magical world through a wardrobe?", ch:["C.S. Lewis","J.R.R. Tolkien","Roald Dahl","Arthur Conan Doyle"], a:0, cat:"📚 Culture"},
+      {q:"The UK is famous for afternoon tea. What warm, round, crumbly bread — served with jam and cream — is the classic treat?", ch:["A scone","A muffin","A crumpet","A hot cross bun"], a:0, cat:"🍵 Food"},
+      {q:"Which British scientist invented the World Wide Web in 1989 — a system for sharing information over the internet?", ch:["Tim Berners-Lee","Alan Turing","Charles Babbage","James Watt"], a:0, cat:"💻 Technology"},
+      {q:"William Shakespeare — born in Stratford-upon-Avon in 1564 — is considered the greatest writer in the English language. What type of works did he create?", ch:["Plays and poetry","Novels and diaries","Scientific books","Travel journals"], a:0, cat:"📚 Culture"},
+      {q:"Scotland — one of the UK's four nations — is famous for which traditional wind instrument played at celebrations and funerals?", ch:["Bagpipes","Trombone","Accordion","Violin"], a:0, cat:"🎵 Culture"},
+      {q:"Which famous British dish — battered fish served with chunky potato chips — is eaten from newspaper at the seaside?", ch:["Fish and chips","Pie and mash","Bangers and mash","Shepherd's pie"], a:0, cat:"🍟 Food"},
     ],
     celebs:[
       {n:'Winston Churchill', r:'Prime Minister · WWII Leader', e:'🏛️'},
@@ -94,7 +121,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which Italian genius painted the Mona Lisa AND designed flying machines 500 years before aeroplanes were invented?", ch:["Leonardo da Vinci","Michelangelo","Raphael","Botticelli"], a:0, cat:"🎨 Art"},
       {q:"Which famous leaning building — one of the world's most recognised structures — is found in the Italian city of Pisa?", ch:["The Leaning Tower","The Colosseum","The Pantheon","The Duomo"], a:0, cat:"🏛️ Monuments"},
-      {q:"Which delicious dish — made with dough, tomato sauce and melted cheese — was invented in Italy?", ch:["Pizza","Tacos","Sushi","Pad Thai"], a:0, cat:"🍕 Food"}
+      {q:"Which delicious dish — made with dough, tomato sauce and melted cheese — was invented in Italy?", ch:["Pizza","Tacos","Sushi","Pad Thai"], a:0, cat:"🍕 Food"},
+      {q:"Which Italian artist painted the breathtaking ceiling of the Sistine Chapel in Rome, lying on his back for four years?", ch:["Michelangelo","Leonardo da Vinci","Raphael","Caravaggio"], a:0, cat:"🎨 Art"},
+      {q:"Italy invented a delicious frozen dessert — smoother and denser than ice cream — enjoyed worldwide today. What is it called?", ch:["Gelato","Sorbet","Frozen yoghurt","Sherbet"], a:0, cat:"🍦 Food"},
+      {q:"Which ancient Roman building — built 2,000 years ago to hold 50,000 spectators watching gladiator battles — still stands in Rome?", ch:["The Colosseum","The Pantheon","The Forum","The Circus Maximus"], a:0, cat:"🏛️ History"},
+      {q:"Italy is shaped like a famous piece of footwear when you look at it on a map. What does Italy look like?", ch:["A boot","A shoe","A sock","A sandal"], a:0, cat:"🌍 Geography"},
+      {q:"Which Italian city is built on over 100 small islands, connected by bridges, where gondola boats travel through canals instead of roads?", ch:["Venice","Florence","Naples","Genoa"], a:0, cat:"🌍 Geography"},
+      {q:"Italy invented the dramatic musical art form where actors SING the entire story instead of speaking. What is it called?", ch:["Opera","Musical theatre","Ballet","Symphony"], a:0, cat:"🎵 Music"},
+      {q:"Mount Vesuvius — a famous Italian volcano — erupted in 79 AD and buried an entire city in ash. Which Roman city was destroyed?", ch:["Pompeii","Rome","Naples","Florence"], a:0, cat:"🌋 History"},
+      {q:"Italy is famous for its pasta. Which pasta shape looks like tiny bowties or butterflies?", ch:["Farfalle","Spaghetti","Penne","Rigatoni"], a:0, cat:"🍝 Food"},
+      {q:"Which world-famous Italian sports car brand — with a prancing horse logo — is considered the most glamorous car ever made?", ch:["Ferrari","Lamborghini","Alfa Romeo","Maserati"], a:0, cat:"🏎️ Industry"},
     ],
     celebs:[
       {n:'Leonardo da Vinci', r:'Artist, Inventor, Genius', e:'🎨'},
@@ -113,8 +149,17 @@ const COUNTRIES = [
     funFact:"Spain has the second most UNESCO World Heritage Sites in the world! 🌞",
     questions:[
       {q:"Which famous painter, born in Spain, invented the 'Cubism' style of art and painted the legendary 'Guernica'?", ch:["Pablo Picasso","Salvador Dalí","El Greco","Francisco Goya"], a:0, cat:"🎨 Art"},
-      {q:"Spain has a famous festival where brave (or slightly crazy!) people run through the streets alongside which animals?", ch:["Bulls","Horses","Elephants","Ostriches"], a:0, cat:"🎭 Culture"},
-      {q:"Spain is the birthplace of which passionate dance, performed with rhythmic foot-stomping and colourful swirling dresses?", ch:["Flamenco","Tango","Salsa","Samba"], a:0, cat:"💃 Culture"}
+      {q:"Spain has a famous festival where brave people run through the streets alongside which animals?", ch:["Bulls","Horses","Elephants","Ostriches"], a:0, cat:"🎭 Culture"},
+      {q:"Spain is the birthplace of which passionate dance, performed with rhythmic foot-stomping and colourful swirling dresses?", ch:["Flamenco","Tango","Salsa","Samba"], a:0, cat:"💃 Culture"},
+      {q:"In 1492, which Spanish-funded explorer sailed westward looking for Asia and accidentally discovered the Americas?", ch:["Christopher Columbus","Ferdinand Magellan","Vasco da Gama","Juan de la Cosa"], a:0, cat:"⛵ History"},
+      {q:"Which magnificent unfinished church in Barcelona — designed by architect Antoni Gaudí — has been under construction since 1882?", ch:["Sagrada Família","Alhambra Palace","Cathedral of Seville","El Escorial"], a:0, cat:"🏛️ Architecture"},
+      {q:"Spain is famous for a delicious cold tomato soup, served chilled in hot summers. What is it called?", ch:["Gazpacho","Bouillabaisse","Vichyssoise","Minestrone"], a:0, cat:"🍲 Food"},
+      {q:"Which world-famous Spanish rice dish — cooked with seafood, chicken and golden saffron — is enjoyed in every country?", ch:["Paella","Gazpacho","Tortilla","Fideuà"], a:0, cat:"🥘 Food"},
+      {q:"Spain's Canary Islands are a popular holiday destination. In which ocean are these sunny Spanish islands found?", ch:["Atlantic Ocean","Mediterranean Sea","Pacific Ocean","Indian Ocean"], a:0, cat:"🌍 Geography"},
+      {q:"Spain has a strange food fight every August in the town of Buñol. What do people throw at each other?", ch:["Tomatoes","Water balloons","Oranges","Flour"], a:0, cat:"🍅 Culture"},
+      {q:"Spain has a famous traditional afternoon rest time when many shops close. What is this tradition called?", ch:["Siesta","Fiesta","Salsa","Samba"], a:0, cat:"🎭 Culture"},
+      {q:"The magnificent Alhambra palace — with beautiful Islamic architecture and fountains — is in which Spanish city?", ch:["Granada","Seville","Córdoba","Toledo"], a:0, cat:"🏛️ Architecture"},
+      {q:"Real Madrid is one of the world's most successful football clubs. In which city is it based?", ch:["Madrid","Barcelona","Valencia","Seville"], a:0, cat:"⚽ Sports"},
     ],
     celebs:[
       {n:'Pablo Picasso', r:'Cubist Art Pioneer', e:'🎨'},
@@ -134,7 +179,16 @@ const COUNTRIES = [
     questions:[
       {q:"Russia is so enormous it spans 11 time zones. Which ocean does it touch on its FAR eastern coast?", ch:["The Pacific Ocean","The Atlantic Ocean","The Indian Ocean","The Southern Ocean"], a:0, cat:"🌍 Geography"},
       {q:"What is the famous Russian wooden toy where you open it to find smaller and smaller dolls hidden inside?", ch:["Matryoshka","Origami","Boomerang","Domino"], a:0, cat:"🎭 Culture"},
-      {q:"Moscow's most iconic landmark is a colourful cathedral with bright onion-shaped domes in Red Square. What is it called?", ch:["St. Basil's Cathedral","Notre-Dame","Hagia Sophia","Westminster Abbey"], a:0, cat:"🏛️ Landmarks"}
+      {q:"Moscow's most iconic landmark is a colourful cathedral with bright onion-shaped domes in Red Square. What is it called?", ch:["St. Basil's Cathedral","Notre-Dame","Hagia Sophia","Westminster Abbey"], a:0, cat:"🏛️ Landmarks"},
+      {q:"Which Russian cosmonaut became the first human being to travel into outer space, on 12 April 1961?", ch:["Yuri Gagarin","Valentina Tereshkova","Alexei Leonov","Neil Armstrong"], a:0, cat:"🚀 History"},
+      {q:"Which Russian composer wrote the world-famous ballets 'Swan Lake', 'The Nutcracker' and 'Sleeping Beauty'?", ch:["Pyotr Tchaikovsky","Sergei Prokofiev","Igor Stravinsky","Dmitri Shostakovich"], a:0, cat:"🎵 Music"},
+      {q:"Lake Baikal in Siberia is the world's deepest lake. About how much of the world's unfrozen fresh water does it hold?", ch:["About 20%","About 2%","About 50%","About 5%"], a:0, cat:"🌊 Nature"},
+      {q:"What is the name of the famous large square in the centre of Moscow, surrounded by iconic buildings including St. Basil's Cathedral?", ch:["Red Square","Tiananmen Square","Trafalgar Square","Times Square"], a:0, cat:"🏛️ Geography"},
+      {q:"Russia invented the classic video game where falling coloured blocks must be arranged into rows to clear them. What is it called?", ch:["Tetris","Pac-Man","Space Invaders","Pong"], a:0, cat:"🎮 Technology"},
+      {q:"Russia's Trans-Siberian Railway is the world's longest railway. How long is the journey from Moscow to the Pacific coast?", ch:["Nearly 9,300 km — about 7 days!","500 km — about half a day","3,000 km — about 2 days","20,000 km — about 2 weeks"], a:0, cat:"🚂 Geography"},
+      {q:"Which extraordinary Russian woman made history in 1963 by becoming the first female in space?", ch:["Valentina Tereshkova","Yuri Gagarin","Svetlana Savitskaya","Yelena Kondakova"], a:0, cat:"🚀 History"},
+      {q:"Russia's Volga River — the longest river in Europe — flows into which large inland body of water?", ch:["Caspian Sea","Black Sea","Baltic Sea","Aral Sea"], a:0, cat:"🌊 Geography"},
+      {q:"The delicacy of dark, salty fish eggs from the sturgeon — considered the ultimate luxury food in Russia — is called...", ch:["Caviar","Black truffle","Saffron","Oysters"], a:0, cat:"🥚 Food"},
     ],
     celebs:[
       {n:'Leo Tolstoy', r:'Author of War and Peace', e:'✍️'},
@@ -154,7 +208,16 @@ const COUNTRIES = [
     questions:[
       {q:"Ancient Greece gave the world an incredible gift — a system where citizens vote for their leaders. What is this called?", ch:["Democracy","Monarchy","Theocracy","Oligarchy"], a:0, cat:"🏛️ History"},
       {q:"The famous Parthenon temple sits on a rocky hilltop in Athens. Which goddess was this beautiful temple built for?", ch:["Athena","Aphrodite","Hera","Artemis"], a:0, cat:"🏛️ History"},
-      {q:"The ancient Olympic Games were held every four years in Greece. In which Greek city were they FIRST held?", ch:["Olympia","Athens","Sparta","Corinth"], a:0, cat:"🏅 Sports"}
+      {q:"The ancient Olympic Games were held every four years in Greece. In which Greek city were they FIRST held?", ch:["Olympia","Athens","Sparta","Corinth"], a:0, cat:"🏅 Sports"},
+      {q:"Ancient Greeks invented a form of entertainment where stories were acted out on a stage for audiences. What do we call this today?", ch:["Theatre","Cinema","Opera","Ballet"], a:0, cat:"🎭 History"},
+      {q:"Ancient Greek mathematician Pythagoras discovered a famous theorem about right-angled triangles. Which school subject is his theorem in?", ch:["Mathematics","History","Biology","Art"], a:0, cat:"📐 Science"},
+      {q:"What is Greece's most famous food — a salty, crumbly white cheese that tastes amazing on salads and with olives?", ch:["Feta cheese","Halloumi","Mozzarella","Ricotta"], a:0, cat:"🧀 Food"},
+      {q:"Greece has over 6,000 islands. Which beautiful island is famous worldwide for its white buildings and blue-domed churches overlooking the sea?", ch:["Santorini","Mykonos","Rhodes","Corfu"], a:0, cat:"🏝️ Geography"},
+      {q:"Ancient Greeks worshipped many gods. Which god was the king of all the Greek gods, ruler of Mount Olympus?", ch:["Zeus","Poseidon","Apollo","Ares"], a:0, cat:"📜 History"},
+      {q:"Which ancient Greek hero supposedly cut off the head of the Medusa — a monster whose gaze turned people to stone?", ch:["Perseus","Hercules","Achilles","Odysseus"], a:0, cat:"📚 History"},
+      {q:"Greece is one of the world's top producers of which healthy golden liquid — the key ingredient of Mediterranean cooking?", ch:["Olive oil","Sunflower oil","Coconut oil","Honey"], a:0, cat:"🫒 Food"},
+      {q:"The ancient epic poems 'The Iliad' and 'The Odyssey' — about the Trojan War and the hero Odysseus — were written by which ancient Greek poet?", ch:["Homer","Aristotle","Plato","Socrates"], a:0, cat:"📚 Literature"},
+      {q:"What is the name of the ancient hilltop fortress in the centre of Athens, where the Parthenon stands?", ch:["The Acropolis","The Agora","The Parthenon Hill","The Delphi Seat"], a:0, cat:"🏛️ History"},
     ],
     celebs:[
       {n:'Alexander the Great', r:'Conqueror of the Known World', e:'👑'},
@@ -174,7 +237,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which world-famous furniture store — selling flat-pack furniture in blue and yellow — was founded in Sweden?", ch:["IKEA","ZARA","H&M","Target"], a:0, cat:"🏪 Industry"},
       {q:"Alfred Nobel, the Swedish inventor who created the Nobel Prize, is also famous for inventing what dangerous substance?", ch:["Dynamite","Gunpowder","Nuclear bombs","TNT"], a:0, cat:"🔬 Science"},
-      {q:"Long ago, fierce Scandinavian warriors sailed across Europe and even reached North America. What were they called?", ch:["Vikings","Spartans","Samurai","Gladiators"], a:0, cat:"⚔️ History"}
+      {q:"Long ago, fierce Scandinavian warriors sailed across Europe and even reached North America. What were they called?", ch:["Vikings","Spartans","Samurai","Gladiators"], a:0, cat:"⚔️ History"},
+      {q:"Which world-famous Swedish pop group — with two male and two female members — sang 'Dancing Queen', 'Mamma Mia' and 'Waterloo'?", ch:["ABBA","Ace of Base","Roxette","The Hives"], a:0, cat:"🎵 Music"},
+      {q:"Which hugely popular music streaming app — where you can listen to millions of songs — was invented in Sweden in 2006?", ch:["Spotify","Apple Music","SoundCloud","Deezer"], a:0, cat:"💻 Technology"},
+      {q:"Which famous video game — where players build anything from blocks in a pixelated world — was created by Swedish developer Markus Persson?", ch:["Minecraft","Roblox","Fortnite","Terraria"], a:0, cat:"🎮 Technology"},
+      {q:"In Sweden, during summer in the far north, the sun never fully sets for weeks. What is this magical phenomenon called?", ch:["The Midnight Sun","The Northern Lights","The Polar Day","The Eternal Glow"], a:0, cat:"🌞 Nature"},
+      {q:"What is the name of Sweden's beloved children's story character — a super-strong, red-haired girl who lives alone with a horse on her porch?", ch:["Pippi Longstocking","Astrid","Little My","Ronja"], a:0, cat:"📚 Culture"},
+      {q:"The colourful dancing lights seen in Sweden's winter sky — caused by solar particles — are called the...", ch:["Aurora Borealis (Northern Lights)","Aurora Australis","Midnight Glow","Solar Flare"], a:0, cat:"🌌 Nature"},
+      {q:"Sweden's car brand Volvo is famous for which important safety invention, now required by law in all cars worldwide?", ch:["The three-point seatbelt","The airbag","The rear-view mirror","The crumple zone"], a:0, cat:"🚗 Science"},
+      {q:"What are the famous Swedish meatballs called, and where can you buy them in a café after furniture shopping?", ch:["Köttbullar — in IKEA!","Frikadeller — in H&M!","Boulettes — in Volvo!","Meaties — in Ericsson!"], a:0, cat:"🍽️ Food"},
+      {q:"Swedish Nobel Prize winner Selma Lagerlöf was the first woman to win the Nobel Prize in which category?", ch:["Literature","Peace","Medicine","Physics"], a:0, cat:"📚 History"},
     ],
     celebs:[
       {n:'ABBA', r:'Best-Selling Music Group Ever', e:'🎵'},
@@ -194,7 +266,16 @@ const COUNTRIES = [
     questions:[
       {q:"In the 1630s, Dutch traders went completely crazy for one flower — a single bulb could cost as much as a house! Which flower?", ch:["Tulips","Roses","Orchids","Sunflowers"], a:0, cat:"🌷 History"},
       {q:"Which Dutch painter — only famous AFTER his death — created 'The Starry Night' and the famous 'Sunflowers' painting?", ch:["Vincent van Gogh","Rembrandt","Claude Monet","Pablo Picasso"], a:0, cat:"🎨 Art"},
-      {q:"Much of the Netherlands is below sea level! The Dutch built massive barriers to stop the sea flooding their land. What are these called?", ch:["Dykes & Dams","Stone Walls","Deep Trenches","Sand Barriers"], a:0, cat:"⚙️ Engineering"}
+      {q:"Much of the Netherlands is below sea level! The Dutch built massive barriers to stop the sea flooding their land. What are these called?", ch:["Dykes & Dams","Stone Walls","Deep Trenches","Sand Barriers"], a:0, cat:"⚙️ Engineering"},
+      {q:"The Netherlands is famous for cycling. Approximately how many bicycles are there — compared to its 17 million people?", ch:["23 million bikes — more bikes than people!","5 million bikes","10 million bikes","Only 1 million bikes"], a:0, cat:"🚲 Culture"},
+      {q:"The Netherlands produces a famous round, yellow cheese — mild and slightly sweet — sold all over the world. What is it called?", ch:["Gouda","Brie","Camembert","Edam"], a:0, cat:"🧀 Food"},
+      {q:"Amsterdam is famous for its network of canals. How many bridges span the canals of Amsterdam?", ch:["Over 1,500 bridges","About 100 bridges","About 500 bridges","Less than 50 bridges"], a:0, cat:"🌍 Geography"},
+      {q:"Dutch company Philips invented the CD (compact disc) in the 1980s. What was the CD originally used for?", ch:["Storing and playing music","Making phone calls","Printing photos","Watching TV"], a:0, cat:"💿 Technology"},
+      {q:"Anne Frank — a Jewish girl from Amsterdam — became world-famous for the diary she wrote while hiding from Nazis. How old was she when she started writing?", ch:["13 years old","8 years old","16 years old","10 years old"], a:0, cat:"📖 History"},
+      {q:"What are the traditional Dutch wooden shoes — once worn by farmers to protect their feet on wet muddy ground — called?", ch:["Klompen (clogs)","Sabots","Geta","Moccasins"], a:0, cat:"🎭 Culture"},
+      {q:"The Netherlands is famous for its spring flower display. The world's biggest flower garden — featuring millions of tulips — is called...", ch:["Keukenhof","Giverny","Chelsea Garden","Floriade"], a:0, cat:"🌷 Nature"},
+      {q:"Dutch master painter Rembrandt van Rijn is famous for his dramatic use of light and shadow in portraits. Which century did he live in?", ch:["The 1600s","The 1800s","The 1900s","The 1500s"], a:0, cat:"🎨 Art"},
+      {q:"The Dutch East India Company — founded in 1602 — was a world-changing invention. What was it the first of?", ch:["A publicly traded company (stock market company)","An airline","A supermarket chain","An internet company"], a:0, cat:"📜 History"},
     ],
     celebs:[
       {n:'Vincent van Gogh', r:'Post-Impressionist Painter', e:'🎨'},
@@ -214,7 +295,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which brave Portuguese sailor was the first European to find a sea route to India by sailing around Africa, in 1498?", ch:["Vasco da Gama","Christopher Columbus","Ferdinand Magellan","Henry the Navigator"], a:0, cat:"⛵ History"},
       {q:"What are the famous Portuguese egg custard tarts — found in bakeries from Tokyo to Toronto — called?", ch:["Pastel de Nata","Croissant","Baklava","Cannoli"], a:0, cat:"🥐 Food"},
-      {q:"Portugal's unique, melancholic music style — songs of longing and the sea — is loved worldwide. What is it called?", ch:["Fado","Flamenco","Samba","Bossa Nova"], a:0, cat:"🎵 Music"}
+      {q:"Portugal's unique, melancholic music style — songs of longing and the sea — is loved worldwide. What is it called?", ch:["Fado","Flamenco","Samba","Bossa Nova"], a:0, cat:"🎵 Music"},
+      {q:"Which Portuguese football superstar — born on the island of Madeira — is one of the greatest goalscorers in football history?", ch:["Cristiano Ronaldo","Luís Figo","Eusébio","Rui Costa"], a:0, cat:"⚽ Sports"},
+      {q:"Portugal is the world's leading producer of which natural material — used to seal wine bottles and make cork floors?", ch:["Cork","Rubber","Bamboo","Rattan"], a:0, cat:"🌿 Industry"},
+      {q:"In 1500, Portuguese explorer Pedro Álvares Cabral became the first European to land in which enormous country?", ch:["Brazil","Argentina","South Africa","India"], a:0, cat:"⛵ History"},
+      {q:"Portugal's magical town of Sintra, near Lisbon, is famous for its fairy-tale...", ch:["Colourful palaces and castles in the mountains","Underground caves","Floating gardens","Ancient pyramids"], a:0, cat:"🏰 Culture"},
+      {q:"Portugal's Algarve region in the south is famous for what stunning natural feature?", ch:["Golden cliff beaches and sea caves","Tropical rainforests","Active volcanoes","Arctic glaciers"], a:0, cat:"🏖️ Nature"},
+      {q:"Portugal's famous fortified wine — rich and sweet, from the Douro Valley — is known worldwide as...", ch:["Port wine","Madeira wine","Vinho Verde","Rosé"], a:0, cat:"🍷 Food"},
+      {q:"Lisbon, Portugal's capital, is built on seven hills. What unusual form of transport do locals use to climb the steep streets?", ch:["Trams (electric cable cars)","Escalators","Funiculars","Zip lines"], a:0, cat:"🚃 Culture"},
+      {q:"How many countries in the world have Portuguese as an official language — thanks to explorers of the 1400s and 1500s?", ch:["9 countries","3 countries","5 countries","12 countries"], a:0, cat:"🌍 Geography"},
+      {q:"The Portuguese explorer Ferdinand Magellan led the first expedition to sail all the way around the world. When did this happen?", ch:["1519–1522","1492","1600","1776"], a:0, cat:"⛵ History"},
     ],
     celebs:[
       {n:'Cristiano Ronaldo', r:'All-Time Football Goalscorer', e:'⚽'},
@@ -238,7 +328,16 @@ const COUNTRIES = [
     questions:[
       {q:"China's Great Wall is one of the longest structures ever built. Roughly how long is it from end to end?", ch:["Over 21,000 km","500 km","3,000 km","8,000 km"], a:0, cat:"🏛️ History"},
       {q:"China's most famous and adorable animal — found only in bamboo forests of central China — is the...", ch:["Giant Panda","Red Panda","Snow Leopard","Siberian Tiger"], a:0, cat:"🐼 Nature"},
-      {q:"The ancient Chinese invented something that changed the world — allowing knowledge to be shared in books. What was it?", ch:["Printing with movable type","The internet","The telescope","The steam engine"], a:0, cat:"🔬 Science"}
+      {q:"The ancient Chinese invented something that changed the world — allowing knowledge to be shared in books. What was it?", ch:["Printing with movable type","The internet","The telescope","The steam engine"], a:0, cat:"🔬 Science"},
+      {q:"Which ancient Chinese material — made from silkworm cocoons — was kept secret for centuries and traded along the famous Silk Road?", ch:["Silk fabric","Paper","Porcelain","Tea"], a:0, cat:"🎎 History"},
+      {q:"China's most famous dish — thin slices of roasted duck served in small pancakes with spring onions — is called...", ch:["Peking Duck","Sweet and Sour Pork","Kung Pao Chicken","Dim Sum"], a:0, cat:"🦆 Food"},
+      {q:"China's Spring Festival — the biggest celebration in the world — is also known by what widely used name?", ch:["Chinese New Year","Lantern Festival","Dragon Boat Festival","Mid-Autumn Festival"], a:0, cat:"🎆 Culture"},
+      {q:"China is the world's most populated country. Approximately how many people live there?", ch:["Over 1.4 billion","About 500 million","About 800 million","Over 2 billion"], a:0, cat:"🌍 Geography"},
+      {q:"Which beautiful Chinese art form involves cutting intricate patterns from paper — used as decorations at festivals?", ch:["Paper cutting (Jiǎnzhǐ)","Origami","Calligraphy","Batik"], a:0, cat:"✂️ Culture"},
+      {q:"What is the name of China's important river — often called 'the Cradle of Chinese Civilisation' — that flows through northern China?", ch:["Yellow River (Huang He)","Yangtze River","Pearl River","Mekong River"], a:0, cat:"🌊 Geography"},
+      {q:"China invented fireworks over 1,000 years ago. What were the FIRST fireworks originally used for?", ch:["To scare away evil spirits","As weapons in war","As birthday decorations","To cook food"], a:0, cat:"🎆 History"},
+      {q:"China built the world's largest hydroelectric dam — producing more electricity than any other power station. What is it called?", ch:["Three Gorges Dam","Hoover Dam","Itaipu Dam","Aswan Dam"], a:0, cat:"⚙️ Engineering"},
+      {q:"China invented the magnetic compass about 2,000 years ago. What was it FIRST used for — before navigation?", ch:["Telling fortunes (feng shui)","Finding north","Navigation at sea","Mining for minerals"], a:0, cat:"🔬 History"},
     ],
     celebs:[
       {n:'Confucius', r:'Philosopher & Teacher', e:'📚'},
@@ -258,7 +357,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which beautiful white marble monument was built by Emperor Shah Jahan as a tomb for his beloved wife, in the city of Agra?", ch:["Taj Mahal","The Parthenon","The Colosseum","The Pyramids"], a:0, cat:"🏛️ Monuments"},
       {q:"India is the birthplace of a practice combining stretching, breathing and meditation, now loved by millions worldwide. What is it?", ch:["Yoga","Kung Fu","Tai Chi","Pilates"], a:0, cat:"🧘 Culture"},
-      {q:"Which sport — played with a bat and ball over 5 days — makes India go absolutely wild with excitement?", ch:["Cricket","Football","Tennis","Basketball"], a:0, cat:"🏏 Sports"}
+      {q:"Which sport — played with a bat and ball over 5 days — makes India go absolutely wild with excitement?", ch:["Cricket","Football","Tennis","Basketball"], a:0, cat:"🏏 Sports"},
+      {q:"India gave the world a number that completely transformed mathematics and computing. Which crucial number did India invent?", ch:["The number zero (0)","The number pi (π)","The number infinity","Negative numbers"], a:0, cat:"🔢 Science"},
+      {q:"Which ancient board game — where kings, queens, bishops and pawns battle each other — was invented in India?", ch:["Chess","Ludo","Snakes & Ladders","Pachisi"], a:0, cat:"♟️ History"},
+      {q:"India's Bollywood film industry is the world's largest. Approximately how many films does it produce each year?", ch:["About 1,800 films","About 500 films","About 100 films","About 5,000 films"], a:0, cat:"🎬 Culture"},
+      {q:"India has the world's most colourful festival — where people throw bright powders at each other to welcome spring. What is it called?", ch:["Holi","Diwali","Navaratri","Pongal"], a:0, cat:"🎨 Culture"},
+      {q:"India's famous Diwali festival — celebrated with millions of clay oil lamps — is known as the Festival of...", ch:["Lights","Colours","Harvest","Water"], a:0, cat:"🪔 Culture"},
+      {q:"India's national animal — a powerful big cat with orange fur and black stripes — is the...", ch:["Bengal Tiger","Snow Leopard","Asiatic Lion","Leopard"], a:0, cat:"🐯 Nature"},
+      {q:"Which famous Indian leader used peaceful protest — marching 388 km to the sea to make salt — to fight against British rule?", ch:["Mahatma Gandhi","Jawaharlal Nehru","Bhagat Singh","Subhas Chandra Bose"], a:0, cat:"✊ History"},
+      {q:"India is famous for its spiced tea with milk, ginger and cardamom — now drunk worldwide. What is this tea called?", ch:["Chai","Masala tea","Darjeeling","Assam"], a:0, cat:"🍵 Food"},
+      {q:"India's most famous river — considered sacred by Hindus — flows from the Himalayas to the Bay of Bengal. What is it called?", ch:["The Ganges (Ganga)","The Indus","The Brahmaputra","The Yamuna"], a:0, cat:"🌊 Geography"},
     ],
     celebs:[
       {n:'Mahatma Gandhi', r:'Father of Non-Violent Revolution', e:'🕊️'},
@@ -278,7 +386,16 @@ const COUNTRIES = [
     questions:[
       {q:"Japan is famous for its super-fast trains. Approximately how fast do Japan's 'Shinkansen' bullet trains travel?", ch:["320 km/h","60 km/h","150 km/h","500 km/h"], a:0, cat:"🚄 Technology"},
       {q:"What is the name of Japan's famous snow-capped volcano and highest mountain, visible from Tokyo on clear days?", ch:["Mount Fuji","Mount Everest","Mount K2","Mount Etna"], a:0, cat:"🏔️ Nature"},
-      {q:"Which famous Japanese food — made with vinegared rice and raw fish — is now enjoyed all over the world?", ch:["Sushi","Pizza","Tacos","Pad Thai"], a:0, cat:"🍣 Food"}
+      {q:"Which famous Japanese food — made with vinegared rice and raw fish — is now enjoyed all over the world?", ch:["Sushi","Pizza","Tacos","Pad Thai"], a:0, cat:"🍣 Food"},
+      {q:"Japan is famous for beautiful pink blossom that appears on trees in spring — celebrated with outdoor picnics. What is this blossom called?", ch:["Cherry blossom (Sakura)","Magnolia","Plum blossom","Wisteria"], a:0, cat:"🌸 Culture"},
+      {q:"Which world-famous Japanese gaming company created Mario, Zelda, Pokémon and the Nintendo Switch?", ch:["Nintendo","Sony","Sega","Capcom"], a:0, cat:"🎮 Technology"},
+      {q:"What is Japan's traditional art of folding paper into beautiful animals and shapes — using just a single square of paper?", ch:["Origami","Ikebana","Bonsai","Calligraphy"], a:0, cat:"📄 Culture"},
+      {q:"Which Japanese animated film studio — created by Hayao Miyazaki — made 'Spirited Away', which won an Oscar for Best Animated Film?", ch:["Studio Ghibli","Pixar","DreamWorks","Walt Disney"], a:0, cat:"🎬 Culture"},
+      {q:"What is the name of Japan's ancient warrior class — who followed a strict code of honour and used curved swords?", ch:["Samurai","Ninja","Shogun","Ronin"], a:0, cat:"⚔️ History"},
+      {q:"Japanese Sumo wrestling is one of the world's oldest sports. Where do two enormous wrestlers compete?", ch:["In a circular ring called a dohyo","In a swimming pool","On a raised platform","In a sand pit"], a:0, cat:"🏋️ Sports"},
+      {q:"Japan is home to the world's busiest railway station, used by over 3 million people every day. In which city is Shinjuku Station?", ch:["Tokyo","Osaka","Kyoto","Hiroshima"], a:0, cat:"🚉 Geography"},
+      {q:"Japan's ancient capital city — still famous for its thousands of temples and traditional culture — is called...", ch:["Kyoto","Tokyo","Osaka","Nara"], a:0, cat:"🏯 History"},
+      {q:"Japan is the world's largest producer of which electronic device — used to play video games at home and on the go?", ch:["Games consoles (Nintendo, Sony PlayStation)","Smartphones","Laptops","Smart TVs"], a:0, cat:"🎮 Industry"},
     ],
     celebs:[
       {n:'Hayao Miyazaki', r:'Creator of Studio Ghibli Anime', e:'🎨'},
@@ -298,7 +415,16 @@ const COUNTRIES = [
     questions:[
       {q:"South Korea is famous for its hugely popular music style that has fans in every country on Earth. What is it called?", ch:["K-Pop","J-Pop","Afrobeats","Reggae"], a:0, cat:"🎵 Music"},
       {q:"What is the famous spicy Korean fermented vegetable dish, eaten alongside almost every single Korean meal?", ch:["Kimchi","Sushi","Pho","Pad Thai"], a:0, cat:"🥬 Food"},
-      {q:"Which world-famous electronics company — making phones, TVs and home appliances — comes from South Korea?", ch:["Samsung","Apple","Sony","Microsoft"], a:0, cat:"💻 Technology"}
+      {q:"Which world-famous electronics company — making phones, TVs and home appliances — comes from South Korea?", ch:["Samsung","Apple","Sony","Microsoft"], a:0, cat:"💻 Technology"},
+      {q:"Which iconic Korean TV series — about survival games on a mysterious island — became Netflix's most-watched show ever in 2021?", ch:["Squid Game","Parasite","Kingdom","Crash Landing on You"], a:0, cat:"🎬 Culture"},
+      {q:"What is Korea's ancient martial art — meaning 'the way of the hand and fist' — that is now an Olympic sport?", ch:["Taekwondo","Karate","Judo","Kung Fu"], a:0, cat:"🥋 Sports"},
+      {q:"South Korea invented a unique writing system in the 1440s. What is this alphabet called?", ch:["Hangul","Hiragana","Hanja","Kanji"], a:0, cat:"📝 History"},
+      {q:"Bong Joon-ho's film 'Parasite' made history in 2020. What was special about its Oscar win?", ch:["First non-English language film to win Best Picture","First Korean film ever nominated","First subtitled film nominated","First Netflix film to win"], a:0, cat:"🎬 Culture"},
+      {q:"South Korea is famous for its high-tech beauty products exported worldwide. What is South Korea's global beauty movement called?", ch:["K-Beauty","Seoul Style","Asian Glow","Hallyu Beauty"], a:0, cat:"✨ Culture"},
+      {q:"South Korea's beloved spicy rice cake dish — eaten at street markets everywhere — is called...", ch:["Tteokbokki","Bibimbap","Japchae","Pajeon"], a:0, cat:"🌶️ Food"},
+      {q:"South Korea is the world's leading producer of which type of massive ocean vessel?", ch:["Supertankers and cargo ships","Aircraft carriers","Submarines","Sailing yachts"], a:0, cat:"⚓ Industry"},
+      {q:"The Korean traditional sport of Ssireum involves two competitors trying to do what?", ch:["Throw each other to the ground by grabbing cloth belts","Hit each other with padded sticks","Jump highest from standing","Push each other out of a circle"], a:0, cat:"🤼 Sports"},
+      {q:"South Korean boy band BTS became the most-streamed act in the world. In which year did they break the Beatles' record for most #1 albums?", ch:["2020","2015","2018","2023"], a:0, cat:"🎵 Music"},
     ],
     celebs:[
       {n:'BTS', wn:'BTS (band)', r:'Most Famous K-Pop Group Globally', e:'🎵'},
@@ -318,7 +444,16 @@ const COUNTRIES = [
     questions:[
       {q:"Thailand's most beloved national animal — a symbol of strength, wisdom and good luck — is the...", ch:["Elephant","Tiger","Monkey","Cobra"], a:0, cat:"🐘 Culture"},
       {q:"Which famous Thai noodle dish — stir-fried with eggs, bean sprouts and crushed peanuts — is loved worldwide?", ch:["Pad Thai","Pho","Ramen","Laksa"], a:0, cat:"🍜 Food"},
-      {q:"Most people in Thailand follow a peaceful religion with over 40,000 golden temples across the country. Which religion is it?", ch:["Buddhism","Hinduism","Islam","Christianity"], a:0, cat:"⛩️ Culture"}
+      {q:"Most people in Thailand follow a peaceful religion with over 40,000 golden temples across the country. Which religion is it?", ch:["Buddhism","Hinduism","Islam","Christianity"], a:0, cat:"⛩️ Culture"},
+      {q:"Thailand has a famous water festival — celebrating Thai New Year — where everyone soaks each other. What is it called?", ch:["Songkran","Diwali","Holi","Loi Krathong"], a:0, cat:"💦 Culture"},
+      {q:"What is Thailand's most iconic style of boxing — using fists, elbows, knees AND feet — known as 'the art of eight limbs'?", ch:["Muay Thai","Kickboxing","Capoeira","Jeet Kune Do"], a:0, cat:"🥊 Sports"},
+      {q:"Thailand's most famous temple — sitting on a sacred hill in the centre of Bangkok — is the Temple of the...", ch:["Emerald Buddha (Wat Phra Kaew)","Reclining Buddha","Dawn (Wat Arun)","White Temple"], a:0, cat:"⛩️ Culture"},
+      {q:"Thailand is famous for its spectacular floating markets. Who are the sellers on the traditional wooden boats?", ch:["Local farmers and cooks selling fresh fruit and food","Souvenir traders","Jewellery makers","Spice merchants"], a:0, cat:"🚤 Culture"},
+      {q:"Thailand is one of the world's top producers of which fragrant, long-grained rice variety?", ch:["Jasmine rice","Basmati rice","Sushi rice","Wild rice"], a:0, cat:"🌾 Food"},
+      {q:"In Thai culture, it is considered very disrespectful to touch which part of another person's body?", ch:["The head","The hands","The feet","The shoulders"], a:0, cat:"🙏 Culture"},
+      {q:"Thailand's national sport — where players keep a rattan ball airborne using only their feet, knees and head — is called...", ch:["Sepak Takraw","Petanque","Chinlone","Kabaddi"], a:0, cat:"🏐 Sports"},
+      {q:"What is the name of Thailand's most famous tropical dish — a spicy soup made with lemongrass, galangal and coconut milk?", ch:["Tom Kha / Tom Yum","Pad Thai","Green curry","Khao Soi"], a:0, cat:"🍲 Food"},
+      {q:"Thailand is famous for beautifully carved fruit and vegetable art used as decorations at festivals. What is this traditional Thai skill called?", ch:["Kae-sa-lak (fruit carving)","Origami","Batik","Pottery"], a:0, cat:"🎨 Culture"},
     ],
     celebs:[
       {n:'Tony Jaa', r:'Martial Arts Action Film Star', e:'🥋'},
@@ -338,7 +473,16 @@ const COUNTRIES = [
     questions:[
       {q:"Indonesia is home to the world's largest Buddhist temple, built over 1,200 years ago on the island of Java. What is it called?", ch:["Borobudur","Angkor Wat","Shwedagon","Prambanan"], a:0, cat:"🏛️ History"},
       {q:"Indonesia is the world's largest island nation. Approximately how many islands does it have?", ch:["17,000+","500","2,000","5,000"], a:0, cat:"🏝️ Geography"},
-      {q:"Which enormous lizard — the world's largest — lives only on a few islands in Indonesia and nowhere else on Earth?", ch:["Komodo Dragon","Giant Iguana","Monitor Lizard","Gila Monster"], a:0, cat:"🦎 Nature"}
+      {q:"Which enormous lizard — the world's largest — lives only on a few islands in Indonesia and nowhere else on Earth?", ch:["Komodo Dragon","Giant Iguana","Monitor Lizard","Gila Monster"], a:0, cat:"🦎 Nature"},
+      {q:"Which Indonesian island is famous worldwide for its Hindu temples, rice terraces and vibrant arts and dance traditions?", ch:["Bali","Java","Sumatra","Lombok"], a:0, cat:"🌺 Culture"},
+      {q:"Indonesian traditional puppet theatre — using intricately carved leather or wooden puppets behind a screen — is called...", ch:["Wayang","Kabuki","Bunraku","Karagöz"], a:0, cat:"🎭 Culture"},
+      {q:"Indonesia's rainforest is home to the only great ape found in Asia. What is this large, orange-haired ape called?", ch:["Orangutan","Gibbon","Proboscis Monkey","Sun Bear"], a:0, cat:"🦧 Nature"},
+      {q:"Indonesia is the world's largest Muslim-majority country. Approximately what percentage of Indonesians are Muslim?", ch:["About 87%","About 30%","About 50%","About 99%"], a:0, cat:"🕌 Culture"},
+      {q:"Batik — Indonesia's UNESCO-listed traditional art — involves creating beautiful patterns on fabric using which technique?", ch:["Wax-resist dyeing","Weaving","Embroidery","Block printing"], a:0, cat:"🎨 Culture"},
+      {q:"Which tiny Indonesian island — home to the capital Jakarta — is the world's most densely populated island?", ch:["Java","Bali","Sumatra","Kalimantan"], a:0, cat:"🌍 Geography"},
+      {q:"Indonesia's traditional ensemble of bronze gongs and metallophones — considered the heartbeat of Javanese culture — is called...", ch:["Gamelan","Angklung","Kulintang","Calung"], a:0, cat:"🎵 Culture"},
+      {q:"Indonesia produces more of which spiky, strongly-scented tropical fruit than any other country — some people love it, many can't stand the smell!?", ch:["Durian","Jackfruit","Rambutan","Dragon fruit"], a:0, cat:"🍈 Food"},
+      {q:"Indonesia is one of the world's top producers of which beans — the main ingredient in everyone's favourite treat, chocolate?", ch:["Cacao (cocoa beans)","Coffee","Vanilla","Pepper"], a:0, cat:"🍫 Food"},
     ],
     celebs:[
       {n:'Rudy Hartono', r:'8-Time Badminton World Champion', e:'🏸'},
@@ -358,7 +502,16 @@ const COUNTRIES = [
     questions:[
       {q:"The world's tallest skyscraper — with 163 floors and standing 828 metres tall — is in the city of Dubai. What is it called?", ch:["Burj Khalifa","Empire State Building","CN Tower","Petronas Towers"], a:0, cat:"🏙️ Architecture"},
       {q:"The UAE's national bird — the fastest animal on Earth when diving at over 320 km/h — is the...", ch:["Peregrine Falcon","Bald Eagle","Condor","Flamingo"], a:0, cat:"🦅 Nature"},
-      {q:"Dubai is home to a spectacular hotel shaped like a billowing sail, often called the world's most luxurious hotel. What is it called?", ch:["Burj Al Arab","Atlantis The Palm","The Palm Hotel","Emirates Grand"], a:0, cat:"🏨 Luxury"}
+      {q:"Dubai is home to a spectacular hotel shaped like a billowing sail, often called the world's most luxurious hotel. What is it called?", ch:["Burj Al Arab","Atlantis The Palm","The Palm Hotel","Emirates Grand"], a:0, cat:"🏨 Luxury"},
+      {q:"Dubai has a massive shopping mall with its own indoor ski slope in the middle of the desert! What is it called?", ch:["Mall of the Emirates","Dubai Mall","Marina Mall","Ibn Battuta Mall"], a:0, cat:"🏬 Culture"},
+      {q:"The UAE was formed in 1971 by the union of seven smaller states called...", ch:["Emirates","Provinces","States","Kingdoms"], a:0, cat:"🌍 History"},
+      {q:"Abu Dhabi — the UAE's capital — has a magnificent mosque that can hold 40,000 worshippers. What is it called?", ch:["Sheikh Zayed Grand Mosque","Al-Masjid al-Nabawi","Blue Mosque","Sultan Qaboos Mosque"], a:0, cat:"🕌 Architecture"},
+      {q:"The UAE's main airline — one of the world's largest and most luxurious — is famous for its 'fly better' motto. What is it called?", ch:["Emirates","Etihad","FlyDubai","Air Arabia"], a:0, cat:"✈️ Industry"},
+      {q:"What are the famous man-made islands in Dubai — built in the shape of a palm tree, with luxury hotels and homes — called?", ch:["Palm Jumeirah","The World Islands","Palm Jebel Ali","The Lagoon"], a:0, cat:"🌴 Architecture"},
+      {q:"The UAE made history in 2021 when it sent a space probe to orbit which planet?", ch:["Mars","Venus","Jupiter","The Moon"], a:0, cat:"🚀 Science"},
+      {q:"The UAE's traditional dress for men — a long white robe worn to stay cool in the desert heat — is called a...", ch:["Kandura (Dishdasha)","Thobe","Abaya","Keffiyeh"], a:0, cat:"👘 Culture"},
+      {q:"Dubai hosts the world's richest horse race each year, with a prize of $12 million. What is it called?", ch:["Dubai World Cup","Grand National","Cheltenham Gold Cup","Kentucky Derby"], a:0, cat:"🐎 Sports"},
+      {q:"What is the traditional Arabic hospitality drink — flavoured with cardamom — that is offered to every guest in the UAE as a sign of welcome?", ch:["Arabic coffee (Qahwa)","Camel milk","Date juice","Rose water drink"], a:0, cat:"☕ Culture"},
     ],
     celebs:[
       {n:'Sheikh Zayed Al Nahyan', r:'Founding Father of the UAE', e:'👑'},
@@ -378,7 +531,16 @@ const COUNTRIES = [
     questions:[
       {q:"Vietnam's most stunning natural wonder has nearly 2,000 dramatic limestone islands rising from turquoise water. What is it called?", ch:["Ha Long Bay","Manila Bay","Tokyo Bay","Shark Bay"], a:0, cat:"🏝️ Nature"},
       {q:"What is Vietnam's most famous noodle soup — a clear broth with noodles, herbs and meat, eaten morning, noon and night?", ch:["Pho","Ramen","Laksa","Udon"], a:0, cat:"🍜 Food"},
-      {q:"Surprisingly, Vietnam is the world's second-largest producer of which popular hot drink? (After Brazil!)", ch:["Coffee","Tea","Cocoa","Orange Juice"], a:0, cat:"☕ Food"}
+      {q:"Surprisingly, Vietnam is the world's second-largest producer of which popular hot drink? (After Brazil!)", ch:["Coffee","Tea","Cocoa","Orange Juice"], a:0, cat:"☕ Food"},
+      {q:"Vietnam's capital city is Hanoi. What is the name of Vietnam's largest city and economic hub, in the south?", ch:["Ho Chi Minh City (Saigon)","Da Nang","Hue","Nha Trang"], a:0, cat:"🌍 Geography"},
+      {q:"Vietnam is famous for its traditional conical hats worn by farmers and on bicycles. What are these hats called?", ch:["Nón lá (leaf hat)","Coolie hat","Sombrero","Bamboo cap"], a:0, cat:"🎎 Culture"},
+      {q:"Which delicious Vietnamese sandwich — a French baguette filled with meat, pickled vegetables and herbs — is now popular worldwide?", ch:["Bánh mì","Bánh xèo","Gỏi cuốn","Bún bò"], a:0, cat:"🥖 Food"},
+      {q:"Vietnam has the world's largest cave system. What is the name of the world's biggest cave, located in Vietnam?", ch:["Sơn Đoòng Cave","Ha Long Cave","Phong Nha Cave","Marble Mountain Cave"], a:0, cat:"🕳️ Nature"},
+      {q:"What form of transport do most Vietnamese city workers use — weaving through incredibly busy streets in huge numbers?", ch:["Motorbike (scooter)","Bicycle","Tuk-tuk","Car"], a:0, cat:"🛵 Culture"},
+      {q:"What is the Vietnamese word for 'hello', used as a friendly greeting?", ch:["Xin chào","Sawadee","Mabuhay","Kumusta"], a:0, cat:"🎭 Culture"},
+      {q:"Vietnam is famous for its delicious fresh rice paper rolls filled with shrimp, noodles and herbs. What are they called?", ch:["Gỏi cuốn (fresh spring rolls)","Chả giò","Bánh cuốn","Nem rán"], a:0, cat:"🥗 Food"},
+      {q:"Vietnam's ancient Hội An old town is a UNESCO World Heritage Site. What makes it so special?", ch:["Beautifully preserved merchant houses from the 1600s","Ancient pyramids","Underground temples","Giant statues"], a:0, cat:"🏛️ History"},
+      {q:"Vietnam won its independence from France in 1954 at the famous Battle of Điện Biên Phủ. How long had France controlled Vietnam?", ch:["Almost 100 years","About 20 years","About 10 years","Over 200 years"], a:0, cat:"📜 History"},
     ],
     celebs:[
       {n:'Ho Chi Minh', r:'Revolutionary Leader & Nation Founder', e:'🏛️'},
@@ -398,7 +560,16 @@ const COUNTRIES = [
     questions:[
       {q:"The Philippines is made up of approximately how many islands — making it one of the world's largest archipelagos?", ch:["7,000+","200","500","2,000"], a:0, cat:"🏝️ Geography"},
       {q:"Which magnificent eagle — one of the world's largest and rarest birds of prey — is the national bird of the Philippines?", ch:["Philippine Eagle","Bald Eagle","Golden Eagle","Harpy Eagle"], a:0, cat:"🦅 Nature"},
-      {q:"The Philippines is the only country in Asia where most people follow which religion, brought by Spanish explorers?", ch:["Christianity","Islam","Buddhism","Hinduism"], a:0, cat:"🕊️ Culture"}
+      {q:"The Philippines is the only country in Asia where most people follow which religion, brought by Spanish explorers?", ch:["Christianity","Islam","Buddhism","Hinduism"], a:0, cat:"🕊️ Culture"},
+      {q:"The Philippines' colourful, elaborately decorated jeepneys — used as public transport — are based on which original vehicle?", ch:["US military jeeps from WWII","Traditional wooden boats","Colonial Spanish carts","British double-decker buses"], a:0, cat:"🚌 Culture"},
+      {q:"Which Filipino dish — a whole roasted pig with crispy golden skin — is served at every big celebration?", ch:["Lechon","Adobo","Sinigang","Kare-kare"], a:0, cat:"🐷 Food"},
+      {q:"The Philippines was named after which king of Spain?", ch:["King Philip II","King Ferdinand","King Charles","King Alfonso"], a:0, cat:"📜 History"},
+      {q:"What is the Filipino word for 'hello' and 'welcome' — said with great warmth to greet visitors?", ch:["Mabuhay","Kumusta","Salamat","Paalam"], a:0, cat:"🎭 Culture"},
+      {q:"Which popular Filipino iced dessert — with layers of shaved ice, sweet beans, jelly, fruit and ice cream — means 'mix-mix' in Filipino?", ch:["Halo-halo","Bingsu","Kakigori","Tapioca"], a:0, cat:"🍧 Food"},
+      {q:"The Philippines has more than 175 languages spoken within its islands. Which is the official national language based on Tagalog?", ch:["Filipino","Tagalog","Cebuano","Ilocano"], a:0, cat:"🗣️ Culture"},
+      {q:"The Philippines is a top destination for which water sport — exploring underwater coral reefs teeming with tropical fish?", ch:["Scuba diving","Surfing","Kiteboarding","Water polo"], a:0, cat:"🤿 Sports"},
+      {q:"Which Filipino national hero — author of important novels that inspired independence — was executed by Spanish colonizers in 1896?", ch:["José Rizal","Andres Bonifacio","Emilio Aguinaldo","Apolinario Mabini"], a:0, cat:"📜 History"},
+      {q:"What is the name of the Philippines' most active volcano — famous for its perfect cone shape — that erupted dramatically in 2000?", ch:["Mayon Volcano","Mount Pinatubo","Taal Volcano","Mount Apo"], a:0, cat:"🌋 Nature"},
     ],
     celebs:[
       {n:'Manny Pacquiao', r:'8-Division World Boxing Champion', e:'🥊'},
@@ -418,7 +589,16 @@ const COUNTRIES = [
     questions:[
       {q:"Saudi Arabia is home to Mecca — the most sacred city in which religion, attracting millions of pilgrims every year?", ch:["Islam","Christianity","Hinduism","Buddhism"], a:0, cat:"🕌 Culture"},
       {q:"Saudi Arabia is the world's largest exporter of which precious natural resource, found deep underground?", ch:["Oil","Gold","Diamonds","Natural Gas"], a:0, cat:"⚡ Resources"},
-      {q:"Saudi Arabia's vast desert — one of the world's largest areas of continuous sand dunes — is called the 'Empty Quarter'. What is the Arabic name?", ch:["Rub' al Khali","The Sahara","The Gobi","The Nafud"], a:0, cat:"🌵 Nature"}
+      {q:"Saudi Arabia's vast desert — one of the world's largest areas of continuous sand dunes — is called the 'Empty Quarter'. What is its Arabic name?", ch:["Rub' al Khali","The Sahara","The Gobi","The Nafud"], a:0, cat:"🌵 Nature"},
+      {q:"Saudi Arabia's national animal — perfectly adapted to the desert, surviving weeks without water — is the...", ch:["Arabian Camel","Arabian Oryx","Gazelle","Desert Fox"], a:0, cat:"🐪 Nature"},
+      {q:"The traditional Arabic hospitality drink — hot, slightly bitter, flavoured with cardamom — served to every guest in Saudi Arabia is called...", ch:["Arabic coffee (Qahwa)","Camel milk","Date juice","Rose water"], a:0, cat:"☕ Culture"},
+      {q:"The Hajj — the annual pilgrimage to Mecca — is one of the world's largest gatherings. Approximately how many Muslims make the journey each year?", ch:["About 2 million","About 50,000","About 500,000","About 10 million"], a:0, cat:"🕌 Culture"},
+      {q:"Saudi Arabia is home to the world's largest oil company. What is it called?", ch:["Saudi Aramco","ExxonMobil","Shell","BP"], a:0, cat:"⚡ Industry"},
+      {q:"The date palm tree is hugely important in Saudi culture. Dates are eaten to break the fast during which holy month?", ch:["Ramadan","Hajj","Eid","Muharram"], a:0, cat:"🌴 Culture"},
+      {q:"What is the name of the ancient Nabataean city in Saudi Arabia — with beautiful tombs carved into rose-red rock — now a UNESCO World Heritage Site?", ch:["Hegra (Al-Hijr / Madain Saleh)","Petra","Palmyra","Jerash"], a:0, cat:"📜 History"},
+      {q:"What is the name of the Saudi city on the Red Sea coast — one of the world's major ports and commercial hubs — famous for its historic old town?", ch:["Jeddah","Riyadh","Dammam","Mecca"], a:0, cat:"🌊 Geography"},
+      {q:"Saudi Arabia is one of the world's largest producers of which delicious sweet fruit — the country has over 400 varieties of it?", ch:["Dates","Figs","Pomegranates","Mangoes"], a:0, cat:"🌴 Food"},
+      {q:"Saudi women were only allowed to drive cars from which year — a major social change in the kingdom?", ch:["2018","2010","2005","2020"], a:0, cat:"🚗 History"},
     ],
     celebs:[
       {n:'Al-Battani', r:'Medieval Astronomer & Mathematician', e:'🔭'},
@@ -442,7 +622,16 @@ const COUNTRIES = [
     questions:[
       {q:"The famous Pharaoh Tutankhamun ('King Tut') became ruler of Egypt at an astonishingly young age. How old was he?", ch:["About 9 years old","25 years old","40 years old","60 years old"], a:0, cat:"📜 History"},
       {q:"Which is the longest river in the world, flowing all the way through Egypt and emptying into the Mediterranean Sea?", ch:["The Nile","The Amazon","The Mississippi","The Yangtze"], a:0, cat:"🌊 Nature"},
-      {q:"Ancient Egyptians wrote using a system of picture symbols. What is this ancient writing system called?", ch:["Hieroglyphics","Cuneiform","Sanskrit","Latin"], a:0, cat:"✍️ History"}
+      {q:"Ancient Egyptians wrote using a system of picture symbols. What is this ancient writing system called?", ch:["Hieroglyphics","Cuneiform","Sanskrit","Latin"], a:0, cat:"✍️ History"},
+      {q:"Egypt's Great Pyramid of Giza was built for which pharaoh approximately 4,500 years ago?", ch:["Khufu (Cheops)","Tutankhamun","Ramesses II","Cleopatra"], a:0, cat:"🏺 History"},
+      {q:"What is the name of the famous half-human, half-lion statue that guards the Great Pyramid of Giza?", ch:["The Great Sphinx","The Colossus","The Osiris Statue","The Ra Stone"], a:0, cat:"🏛️ Monuments"},
+      {q:"What is Egypt's important canal — linking the Mediterranean Sea to the Red Sea — that is a vital shipping route for the world?", ch:["Suez Canal","Panama Canal","Kiel Canal","Corinth Canal"], a:0, cat:"🌊 Geography"},
+      {q:"Cleopatra was the last ruler of Ancient Egypt. She was actually descended from which Greek king who conquered Egypt?", ch:["Alexander the Great (Ptolemaic dynasty)","Julius Caesar","Alexander of Epirus","Pyrrhus of Epirus"], a:0, cat:"📜 History"},
+      {q:"Ancient Egyptians preserved dead bodies by drying them out with natural salt, then wrapping them in cloth. What are these preserved bodies called?", ch:["Mummies","Remains","Relics","Fossils"], a:0, cat:"🧪 History"},
+      {q:"What is Egypt's famous flat, round bread — hollow inside and perfect for scooping hummus?", ch:["Pita bread (Aish Baladi)","Naan","Injera","Lavash"], a:0, cat:"🫓 Food"},
+      {q:"Egypt is home to the world's most famous ancient stone monument — tall, four-sided structures with triangular sides. What are they called?", ch:["Pyramids","Ziggurats","Mausoleums","Obelisks"], a:0, cat:"📜 History"},
+      {q:"The ancient Egyptian god Anubis — shown with a human body and an animal's head — had the head of which animal?", ch:["Jackal","Cat","Crocodile","Falcon"], a:0, cat:"📜 History"},
+      {q:"Egypt's most popular sport — followed passionately by millions — is which team game?", ch:["Football (soccer)","Cricket","Basketball","Tennis"], a:0, cat:"⚽ Sports"},
     ],
     celebs:[
       {n:'Cleopatra', r:'Last Pharaoh of Ancient Egypt', e:'👑'},
@@ -462,7 +651,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which great South African leader spent 27 years in prison before becoming the country's first democratically elected president?", ch:["Nelson Mandela","Desmond Tutu","Thabo Mbeki","Steve Biko"], a:0, cat:"✊ History"},
       {q:"Nelson Mandela was imprisoned on a small island just off Cape Town for 18 years. What is this island called?", ch:["Robben Island","Alcatraz","Devil's Island","Seal Island"], a:0, cat:"📜 History"},
-      {q:"South Africa's famous 'Big Five' are iconic safari animals. Which of these is NOT one of the Big Five?", ch:["Cheetah","Lion","Leopard","Rhinoceros"], a:0, cat:"🦁 Nature"}
+      {q:"South Africa's famous 'Big Five' are iconic safari animals. Which of these is NOT one of the Big Five?", ch:["Cheetah","Lion","Leopard","Rhinoceros"], a:0, cat:"🦁 Nature"},
+      {q:"South Africa has THREE capital cities — a very unusual arrangement! Which city is the seat of parliament?", ch:["Cape Town","Pretoria","Bloemfontein","Johannesburg"], a:0, cat:"🏛️ Geography"},
+      {q:"What is the name of South Africa's iconic flat-topped mountain overlooking Cape Town — one of the world's most famous natural landmarks?", ch:["Table Mountain","Lion's Head","Devil's Peak","Signal Hill"], a:0, cat:"🏔️ Nature"},
+      {q:"South Africa hosted the FIFA Football World Cup for the very first time in which year?", ch:["2010","2002","2014","1998"], a:0, cat:"⚽ Sports"},
+      {q:"South Africa produces more than 70% of the world's supply of which precious silvery metal — used in car exhaust systems and jewellery?", ch:["Platinum","Gold","Diamonds","Silver"], a:0, cat:"💍 Resources"},
+      {q:"South Africa's diverse coast between Cape Town and Hermanus is famous for whale watching. Which enormous whale visits each year?", ch:["Southern Right Whale","Blue Whale","Humpback Whale","Orca"], a:0, cat:"🐋 Nature"},
+      {q:"Which South African sport — played between teams of 15 players with an oval ball — is the country's most passionately followed?", ch:["Rugby Union","Football","Cricket","Golf"], a:0, cat:"🏉 Sports"},
+      {q:"The Zulu greeting 'Sawubona' — meaning 'I see you' — is a beautiful expression. What does this phrase truly mean philosophically?", ch:["I acknowledge you and your full humanity","Just 'hello'","You are in my way","I greet you formally"], a:0, cat:"🎭 Culture"},
+      {q:"South Africa has a 'fynbos' ecosystem near Cape Town. What is remarkable about its plant diversity?", ch:["More plant species per square metre than the Amazon","It's entirely underwater","It grows on ice","It's the world's oldest forest"], a:0, cat:"🌿 Nature"},
+      {q:"The word 'Ubuntu' — one of South Africa's most powerful concepts — means what?", ch:["I am because we are (humanity through community)","Freedom","Strength","Peace"], a:0, cat:"🎭 Culture"},
     ],
     celebs:[
       {n:'Nelson Mandela', r:'President · Symbol of Peace', e:'🕊️'},
@@ -482,7 +680,16 @@ const COUNTRIES = [
     questions:[
       {q:"Nigeria is the most populous country in Africa. Approximately how many people live there?", ch:["Over 220 million","50 million","100 million","500 million"], a:0, cat:"👥 Geography"},
       {q:"Nigeria is famous worldwide for its vibrant, danceable music genre that has taken over global charts. What is it called?", ch:["Afrobeats","Reggae","Salsa","K-Pop"], a:0, cat:"🎵 Music"},
-      {q:"Nigeria has Africa's largest film industry, producing thousands of movies every year. What is it nicknamed?", ch:["Nollywood","Bollywood","Hollywood","Kannywood"], a:0, cat:"🎬 Culture"}
+      {q:"Nigeria has Africa's largest film industry, producing thousands of movies every year. What is it nicknamed?", ch:["Nollywood","Bollywood","Hollywood","Kannywood"], a:0, cat:"🎬 Culture"},
+      {q:"Nigeria's most famous food — a spicy, tomato-based rice dish served at every celebration — is called...", ch:["Jollof Rice","Suya","Egusi Soup","Pounded Yam"], a:0, cat:"🍚 Food"},
+      {q:"Lagos, Nigeria's biggest city, is the largest city in Africa. Approximately how many people live in greater Lagos?", ch:["Over 15 million","About 2 million","About 5 million","Over 30 million"], a:0, cat:"🌍 Geography"},
+      {q:"Which Nigerian-born music artist — known as 'The African Giant' — won a Grammy Award for Best Global Music Album in 2021?", ch:["Burna Boy","Wizkid","Davido","Fela Kuti"], a:0, cat:"🎵 Music"},
+      {q:"Nigeria's Nobel Laureate Wole Soyinka was the first African to win the Nobel Prize in which category?", ch:["Literature","Peace","Medicine","Economics"], a:0, cat:"📚 Culture"},
+      {q:"Which river — flowing through Nigeria and forming the largest delta in Africa before reaching the Atlantic — gave Nigeria its name?", ch:["Niger River","Benue River","Volta River","Congo River"], a:0, cat:"🌊 Geography"},
+      {q:"Nigeria's favourite sport — followed with enormous passion in every city and village — is...", ch:["Football (soccer)","Cricket","Athletics","Basketball"], a:0, cat:"⚽ Sports"},
+      {q:"Nigeria is Africa's largest oil producer. The oil-rich region — called the Niger Delta — is in which part of the country?", ch:["The south (coastal region)","The north","The east","The west"], a:0, cat:"⚡ Geography"},
+      {q:"The ancient Benin Kingdom in Nigeria produced incredible bronze sculptures 600 years ago. What happened to many of these artworks in 1897?", ch:["British forces took them to museums","They were traded for gold","They were hidden underground","They were destroyed in a flood"], a:0, cat:"🎨 History"},
+      {q:"Nigeria is famous for its colourful textile culture. What are the bold, geometric African wax print fabrics used for celebrations called?", ch:["Ankara (African wax print)","Kente","Adire","Aso-oke"], a:0, cat:"👘 Culture"},
     ],
     celebs:[
       {n:'Wole Soyinka', r:'Nobel Prize in Literature', e:'✍️'},
@@ -502,7 +709,16 @@ const COUNTRIES = [
     questions:[
       {q:"Kenya is one of the world's top producers of which refreshing drink, enjoyed by millions every morning worldwide?", ch:["Tea","Coffee","Cocoa","Orange Juice"], a:0, cat:"🍵 Food"},
       {q:"Which Kenyan athlete became the first person in history to run a full marathon (42 km) in under 2 hours?", ch:["Eliud Kipchoge","Usain Bolt","Mo Farah","Haile Gebrselassie"], a:0, cat:"🏃 Sports"},
-      {q:"Kenya's famous wildlife reserve — known for the spectacular Great Migration of wildebeest — is called...", ch:["Maasai Mara","Serengeti","Kruger","Amboseli"], a:0, cat:"🦁 Nature"}
+      {q:"Kenya's famous wildlife reserve — known for the spectacular Great Migration of wildebeest — is called...", ch:["Maasai Mara","Serengeti","Kruger","Amboseli"], a:0, cat:"🦁 Nature"},
+      {q:"Mount Kenya — Africa's second-highest mountain — is what type of natural landform?", ch:["An extinct volcano","A fold mountain","A sandstone plateau","A coral reef"], a:0, cat:"🏔️ Nature"},
+      {q:"Kenya's Maasai people are famous for which impressive traditional display — jumping as high as possible from a standing position?", ch:["The Adumu (jumping dance)","The Haka","The Zaouli","The Ngoma"], a:0, cat:"💃 Culture"},
+      {q:"Nairobi — Kenya's capital — is unique because it has a national park with wild animals right next to the city centre. What can you spot there?", ch:["Lions, giraffes and rhinos","Polar bears","Giant pandas","Whale sharks"], a:0, cat:"🦁 Nature"},
+      {q:"What is the name of Kenya's famous Rift Valley lake — where one million flamingos gather, turning the water brilliant pink?", ch:["Lake Nakuru","Lake Naivasha","Lake Turkana","Lake Victoria"], a:0, cat:"🦩 Nature"},
+      {q:"What is the official name for the colourful fabric worn by Kenyan women — wrapped as a skirt and headscarf with bright patterns?", ch:["Kanga","Kikoi","Kitenge","Maasai shuka"], a:0, cat:"👘 Culture"},
+      {q:"Kenya exports millions of flowers to Europe every single day. Which beautiful flower is Kenya's biggest export crop?", ch:["Roses","Tulips","Orchids","Sunflowers"], a:0, cat:"🌹 Industry"},
+      {q:"The Swahili word 'Safari' — now used worldwide to mean a wildlife trip — actually means what in English?", ch:["Journey / travel","Wild animals","Forest","Adventure"], a:0, cat:"🌍 Culture"},
+      {q:"Kenya's coast is home to the ancient Swahili island trading town of Lamu — one of East Africa's oldest towns. What makes Lamu unique?", ch:["No motor vehicles — only donkeys and boats","Entirely underwater at high tide","Built entirely of coral stone","The world's oldest mosque"], a:0, cat:"🏛️ History"},
+      {q:"Which Kenyan female athlete — awarded the Nobel Peace Prize in 2004 — was famous for her environmental work planting millions of trees?", ch:["Wangari Maathai","Lupita Nyong'o","Fatuma Roba","Grace Ogot"], a:0, cat:"🌱 History"},
     ],
     celebs:[
       {n:'Eliud Kipchoge', r:'First Human Under 2 Hours Marathon', e:'🏃'},
@@ -522,7 +738,16 @@ const COUNTRIES = [
     questions:[
       {q:"Morocco's city of Fes is home to the world's oldest continuously operating university, founded in 859 AD. What is it called?", ch:["University of al-Qarawiyyin","Oxford University","Bologna University","Harvard University"], a:0, cat:"🎓 History"},
       {q:"Which Moroccan city is famous worldwide for its pink-red buildings, lively souks (markets) and colourful culture?", ch:["Marrakech","Rabat","Casablanca","Tangier"], a:0, cat:"🏙️ Culture"},
-      {q:"Morocco's famous slow-cooked stew — prepared in a cone-shaped clay pot — shares its name with the pot itself. What is it called?", ch:["Tagine","Curry","Casserole","Harira"], a:0, cat:"🍲 Food"}
+      {q:"Morocco's famous slow-cooked stew — prepared in a cone-shaped clay pot — shares its name with the pot itself. What is it called?", ch:["Tagine","Curry","Casserole","Harira"], a:0, cat:"🍲 Food"},
+      {q:"Morocco's blue city — where almost every building, wall and flowerpot is painted brilliant blue — is called...", ch:["Chefchaouen","Fes","Essaouira","Tangier"], a:0, cat:"🎨 Culture"},
+      {q:"Morocco has Africa's highest mountains — the Atlas Mountains. What is the highest peak in North Africa called?", ch:["Jbel Toubkal","Mount Kenya","Kilimanjaro","Emi Koussi"], a:0, cat:"🏔️ Nature"},
+      {q:"Morocco is the world's largest exporter of which mineral — essential for fertilizers that help grow the world's food?", ch:["Phosphate rock","Iron ore","Copper","Zinc"], a:0, cat:"⚡ Resources"},
+      {q:"Morocco's traditional steam bath — a social and cleansing ritual where people scrub themselves with black soap — is called a...", ch:["Hammam","Sauna","Hot spring","Onsen"], a:0, cat:"🧖 Culture"},
+      {q:"The 2022 FIFA World Cup made history when Morocco became the first African nation to reach the semi-finals. Who knocked them out?", ch:["France","Argentina","Croatia","Portugal"], a:0, cat:"⚽ Sports"},
+      {q:"Morocco has an unusual geographical feature — two small territories inside its border that actually belong to Spain. What are these called?", ch:["Ceuta and Melilla","Canary Islands","Gibraltar","Madeira"], a:0, cat:"🌍 Geography"},
+      {q:"Morocco's Sahara Desert in the south has spectacular sand dunes at Merzouga. What is the name of the largest dune area?", ch:["Erg Chebbi","Erg Chigaga","Rub' al Khali","The Empty Quarter"], a:0, cat:"🌵 Nature"},
+      {q:"The city of Fes is famous for its ancient leather tanneries. What do they make?", ch:["Leather shoes, bags and clothing in traditional dye pits","Ceramic pottery","Metal jewellery","Silk carpets"], a:0, cat:"🎭 Industry"},
+      {q:"Morocco's famous medieval explorer Ibn Battuta — who travelled 120,000 km — is considered greater than which European explorer often compared to him?", ch:["Marco Polo","Christopher Columbus","Vasco da Gama","Ferdinand Magellan"], a:0, cat:"🧭 History"},
     ],
     celebs:[
       {n:'Ibn Battuta', r:'Greatest Explorer of the Medieval World', e:'🧭'},
@@ -542,7 +767,16 @@ const COUNTRIES = [
     questions:[
       {q:"Ethiopia is famous for being the birthplace of which popular hot drink, now enjoyed by billions worldwide every morning?", ch:["Coffee","Tea","Cocoa","Orange Juice"], a:0, cat:"☕ Culture"},
       {q:"Which legendary Ethiopian long-distance runner dominated the Olympics and World Championships throughout the 1990s and 2000s?", ch:["Haile Gebrselassie","Eliud Kipchoge","Mo Farah","Usain Bolt"], a:0, cat:"🏃 Sports"},
-      {q:"Ethiopia has its own unique calendar that is about 7-8 years 'behind' the rest of the world. How many months does it have?", ch:["13 months","12 months","10 months","11 months"], a:0, cat:"📅 Culture"}
+      {q:"Ethiopia has its own unique calendar that is about 7-8 years 'behind' the rest of the world. How many months does it have?", ch:["13 months","12 months","10 months","11 months"], a:0, cat:"📅 Culture"},
+      {q:"Ethiopia is often called the 'Cradle of Mankind'. Scientists discovered a 3.2 million year old early human ancestor here in 1974. What did they nickname her?", ch:["Lucy (Australopithecus)","Eve","Ada","Tara"], a:0, cat:"🦴 Science"},
+      {q:"Ethiopia is the only African country never fully colonised by a European power. Which European country briefly occupied it from 1936 to 1941?", ch:["Italy","Britain","France","Portugal"], a:0, cat:"📜 History"},
+      {q:"Ethiopia has its own unique script — not Arabic, not Latin — used to write the Amharic language. What is this script called?", ch:["Ge'ez (Ethiopic script)","Hiragana","Tifinagh","Sabaean"], a:0, cat:"📝 Culture"},
+      {q:"Injera — Ethiopia's national food — is a spongy flatbread used as both a plate and an eating utensil. What grain is it made from?", ch:["Teff","Wheat","Corn","Millet"], a:0, cat:"🫓 Food"},
+      {q:"Ethiopia is home to 11 magnificent churches carved entirely out of solid rock in the 12th century. What ancient city has these churches?", ch:["Lalibela","Axum","Gondar","Harar"], a:0, cat:"⛪ History"},
+      {q:"The Danakil Depression in northern Ethiopia is one of the hottest places on Earth. What colourful and bizarre phenomenon can be seen there?", ch:["Acid salt lakes and boiling lava springs","Northern Lights","Crystal caves","Bioluminescent beaches"], a:0, cat:"🌋 Nature"},
+      {q:"Ethiopia is the source of which major river — providing 85% of the Nile's water — that flows north through Sudan and Egypt?", ch:["The Blue Nile","The White Nile","The Congo","The Niger"], a:0, cat:"🌊 Geography"},
+      {q:"Ethiopia is famous for its traditional coffee ceremony. How many cups of coffee are typically served in the ceremony?", ch:["Three cups","One cup","Five cups","Seven cups"], a:0, cat:"☕ Culture"},
+      {q:"The ancient city of Axum in Ethiopia is famous for towering stone obelisks carved thousands of years ago. What are these tall carved columns called?", ch:["Stelae (obelisks)","Pyramids","Menhirs","Totems"], a:0, cat:"🏛️ History"},
     ],
     celebs:[
       {n:'Haile Gebrselassie', r:'Greatest Distance Runner Ever', e:'🏃'},
@@ -562,7 +796,16 @@ const COUNTRIES = [
     questions:[
       {q:"Ghana made history in 1957 by becoming the first country in sub-Saharan Africa to gain independence. From which European country?", ch:["Britain","France","Portugal","Belgium"], a:0, cat:"📜 History"},
       {q:"Ghana is famous for its stunning handwoven, brightly coloured fabric — worn at celebrations and by royalty. What is it called?", ch:["Kente Cloth","Batik","Silk","Tartan"], a:0, cat:"🎨 Culture"},
-      {q:"Ghana is one of the world's top producers of which sweet ingredient — the key ingredient in everyone's favourite treat, chocolate!", ch:["Cocoa beans","Vanilla","Sugar","Coffee"], a:0, cat:"🍫 Food"}
+      {q:"Ghana is one of the world's top producers of which sweet ingredient — the key ingredient in everyone's favourite treat, chocolate!?", ch:["Cocoa beans","Vanilla","Sugar","Coffee"], a:0, cat:"🍫 Food"},
+      {q:"Ghana's capital Accra is on the coast of which ocean?", ch:["Atlantic Ocean","Indian Ocean","Pacific Ocean","Mediterranean Sea"], a:0, cat:"🌊 Geography"},
+      {q:"Which founding father of Ghana — known as Africa's greatest Pan-African leader — led the country to independence in 1957?", ch:["Kwame Nkrumah","Kofi Annan","Jerry Rawlings","John Kufuor"], a:0, cat:"✊ History"},
+      {q:"Ghana is the world's second-largest cocoa producer. Which country produces even more cocoa than Ghana?", ch:["Ivory Coast (Côte d'Ivoire)","Nigeria","Brazil","Indonesia"], a:0, cat:"🍫 Food"},
+      {q:"Lake Volta in Ghana is one of the world's largest man-made lakes. What created this enormous lake?", ch:["The Akosombo Dam (for hydroelectric power)","An ancient earthquake","A meteorite impact","Melting glaciers"], a:0, cat:"🌊 Geography"},
+      {q:"Ghana's traditional counting and strategy game — played on a wooden board with small hollows and seeds or stones — is called...", ch:["Oware (Mancala)","Checkers","Chess","Bao"], a:0, cat:"♟️ Culture"},
+      {q:"What is the name of Ghana's massive hydroelectric dam — one of Africa's largest — providing electricity to several West African countries?", ch:["Akosombo Dam","Aswan Dam","Kariba Dam","Owen Falls Dam"], a:0, cat:"⚡ Industry"},
+      {q:"Ghana is also famous for which precious yellow metal — mined here for centuries — that gave the country its old name 'Gold Coast'?", ch:["Gold","Silver","Platinum","Copper"], a:0, cat:"💛 Resources"},
+      {q:"Who was Kofi Annan — Ghana's most famous international statesman?", ch:["Secretary-General of the United Nations · Nobel Peace Prize","First President of Ghana","FIFA President","Leader of the African Union"], a:0, cat:"🌍 History"},
+      {q:"The colourful fabric worn at Ghanaian celebrations — featuring bold geometric patterns — is woven on special looms by which gender, traditionally?", ch:["Men (traditionally Kente weaving is a male art)","Women","Both equally","Only royals"], a:0, cat:"🎨 Culture"},
     ],
     celebs:[
       {n:'Kofi Annan', r:'UN Secretary-General · Nobel Peace Prize', e:'🕊️'},
@@ -582,7 +825,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which is the tallest mountain in ALL of Africa, located in Tanzania and often called the 'Roof of Africa'?", ch:["Mount Kilimanjaro","Mount Kenya","Mount Elgon","Mount Cameroon"], a:0, cat:"🏔️ Nature"},
       {q:"Tanzania's famous national park — home to the greatest wildlife migration on Earth — is called...", ch:["Serengeti","Maasai Mara","Kruger","Okavango"], a:0, cat:"🦁 Nature"},
-      {q:"Tanzania's island of Zanzibar was historically known as the 'Spice Island'. Which spice made Zanzibar rich and famous?", ch:["Cloves","Cinnamon","Pepper","Nutmeg"], a:0, cat:"🌿 Culture"}
+      {q:"Tanzania's island of Zanzibar was historically known as the 'Spice Island'. Which spice made Zanzibar rich and famous?", ch:["Cloves","Cinnamon","Pepper","Nutmeg"], a:0, cat:"🌿 Culture"},
+      {q:"Freddie Mercury — lead singer of Queen — was born in Zanzibar, Tanzania. What was his real birth name?", ch:["Farrokh Bulsara","Freddie Windsor","John Mercury","Brian May"], a:0, cat:"🎵 History"},
+      {q:"Tanzanite is a precious gemstone found ONLY near Mount Kilimanjaro. It's rarer than diamonds — what colour is it?", ch:["Blue-violet / purple","Deep red","Bright green","Orange-yellow"], a:0, cat:"💎 Nature"},
+      {q:"Mount Kilimanjaro is special because it rises dramatically from flat plains. What type of mountain is it?", ch:["A dormant volcano","A fold mountain","A plateau","A ridge"], a:0, cat:"🌋 Nature"},
+      {q:"Tanzania's Zanzibar island is famous for its historic old town on the UNESCO World Heritage List. What is it called?", ch:["Stone Town","Golden Town","Spice Town","Blue Town"], a:0, cat:"🏛️ History"},
+      {q:"The Maasai people of Tanzania are famous for their traditional red clothing. What natural material do warriors use to colour their hair and skin red?", ch:["Red ochre (iron oxide powder)","Tomato paste","Berry juice","Natural plant dye"], a:0, cat:"🎨 Culture"},
+      {q:"Tanzania's Ngorongoro Crater is a collapsed ancient volcano forming a natural enclosure for wildlife. What combination of animals can be found inside?", ch:["Lions, elephants, rhinos, hippos and flamingos","Polar bears and penguins","Kangaroos and koalas","Pandas and tigers"], a:0, cat:"🦁 Nature"},
+      {q:"Swahili is Tanzania's national language. Approximately how many people worldwide speak Swahili?", ch:["Over 200 million","About 10 million","About 50 million","Over 1 billion"], a:0, cat:"🗣️ Culture"},
+      {q:"The Serengeti migration is the world's greatest wildlife spectacle. Why do over 1.5 million wildebeest migrate in a great circle?", ch:["Following the rains and fresh grass","Escaping predators permanently","Searching for the sea","Breeding season only"], a:0, cat:"🦓 Nature"},
+      {q:"Tanzania's economy benefits greatly from which major industry — bringing in millions of visitors to see lions, elephants and the great migration?", ch:["Wildlife tourism / Safari","Coffee farming","Diamond mining","Deep sea fishing"], a:0, cat:"💼 Industry"},
     ],
     celebs:[
       {n:'Freddie Mercury', r:'Lead Singer of Queen · Born in Zanzibar', e:'🎸'},
@@ -606,7 +858,16 @@ const COUNTRIES = [
     questions:[
       {q:"The Statue of Liberty — a giant copper statue holding a torch — was a gift to the USA from which country?", ch:["France","UK","Spain","Germany"], a:0, cat:"🏛️ Monuments"},
       {q:"In 1969, NASA's Apollo 11 made history. Who was the FIRST human being to walk on the Moon?", ch:["Neil Armstrong","Buzz Aldrin","Yuri Gagarin","John Glenn"], a:0, cat:"🚀 History"},
-      {q:"Which uniquely American music style — full of improvisation and soul — was born in New Orleans, Louisiana?", ch:["Jazz","Rock","Hip-Hop","Country"], a:0, cat:"🎵 Music"}
+      {q:"Which uniquely American music style — full of improvisation and soul — was born in New Orleans, Louisiana?", ch:["Jazz","Rock","Hip-Hop","Country"], a:0, cat:"🎵 Music"},
+      {q:"The USA has 50 states. Which is the largest state by land area — bigger than the next three states combined?", ch:["Alaska","Texas","California","Montana"], a:0, cat:"🌍 Geography"},
+      {q:"Which famous American inventor created the light bulb and also held over 1,000 patents including the phonograph?", ch:["Thomas Edison","Alexander Graham Bell","Nikola Tesla","Benjamin Franklin"], a:0, cat:"🔬 Science"},
+      {q:"The Grand Canyon in Arizona was carved by which river over millions of years, creating a gorge 1.6 km deep?", ch:["The Colorado River","The Mississippi River","The Missouri River","The Rio Grande"], a:0, cat:"🏔️ Nature"},
+      {q:"Which uniquely American sport — played with a bat, ball and gloves on a diamond-shaped field — is called 'America's pastime'?", ch:["Baseball","American Football","Basketball","Ice Hockey"], a:0, cat:"⚾ Sports"},
+      {q:"Which American city is famous for country music, the Grand Ole Opry, and is known as 'Music City'?", ch:["Nashville","New Orleans","Memphis","Austin"], a:0, cat:"🎵 Culture"},
+      {q:"The famous Route 66 road — 'the Mother Road' — runs from Chicago to which West Coast city?", ch:["Los Angeles","San Francisco","Seattle","Las Vegas"], a:0, cat:"🚗 Culture"},
+      {q:"Which American fast food restaurant invented the famous 'Big Mac' burger — two beef patties, special sauce, lettuce and cheese?", ch:["McDonald's","Burger King","Wendy's","Five Guys"], a:0, cat:"🍔 Food"},
+      {q:"Yellowstone National Park — the world's first national park, created in 1872 — is famous for having the world's largest collection of what?", ch:["Geysers and hot springs","Coral reefs","Sand dunes","Rainforest"], a:0, cat:"🌋 Nature"},
+      {q:"Which American president wrote the Declaration of Independence in 1776 — the founding document of the USA?", ch:["Thomas Jefferson","George Washington","Benjamin Franklin","John Adams"], a:0, cat:"📜 History"},
     ],
     celebs:[
       {n:'Martin Luther King Jr.', r:'Civil Rights Leader · Nobel Peace Prize', e:'🕊️'},
@@ -626,7 +887,16 @@ const COUNTRIES = [
     questions:[
       {q:"Canada has more of which natural feature than all other countries in the world COMBINED — over 60% of the global total!", ch:["Lakes","Mountains","Deserts","Volcanoes"], a:0, cat:"🏞️ Geography"},
       {q:"Canada's national tree — whose bright red leaf appears on the Canadian flag — is the...", ch:["Maple Tree","Oak Tree","Pine Tree","Cedar Tree"], a:0, cat:"🍁 Nature"},
-      {q:"The famous massive waterfall on the border of Canada and the USA — visited by 30 million people per year — is called...", ch:["Niagara Falls","Victoria Falls","Angel Falls","Iguazu Falls"], a:0, cat:"🌊 Nature"}
+      {q:"The famous massive waterfall on the border of Canada and the USA — visited by 30 million people per year — is called...", ch:["Niagara Falls","Victoria Falls","Angel Falls","Iguazu Falls"], a:0, cat:"🌊 Nature"},
+      {q:"The inventor of basketball — Dr. James Naismith — was Canadian! He invented the sport in 1891 while working in which American city?", ch:["Springfield, Massachusetts","Boston","New York","Chicago"], a:0, cat:"🏀 History"},
+      {q:"Canada's national animal — a large furry rodent famous for building dams and lodges in rivers — is the...", ch:["Beaver","Moose","Polar Bear","Grizzly Bear"], a:0, cat:"🦫 Nature"},
+      {q:"The CN Tower in Toronto — once the world's tallest free-standing structure — stands 553 metres tall. What does 'CN' stand for?", ch:["Canadian National","Canada's Northern","City of National","Canadian New"], a:0, cat:"🏗️ Architecture"},
+      {q:"Canada is the world's second-largest country by area. Which country is larger?", ch:["Russia","China","USA","Brazil"], a:0, cat:"🌍 Geography"},
+      {q:"Canada has two official languages throughout the entire country. English is one — what is the other?", ch:["French","Spanish","Indigenous languages","Dutch"], a:0, cat:"🗣️ Culture"},
+      {q:"Canada is the world's largest producer of which sweet golden syrup — harvested from trees each spring?", ch:["Maple syrup","Honey","Molasses","Corn syrup"], a:0, cat:"🍁 Food"},
+      {q:"Canada's most famous coffee and donut chain — named after a hockey legend — is a beloved national institution. What is it called?", ch:["Tim Hortons","Starbucks","Second Cup","Country Style"], a:0, cat:"🍩 Culture"},
+      {q:"Canada's Rocky Mountains national parks — Banff and Jasper — are famous for which winter night-sky phenomenon?", ch:["Aurora Borealis (Northern Lights)","Midnight Sun","St. Elmo's Fire","Moonbow"], a:0, cat:"🌌 Nature"},
+      {q:"Canada invented the great winter sport where players use curved sticks to shoot a rubber puck across ice. What is it?", ch:["Ice hockey","Curling","Bobsled","Figure skating"], a:0, cat:"🏒 Sports"},
     ],
     celebs:[
       {n:'Wayne Gretzky', r:'The Great One · Ice Hockey Legend', e:'🏒'},
@@ -646,7 +916,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which ancient Mayan pyramid in Mexico — one of the New Seven Wonders of the World — served as a temple and a calendar?", ch:["Chichen Itza","Teotihuacan","Machu Picchu","Angkor Wat"], a:0, cat:"🏛️ History"},
       {q:"Which Mexican food — a folded tortilla filled with meat, cheese and salsa — is enjoyed in every corner of the world?", ch:["Tacos","Sushi","Curry","Pasta"], a:0, cat:"🌮 Food"},
-      {q:"Mexico's most colourful holiday — celebrated with altars, marigolds and skeleton face paint — honours deceased loved ones. What is it called?", ch:["Día de los Muertos","Halloween","Carnival","All Saints Day"], a:0, cat:"🎭 Culture"}
+      {q:"Mexico's most colourful holiday — celebrated with altars, marigolds and skeleton face paint — honours deceased loved ones. What is it called?", ch:["Día de los Muertos","Halloween","Carnival","All Saints Day"], a:0, cat:"🎭 Culture"},
+      {q:"Mexico City is built on what unusual foundation — which causes problems with the city sinking today?", ch:["A drained lake (Lake Texcoco)","Solid rock","Sand dunes","A coral reef"], a:0, cat:"🌍 History"},
+      {q:"Mexico is the ONLY country where wild monarch butterflies migrate in their billions to spend the winter. Where do they come from?", ch:["USA and Canada","Brazil","South America","Central America"], a:0, cat:"🦋 Nature"},
+      {q:"What is the famous Mexican sauce — dark, complex, made with chocolate, chilli peppers and spices — that takes days to prepare?", ch:["Mole sauce","Salsa","Guacamole","Pico de Gallo"], a:0, cat:"🍫 Food"},
+      {q:"The ancient Aztec empire was conquered by Spanish forces in 1521. Which Spanish conquistador led this conquest?", ch:["Hernán Cortés","Francisco Pizarro","Diego de Almagro","Vasco Núñez de Balboa"], a:0, cat:"📜 History"},
+      {q:"Mexico is home to a fascinating type of salamander — one that never grows up and keeps its baby features for life. What is it called?", ch:["Axolotl","Salamander","Gecko","Iguana"], a:0, cat:"🦎 Nature"},
+      {q:"Which famous Mexican painter — who had a terrible bus accident at 18 but still created extraordinary self-portraits — is beloved worldwide?", ch:["Frida Kahlo","Diego Rivera","David Siqueiros","Rufino Tamayo"], a:0, cat:"🎨 Art"},
+      {q:"Mexico is the world's biggest producer and consumer of which delicious avocado-based green sauce?", ch:["Guacamole","Hummus","Pesto","Tzatziki"], a:0, cat:"🥑 Food"},
+      {q:"Mexico's 'Mariachi' music features trumpets, violins and guitars with singers in large, colourful hats. What are these wide-brimmed hats called?", ch:["Sombreros","Fedoras","Stetsons","Pork pie hats"], a:0, cat:"🎵 Culture"},
+      {q:"Mexico has the world's largest Spanish-speaking city. What is this megacity?", ch:["Mexico City","Buenos Aires","Madrid","Lima"], a:0, cat:"🌍 Geography"},
     ],
     celebs:[
       {n:'Frida Kahlo', r:'Iconic Self-Portrait Painter', e:'🎨'},
@@ -666,7 +945,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which Jamaican athlete holds the world record as the fastest human ever, completing the 100m sprint in just 9.58 seconds?", ch:["Usain Bolt","Mo Farah","Carl Lewis","Asafa Powell"], a:0, cat:"⚡ Sports"},
       {q:"Jamaica is the birthplace of reggae music. Which Jamaican musician became the genre's most legendary artist worldwide?", ch:["Bob Marley","Sean Paul","Shaggy","Jimmy Cliff"], a:0, cat:"🎵 Music"},
-      {q:"What is Jamaica's famous national dish — a surprising but delicious combination of a tropical fruit and salted fish?", ch:["Ackee & Saltfish","Jerk Chicken","Rice & Peas","Curry Goat"], a:0, cat:"🍳 Food"}
+      {q:"What is Jamaica's famous national dish — a surprising but delicious combination of a tropical fruit and salted fish?", ch:["Ackee & Saltfish","Jerk Chicken","Rice & Peas","Curry Goat"], a:0, cat:"🍳 Food"},
+      {q:"Jamaica produces the world's most famous premium coffee — grown in the spectacular Blue Mountains. What is it called?", ch:["Blue Mountain Coffee","Jamaican Gold Coffee","Kingston Blend","Caribbean Roast"], a:0, cat:"☕ Food"},
+      {q:"Jamaica's jerk chicken is famous worldwide for its spicy marinade. Which two KEY ingredients give it its fiery, aromatic flavour?", ch:["Scotch bonnet peppers and allspice","Curry powder and coconut","Lime and cumin","Paprika and honey"], a:0, cat:"🌶️ Food"},
+      {q:"Which Jamaican music genre came BEFORE reggae — a fast, upbeat style popular in the 1960s?", ch:["Ska","Calypso","Soca","Dancehall"], a:0, cat:"🎵 Music"},
+      {q:"The Jamaican flag has a unique design — the ONLY national flag with no red, white or blue. What colours does it use?", ch:["Black, gold and green","Red, gold and green","Blue, white and gold","Orange, black and white"], a:0, cat:"🌍 Culture"},
+      {q:"Jamaica's official motto is 'Out of Many, One People'. What does this reflect about Jamaican society?", ch:["Its diverse mix of African, European, Asian and other cultures","Its many islands","Its number of Olympic champions","Its musical genres"], a:0, cat:"🎭 Culture"},
+      {q:"Which Jamaican hero — a Black nationalism leader who inspired the civil rights movement — wanted African people worldwide to unite?", ch:["Marcus Garvey","Bob Marley","Paul Bogle","Sam Sharpe"], a:0, cat:"✊ History"},
+      {q:"Jamaica is famous for its beautiful glowing lagoons — where the sea sparkles blue-green at night. What causes this magical glow?", ch:["Bioluminescent (light-producing) microorganisms","Electric eels","Underwater crystals","Phosphorescent algae blooms"], a:0, cat:"🌊 Nature"},
+      {q:"Jamaica is small but punches far above its weight in athletics. How many Jamaicans have broken the world 100m sprint record?", ch:["Several — Donovan Bailey, Asafa Powell, Usain Bolt","Just Usain Bolt","None except Usain Bolt","Only two"], a:0, cat:"⚡ Sports"},
+      {q:"What is Jamaica's most sacred and beloved genre of music — combining reggae with spiritual Rastafarian themes?", ch:["Roots Reggae","Dancehall","Ska","Rocksteady"], a:0, cat:"🎵 Culture"},
     ],
     celebs:[
       {n:'Usain Bolt', r:'World\'s Fastest Human · 9.58s 100m', e:'⚡'},
@@ -686,7 +974,16 @@ const COUNTRIES = [
     questions:[
       {q:"Cuba is the LARGEST island in the Caribbean Sea. In which sea is Cuba located?", ch:["The Caribbean Sea","The Pacific Ocean","The Atlantic Ocean","The Gulf of Mexico"], a:0, cat:"🏝️ Geography"},
       {q:"Cuba is famous for which energetic, romantic dance and music style, loved in dance halls around the world?", ch:["Salsa","Reggae","Afrobeats","K-Pop"], a:0, cat:"🎵 Music"},
-      {q:"Cuba is world-famous for producing the finest hand-rolled version of which luxury item, enjoyed since the 1500s?", ch:["Cigars","Rum","Coffee","Chocolate"], a:0, cat:"🌿 Culture"}
+      {q:"Cuba is world-famous for producing the finest hand-rolled version of which luxury item, enjoyed since the 1500s?", ch:["Cigars","Rum","Coffee","Chocolate"], a:0, cat:"🌿 Culture"},
+      {q:"Havana, Cuba's capital, is packed with colourful vintage cars from the 1950s still on the roads. Why are there so many old cars?", ch:["A US trade embargo stopped new cars from being imported","Cubans prefer old cars","The roads are too small for modern cars","Old cars are cheaper to run"], a:0, cat:"🚗 History"},
+      {q:"Cuba's classic mojito cocktail is famous worldwide. What two KEY fresh ingredients give it its refreshing taste?", ch:["Lime and fresh mint","Lemon and basil","Orange and rosemary","Grapefruit and thyme"], a:0, cat:"🍹 Food"},
+      {q:"Cuba's famous boxer Teófilo Stevenson won gold at three consecutive Olympic Games. In which boxing category did he compete?", ch:["Heavyweight","Middleweight","Light heavyweight","Super heavyweight"], a:0, cat:"🥊 Sports"},
+      {q:"Cuba grew exceptional cigar tobacco in which beautiful valley — considered the world's finest tobacco region?", ch:["Viñales Valley","Yosemite Valley","Rhine Valley","Nile Valley"], a:0, cat:"🌿 Culture"},
+      {q:"Che Guevara — the revolutionary whose face appears on T-shirts worldwide — was not actually Cuban. Where was he born?", ch:["Argentina","Venezuela","Bolivia","Colombia"], a:0, cat:"📜 History"},
+      {q:"What is Cuba's classic rum cocktail — made with rum, lime juice and sugar, named after a small mining town in eastern Cuba?", ch:["Daiquiri","Mojito","Cuba Libre","Piña Colada"], a:0, cat:"🍹 Food"},
+      {q:"Cuba was ruled by Fidel Castro for nearly 50 years. In which year did he step down and hand power to his brother Raúl?", ch:["2008","2001","1995","2015"], a:0, cat:"🏛️ History"},
+      {q:"Cuba's traditional 'son' music style — mixing African rhythms with Spanish guitar — became the foundation of which world-famous dance music?", ch:["Salsa","Tango","Samba","Merengue"], a:0, cat:"🎵 Music"},
+      {q:"Cuba has one of the highest literacy rates in the world. What percentage of Cubans can read and write?", ch:["Over 99%","About 75%","About 85%","About 60%"], a:0, cat:"🎓 Culture"},
     ],
     celebs:[
       {n:'Teófilo Stevenson', r:'Three-Time Olympic Boxing Champion', e:'🥊'},
@@ -710,7 +1007,16 @@ const COUNTRIES = [
     questions:[
       {q:"Brazil is home to the world's largest rainforest — the 'lungs of the Earth'. What is it called?", ch:["The Amazon Rainforest","The Congo Rainforest","The Borneo Rainforest","The Daintree Rainforest"], a:0, cat:"🌿 Nature"},
       {q:"The famous giant statue 'Christ the Redeemer' — arms outstretched overlooking the city — is found in which Brazilian city?", ch:["Rio de Janeiro","São Paulo","Brasília","Salvador"], a:0, cat:"🏛️ Monuments"},
-      {q:"Brazil has won the FIFA Football World Cup more times than any other nation in the world. How many times?", ch:["5 times","3 times","4 times","2 times"], a:0, cat:"⚽ Sports"}
+      {q:"Brazil has won the FIFA Football World Cup more times than any other nation in the world. How many times?", ch:["5 times","3 times","4 times","2 times"], a:0, cat:"⚽ Sports"},
+      {q:"Brazil's most famous carnival — the world's biggest party with samba dancers, spectacular floats and millions of people — is held in which city?", ch:["Rio de Janeiro","São Paulo","Salvador","Recife"], a:0, cat:"🎭 Culture"},
+      {q:"Brazil is the world's largest producer of which popular fruit — used in juices, sweets and smoothies worldwide?", ch:["Oranges","Bananas","Mangoes","Pineapples"], a:0, cat:"🍊 Food"},
+      {q:"The Amazon River carries more water than any other river on Earth. What percentage of the world's flowing fresh water does it hold?", ch:["About 20%","About 5%","About 50%","About 1%"], a:0, cat:"🌊 Nature"},
+      {q:"Brazil's samba dance — energetic, rhythmic and joyful — has its roots in which culture?", ch:["African (brought by enslaved people)","Indigenous Brazilian","Portuguese colonial","Spanish influence"], a:0, cat:"💃 Culture"},
+      {q:"The Iguazu Falls — on the border of Brazil and Argentina — is one of the world's most spectacular waterfalls. Approximately how many individual falls make it up?", ch:["About 275 falls","About 50 falls","Just 3 falls","Over 1,000 falls"], a:0, cat:"🌊 Nature"},
+      {q:"Brazil's Amazon rainforest produces about 20% of the world's what — essential for all living creatures?", ch:["Oxygen","Fresh water","Rainfall","Soil nutrients"], a:0, cat:"🌿 Science"},
+      {q:"What is Brazil's cool, smooth music style — combining African rhythms, samba and jazz — that swept the world in the 1960s?", ch:["Bossa Nova","Samba","Forró","Axé"], a:0, cat:"🎵 Music"},
+      {q:"What is the name of Brazil's unique martial art — combining fighting moves with gymnastics and dance — created by enslaved Africans?", ch:["Capoeira","Jiu-Jitsu","Muay Thai","Judo"], a:0, cat:"🥋 Culture"},
+      {q:"Brazil's Amazon is home to the largest number of species of which colourful bird — famous for its enormous curved beak?", ch:["Toucan","Macaw","Parrot","Hummingbird"], a:0, cat:"🦜 Nature"},
     ],
     celebs:[
       {n:'Pelé', wn:'Pelé', r:'King of Football · 3× World Cup Winner', e:'⚽'},
@@ -730,7 +1036,16 @@ const COUNTRIES = [
     questions:[
       {q:"Which legendary Argentine footballer has won more Ballon d'Or awards (for world's best player) than anyone else?", ch:["Lionel Messi","Cristiano Ronaldo","Diego Maradona","Gabriel Batistuta"], a:0, cat:"⚽ Sports"},
       {q:"Argentina's beautiful, passionate national dance — danced cheek-to-cheek by pairs — is called the...", ch:["Tango","Salsa","Samba","Flamenco"], a:0, cat:"💃 Culture"},
-      {q:"Argentina is famous for producing the world's best beef. What is Argentina's beloved tradition of cooking meat over an open fire called?", ch:["Asado (BBQ)","Fondue","Tagine","Sukiyaki"], a:0, cat:"🥩 Food"}
+      {q:"Argentina is famous for producing the world's best beef. What is Argentina's beloved tradition of cooking meat over an open fire called?", ch:["Asado (BBQ)","Fondue","Tagine","Sukiyaki"], a:0, cat:"🥩 Food"},
+      {q:"Argentina and Brazil share the spectacular Iguazu Falls. What are these incredible falls?", ch:["Hundreds of waterfalls spread across 2.7 km — wider than any other waterfall!","The world's tallest waterfall","The world's fastest waterfall","The world's coldest waterfall"], a:0, cat:"🌊 Nature"},
+      {q:"The tango dance was born in which Argentine city — known as the 'Paris of South America'?", ch:["Buenos Aires","Córdoba","Rosario","Mendoza"], a:0, cat:"💃 History"},
+      {q:"Argentina's drink that people sip ALL day through a metal straw — made from dried leaves in a gourd — is called...", ch:["Mate","Coffee","Yerba tea","Tereré"], a:0, cat:"🌿 Food"},
+      {q:"Argentina's Patagonia region in the far south has dramatic landscapes. What covers much of the terrain there?", ch:["Glaciers, mountains and wind-swept plains","Tropical rainforest","Sandy deserts","Rice paddies"], a:0, cat:"🏔️ Nature"},
+      {q:"Argentina produces some of the world's finest wine. Which region — in the shadow of the Andes — is the centre of Argentine wine?", ch:["Mendoza","Patagonia","Córdoba","La Pampa"], a:0, cat:"🍷 Food"},
+      {q:"Pope Francis — the first pope from the Americas — was born in Argentina. What was his original name?", ch:["Jorge Mario Bergoglio","Francisco García","Antonio José Martini","Luis Carlos Romero"], a:0, cat:"🕊️ Culture"},
+      {q:"Argentina is famous for producing the world's most tender beef. What are the vast flat grasslands where the cattle graze called?", ch:["The Pampas","The Savannah","The Prairie","The Steppe"], a:0, cat:"🐄 Nature"},
+      {q:"Which South American hero — born in Argentina — is called 'El Libertador of South America' for freeing multiple countries from Spanish rule?", ch:["José de San Martín","Simón Bolívar","Che Guevara","Juan Perón"], a:0, cat:"📜 History"},
+      {q:"Argentina's Perito Moreno glacier — slowly advancing into a lake and dramatically calving off huge ice chunks — is in which national park?", ch:["Los Glaciares National Park","Torres del Paine","Patagonia NP","Tierra del Fuego"], a:0, cat:"🧊 Nature"},
     ],
     celebs:[
       {n:'Lionel Messi', r:'World Cup & 8× Ballon d\'Or Champion', e:'⚽'},
@@ -750,7 +1065,16 @@ const COUNTRIES = [
     questions:[
       {q:"Colombia is the world's second-largest producer of which popular hot drink, enjoyed worldwide every morning?", ch:["Coffee","Tea","Cocoa","Hot Chocolate"], a:0, cat:"☕ Culture"},
       {q:"Colombia's impressive national bird — one of the world's largest flying birds with a wingspan of up to 3 metres — is the...", ch:["Andean Condor","Harpy Eagle","Macaw","Toucan"], a:0, cat:"🦅 Nature"},
-      {q:"Colombia is the world's top producer of which precious green gemstone, used in beautiful jewellery worldwide?", ch:["Emeralds","Diamonds","Rubies","Sapphires"], a:0, cat:"💎 Resources"}
+      {q:"Colombia is the world's top producer of which precious green gemstone, used in beautiful jewellery worldwide?", ch:["Emeralds","Diamonds","Rubies","Sapphires"], a:0, cat:"💎 Resources"},
+      {q:"Colombia's Nobel-winning author Gabriel García Márquez invented a style of writing mixing real life with magical events. What is this style called?", ch:["Magical Realism","Surrealism","Absurdism","Romanticism"], a:0, cat:"📚 Literature"},
+      {q:"Which Colombian global pop star — famous for singing in both Spanish and English — is known for her hip movements and the song 'Hips Don't Lie'?", ch:["Shakira","Karol G","Maluma","J Balvin"], a:0, cat:"🎵 Music"},
+      {q:"Colombia is home to the most bird species of any country on Earth. Approximately how many bird species live there?", ch:["Over 1,900 species","About 500 species","About 100 species","Over 3,000 species"], a:0, cat:"🦜 Nature"},
+      {q:"Colombia's most beautiful colonial walled city — on the Caribbean coast with colourful buildings — is called...", ch:["Cartagena","Bogotá","Medellín","Cali"], a:0, cat:"🏛️ Culture"},
+      {q:"Colombia has more species of orchid than any other country. How many species are there?", ch:["Over 4,000 species","About 100 species","About 500 species","Over 10,000 species"], a:0, cat:"🌺 Nature"},
+      {q:"Medellín — Colombia's second city — transformed from a troubled past to a celebrated innovation hub. What unique transport connects its hillside neighbourhoods?", ch:["Cable cars and outdoor escalators","Underground metro only","Bicycle lanes","Electric tuk-tuks"], a:0, cat:"🚡 Culture"},
+      {q:"Colombia's Caño Cristales river turns red, yellow, blue, black and green in certain months. What causes this rainbow effect?", ch:["Macarenia clavigera aquatic plants","Minerals in the water","Colourful fish species","Algae bloom"], a:0, cat:"🌈 Nature"},
+      {q:"Colombia is home to a famous underground cathedral carved inside a salt mine. In which city is this Salt Cathedral?", ch:["Zipaquirá","Bogotá","Cartagena","Medellín"], a:0, cat:"⛪ Culture"},
+      {q:"Colombia's Gold Museum in Bogotá houses the world's largest collection of pre-Hispanic gold objects. What is its name?", ch:["Museo del Oro (Gold Museum)","Museo Nacional","Banco de la República","Casa de Nariño"], a:0, cat:"🏛️ History"},
     ],
     celebs:[
       {n:'Gabriel García Márquez', r:'Nobel Prize · 100 Years of Solitude', e:'✍️'},
@@ -770,7 +1094,16 @@ const COUNTRIES = [
     questions:[
       {q:"The mysterious ancient Incan city, perched high in the Andes Mountains and rediscovered in 1911, is called...", ch:["Machu Picchu","Chichen Itza","Angkor Wat","Petra"], a:0, cat:"🏛️ History"},
       {q:"Peru is home to a sweet-natured national animal, related to the llama, with the world's softest natural wool. What is it called?", ch:["Vicuña","Alpaca","Guanaco","Llama"], a:0, cat:"🦙 Nature"},
-      {q:"The mighty Amazon River — the world's largest river by water volume — actually starts its journey in which country?", ch:["Peru","Brazil","Colombia","Ecuador"], a:0, cat:"🌊 Nature"}
+      {q:"The mighty Amazon River — the world's largest river by water volume — actually starts its journey in which country?", ch:["Peru","Brazil","Colombia","Ecuador"], a:0, cat:"🌊 Nature"},
+      {q:"The Incas created an extraordinary road network of 40,000 km across mountains — without the use of what technology we rely on today?", ch:["Wheels (they had no wheel technology)","Metal tools","Fire","Stone cutting"], a:0, cat:"⚙️ History"},
+      {q:"Peru is home to Lake Titicaca — the world's highest navigable lake. At what altitude does it sit in the Andes Mountains?", ch:["3,810 metres above sea level","500 metres","1,500 metres","6,000 metres"], a:0, cat:"🌊 Geography"},
+      {q:"Peru's Nazca Lines — giant drawings scratched into the desert floor — can only be appreciated from the air. What type of images are they?", ch:["Animals, plants and geometric shapes","Letters of the alphabet","Maps of stars","Human portraits"], a:0, cat:"📜 History"},
+      {q:"Which important vegetable — originally from Peru — did Spanish explorers bring back to Europe, changing the diet of the whole world?", ch:["The potato","The tomato","The sweet potato","Corn (maize)"], a:0, cat:"🥔 Food"},
+      {q:"Peru's Amazon jungle is full of amazing creatures. Which enormous snake — the world's heaviest — lives in Peru's rivers?", ch:["Green Anaconda","Python","Boa Constrictor","King Cobra"], a:0, cat:"🐍 Nature"},
+      {q:"What is Peru's national dish — raw fish marinated in lime juice, mixed with chilli and onion — that 'cooks' the fish in citric acid?", ch:["Ceviche","Tiradito","Anticucho","Lomo saltado"], a:0, cat:"🍋 Food"},
+      {q:"The ancient Inca Empire was the largest empire in pre-Columbian America. Which of today's countries did it once span?", ch:["Peru, Ecuador, Bolivia, Chile and Colombia","Only Peru and Bolivia","Only Peru","Brazil and Argentina"], a:0, cat:"🌍 History"},
+      {q:"Peru's pisco — a grape brandy — is the base of which famous sour citrus cocktail, the national drink of Peru?", ch:["Pisco Sour","Margarita","Daiquiri","Mojito"], a:0, cat:"🍹 Food"},
+      {q:"Peru is famous for its colourful floating islands on Lake Titicaca, built entirely from reeds. Which indigenous people have lived on these islands for centuries?", ch:["The Uros people","The Quechua","The Aymara","The Inca descendants"], a:0, cat:"🏝️ Culture"},
     ],
     celebs:[
       {n:'Mario Vargas Llosa', r:'Nobel Prize in Literature', e:'✍️'},
@@ -789,8 +1122,17 @@ const COUNTRIES = [
     funFact:"The Atacama Desert in Chile is the driest place on Earth — some areas there have NEVER recorded any rain! 🌵",
     questions:[
       {q:"Chile holds a unique geographical record — it stretches an incredible 4,300 km from north to south. What record does it hold?", ch:["World's longest country","World's highest country","World's widest country","World's wettest country"], a:0, cat:"🌍 Geography"},
-      {q:"The Atacama Desert in northern Chile is the world's driest place. How much drier is it than the Sahara?", ch:["50 times drier","About the same","Slightly drier","Less dry"], a:0, cat:"🌵 Nature"},
-      {q:"Chile's Easter Island is famous for its mysterious giant stone statues, carved by the indigenous Rapa Nui people. What are these statues called?", ch:["Moai","Olmec Heads","Terracotta Warriors","Stone Heads"], a:0, cat:"🗿 History"}
+      {q:"The Atacama Desert in northern Chile is the world's driest place. How much drier is it than the Sahara?", ch:["About 50 times drier","About the same","Slightly drier","Less dry"], a:0, cat:"🌵 Nature"},
+      {q:"Chile's Easter Island is famous for its mysterious giant stone statues, carved by the indigenous Rapa Nui people. What are these statues called?", ch:["Moai","Olmec Heads","Terracotta Warriors","Stone Heads"], a:0, cat:"🗿 History"},
+      {q:"Chile is the world's number one producer of which red metal — used in electrical wiring and plumbing in almost every building?", ch:["Copper","Gold","Silver","Aluminium"], a:0, cat:"⚒️ Industry"},
+      {q:"Chile holds the world's largest reserves of which metal — used in electric car batteries and powering smartphones?", ch:["Lithium","Cobalt","Gold","Iron"], a:0, cat:"⚡ Resources"},
+      {q:"The Atacama Desert is perfect for astronomy because of its clear skies. Why?", ch:["Almost zero humidity and no light pollution make the stars clearer than anywhere","It is the highest place on Earth","It is closest to space","There are no clouds ever"], a:0, cat:"🔭 Science"},
+      {q:"Chile's famous poet Pablo Neruda won the Nobel Prize in Literature and was his country's ambassador to which country?", ch:["France","Spain","Argentina","Mexico"], a:0, cat:"📚 Culture"},
+      {q:"Chile is home to the Alerce tree — one of the world's oldest living organisms. How long can it live?", ch:["Over 3,000 years","About 500 years","About 100 years","Over 10,000 years"], a:0, cat:"🌿 Nature"},
+      {q:"The Andes Mountains form Chile's entire eastern border. What country lies on the other side of the Andes from Chile?", ch:["Argentina","Bolivia","Peru","Brazil"], a:0, cat:"🌍 Geography"},
+      {q:"Chile produces some of the world's finest wine. Which red grape variety — rescued from near-extinction — is Chile's most unique wine?", ch:["Carménère","Malbec","Merlot","Cabernet Sauvignon"], a:0, cat:"🍷 Food"},
+      {q:"Easter Island is incredibly remote. How far is it from the nearest mainland coast of Chile?", ch:["Over 3,500 km away — one of the most remote places on Earth","About 500 km","About 1,000 km","About 100 km"], a:0, cat:"🌍 Geography"},
+      {q:"Which spectacular national park in far southern Chile — featuring jagged granite towers, glaciers and turquoise lakes — is one of the world's most beautiful?", ch:["Torres del Paine","Los Glaciares","Patagonia National Park","Tierra del Fuego"], a:0, cat:"🧊 Nature"},
     ],
     celebs:[
       {n:'Pablo Neruda', r:'Nobel Prize · World\'s Greatest Love Poet', e:'✍️'},
@@ -810,7 +1152,16 @@ const COUNTRIES = [
     questions:[
       {q:"Angel Falls in Venezuela is the world's tallest waterfall. How high does it drop — compared to the Eiffel Tower (330m)?", ch:["979 metres — nearly 3× the Eiffel Tower!","200 metres","50 metres","1,500 metres"], a:0, cat:"🌊 Nature"},
       {q:"Venezuela's beautiful national bird — known for its bright orange chest and jet-black wings — is the...", ch:["Troupial","Toucan","Macaw","Hummingbird"], a:0, cat:"🐦 Nature"},
-      {q:"Venezuela was once considered one of the richest countries in South America because of its enormous reserves of which resource?", ch:["Oil","Gold","Diamonds","Coffee"], a:0, cat:"⚡ Resources"}
+      {q:"Venezuela was once considered one of the richest countries in South America because of its enormous reserves of which resource?", ch:["Oil","Gold","Diamonds","Coffee"], a:0, cat:"⚡ Resources"},
+      {q:"Angel Falls was named after an American bush pilot who flew over it in 1933. What was his name?", ch:["Jimmy Angel","Gabriel Angel","John Rivers","Angel Rodriguez"], a:0, cat:"📜 History"},
+      {q:"Venezuela's Amazon rivers are home to beautiful pink dolphins. What type of habitat do these unique pink dolphins live in?", ch:["Amazon and Orinoco river systems","The Caribbean Sea","Coastal mangroves","Mountain lakes"], a:0, cat:"🐬 Nature"},
+      {q:"Simón Bolívar — Venezuela's greatest hero — is called 'El Libertador'. How many South American countries did he help free from Spanish rule?", ch:["Six countries","Two countries","One country","Ten countries"], a:0, cat:"📜 History"},
+      {q:"Venezuela has one of the world's most unusual natural phenomena — a place where lightning strikes almost continuously for 10 hours a night. What is it called?", ch:["Catatumbo Lightning","Ball lightning","Aurora Borealis","St. Elmo's Fire"], a:0, cat:"⚡ Nature"},
+      {q:"What is Venezuela's most popular sport — played on a diamond-shaped field with bat and ball — introduced by American influence?", ch:["Baseball","Football (soccer)","Basketball","Volleyball"], a:0, cat:"⚾ Sports"},
+      {q:"Venezuela's famous orchestra conductor Gustavo Dudamel learned music through a unique social program for children. What is this program called?", ch:["El Sistema","La Orquesta","Sistema Musical","Armonía"], a:0, cat:"🎵 Culture"},
+      {q:"Venezuela has the world's largest oil reserves. In which region of Venezuela are most oil fields found?", ch:["Lake Maracaibo and the Orinoco Belt","The Amazon region","The Andes mountains","The Caribbean coast"], a:0, cat:"⚡ Geography"},
+      {q:"The Orinoco River — one of the longest rivers in South America — flows through Venezuela. It empties into which ocean?", ch:["Atlantic Ocean","Pacific Ocean","Caribbean Sea","Gulf of Mexico"], a:0, cat:"🌊 Geography"},
+      {q:"Venezuela's traditional music and dance — featuring a distinctive harp, four-stringed cuatro and maracas — is called...", ch:["Joropo (Llanera music)","Salsa","Cumbia","Merengue"], a:0, cat:"🎵 Music"},
     ],
     celebs:[
       {n:'Simón Bolívar', r:'Liberator of South America', e:'👑'},
@@ -834,7 +1185,16 @@ const COUNTRIES = [
     questions:[
       {q:"The Platypus is one of the world's strangest animals — it's a mammal that lays eggs and has a duck-like bill! Where is it found?", ch:["Only in Australia","Australia & New Zealand","All of Oceania","Southeast Asia"], a:0, cat:"🦘 Nature"},
       {q:"The world-famous Sydney Opera House, with its distinctive sail-shaped roofs, is in which Australian city?", ch:["Sydney","Melbourne","Canberra","Brisbane"], a:0, cat:"🏛️ Monuments"},
-      {q:"Which unique Australian animals carry their babies in a special pouch? (There's more than one answer!)", ch:["All of these — Kangaroos, Koalas & Wombats!","Only Kangaroos","Only Koalas","Only Wombats"], a:0, cat:"🦘 Nature"}
+      {q:"Which unique Australian animals carry their babies in a special pouch? (There's more than one answer!)", ch:["All of these — Kangaroos, Koalas & Wombats!","Only Kangaroos","Only Koalas","Only Wombats"], a:0, cat:"🦘 Nature"},
+      {q:"Australia is home to the world's largest living structure — visible from space! What is it called?", ch:["The Great Barrier Reef","The Outback","Uluru (Ayers Rock)","The Kimberley"], a:0, cat:"🌊 Nature"},
+      {q:"What is the name of Australia's most sacred site — a massive red sandstone rock in the desert — sacred to the Aboriginal Anangu people?", ch:["Uluru (Ayers Rock)","Devils Marbles","Wave Rock","The Bungle Bungles"], a:0, cat:"🏜️ Culture"},
+      {q:"Australia's Aboriginal people have the world's oldest continuous culture. How long have they lived in Australia?", ch:["Over 60,000 years","About 10,000 years","About 5,000 years","About 30,000 years"], a:0, cat:"🎭 History"},
+      {q:"Australia's most famous annual horse race — a public holiday in Melbourne — is called...", ch:["Melbourne Cup","The Kentucky Derby","Grand National","Caulfield Cup"], a:0, cat:"🏇 Sports"},
+      {q:"What is the Australian slang word for a BBQ — the most beloved of all Australian social traditions?", ch:["Barbie","Grill","Flame cook","Bush tucker"], a:0, cat:"🍖 Culture"},
+      {q:"Australia has a unique bird that sounds like a laughing human! Its call is said to welcome the sunrise. What bird is it?", ch:["Kookaburra","Lyrebird","Cockatoo","Lorikeet"], a:0, cat:"😂 Nature"},
+      {q:"Australia's most famous beach — flanked by ocean cliffs and facing the Pacific — is in Sydney. What is it called?", ch:["Bondi Beach","Manly Beach","Surfers Paradise","Byron Bay"], a:0, cat:"🏄 Geography"},
+      {q:"Which deadly Australian animal — the world's most venomous spider — is found mostly around Sydney?", ch:["Sydney Funnel-web Spider","Red Back Spider","Huntsman Spider","Wolf Spider"], a:0, cat:"🕷️ Nature"},
+      {q:"Australia has the world's longest fence — the Dingo Fence — built to protect farmland. How long is it?", ch:["Over 5,600 km long","About 500 km","About 2,000 km","Over 10,000 km"], a:0, cat:"🌍 Nature"},
     ],
     celebs:[
       {n:'Steve Irwin', r:'The Crocodile Hunter', e:'🐊'},
@@ -854,7 +1214,16 @@ const COUNTRIES = [
     questions:[
       {q:"New Zealand's national bird cannot fly and hunts at night using its remarkable sense of smell. What is this unusual bird called?", ch:["Kiwi","Emu","Penguin","Ostrich"], a:0, cat:"🐦 Nature"},
       {q:"The breathtaking Lord of the Rings and Hobbit films were almost entirely filmed in which country?", ch:["New Zealand","Australia","Canada","Iceland"], a:0, cat:"🎬 Culture"},
-      {q:"New Zealand made history as the FIRST country in the world to give women the right to vote. In which year did this happen?", ch:["1893","1920","1945","1950"], a:0, cat:"🗳️ History"}
+      {q:"New Zealand made history as the FIRST country in the world to give women the right to vote. In which year did this happen?", ch:["1893","1920","1945","1950"], a:0, cat:"🗳️ History"},
+      {q:"New Zealand's Maori people have a powerful war dance — performed with stomping, chanting and protruding tongues before battles. What is it called?", ch:["Haka","Poi","Kapa haka","Waiata"], a:0, cat:"💃 Culture"},
+      {q:"New Zealand's All Blacks rugby team is considered the most successful sports team in history. Approximately what percentage of their matches have they won?", ch:["About 77%","About 50%","About 90%","About 60%"], a:0, cat:"🏉 Sports"},
+      {q:"New Zealand's Edmund Hillary was the first person to reach the summit of the world's tallest mountain. In which year did he climb Everest?", ch:["1953","1961","1969","1947"], a:0, cat:"🏔️ History"},
+      {q:"New Zealand has extraordinary glowworm caves where the ceiling sparkles like a starry sky. What are the most famous of these caves called?", ch:["Waitomo Caves","Blue Lake Caves","Franz Josef Caves","Hobbiton Caves"], a:0, cat:"✨ Nature"},
+      {q:"New Zealand produces the world's most kiwifruit. What active volcano became 'Mount Doom' in the Lord of the Rings films?", ch:["Mount Ngauruhoe","Mount Ruapehu","Mount Tongariro","Mount Taranaki"], a:0, cat:"🌋 Nature"},
+      {q:"The Maori word 'Aotearoa' is New Zealand's official Maori name. What does it mean?", ch:["Land of the Long White Cloud","Land of the Kiwi","Land of Volcanoes","Land of the Green Mountains"], a:0, cat:"🌍 Culture"},
+      {q:"New Zealand has far more sheep than people — roughly how many sheep per person in the country?", ch:["About 6 sheep per person","About 2 sheep per person","About 20 sheep per person","About 1 sheep per person"], a:0, cat:"🐑 Nature"},
+      {q:"New Zealand's Maori ancestors were Polynesian explorers who arrived by canoe. When did they first settle in New Zealand?", ch:["About 700–800 years ago","About 10,000 years ago","About 2,000 years ago","About 400 years ago"], a:0, cat:"📜 History"},
+      {q:"New Zealand is famous for its world-class white water rafting, bungee jumping and skydiving. What is the adventure sports capital of New Zealand called?", ch:["Queenstown","Auckland","Wellington","Rotorua"], a:0, cat:"🏔️ Sports"},
     ],
     celebs:[
       {n:'Peter Jackson', r:'Director of Lord of the Rings', e:'🎬'},
@@ -874,7 +1243,16 @@ const COUNTRIES = [
     questions:[
       {q:"Fiji is a beautiful island nation made up of over 300 islands. In which vast ocean — the world's largest — is Fiji located?", ch:["Pacific Ocean","Indian Ocean","Atlantic Ocean","Arctic Ocean"], a:0, cat:"🌊 Geography"},
       {q:"What is the traditional Fijian greeting word — said with a big smile — meaning 'hello', 'welcome' and 'cheers'?", ch:["Bula","Aloha","Talofa","Haka"], a:0, cat:"🌺 Culture"},
-      {q:"Fiji is known worldwide as a dream destination. What are the two activities Fiji is most famous for?", ch:["Beach holidays & scuba diving","Desert safaris","Mountain climbing","Polar expeditions"], a:0, cat:"🏝️ Culture"}
+      {q:"Fiji is known worldwide as a dream destination. What are the two activities Fiji is most famous for?", ch:["Beach holidays & scuba diving","Desert safaris","Mountain climbing","Polar expeditions"], a:0, cat:"🏝️ Culture"},
+      {q:"Fiji has a remarkable fire-walking ceremony where men walk barefoot on red-hot stones. Which indigenous tribe is the traditional custodian of this practice?", ch:["The Sawau tribe of Beqa Island","Indian Fijian traders","Tongan warriors","European missionaries"], a:0, cat:"🔥 Culture"},
+      {q:"Fiji's national sport — introduced by British colonists — is now played passionately across every island. What is it?", ch:["Rugby Union","Cricket","Football","Hockey"], a:0, cat:"🏉 Sports"},
+      {q:"Fiji's rugby sevens team is one of the world's best. What major international event did they win gold at in 2016?", ch:["The Rio Olympics","The Rugby World Cup","The Commonwealth Games","The Pacific Nations Cup"], a:0, cat:"🥇 Sports"},
+      {q:"Fiji's largest island — where the capital Suva is located — is called...", ch:["Viti Levu","Vanua Levu","Taveuni","Kadavu"], a:0, cat:"🌍 Geography"},
+      {q:"What is the traditional Fijian ceremonial drink — made from the ground root of the kava plant mixed with water?", ch:["Yaqona (kava)","Palm wine","Coconut rum","Sugarcane spirit"], a:0, cat:"🎭 Culture"},
+      {q:"Fiji is famous for its brilliant coral reefs. The Great Sea Reef off the north coast is approximately how long — making it one of the longest barrier reefs in the world?", ch:["About 200 km","About 10 km","About 50 km","Over 1,000 km"], a:0, cat:"🐠 Nature"},
+      {q:"Which crop — introduced by the British to use Fijian land — is Fiji's main agricultural export besides tourism?", ch:["Sugar cane","Bananas","Coconuts","Pineapples"], a:0, cat:"🌾 Industry"},
+      {q:"What is the traditional Fijian feast — where food is wrapped in leaves and cooked in an underground earth oven — called?", ch:["Lovo feast","Hangi","Mumu","Umu"], a:0, cat:"🍽️ Culture"},
+      {q:"Fiji was a British colony until independence in 1970. What is the official national language of Fiji today?", ch:["English","Fijian","Hindi","French"], a:0, cat:"🗣️ Culture"},
     ],
     celebs:[
       {n:'Waisale Serevi', r:'Greatest Sevens Rugby Player Ever', e:'🏉'},
@@ -894,7 +1272,16 @@ const COUNTRIES = [
     questions:[
       {q:"Papua New Guinea's national bird — famous for its extraordinary, elaborate feathers used in traditional ceremonies — is called the...", ch:["Bird of Paradise","Kookaburra","Cassowary","Frigate Bird"], a:0, cat:"🐦 Nature"},
       {q:"Papua New Guinea holds an astonishing world record. How many different languages are spoken there — more than any other country?", ch:["Over 800","About 50","Around 200","More than 400"], a:0, cat:"🗣️ Culture"},
-      {q:"Papua New Guinea is one of the world's most biodiverse places. What percentage of its land is covered by untouched rainforest?", ch:["Over 70%","About 20%","Less than 10%","About 50%"], a:0, cat:"🌿 Nature"}
+      {q:"Papua New Guinea is one of the world's most biodiverse places. What percentage of its land is covered by untouched rainforest?", ch:["Over 70%","About 20%","Less than 10%","About 50%"], a:0, cat:"🌿 Nature"},
+      {q:"Papua New Guinea's diverse tribes come together at spectacular 'Sing-Sing' festivals. What happens at a Sing-Sing?", ch:["Tribes gather in elaborate traditional costumes to sing and dance","An ancient sporting competition","A religious ceremony only","A trading fair for goods"], a:0, cat:"🎭 Culture"},
+      {q:"Papua New Guinea shares the large island of New Guinea with which neighbouring country?", ch:["Indonesia","Australia","Solomon Islands","Vanuatu"], a:0, cat:"🌍 Geography"},
+      {q:"The Cassowary — found in PNG — is often called the world's most dangerous bird. What makes it so deadly?", ch:["Its powerful kick and razor-sharp claws on its feet","Its venomous bite","Its ability to throw objects","Its electric shock"], a:0, cat:"🦜 Nature"},
+      {q:"The indigenous people of PNG use sago palm trees for everything from food to building. What is sago made from?", ch:["The starchy pith (inside) of the sago palm trunk","The palm leaves","The roots","The fruit"], a:0, cat:"🌿 Culture"},
+      {q:"Papua New Guinea's highest mountain — Mount Wilhelm at 4,509 metres — has something remarkable for a tropical mountain near the equator. What?", ch:["It has tropical glaciers near the equator — extremely rare!","It is an active volcano","It is taller than Everest","It has been climbed by millions"], a:0, cat:"🏔️ Nature"},
+      {q:"PNG is one of the world's biggest producers of gold. Which country is its main trading partner for these valuable exports?", ch:["China","Australia","Japan","USA"], a:0, cat:"⚡ Industry"},
+      {q:"The Huli Wigmen of Papua New Guinea are famous for their spectacular traditional wigs. What is extraordinary about them?", ch:["They are grown from the wearer's own hair, shaped over years","They are made from bird feathers","They are carved from wood","They are woven from grass"], a:0, cat:"🎨 Culture"},
+      {q:"Papua New Guinea gained independence in 1975 from which country that had administered the territory for decades?", ch:["Australia","Britain","Germany","Japan"], a:0, cat:"📜 History"},
+      {q:"What is the name of the traditional outrigger canoe — built from a single tree trunk — used by coastal PNG communities for fishing and island travel?", ch:["Lagatoi (large canoe)","Catamaran","Pirogue","Waka"], a:0, cat:"⛵ Culture"},
     ],
     celebs:[
       {n:'Grand Chief Michael Somare', r:'Father of the Nation · First PM', e:'🏛️'},

@@ -1647,7 +1647,9 @@
       if (action === 'meet') { playClick(); go('quizIntro'); }
       if (action === 'start-quiz') {
         stopSpeech(); playClick();
-        const shuffledQs = S.country.questions.map(q => {
+        // Pick 3 random questions from the pool of 12 — different every game!
+        const pool = [...S.country.questions].sort(() => Math.random() - 0.5).slice(0, 3);
+        const shuffledQs = pool.map(q => {
           const idxs = [0, 1, 2, 3].sort(() => Math.random() - 0.5);
           return { ch: idxs.map(i => q.ch[i]), a: idxs.indexOf(q.a), cat: q.cat, q: q.q };
         });
