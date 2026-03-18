@@ -1,0 +1,43 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build site and inject Azure credentials into World Quiz
+        run: |
+          mkdir -p _site/Products
+          cp index.html _site/
+          cp -r Products _site/
+          # Inject Azure key into the World Quiz config
+          cp Products/world-quiz/config.example.js _site/Products/world-quiz/config.js
+          sed -i "s|YOUR_AZURE_KEY_HERE|${{ secrets.AZURE_KEY }}|" _site/Products/world-quiz/config.js
+          sed -i "s|YOUR_AZURE_REGION_HERE|${{ secrets.AZURE_REGION }}|" _site/Products/world-quiz/config.js
+
+      - uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

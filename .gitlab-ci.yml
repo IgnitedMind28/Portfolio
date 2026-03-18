@@ -3,9 +3,13 @@ image: alpine
 pages:
   stage: deploy
   script:
-    - mkdir -p public
+    - mkdir -p public/Products
     - cp index.html public/
     - cp -r Products public/
+    # Inject Azure key into the World Quiz config
+    - cp Products/world-quiz/config.example.js public/Products/world-quiz/config.js
+    - sed -i "s|YOUR_AZURE_KEY_HERE|$AZURE_KEY|" public/Products/world-quiz/config.js
+    - sed -i "s|YOUR_AZURE_REGION_HERE|$AZURE_REGION|" public/Products/world-quiz/config.js
   artifacts:
     paths:
       - public
