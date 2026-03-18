@@ -678,80 +678,56 @@
       text-shadow: 0 0 40px rgba(0, 198, 251, 0.5), 0 0 80px rgba(0, 198, 251, 0.2)
     }
 
-    /* ── EASTER BASKET SCREEN ─────────────────────────────── */
+    /* ── EASTER BASKET — TOP-DOWN VIEW ─────────────────────── */
 
-    #basket-handle {
-      position: absolute;
-      top: -30px; left: 12%; right: 12%;
-      height: 56px;
-      border: 11px solid #92400e;
-      border-bottom: none;
-      border-radius: 50% 50% 0 0;
-      box-shadow: 2px -4px 14px rgba(0,0,0,0.35);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    #eggs-area {
+    /* Outer container — sizes the whole basket */
+    #basket-wrap {
       position: relative;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 38px;
-    }
-
-    #back-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: -18px;
-      position: relative;
-      z-index: 2;
-    }
-
-    #front-row {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      position: relative;
-      z-index: 3;
-    }
-
-    .game-egg {
-      position: relative;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      cursor: inherit;
-      transition: transform 0.15s ease, filter 0.15s;
-      box-shadow: 2px 6px 18px rgba(0,0,0,0.42), inset 0 -4px 8px rgba(0,0,0,0.12);
+      width: min(430px, 88vw);
+      height: min(430px, 88vw);
+      margin: 0 auto;
       flex-shrink: 0;
     }
 
+    /* Woven rim ring — repeating-conic gives a real wicker look */
+    #basket-rim-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-conic-gradient(
+        #78350f 0% 8.33%,
+        #a16207 8.33% 16.66%
+      );
+      box-shadow: 0 22px 64px rgba(0,0,0,0.7),
+                  0 0 0 3px #4a1f00,
+                  inset 0 3px 10px rgba(255,255,255,0.08);
+    }
+
+    /* Inner circle — the basket interior (overflow:hidden clips eggs) */
+    #basket-circle {
+      position: absolute;
+      inset: 26px;        /* rim width */
+      border-radius: 50%;
+      background: radial-gradient(circle at 45% 40%,
+        #2a5c23 0%, #1e4a19 50%, #122e0e 100%);
+      overflow: hidden;
+      cursor: crosshair;  /* overridden by hammer in JS */
+    }
+
+    /* Eggs — horizontal oval for top-down perspective, positioned by JS */
+    .game-egg {
+      position: absolute;
+      width: 76px; height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: inherit;
+      transition: filter 0.15s;
+      box-shadow: 3px 5px 20px rgba(0,0,0,0.5),
+                  inset 0 -2px 6px rgba(0,0,0,0.2);
+    }
+
     .game-egg:hover:not(.egg-cracking):not(.egg-open) {
-      transform: scale(1.13) translateY(-7px);
-      filter: brightness(1.12);
-    }
-
-    .egg-shine {
-      position: absolute;
-      top: 9%; left: 18%;
-      width: 28%; height: 36%;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.62) 0%, transparent 70%);
-      border-radius: 50%;
-      transform: rotate(-25deg);
-      pointer-events: none;
-    }
-
-    .egg-deco {
-      position: absolute;
-      left: 0; right: 0;
-      pointer-events: none;
-    }
-
-    .egg-dot {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
+      filter: brightness(1.18) drop-shadow(0 0 10px rgba(255,230,100,0.7));
     }
 
     .egg-crack-svg {
@@ -759,112 +735,77 @@
       inset: 0; width: 100%; height: 100%;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.15s;
+      transition: opacity 0.12s;
     }
 
     .egg-cracking .egg-crack-svg { opacity: 1; }
 
+    /* Animations */
     @keyframes eggShakeThis {
-      0%, 100% { transform: rotate(0deg); }
-      15%  { transform: rotate(-13deg) translateY(-4px); }
-      35%  { transform: rotate(15deg)  translateY(-7px); }
-      55%  { transform: rotate(-13deg) translateY(-5px); }
-      75%  { transform: rotate(10deg)  translateY(-2px); }
+      0%, 100% { transform: var(--egg-rot); }
+      15%  { transform: var(--egg-rot) rotate(-14deg) translate(-2px,-5px); }
+      35%  { transform: var(--egg-rot) rotate(16deg)  translate(2px,-7px);  }
+      55%  { transform: var(--egg-rot) rotate(-12deg) translate(-1px,-5px); }
+      75%  { transform: var(--egg-rot) rotate(9deg)   translate(1px,-2px);  }
     }
 
     @keyframes eggSurprise {
-      0%, 100% { transform: translateY(0) rotate(0); }
-      25% { transform: translateY(-11px) rotate(-5deg); }
-      55% { transform: translateY(-5px)  rotate(4deg);  }
-      80% { transform: translateY(-8px)  rotate(-2deg); }
+      0%, 100% { transform: var(--egg-rot); }
+      30% { transform: var(--egg-rot) translate(0,-10px) scale(1.05); }
+      65% { transform: var(--egg-rot) translate(0,-4px)  scale(1.02); }
     }
 
     @keyframes eggExplode {
-      0%   { transform: scale(1);    opacity: 1;   }
-      30%  { transform: scale(1.22); opacity: 1;   }
-      65%  { transform: scale(0.55); opacity: 0.4; }
-      100% { transform: scale(0);    opacity: 0;   }
+      0%   { transform: var(--egg-rot) scale(1);    opacity: 1;   }
+      28%  { transform: var(--egg-rot) scale(1.25); opacity: 1;   }
+      62%  { transform: var(--egg-rot) scale(0.5);  opacity: 0.3; }
+      100% { transform: var(--egg-rot) scale(0);    opacity: 0;   }
     }
 
     .egg-cracking  { animation: eggShakeThis 0.5s ease-in-out; }
-    .egg-open      { animation: eggExplode   0.4s ease-in forwards; }
-    .egg-surprised { animation: eggSurprise  0.65s ease-in-out; }
+    .egg-open      { animation: eggExplode   0.42s ease-in forwards; }
+    .egg-surprised { animation: eggSurprise  0.6s ease-in-out; }
 
+    /* Confetti particles */
     .egg-particle {
       position: absolute;
-      border-radius: 50%;
       pointer-events: none;
-      z-index: 8;
-      animation: particleFly 0.7s ease-out forwards;
+      z-index: 20;
+      animation: particleFly 0.75s ease-out forwards;
     }
 
     @keyframes particleFly {
-      0%   { transform: translate(0,0)                    scale(1); opacity: 1; }
-      100% { transform: translate(var(--pdx),var(--pdy))  scale(0); opacity: 0; }
+      0%   { transform: translate(0,0) scale(1) rotate(0deg);   opacity: 1; }
+      100% { transform: translate(var(--pdx),var(--pdy)) scale(0) rotate(180deg); opacity: 0; }
     }
 
-    #basket-grass {
-      text-align: center;
-      font-size: 22px;
-      letter-spacing: -4px;
-      position: relative;
-      z-index: 6;
-      pointer-events: none;
-      margin-top: -2px;
-    }
-
-    #basket-rim {
-      height: 22px;
-      background: linear-gradient(to bottom, #b45309, #92400e);
-      border-radius: 14px;
-      border: 3px solid #78350f;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.1);
-      position: relative;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    #basket-body {
-      height: 72px;
-      background: repeating-linear-gradient(
-        45deg,
-        #92400e, #92400e 3px,
-        #a16207 3px, #a16207 13px
-      );
-      border-radius: 0 0 50% 50% / 0 0 40% 40%;
-      border: 4px solid #78350f;
-      border-top: none;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.55);
-      position: relative;
-      z-index: 5;
-      pointer-events: none;
-    }
-
+    /* Country reveal — centered in basket */
     #country-reveal {
       position: absolute;
-      top: 22px; left: 50%;
-      transform: translateX(-50%) scale(0);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
       opacity: 0;
-      z-index: 10;
+      z-index: 30;
       background: linear-gradient(160deg, #fffef0, #fff8e1);
       border: 3px solid #f9c74f;
       border-radius: 18px;
-      padding: 14px 22px;
+      padding: 16px 24px;
       text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 28px rgba(249,199,79,0.5);
-      min-width: 140px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 0 30px rgba(249,199,79,0.6);
+      min-width: 150px;
       pointer-events: none;
       white-space: nowrap;
     }
 
     #country-reveal.reveal-open {
-      animation: revealPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: revealPop 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     @keyframes revealPop {
-      0%   { transform: translateX(-50%) scale(0.15) translateY(15px); opacity: 0; }
-      60%  { transform: translateX(-50%) scale(1.08) translateY(-5px); opacity: 1; }
-      100% { transform: translateX(-50%) scale(1)    translateY(0);    opacity: 1; }
+      0%   { transform: translate(-50%,-50%) scale(0.1)  rotate(-6deg); opacity: 0; }
+      55%  { transform: translate(-50%,-50%) scale(1.1)  rotate(2deg);  opacity: 1; }
+      80%  { transform: translate(-50%,-50%) scale(0.97) rotate(-1deg); opacity: 1; }
+      100% { transform: translate(-50%,-50%) scale(1)    rotate(0deg);  opacity: 1; }
     }
   </style>
 </head>
@@ -887,17 +828,111 @@
     // ═══════════════════════════════════════════════════════
 
     // Easter-egg colour palette — 10 vibrant pairs [gradient, stripeColor, dot1, dot2]
-    const EGG_PALETTE = [
-      { bg:'linear-gradient(145deg,#ff9ff3,#f368e0)', s:'rgba(255,255,255,0.28)', d1:'#c44569', d2:'#ffeaa7' },
-      { bg:'linear-gradient(145deg,#ffeaa7,#fdcb6e)', s:'rgba(255,255,255,0.28)', d1:'#e17055', d2:'#fd79a8' },
-      { bg:'linear-gradient(145deg,#81ecec,#00cec9)', s:'rgba(255,255,255,0.28)', d1:'#0984e3', d2:'#a29bfe' },
-      { bg:'linear-gradient(145deg,#a29bfe,#6c5ce7)', s:'rgba(255,255,255,0.28)', d1:'#fd79a8', d2:'#ffeaa7' },
-      { bg:'linear-gradient(145deg,#55efc4,#00b894)', s:'rgba(255,255,255,0.28)', d1:'#fdcb6e', d2:'#81ecec' },
-      { bg:'linear-gradient(145deg,#fd79a8,#e84393)', s:'rgba(255,255,255,0.28)', d1:'#a29bfe', d2:'#ffeaa7' },
-      { bg:'linear-gradient(145deg,#74b9ff,#0984e3)', s:'rgba(255,255,255,0.28)', d1:'#fd79a8', d2:'#55efc4' },
-      { bg:'linear-gradient(145deg,#ff7675,#d63031)', s:'rgba(255,255,255,0.28)', d1:'#fdcb6e', d2:'#a29bfe' },
-      { bg:'linear-gradient(145deg,#badc58,#6ab04c)', s:'rgba(255,255,255,0.28)', d1:'#f9ca24', d2:'#ff7675' },
-      { bg:'linear-gradient(145deg,#f9ca24,#f0932b)', s:'rgba(255,255,255,0.28)', d1:'#6ab04c', d2:'#fd79a8' },
+    // SVG Pysanka-style patterns — each fits a 76×56 viewBox (top-down oval egg)
+    const EGG_SVG = [
+      // 0. Pysanka Red — Ukrainian diamond lattice in gold
+      `<rect width="76" height="56" fill="#c0392b"/>
+       <path d="M0,28 L19,14 L38,0 L57,14 L76,28 L57,42 L38,56 L19,42 Z" fill="none" stroke="#f9ca24" stroke-width="2"/>
+       <path d="M38,0 L38,56 M0,28 L76,28 M19,14 L57,42 M57,14 L19,42" stroke="#f9ca24" stroke-width="1" opacity="0.6"/>
+       <circle cx="38" cy="28" r="5" fill="#f9ca24"/>
+       <circle cx="19" cy="14" r="2.5" fill="#f9ca24"/><circle cx="57" cy="14" r="2.5" fill="#f9ca24"/>
+       <circle cx="19" cy="42" r="2.5" fill="#f9ca24"/><circle cx="57" cy="42" r="2.5" fill="#f9ca24"/>`,
+
+      // 1. Cobalt Blue — white snowflake star
+      `<rect width="76" height="56" fill="#2471a3"/>
+       <g transform="translate(38,28)" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none">
+         <line x1="0" y1="-19" x2="0" y2="19"/><line x1="-19" y1="0" x2="19" y2="0"/>
+         <line x1="-13" y1="-13" x2="13" y2="13"/><line x1="13" y1="-13" x2="-13" y2="13"/>
+         <line x1="-5" y1="-14" x2="-9" y2="-11"/><line x1="-5" y1="-14" x2="-9" y2="-18"/>
+         <line x1="5" y1="-14" x2="9" y2="-11"/> <line x1="5" y1="-14" x2="9" y2="-18"/>
+         <circle r="5" fill="white" stroke="none"/>
+       </g>
+       <circle cx="38" cy="7" r="2" fill="white" opacity="0.6"/><circle cx="38" cy="49" r="2" fill="white" opacity="0.6"/>
+       <circle cx="8" cy="28" r="2" fill="white" opacity="0.6"/> <circle cx="68" cy="28" r="2" fill="white" opacity="0.6"/>`,
+
+      // 2. Sunflower Yellow — orange sun wheel with rays
+      `<rect width="76" height="56" fill="#f9ca24"/>
+       <circle cx="38" cy="28" r="13" fill="#e55039"/>
+       <circle cx="38" cy="28" r="5" fill="#f9ca24"/>
+       <g stroke="#c0392b" stroke-width="3" stroke-linecap="round">
+         <line x1="38" y1="7"  x2="38" y2="15"/> <line x1="38" y1="41" x2="38" y2="49"/>
+         <line x1="17" y1="28" x2="25" y2="28"/> <line x1="51" y1="28" x2="59" y2="28"/>
+         <line x1="23" y1="13" x2="28" y2="18"/> <line x1="48" y1="38" x2="53" y2="43"/>
+         <line x1="53" y1="13" x2="48" y2="18"/> <line x1="23" y1="43" x2="28" y2="38"/>
+       </g>`,
+
+      // 3. Forest Green — golden vine with leaves
+      `<rect width="76" height="56" fill="#1e8449"/>
+       <path d="M8,28 Q20,10 38,28 Q56,46 68,28" fill="none" stroke="#f9ca24" stroke-width="2.2"/>
+       <path d="M8,28 Q20,46 38,28 Q56,10 68,28" fill="none" stroke="#f9ca24" stroke-width="1.2" opacity="0.5"/>
+       <ellipse cx="20" cy="17" rx="8" ry="4" fill="#f9ca24" transform="rotate(-30 20 17)"/>
+       <ellipse cx="56" cy="39" rx="8" ry="4" fill="#f9ca24" transform="rotate(-30 56 39)"/>
+       <ellipse cx="38" cy="12" rx="5" ry="3" fill="#f9ca24" opacity="0.8"/>
+       <ellipse cx="38" cy="44" rx="5" ry="3" fill="#f9ca24" opacity="0.8"/>
+       <circle cx="38" cy="28" r="3.5" fill="#f9ca24"/>`,
+
+      // 4. Royal Purple — silver 8-pointed star
+      `<rect width="76" height="56" fill="#7d3c98"/>
+       <polygon points="38,10 41,24 55,20 46,31 55,44 41,39 38,53 35,39 21,44 30,31 21,20 35,24" fill="#d0d3d4" opacity="0.9"/>
+       <circle cx="38" cy="28" r="6" fill="#7d3c98"/><circle cx="38" cy="28" r="3" fill="#d0d3d4"/>
+       <circle cx="11" cy="10" r="2" fill="#d0d3d4" opacity="0.45"/><circle cx="65" cy="10" r="2" fill="#d0d3d4" opacity="0.45"/>
+       <circle cx="11" cy="46" r="2" fill="#d0d3d4" opacity="0.45"/><circle cx="65" cy="46" r="2" fill="#d0d3d4" opacity="0.45"/>`,
+
+      // 5. Rose Pink — cream floral rosette (8 petals)
+      `<rect width="76" height="56" fill="#e91e8c"/>
+       <circle cx="38" cy="28" r="9" fill="#ffeaa7"/><circle cx="38" cy="28" r="4" fill="#e91e8c"/>
+       <ellipse cx="38" cy="13" rx="5" ry="8" fill="#ffeaa7" opacity="0.9"/>
+       <ellipse cx="38" cy="43" rx="5" ry="8" fill="#ffeaa7" opacity="0.9"/>
+       <ellipse cx="23" cy="28" rx="8" ry="5" fill="#ffeaa7" opacity="0.9"/>
+       <ellipse cx="53" cy="28" rx="8" ry="5" fill="#ffeaa7" opacity="0.9"/>
+       <ellipse cx="27" cy="17" rx="4.5" ry="6.5" fill="#ffeaa7" opacity="0.75" transform="rotate(-45 27 17)"/>
+       <ellipse cx="49" cy="17" rx="4.5" ry="6.5" fill="#ffeaa7" opacity="0.75" transform="rotate(45 49 17)"/>
+       <ellipse cx="27" cy="39" rx="4.5" ry="6.5" fill="#ffeaa7" opacity="0.75" transform="rotate(45 27 39)"/>
+       <ellipse cx="49" cy="39" rx="4.5" ry="6.5" fill="#ffeaa7" opacity="0.75" transform="rotate(-45 49 39)"/>`,
+
+      // 6. Ocean Teal — Greek meander wave band
+      `<rect width="76" height="56" fill="#148f77"/>
+       <rect x="0" y="20" width="76" height="16" fill="#117a65"/>
+       <path d="M4,36 L4,24 L12,24 L12,32 L20,32 L20,24 L28,24 L28,36 L36,36 L36,24 L44,24 L44,32 L52,32 L52,24 L60,24 L60,36 L68,36 L68,24 L76,24"
+             fill="none" stroke="white" stroke-width="2" stroke-linecap="square"/>
+       <line x1="0" y1="20" x2="76" y2="20" stroke="white" stroke-width="1.2" opacity="0.5"/>
+       <line x1="0" y1="36" x2="76" y2="36" stroke="white" stroke-width="1.2" opacity="0.5"/>
+       <circle cx="38" cy="10" r="3.5" fill="white" opacity="0.7"/>
+       <circle cx="38" cy="46" r="3.5" fill="white" opacity="0.7"/>`,
+
+      // 7. Crimson — white snowflake branches (Slavic frost pattern)
+      `<rect width="76" height="56" fill="#922b21"/>
+       <g transform="translate(38,28)" stroke="#f0f3f4" stroke-width="1.6" stroke-linecap="round" fill="none">
+         <line x1="0" y1="-21" x2="0" y2="21"/>
+         <line x1="-21" y1="0" x2="21" y2="0"/>
+         <line x1="-15" y1="-15" x2="15" y2="15"/>
+         <line x1="15" y1="-15" x2="-15" y2="15"/>
+         <line x1="-6" y1="-15" x2="-11" y2="-12"/><line x1="-6" y1="-15" x2="-11" y2="-19"/>
+         <line x1="6"  y1="-15" x2="11" y2="-12"/> <line x1="6"  y1="-15" x2="11" y2="-19"/>
+         <line x1="15" y1="-6"  x2="12" y2="-11"/> <line x1="15" y1="-6"  x2="19" y2="-11"/>
+       </g>
+       <circle cx="10" cy="8"  r="2" fill="white" opacity="0.4"/>
+       <circle cx="66" cy="8"  r="2" fill="white" opacity="0.4"/>
+       <circle cx="10" cy="48" r="2" fill="white" opacity="0.4"/>
+       <circle cx="66" cy="48" r="2" fill="white" opacity="0.4"/>`,
+
+      // 8. Lime Green — multi-colour zigzag folk bands
+      `<rect width="76" height="56" fill="#82b74b"/>
+       <path d="M0,10 L8,6 L16,10 L24,6 L32,10 L40,6 L48,10 L56,6 L64,10 L72,6 L76,8"  fill="none" stroke="#e74c3c" stroke-width="2.8"/>
+       <path d="M0,22 L8,18 L16,22 L24,18 L32,22 L40,18 L48,22 L56,18 L64,22 L72,18 L76,20" fill="none" stroke="#fff" stroke-width="2.8"/>
+       <path d="M0,34 L8,30 L16,34 L24,30 L32,34 L40,30 L48,34 L56,30 L64,34 L72,30 L76,32" fill="none" stroke="#e74c3c" stroke-width="2.8"/>
+       <path d="M0,46 L8,42 L16,46 L24,42 L32,46 L40,42 L48,46 L56,42 L64,46 L72,42 L76,44" fill="none" stroke="#fff" stroke-width="2.8"/>`,
+
+      // 9. Amber Orange — brown tree of life
+      `<rect width="76" height="56" fill="#e67e22"/>
+       <path d="M38,50 L38,30" stroke="#6e2c0e" stroke-width="3.5" stroke-linecap="round"/>
+       <path d="M38,30 L22,18 M38,30 L54,18" stroke="#6e2c0e" stroke-width="2.8" stroke-linecap="round"/>
+       <path d="M38,38 L26,28 M38,38 L50,28" stroke="#6e2c0e" stroke-width="2.2" stroke-linecap="round"/>
+       <path d="M22,18 L16,12 M22,18 L27,12 M54,18 L49,12 M54,18 L60,12" stroke="#6e2c0e" stroke-width="1.8" stroke-linecap="round"/>
+       <circle cx="16" cy="11" r="4" fill="#27ae60"/><circle cx="27" cy="11" r="4" fill="#27ae60"/>
+       <circle cx="49" cy="11" r="4" fill="#27ae60"/><circle cx="61" cy="11" r="4" fill="#27ae60"/>
+       <circle cx="22" cy="17" r="4.5" fill="#2ecc71"/><circle cx="54" cy="17" r="4.5" fill="#2ecc71"/>
+       <circle cx="38" cy="22" r="5" fill="#2ecc71"/>`,
     ];
 
     const CONTINENTS = [
@@ -1838,33 +1873,74 @@
       if (_eggTimer) { clearTimeout(_eggTimer); _eggTimer = null; }
     }
 
-    function initBasket() {
-      const scene = document.getElementById('basket-scene');
-      if (!scene) return;
+    // Egg layout: normalized (x,y) positions within the basket circle (-1 to +1)
+    const EGG_POS = [
+      [ 0.00,  0.00], [ 0.50, -0.30], [-0.50, -0.30],
+      [ 0.50,  0.30], [-0.50,  0.30], [ 0.00, -0.58],
+      [ 0.00,  0.58], [ 0.62,  0.00], [-0.62,  0.00],
+      [ 0.28, -0.55],
+    ];
+    const EGG_ROT = [15, -28, 22, -18, 25, -8, 18, -32, 12, -22];
 
-      // Pre-pick winner (random — independent of which egg the child clicks)
+    function initBasket() {
+      const circle = document.getElementById('basket-circle');
+      if (!circle) return;
+
+      const W  = circle.offsetWidth;
+      const H  = circle.offsetHeight;
+      const Rx = W / 2, Ry = H / 2;
+
+      // ── Position & rotate eggs ──
+      const eggs = circle.querySelectorAll('.game-egg');
+      eggs.forEach((egg, i) => {
+        const [px, py] = EGG_POS[i % EGG_POS.length];
+        const rot = EGG_ROT[i % EGG_ROT.length];
+        const eW = 76, eH = 56;
+        egg.style.left      = Math.round(Rx + px * Rx * 0.62 - eW / 2) + 'px';
+        egg.style.top       = Math.round(Ry + py * Ry * 0.62 - eH / 2) + 'px';
+        egg.style.transform = `rotate(${rot}deg)`;
+        egg.style.setProperty('--egg-rot', `rotate(${rot}deg)`);
+      });
+
+      // ── Create Easter grass strands ──
+      const GRASS  = ['#4CAF50','#66BB6A','#A5D6A7','#C8E6C9','#FFEB3B','#FFF59D','#F8BBD0','#CE93D8','#80DEEA','#FFCC80'];
+      const count  = Math.max(45, eggs.length * 5);
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        const w = 2.2 + Math.random() * 2;
+        const l = 26 + Math.random() * 44;
+        const r = Math.random() * 0.88 * Math.min(Rx, Ry);
+        const a = Math.random() * Math.PI * 2;
+        s.style.cssText =
+          `position:absolute;width:${w}px;height:${l}px;
+           background:${GRASS[i % GRASS.length]};border-radius:${w/2}px;
+           left:${Math.round(Rx + Math.cos(a)*r - w/2)}px;
+           top:${Math.round(Ry + Math.sin(a)*r - l/2)}px;
+           transform:rotate(${Math.random()*360}deg);
+           opacity:${0.6 + Math.random()*0.3};pointer-events:none;z-index:0;`;
+        circle.appendChild(s);
+      }
+
+      // ── Hammer cursor ──
+      const cc = document.createElement('canvas');
+      cc.width = 40; cc.height = 40;
+      const ctx = cc.getContext('2d');
+      ctx.font = '30px serif'; ctx.fillText('🔨', 2, 30);
+      circle.style.cursor = `url(${cc.toDataURL()}) 4 36, crosshair`;
+
+      // ── Pre-pick winner (before any click) ──
       const pool   = COUNTRIES.filter(c => c.continent === S.continent);
       const winner = pool[Math.floor(Math.random() * pool.length)];
 
-      // Build hammer cursor from canvas emoji
-      const cur = document.createElement('canvas');
-      cur.width = 40; cur.height = 40;
-      const cx = cur.getContext('2d');
-      cx.font = '30px serif';
-      cx.fillText('🔨', 2, 30);
-      const cursorUrl = cur.toDataURL();
-      scene.style.cursor = `url(${cursorUrl}) 4 36, crosshair`;
+      // ── Attach click handlers to each egg ──
+      const pColors = ['#ff6b9d','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f43','#ff4d4d','#00d4aa'];
 
-      // Attach click handler to every egg
-      const eggs = scene.querySelectorAll('.game-egg');
       eggs.forEach(egg => {
         egg.addEventListener('click', function handleSmash() {
-          // Disable all eggs immediately
-          eggs.forEach(e => e.removeEventListener('click', handleSmash));
           eggs.forEach(e => { e.style.pointerEvents = 'none'; });
           _ensureAC();
 
-          // Surprise-bounce all OTHER eggs
+          // Surprise-bounce all other eggs
           eggs.forEach(e => {
             if (e !== egg) {
               e.classList.add('egg-surprised');
@@ -1872,51 +1948,51 @@
             }
           });
 
-          // 1. Shake the clicked egg
+          // 1. Shake
           egg.classList.add('egg-cracking');
 
-          // 2. Show crack + sound after shake
+          // 2. Crack lines + crunch sound
           _eggTimer = setTimeout(() => {
             egg.querySelectorAll('.egg-crack-svg').forEach(s => s.style.opacity = '1');
             playCrack();
 
-            // 3. Explode egg + spray confetti
+            // 3. Explode + confetti
             _eggTimer = setTimeout(() => {
               egg.classList.remove('egg-cracking');
               egg.classList.add('egg-open');
 
-              // Confetti burst relative to basket-scene
               const eR  = egg.getBoundingClientRect();
-              const sR  = scene.getBoundingClientRect();
-              const cx2 = eR.left - sR.left + eR.width / 2;
-              const cy2 = eR.top  - sR.top  + eR.height / 2;
-              const pColors = ['#ff6b9d','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f43','#ff4d4d','#00d4aa'];
-              for (let i = 0; i < 14; i++) {
-                const p = document.createElement('div');
+              const cR  = circle.getBoundingClientRect();
+              const ecx = eR.left - cR.left + eR.width  / 2;
+              const ecy = eR.top  - cR.top  + eR.height / 2;
+
+              for (let i = 0; i < 18; i++) {
+                const p   = document.createElement('div');
+                const ang = (i / 18) * Math.PI * 2;
+                const d   = 50 + Math.random() * 60;
+                const sz  = 6 + Math.random() * 8;
+                // mix circles and rectangles
+                const isRect = i % 3 === 0;
                 p.className = 'egg-particle';
-                const angle = (i / 14) * Math.PI * 2;
-                const dist  = 55 + Math.random() * 50;
-                const sz    = 7 + Math.random() * 7;
-                p.style.cssText = `width:${sz}px;height:${sz}px;
-                  background:${pColors[i % pColors.length]};
-                  left:${cx2 - sz/2}px;top:${cy2 - sz/2}px;
-                  --pdx:${Math.round(Math.cos(angle)*dist)}px;
-                  --pdy:${Math.round(Math.sin(angle)*dist)}px;`;
-                scene.appendChild(p);
-                setTimeout(() => p.remove(), 750);
+                p.style.cssText =
+                  `width:${sz}px;height:${isRect ? sz*0.5 : sz}px;
+                   background:${pColors[i % pColors.length]};
+                   border-radius:${isRect ? '2px' : '50%'};
+                   left:${Math.round(ecx - sz/2)}px;top:${Math.round(ecy - sz/2)}px;
+                   --pdx:${Math.round(Math.cos(ang)*d)}px;
+                   --pdy:${Math.round(Math.sin(ang)*d)}px;`;
+                circle.appendChild(p);
+                setTimeout(() => p.remove(), 800);
               }
 
-              // 4. Fill and show country reveal card
+              // 4. Country reveal card
               document.getElementById('reveal-flag').textContent = winner.flag;
               document.getElementById('reveal-name').textContent = winner.name;
-              const revealEl = document.getElementById('country-reveal');
-              revealEl.classList.add('reveal-open');
+              document.getElementById('country-reveal').classList.add('reveal-open');
               playClick();
 
               // 5. Auto-advance
-              _eggTimer = setTimeout(() => {
-                go('globe', { country: winner });
-              }, 1600);
+              _eggTimer = setTimeout(() => go('globe', { country: winner }), 1700);
             }, 280);
           }, 500);
         });
@@ -2086,49 +2162,24 @@
     }
 
     function cardDraw() {
-      const cont  = CONTINENTS.find(c => c.id === S.continent);
-      const pool  = COUNTRIES.filter(c => c.continent === S.continent);
-      const n     = pool.length;
-      const useBack  = n > 5;
-      const backCnt  = useBack ? Math.ceil(n / 2) : 0;
-      const frontCnt = useBack ? Math.floor(n / 2) : n;
+      const cont = CONTINENTS.find(c => c.id === S.continent);
+      const pool = COUNTRIES.filter(c => c.continent === S.continent);
+      const n    = pool.length;
 
-      function makeEgg(idx, w) {
-        const p = EGG_PALETTE[idx % EGG_PALETTE.length];
-        const h = Math.round(w * 1.27);
-        const deco = idx % 3;
-        let decoHTML = '';
-        if (deco === 0) {
-          // horizontal stripe
-          decoHTML = `<div class="egg-deco" style="top:38%;height:22%;background:${p.s}"></div>`;
-        } else if (deco === 1) {
-          // two thin stripes
-          decoHTML = `<div class="egg-deco" style="top:26%;height:11%;background:${p.s}"></div>
-                      <div class="egg-deco" style="top:61%;height:11%;background:${p.s}"></div>`;
-        } else {
-          // dots
-          const ds = Math.round(w * 0.18);
-          decoHTML = `<div class="egg-dot" style="top:28%;left:18%;width:${ds}px;height:${ds}px;background:${p.d1}"></div>
-                      <div class="egg-dot" style="top:55%;right:20%;width:${Math.round(ds*0.8)}px;height:${Math.round(ds*0.8)}px;background:${p.d2}"></div>`;
-        }
-        const sw = w, sh = h;
-        return `<div class="game-egg" data-egg-idx="${idx}" style="width:${w}px;height:${h}px;background:${p.bg}">
-          ${decoHTML}
-          <div class="egg-shine"></div>
-          <svg class="egg-crack-svg" viewBox="0 0 ${sw} ${sh}">
-            <polyline points="${r(sw,.04)},${r(sh,.48)} ${r(sw,.2)},${r(sh,.43)} ${r(sw,.38)},${r(sh,.5)} ${r(sw,.57)},${r(sh,.44)} ${r(sw,.74)},${r(sh,.49)} ${r(sw,.9)},${r(sh,.46)} ${sw},${r(sh,.48)}"
-                      fill="none" stroke="rgba(80,40,0,0.75)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      let eggsHTML = '';
+      for (let i = 0; i < n; i++) {
+        eggsHTML += `<div class="game-egg" data-egg-idx="${i}">
+          <svg viewBox="0 0 76 56" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">${EGG_SVG[i % EGG_SVG.length]}</svg>
+          <svg class="egg-crack-svg" viewBox="0 0 76 56" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="3,27 15,23 27,29 40,23 53,28 63,24 73,27"
+                      fill="none" stroke="rgba(0,0,0,0.8)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>`;
       }
 
-      let backHTML = '', frontHTML = '';
-      for (let i = 0; i < backCnt;  i++) backHTML  += makeEgg(i, 55);
-      for (let i = 0; i < frontCnt; i++) frontHTML += makeEgg(backCnt + i, 68);
-
       return `
-<div style="text-align:center;max-width:580px;width:100%;
-            display:flex;flex-direction:column;align-items:center;gap:20px">
+<div style="text-align:center;max-width:540px;width:100%;
+            display:flex;flex-direction:column;align-items:center;gap:18px">
   <div>
     <div class="tf" style="font-size:32px;color:#e0f2fe">${cont.emoji} ${cont.name}</div>
     <div style="font-size:15px;color:rgba(255,255,255,0.45);font-weight:600;margin-top:4px">
@@ -2136,21 +2187,17 @@
     </div>
   </div>
 
-  <!-- Easter basket -->
-  <div id="basket-scene" style="position:relative;width:min(520px,94vw)">
-    <div id="basket-handle"></div>
-    <div id="eggs-area">
-      ${useBack ? `<div id="back-row">${backHTML}</div>` : ''}
-      <div id="front-row">${frontHTML}</div>
-    </div>
-    <div id="basket-grass">🌿🌱🌾🌱🌿</div>
-    <div id="basket-rim"></div>
-    <div id="basket-body"></div>
-    <div id="country-reveal">
-      <div id="reveal-flag" style="font-size:50px;line-height:1;margin-bottom:4px"></div>
-      <div id="reveal-name" class="tf" style="font-size:21px;color:#0f172a"></div>
-      <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:3px;
-                  letter-spacing:1px;text-transform:uppercase">Your country!</div>
+  <!-- Top-down Easter basket -->
+  <div id="basket-wrap">
+    <div id="basket-rim-ring"></div>
+    <div id="basket-circle">
+      ${eggsHTML}
+      <div id="country-reveal">
+        <div id="reveal-flag" style="font-size:52px;line-height:1;margin-bottom:5px"></div>
+        <div id="reveal-name" class="tf" style="font-size:22px;color:#0f172a"></div>
+        <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:4px;
+                    letter-spacing:1px;text-transform:uppercase">Your country!</div>
+      </div>
     </div>
   </div>
 
@@ -2159,9 +2206,6 @@
   </button>
 </div>`;
     }
-
-    // helper used in makeEgg
-    function r(total, frac) { return Math.round(total * frac); }
 
     function globeSpin() {
       const c = S.country;
