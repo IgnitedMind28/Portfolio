@@ -1386,9 +1386,9 @@
       // ── native English locales ────────────────────────────────────────────
       'usa': 'en-US', 'canada': 'en-CA', 'uk': 'en-GB',
       'ireland': 'en-IE', 'australia': 'en-AU', 'new-zealand': 'en-NZ',
-      'india': 'en-IN', 'philippines': 'en-PH',
-      'south-africa': 'en-ZA', 'nigeria': 'en-NG', 'kenya': 'en-KE',
-      'ghana': 'en-GH', 'tanzania': 'en-TZ',
+      'india': 'hi-IN', 'philippines': 'en-PH',
+      'south-africa': 'en-ZA', 'nigeria': 'en-NG', 'kenya': 'sw-KE',
+      'ghana': 'en-GH', 'tanzania': 'sw-TZ',
       // ── European native locales ───────────────────────────────────────────
       'france': 'fr-FR', 'germany': 'de-DE', 'italy': 'it-IT',
       'spain': 'es-ES', 'portugal': 'pt-PT', 'netherlands': 'nl-NL',
@@ -1461,6 +1461,9 @@
       'en-PH': ['en-PH-JamesNeural', 'en-PH-RosaNeural'],
       'en-IE': ['en-IE-ConnorNeural', 'en-IE-EmilyNeural'],
       'en-NZ': ['en-NZ-MitchellNeural', 'en-NZ-MollyNeural'],
+      'hi-IN': ['hi-IN-MadhurNeural',   'hi-IN-SwaraNeural'  ], // Hindi India
+      'sw-KE': ['sw-KE-RafikiNeural',   'sw-KE-ZuriNeural'   ], // Swahili Kenya
+      'sw-TZ': ['sw-TZ-DaudiNeural',    'sw-TZ-RehemaNeural' ], // Swahili Tanzania
       // ── European native-language voices ──────────────────────────────────
       'nl-NL': ['nl-NL-MaartenNeural',  'nl-NL-ColetteNeural' ],
       'fr-FR': ['fr-FR-HenriNeural',    'fr-FR-DeniseNeural'  ],
@@ -1634,6 +1637,10 @@
       'de-CH':      { master: (n) => `Ich bin ${n}, dein Quizmaster heute!`,                 close: 'Los, fangen wir an!'      },
       'tr-TR':      { master: (n) => `Ben ${n}, bugünkü quiz ustanızım!`,                    close: 'Haydi, başlayalım!'       },
       'uk-UA':      { master: (n) => `Я ${n}, ваш ведучий вікторини сьогодні!`,             close: 'Давайте почнемо!'         },
+      // ── South Asia / Swahili ─────────────────────────────────────────────
+      'hi-IN': { greeting: 'नमस्ते!', master: (n) => `मैं ${n} हूँ, आपका आज का क्विज़ मास्टर!`, close: 'चलिए शुरू करते हैं!'        },
+      'sw-KE': { greeting: 'Habari!', master: (n) => `Mimi ni ${n}, mwenyeji wako wa maswali leo!`,   close: 'Sawa, tuanze sasa!'          },
+      'sw-TZ': { greeting: 'Habari!', master: (n) => `Mimi ni ${n}, msimamizi wako wa maswali leo!`,  close: 'Twende, tuanze!'             },
       // ── East Asia ─────────────────────────────────────────────────────────
       'zh-CN': { greeting: '你好！',      master: (n) => `我是${n}，今天是你的答题主持人！`,        close: '我们开始吧！'                 },
       'ja-JP': { greeting: 'こんにちは！', master: (n) => `私は${n}、今日のクイズマスターです！`,    close: 'さあ、始めましょう！'           },
@@ -2101,6 +2108,7 @@
               // 4. Country reveal card
               document.getElementById('reveal-flag').textContent = winner.flag;
               document.getElementById('reveal-name').textContent = winner.name;
+              document.getElementById('reveal-capital').textContent = '🏛️ ' + winner.capital;
               document.getElementById('country-reveal').classList.add('reveal-open');
               playClick();
 
@@ -2308,6 +2316,7 @@
       <div id="country-reveal">
         <div id="reveal-flag" style="font-size:52px;line-height:1;margin-bottom:5px"></div>
         <div id="reveal-name" class="tf" style="font-size:22px;color:#0f172a"></div>
+        <div id="reveal-capital" style="font-size:12px;color:#475569;margin-top:3px"></div>
         <div style="font-size:10px;color:#94a3b8;font-weight:700;margin-top:4px;
                     letter-spacing:1px;text-transform:uppercase">Your country!</div>
       </div>
