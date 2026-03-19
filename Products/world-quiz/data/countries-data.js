@@ -204,7 +204,7 @@ const COUNTRIES = [
     animal:'Dolphin', animalEmoji:'🐬', mastername:'Delphi',
     flagColors:['#0D5EAF','#FFFFFF','#0D5EAF'],
     intro:"Yassas! I'm Delphi the Dolphin of Greece! Greece is where history began!",
-    brief:"Η Ελλάδα είναι όπου ξεκίνησε η ιστορία — η αρχαία Ελλάδα εφηύρε τους Ολυμπιακούς Αγώνες, τη δημοκρατία και τη φιλοσοφία!",
+    brief:"Η Ελλάδα είναι το μέρος όπου ξεκίνησε η ιστορία!",
     funFact:"Ancient Greece invented the Olympic Games, democracy, and philosophy — 2,500 years ago! 🏛️",
     questions:[
       {q:"Ancient Greece gave the world an incredible gift — a system where citizens vote for their leaders. What is this called?", ch:["Democracy","Monarchy","Theocracy","Oligarchy"], a:0, cat:"🏛️ History"},
@@ -234,6 +234,7 @@ const COUNTRIES = [
     animal:'Eurasian Elk', animalEmoji:'🦌', mastername:'Sven',
     flagColors:['#006AA7','#FECC02','#006AA7'],
     intro:"Hej! I'm Sven the Elk of Sweden! I'll guide you through the land of Vikings!",
+    brief:"Jag guidar dig genom vikingabornas land!",
     funFact:"Sweden invented the safety match, the pacemaker, and a certain blue and yellow furniture store! 🏪",
     questions:[
       {q:"Which world-famous furniture store — selling flat-pack furniture in blue and yellow — was founded in Sweden?", ch:["IKEA","ZARA","H&M","Target"], a:0, cat:"🏪 Industry"},
@@ -263,7 +264,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Oranje',
     flagColors:['#AE1C28','#FFFFFF','#21468B'],
     intro:"Hallo! I'm Oranje the Lion! The Netherlands is famous for tulips and windmills!",
-    brief:"Nederland is beroemd om zijn tulpen, windmolens en de mooiste grachten ter wereld!",
+    brief:"Nederland is beroemd om zijn tulpen en windmolens!",
     funFact:"The Netherlands is below sea level in many places — they built giant dams and windmills to keep the sea out! 🌷",
     questions:[
       {q:"In the 1630s, Dutch traders went completely crazy for one flower — a single bulb could cost as much as a house! Which flower?", ch:["Tulips","Roses","Orchids","Sunflowers"], a:0, cat:"🌷 History"},
@@ -293,7 +294,7 @@ const COUNTRIES = [
     animal:'Rooster of Barcelos', animalEmoji:'🐓', mastername:'Galo',
     flagColors:['#006600','#FF0000','#FFD700'],
     intro:"Olá! I'm Galo the Rooster of Portugal! This tiny country discovered half the world!",
-    brief:"Este pequeno país descobriu metade do mundo — os seus navegadores foram os primeiros a chegar à Índia, ao Brasil e ao Japão!",
+    brief:"Este pequeno país descobriu metade do mundo!",
     funFact:"Portuguese explorers were the first Europeans to reach India, Brazil, and Japan — in the 1400s! ⛵",
     questions:[
       {q:"Which brave Portuguese sailor was the first European to find a sea route to India by sailing around Africa, in 1498?", ch:["Vasco da Gama","Christopher Columbus","Ferdinand Magellan","Henry the Navigator"], a:0, cat:"⛵ History"},
@@ -1402,7 +1403,7 @@ const COUNTRIES = [
     animal:'Giant Panda', animalEmoji:'🐼', mastername:'Bao',
     flagColors:['#DE2910','#FFDE00','#DE2910'],
     intro:"Nǐ hǎo! I'm Bao the Panda of China! China is one of the world's oldest civilizations!",
-    brief:"中国是世界上最古老的文明之一，长城绵延数千公里，令人叹为观止！",
+    brief:"中国是世界上最古老的文明之一！",
     funFact:"China's Great Wall is so long it would take 18 months to walk from one end to the other! 🧱",
     questions:[
       {q:"China's Great Wall is one of the longest structures ever built. Roughly how long is it from end to end?", ch:["Over 21,000 km","500 km","3,000 km","8,000 km"], a:0, cat:"🏛️ History"},
@@ -1432,7 +1433,7 @@ const COUNTRIES = [
     animal:'Royal Bengal Tiger', animalEmoji:'🐯', mastername:'Raja',
     flagColors:['#FF9933','#FFFFFF','#138808'],
     intro:"Namaste! I'm Raja the Tiger of India! India is the world's largest democracy!",
-    brief:"भारत दुनिया का सबसे बड़ा लोकतंत्र है — और यहाँ शतरंज, शून्य की अवधारणा और योग का आविष्कार हुआ था!",
+    brief:"भारत दुनिया का सबसे बड़ा लोकतंत्र है!",
     funFact:"India invented the number zero, chess, and yoga — pretty impressive, right? 🧘",
     questions:[
       {q:"Which beautiful white marble monument was built by Emperor Shah Jahan as a tomb for his beloved wife, in the city of Agra?", ch:["Taj Mahal","The Parthenon","The Colosseum","The Pyramids"], a:0, cat:"🏛️ Monuments"},
@@ -1462,7 +1463,7 @@ const COUNTRIES = [
     animal:'Japanese Crane', animalEmoji:'🦢', mastername:'Tsuru',
     flagColors:['#FFFFFF','#BC002D','#FFFFFF'],
     intro:"Konnichiwa! I'm Tsuru the Crane of Japan! Japan mixes ancient tradition with modern technology!",
-    brief:"日本は古代の伝統と最新のテクノロジーが融合した国です — 美しいお城と超高速の新幹線が同じ国に共存しています！",
+    brief:"日本は古代の伝統と現代テクノロジーが融合した国です！",
     funFact:"Japan has more than 6,800 islands and over 100 active volcanoes! 🌋",
     questions:[
       {q:"Japan is famous for its super-fast trains. Approximately how fast do Japan's 'Shinkansen' bullet trains travel?", ch:["320 km/h","60 km/h","150 km/h","500 km/h"], a:0, cat:"🚄 Technology"},
@@ -1492,7 +1493,7 @@ const COUNTRIES = [
     animal:'Siberian Tiger', animalEmoji:'🐯', mastername:'Horangi',
     flagColors:['#FFFFFF','#003478','#FFFFFF'],
     intro:"Annyeong! I'm Horangi the Tiger! South Korea gave us K-pop and amazing technology!",
-    brief:"한국은 K팝과 최첨단 기술을 세계에 선사했어요 — 그리고 세계에서 가장 빠른 인터넷 속도를 자랑한답니다!",
+    brief:"한국은 K팝과 놀라운 기술을 세계에 선사했어요!",
     funFact:"South Korea has the fastest internet speeds in the world! 💻",
     questions:[
       {q:"South Korea is famous for its hugely popular music style that has fans in every country on Earth. What is it called?", ch:["K-Pop","J-Pop","Afrobeats","Reggae"], a:0, cat:"🎵 Music"},
@@ -1551,7 +1552,7 @@ const COUNTRIES = [
     animal:'Komodo Dragon', animalEmoji:'🦎', mastername:'Drago',
     flagColors:['#CE1126','#FFFFFF','#CE1126'],
     intro:"Halo! I'm Drago the Komodo Dragon! Indonesia is the world's biggest island nation!",
-    brief:"Indonesia adalah negara kepulauan terbesar di dunia — dengan lebih dari 17.000 pulau dan kadal terbesar di dunia, sang Komodo!",
+    brief:"Indonesia adalah negara kepulauan terbesar di dunia!",
     funFact:"Indonesia has over 17,000 islands and is home to the world's largest lizard — the Komodo Dragon! 🦎",
     questions:[
       {q:"Indonesia is home to the world's largest Buddhist temple, built over 1,200 years ago on the island of Java. What is it called?", ch:["Borobudur","Angkor Wat","Shwedagon","Prambanan"], a:0, cat:"🏛️ History"},
@@ -1581,7 +1582,7 @@ const COUNTRIES = [
     animal:'Peregrine Falcon', animalEmoji:'🦅', mastername:'Falco',
     flagColors:['#00732F','#FFFFFF','#000000'],
     intro:"Marhaba! I'm Falco the Falcon of UAE! Dubai has the world's tallest buildings!",
-    brief:"دبي تحتضن أطول المباني في العالم — وهذا البلد موطن لبعض من أعجب العجائب المعمارية في التاريخ!",
+    brief:"دبي تحتضن أطول المباني في العالم!",
     funFact:"The Burj Khalifa in Dubai is 828 metres tall — it has 163 floors! 🏙️",
     questions:[
       {q:"The world's tallest skyscraper — with 163 floors and standing 828 metres tall — is in the city of Dubai. What is it called?", ch:["Burj Khalifa","Empire State Building","CN Tower","Petronas Towers"], a:0, cat:"🏙️ Architecture"},
@@ -1611,7 +1612,7 @@ const COUNTRIES = [
     animal:'Water Buffalo', animalEmoji:'🐃', mastername:'Trau',
     flagColors:['#DA251D','#FFFF00','#DA251D'],
     intro:"Xin chào! I'm Trau the Buffalo of Vietnam! Vietnam is a land of incredible beauty!",
-    brief:"Việt Nam là đất nước có vẻ đẹp tuyệt vời — Vịnh Hạ Long với gần 2.000 đảo đá vôi nhô lên khỏi mặt biển như một câu chuyện cổ tích!",
+    brief:"Việt Nam là vùng đất có vẻ đẹp tuyệt vời!",
     funFact:"Ha Long Bay in Vietnam has nearly 2,000 limestone islands rising from the sea — it looks like a fairy tale! ⛵",
     questions:[
       {q:"Vietnam's most stunning natural wonder has nearly 2,000 dramatic limestone islands rising from turquoise water. What is it called?", ch:["Ha Long Bay","Manila Bay","Tokyo Bay","Shark Bay"], a:0, cat:"🏝️ Nature"},
@@ -1790,7 +1791,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Simba',
     flagColors:['#006600','#BB0000','#FFFFFF'],
     intro:"Jambo! I'm Simba the Lion of Kenya! Kenya is home to the world's greatest wildlife safari!",
-    brief:"Kenya ni nyumbani kwa safari ya wanyamapori ya kupendeza zaidi duniani — na pia ni nchi ya wapiganaji wa mbio kama Eliud Kipchoge!",
+    brief:"Kenya ni nyumbani kwa safari ya wanyamapori ya kupendeza zaidi duniani!",
     funFact:"Kenyan marathon runner Eliud Kipchoge was the first human to run a full marathon in under 2 hours! 🏃",
     questions:[
       {q:"Kenya is one of the world's top producers of which refreshing drink, enjoyed by millions every morning worldwide?", ch:["Tea","Coffee","Cocoa","Orange Juice"], a:0, cat:"🍵 Food"},
@@ -1820,7 +1821,7 @@ const COUNTRIES = [
     animal:'Barbary Lion', animalEmoji:'🦁', mastername:'Atlas',
     flagColors:['#C1272D','#006233','#C1272D'],
     intro:"Merhba! I'm Atlas the Lion of Morocco! Gateway between Africa and Europe!",
-    brief:"المغرب هو البوابة الذهبية بين أفريقيا وأوروبا — وتحتضن مدينة فاس أقدم جامعة في العالم، أُسست عام 859 ميلادي!",
+    brief:"المغرب هو البوابة بين أفريقيا وأوروبا!",
     funFact:"Morocco's city of Fes has the world's oldest university — founded in the year 859 AD! 📚",
     questions:[
       {q:"Morocco's city of Fes is home to the world's oldest continuously operating university, founded in 859 AD. What is it called?", ch:["University of al-Qarawiyyin","Oxford University","Bologna University","Harvard University"], a:0, cat:"🎓 History"},
@@ -1908,7 +1909,7 @@ const COUNTRIES = [
     animal:'Giraffe', animalEmoji:'🦒', mastername:'Twiga',
     flagColors:['#1EB53A','#FCD116','#00A3DD'],
     intro:"Karibu! I'm Twiga the Giraffe of Tanzania! Home to Africa's highest mountain!",
-    brief:"Tanzania ni nyumbani kwa mlima mrefu zaidi barani Afrika — Kilimanjaro — na kwa Serengeti maarufu duniani kote!",
+    brief:"Tanzania ni nyumbani kwa mlima mrefu zaidi barani Afrika!",
     funFact:"The Serengeti in Tanzania hosts the world's largest land animal migration — over 1.5 million wildebeest! 🦓",
     questions:[
       {q:"Which is the tallest mountain in ALL of Africa, located in Tanzania and often called the 'Roof of Africa'?", ch:["Mount Kilimanjaro","Mount Kenya","Mount Elgon","Mount Cameroon"], a:0, cat:"🏔️ Nature"},
@@ -2000,7 +2001,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Quetzal',
     flagColors:['#006847','#FFFFFF','#CE1126'],
     intro:"¡Hola amigo! I'm Quetzal the Eagle of Mexico! Land of ancient pyramids and amazing food!",
-    brief:"¡Tierra de pirámides antiguas y comida increíble — los mayas y los aztecas construyeron pirámides tan grandes como las de Egipto!",
+    brief:"¡Tierra de pirámides antiguas y comida increíble!",
     funFact:"The ancient Mayans and Aztecs built incredible pyramids in Mexico — some are as big as those in Egypt! 🌮",
     questions:[
       {q:"Which ancient Mayan pyramid in Mexico — one of the New Seven Wonders of the World — served as a temple and a calendar?", ch:["Chichen Itza","Teotihuacan","Machu Picchu","Angkor Wat"], a:0, cat:"🏛️ History"},
@@ -2059,7 +2060,7 @@ const COUNTRIES = [
     animal:'Cuban Trogon', animalEmoji:'🐦', mastername:'Tocoro',
     flagColors:['#002A8F','#FFFFFF','#CC0000'],
     intro:"¡Saludos! I'm Tocoro the Trogon of Cuba! Cuba is an island of music and rhythm!",
-    brief:"¡Cuba es una isla de música y ritmo — y las calles de La Habana están llenas de coloridos autos antiguos de los años 50!",
+    brief:"¡Cuba es una isla de música y ritmo!",
     funFact:"Cuba's capital Havana has beautifully colourful vintage cars from the 1950s still driving around today! 🚗",
     questions:[
       {q:"Cuba is the LARGEST island in the Caribbean Sea. In which sea is Cuba located?", ch:["The Caribbean Sea","The Pacific Ocean","The Atlantic Ocean","The Gulf of Mexico"], a:0, cat:"🏝️ Geography"},
@@ -2093,7 +2094,7 @@ const COUNTRIES = [
     animal:'Jaguar', animalEmoji:'🐆', mastername:'Onça',
     flagColors:['#009B3A','#FEDF00','#002776'],
     intro:"Olá! I'm Onça the Jaguar of Brazil! Brazil has the largest rainforest on Earth!",
-    brief:"O Brasil tem a maior floresta tropical da Terra — a Amazônia — e é o único país da América do Sul que fala português!",
+    brief:"O Brasil tem a maior floresta tropical da Terra!",
     funFact:"Brazil is the only country in South America where Portuguese is the official language — everyone else speaks Spanish! 🌴",
     questions:[
       {q:"Brazil is home to the world's largest rainforest — the 'lungs of the Earth'. What is it called?", ch:["The Amazon Rainforest","The Congo Rainforest","The Borneo Rainforest","The Daintree Rainforest"], a:0, cat:"🌿 Nature"},
@@ -2123,7 +2124,7 @@ const COUNTRIES = [
     animal:'Rufous Hornero', animalEmoji:'🐦', mastername:'Maradona',
     flagColors:['#74ACDF','#FFFFFF','#74ACDF'],
     intro:"¡Hola! I'm Maradona the Hornero Bird of Argentina! Home of tango and football legends!",
-    brief:"¡Cuna del tango y de leyendas del fútbol — Lionel Messi es considerado uno de los mejores futbolistas de todos los tiempos!",
+    brief:"¡El hogar del tango y las leyendas del fútbol!",
     funFact:"Argentina's Lionel Messi is considered one of the greatest footballers of all time, having won 8 Ballon d'Or awards! ⚽",
     questions:[
       {q:"Which legendary Argentine footballer has won more Ballon d'Or awards (for world's best player) than anyone else?", ch:["Lionel Messi","Cristiano Ronaldo","Diego Maradona","Gabriel Batistuta"], a:0, cat:"⚽ Sports"},
@@ -2153,7 +2154,7 @@ const COUNTRIES = [
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Condor',
     flagColors:['#FCD116','#003087','#CE1126'],
     intro:"¡Bienvenidos! I'm Condor the Andean Condor of Colombia! Coffee capital of the world!",
-    brief:"¡Colombia es el segundo mayor productor de café del mundo — y los colombianos se toman su café muy en serio!",
+    brief:"¡La capital del café del mundo!",
     funFact:"Colombia is the world's second-largest producer of coffee — Colombians take their coffee VERY seriously! ☕",
     questions:[
       {q:"Colombia is the world's second-largest producer of which popular hot drink, enjoyed worldwide every morning?", ch:["Coffee","Tea","Cocoa","Hot Chocolate"], a:0, cat:"☕ Culture"},
@@ -2183,7 +2184,7 @@ const COUNTRIES = [
     animal:'Vicuña', animalEmoji:'🦙', mastername:'Inca',
     flagColors:['#D91023','#FFFFFF','#D91023'],
     intro:"Rimaykullayki! I'm Inca the Vicuña of Peru! Ancient Incan wonders await you!",
-    brief:"¡Las maravillas del Imperio Inca te esperan — Machu Picchu fue construida en 1450 y permaneció oculta del mundo hasta 1911!",
+    brief:"¡Las antiguas maravillas incas te esperan!",
     funFact:"Machu Picchu in Peru was built by the Inca Empire around 1450 AD and was hidden from the world until 1911! 🏔️",
     questions:[
       {q:"The mysterious ancient Incan city, perched high in the Andes Mountains and rediscovered in 1911, is called...", ch:["Machu Picchu","Chichen Itza","Angkor Wat","Petra"], a:0, cat:"🏛️ History"},
@@ -2213,7 +2214,7 @@ const COUNTRIES = [
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Viento',
     flagColors:['#D52B1E','#FFFFFF','#0039A6'],
     intro:"¡Hola! I'm Viento the Condor of Chile! Chile is the world's longest country!",
-    brief:"¡Chile es el país más largo del mundo — y el Desierto de Atacama es el lugar más seco de la Tierra, donde en algunas zonas jamás ha llovido!",
+    brief:"¡Chile es el país más largo del mundo!",
     funFact:"The Atacama Desert in Chile is the driest place on Earth — some areas there have NEVER recorded any rain! 🌵",
     questions:[
       {q:"Chile holds a unique geographical record — it stretches an incredible 4,300 km from north to south. What record does it hold?", ch:["World's longest country","World's highest country","World's widest country","World's wettest country"], a:0, cat:"🌍 Geography"},
@@ -2243,7 +2244,7 @@ const COUNTRIES = [
     animal:'Troupial', animalEmoji:'🐦', mastername:'Troupi',
     flagColors:['#CF142B','#00247D','#009E60'],
     intro:"¡Buenas! I'm Troupi the Troupial Bird of Venezuela! Home of the world's tallest waterfall!",
-    brief:"¡Venezuela es el hogar del Salto Ángel — la cascada más alta del mundo, que cae 979 metros, mucho más alta que la Torre Eiffel!",
+    brief:"¡Venezuela es el hogar de la cascada más alta del mundo!",
     funFact:"Angel Falls in Venezuela is the world's tallest waterfall — it drops 979 metres! That's taller than the Eiffel Tower by a LOT! 🌊",
     questions:[
       {q:"Angel Falls in Venezuela is the world's tallest waterfall. How high does it drop — compared to the Eiffel Tower (330m)?", ch:["979 metres — nearly 3× the Eiffel Tower!","200 metres","50 metres","1,500 metres"], a:0, cat:"🌊 Nature"},
