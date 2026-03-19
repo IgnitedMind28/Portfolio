@@ -204,6 +204,7 @@ const COUNTRIES = [
     animal:'Dolphin', animalEmoji:'🐬', mastername:'Delphi',
     flagColors:['#0D5EAF','#FFFFFF','#0D5EAF'],
     intro:"Yassas! I'm Delphi the Dolphin of Greece! Greece is where history began!",
+    brief:"Η Ελλάδα είναι όπου ξεκίνησε η ιστορία — η αρχαία Ελλάδα εφηύρε τους Ολυμπιακούς Αγώνες, τη δημοκρατία και τη φιλοσοφία!",
     funFact:"Ancient Greece invented the Olympic Games, democracy, and philosophy — 2,500 years ago! 🏛️",
     questions:[
       {q:"Ancient Greece gave the world an incredible gift — a system where citizens vote for their leaders. What is this called?", ch:["Democracy","Monarchy","Theocracy","Oligarchy"], a:0, cat:"🏛️ History"},
@@ -262,6 +263,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Oranje',
     flagColors:['#AE1C28','#FFFFFF','#21468B'],
     intro:"Hallo! I'm Oranje the Lion! The Netherlands is famous for tulips and windmills!",
+    brief:"Nederland is beroemd om zijn tulpen, windmolens en de mooiste grachten ter wereld!",
     funFact:"The Netherlands is below sea level in many places — they built giant dams and windmills to keep the sea out! 🌷",
     questions:[
       {q:"In the 1630s, Dutch traders went completely crazy for one flower — a single bulb could cost as much as a house! Which flower?", ch:["Tulips","Roses","Orchids","Sunflowers"], a:0, cat:"🌷 History"},
@@ -291,6 +293,7 @@ const COUNTRIES = [
     animal:'Rooster of Barcelos', animalEmoji:'🐓', mastername:'Galo',
     flagColors:['#006600','#FF0000','#FFD700'],
     intro:"Olá! I'm Galo the Rooster of Portugal! This tiny country discovered half the world!",
+    brief:"Este pequeno país descobriu metade do mundo — os seus navegadores foram os primeiros a chegar à Índia, ao Brasil e ao Japão!",
     funFact:"Portuguese explorers were the first Europeans to reach India, Brazil, and Japan — in the 1400s! ⛵",
     questions:[
       {q:"Which brave Portuguese sailor was the first European to find a sea route to India by sailing around Africa, in 1498?", ch:["Vasco da Gama","Christopher Columbus","Ferdinand Magellan","Henry the Navigator"], a:0, cat:"⛵ History"},
@@ -321,6 +324,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Skëndër',
     flagColors:['#E41E20','#000000','#E41E20'],
     intro:"Mirë se vini! I'm Skëndër, Albania's proud eagle! This Balkan country is the land of Skanderbeg, ancient Illyrians, and the most hospitable people in Europe!",
+    brief:"Ky vend ballkanik është atdheu i Skënderbeut, i ilirëve të lashtë dhe i njerëzve më mikpritës në Evropë!",
     funFact:"Albania has over 170,000 concrete bunkers — built during the communist era — that's one bunker for every 11 Albanian people! 🏠",
     questions:[
       {q:"Albania's national hero Gjergj Kastrioti — who led a 25-year resistance against the powerful Ottoman Empire — is known by what famous nickname?", ch:["Skanderbeg","Vlad the Impaler","Pyrrhus of Epirus","Ali Pasha"], a:0, cat:"📜 History"},
@@ -349,6 +353,7 @@ const COUNTRIES = [
     animal:'Brown Bear', animalEmoji:'🐻', mastername:'Gris',
     flagColors:['#0032A0','#FEDF00','#D52B1E'],
     intro:"Benvinguts! I'm Gris, Andorra's mountain bear! This tiny country high in the Pyrenees is Europe's highest capital and a paradise for skiers!",
+    brief:"Aquest petit país als Pirineus té la capital més alta d'Europa i és un paradís per als esquiadors!",
     funFact:"Andorra la Vella is the highest capital city in Europe at 1,023 metres above sea level — higher than the top of the Eiffel Tower! ⛰️",
     questions:[
       {q:"Andorra is a tiny country nestled high in which mountain range, squeezed between France and Spain?", ch:["The Pyrenees","The Alps","The Apennines","The Massif Central"], a:0, cat:"🌍 Geography"},
@@ -377,6 +382,7 @@ const COUNTRIES = [
     animal:'Alpine Ibex', animalEmoji:'🐐', mastername:'Steinbock',
     flagColors:['#ED2939','#FFFFFF','#ED2939'],
     intro:"Grüß Gott! I'm Steinbock, Austria's mountain ibex! The land of Mozart, Klimt, the Habsburgs, and the most magnificent music halls on Earth!",
+    brief:"Das Land von Mozart, Klimt und den Habsburgern besitzt die prachtvollsten Konzertsäle der Welt!",
     funFact:"Austria has been voted the world's most liveable city for Vienna — and Red Bull energy drink, the world's most popular energy drink, was invented by an Austrian! 🎵",
     questions:[
       {q:"Which musical prodigy was born in Salzburg, Austria, in 1756 — and by age 5 was already composing his own music and performing for kings and queens across Europe?", ch:["Wolfgang Amadeus Mozart","Ludwig van Beethoven","Franz Schubert","Joseph Haydn"], a:0, cat:"🎵 Music"},
@@ -405,6 +411,7 @@ const COUNTRIES = [
     animal:'European Bison', animalEmoji:'🦬', mastername:'Zubr',
     flagColors:['#CF101A','#009A44','#FFFFFF'],
     intro:"Vitaju! I'm Zubr, Belarus's great European bison! Welcome to the land of deep primeval forests, ancient castles, and the last European bison in the wild!",
+    brief:"Добро пожаловать в страну первозданных лесов, древних замков и последних европейских зубров в дикой природе!",
     funFact:"The Białowieża Forest — on the border of Belarus and Poland — is Europe's last primeval forest. It is home to the last wild European bison (Zubr), with a herd of about 800 animals! 🦬",
     questions:[
       {q:"The Białowieża Forest shared between Belarus and Poland is Europe's last primeval forest — meaning it has never been seriously disturbed by humans. What rare large animal lives there?", ch:["European Bison (Wisent / Zubr)","Brown Bear","Grey Wolf","European Lynx"], a:0, cat:"🦬 Nature"},
@@ -433,6 +440,7 @@ const COUNTRIES = [
     animal:'Black Lion', animalEmoji:'🦁', mastername:'Léo',
     flagColors:['#000000','#FAE042','#EF3340'],
     intro:"Bonjour / Goede dag! I'm Léo, Belgium's black lion! Belgium gave the world chocolate, waffles, the Smurfs AND invented the saxophone!",
+    brief:"La Belgique a donné au monde le chocolat, les gaufres, les Schtroumpfs et a inventé le saxophone!",
     funFact:"Belgium invented the world-famous comic strip hero Tintin in 1929 — and has more comic book artists per square kilometre than any other country in the world! 📚",
     questions:[
       {q:"Which Belgian comic-book journalist — created by Hergé in 1929 — travels the world on incredible adventures with his loyal white dog Snowy?", ch:["Tintin","Asterix","Lucky Luke","Spirou"], a:0, cat:"📚 Culture"},
@@ -461,6 +469,7 @@ const COUNTRIES = [
     animal:'Brown Bear', animalEmoji:'🐻', mastername:'Medvjed',
     flagColors:['#002395','#FFCD00','#FFFFFF'],
     intro:"Dobrodošli! I'm Medvjed the bear of Bosnia! This remarkable Balkan country bridges Eastern and Western culture — and has some of the most dramatic mountain scenery in Europe!",
+    brief:"Ova balkanska zemlja spaja Istok i Zapad — i ima neke od najdramatičnijih planinskih krajolika u Europi!",
     funFact:"Sarajevo was the first city in continental Europe to have an electric tram system — in 1895, even before Paris or Berlin! And the city hosted the 1984 Winter Olympics! ⚡",
     questions:[
       {q:"The assassination of Archduke Franz Ferdinand of Austria in Sarajevo in 1914 triggered which catastrophic world event?", ch:["World War I","World War II","The Cold War","The Balkan Wars"], a:0, cat:"📜 History"},
@@ -489,6 +498,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Lav',
     flagColors:['#FFFFFF','#00966E','#D62612'],
     intro:"Zdraveyte! I'm Lav the lion of Bulgaria! Bulgaria gave the world the Cyrillic alphabet — used by over 250 million people — and the world's finest rose oil!",
+    brief:"България подари на света кирилската азбука — ползвана от над 250 милиона хора — и най-финото розово масло в света!",
     funFact:"Bulgaria's Rose Valley produces over 85% of the world's rose oil — used in almost every expensive perfume on Earth — and the annual Rose Festival is one of Europe's most spectacular celebrations! 🌹",
     questions:[
       {q:"The Cyrillic alphabet — used today by Russians, Bulgarians, Serbs and over 250 million people worldwide — was created in the 9th century by two Bulgarian brothers who were also saints. What were they called?", ch:["Saints Cyril and Methodius","Saints Boris and Michael","Saints Peter and Paul","Saints Simeon and Constantine"], a:0, cat:"📜 History"},
@@ -517,6 +527,7 @@ const COUNTRIES = [
     animal:'Pine Marten', animalEmoji:'🦡', mastername:'Kuna',
     flagColors:['#FF0000','#FFFFFF','#0000FF'],
     intro:"Dobrodošli! I'm Kuna, Croatia's marten! Croatia invented the necktie, has 1,000+ islands, and Game of Thrones was filmed in its ancient walled city!",
+    brief:"Hrvatska je izmislila kravatu, ima više od tisuću otoka, a Igra prijestolja snimana je u njezinom drevnom utvrđenom gradu!",
     funFact:"Croatia invented the necktie! Croatian soldiers in the 17th century wore a cloth around their neck — the French copied the idea and called it 'la cravate' (from 'Croat') — and it became a global fashion staple! 👔",
     questions:[
       {q:"The necktie — worn by businessmen worldwide — was invented by Croatian soldiers in the 17th century. What did the French call this cloth accessory they copied from the Croats?", ch:["Cravate (from the French word for 'Croat')","Foulard","Cravate royale","Nœud croate"], a:0, cat:"👔 History"},
@@ -545,6 +556,7 @@ const COUNTRIES = [
     animal:'Mouflon', animalEmoji:'🐏', mastername:'Moufloni',
     flagColors:['#FFFFFF','#D47600','#4E6B3D'],
     intro:"Yia sou! I'm Moufloni, Cyprus's wild mountain sheep! This sunny Mediterranean island is said to be the birthplace of Aphrodite — the goddess of love!",
+    brief:"Αυτό το ηλιόλουστο νησί λέγεται ότι είναι ο τόπος γέννησης της Αφροδίτης — της θεάς της αγάπης!",
     funFact:"Cyprus gave the world halloumi cheese — the wonderful cheese that can be grilled or fried without melting — and the island is officially the birthplace of the ancient Greek goddess of love, Aphrodite! 🧀",
     questions:[
       {q:"According to ancient Greek mythology, which beautiful goddess — worshipped all over the ancient world — was born from the sea foam near the coast of Cyprus?", ch:["Aphrodite (goddess of love)","Athena (goddess of wisdom)","Hera (goddess of marriage)","Artemis (goddess of the hunt)"], a:0, cat:"🏛️ Mythology"},
@@ -573,6 +585,7 @@ const COUNTRIES = [
     animal:'Double-tailed Lion', animalEmoji:'🦁', mastername:'Lev',
     flagColors:['#D7141A','#FFFFFF','#11457E'],
     intro:"Ahoj! I'm Lev, Czechia's lion! Prague is one of Europe's most magical cities — and the Czech Republic invented the word ROBOT and the world's best beer!",
+    brief:"Praha je jedno z nejkouzelnějších měst Evropy — a Česká republika vynalezla slovo ROBOT i nejlepší pivo na světě!",
     funFact:"The Czech Republic has the highest beer consumption per person in the world AND the city of Plzeň invented Pilsner lager beer in 1842 — the most popular style of beer on Earth! 🍺",
     questions:[
       {q:"Which Czech writer — who worked as an insurance clerk in Prague — wrote the terrifying story of a man who wakes up to find he has transformed into a giant insect?", ch:["Franz Kafka","Karel Čapek","Jaroslav Hašek","Milan Kundera"], a:0, cat:"📚 Literature"},
@@ -601,6 +614,7 @@ const COUNTRIES = [
     animal:'Mute Swan', animalEmoji:'🦢', mastername:'Svane',
     flagColors:['#C60C30','#FFFFFF','#C60C30'],
     intro:"Hej! I'm Svane, Denmark's elegant swan! The land of Vikings, LEGO, Hans Christian Andersen's fairy tales, and the wonderful concept of hygge!",
+    brief:"Vikingernes land har givet verden LEGO, H.C. Andersens eventyr og det vidunderlige begreb hygge!",
     funFact:"LEGO was invented in Denmark in 1932 — and if you stacked all the LEGO bricks ever made, they would reach the Moon and back 10 times! More than 400 billion LEGO bricks have been produced! 🧱",
     questions:[
       {q:"LEGO — one of the world's most popular toys ever made — was invented in 1932 by Danish carpenter Ole Kirk Christiansen in which town?", ch:["Billund","Copenhagen","Aarhus","Odense"], a:0, cat:"🧱 Industry"},
@@ -629,6 +643,7 @@ const COUNTRIES = [
     animal:'Barn Swallow', animalEmoji:'🐦', mastername:'Pääsuke',
     flagColors:['#0072CE','#000000','#FFFFFF'],
     intro:"Tere! I'm Pääsuke, Estonia's swift swallow! This tiny Baltic nation invented Skype, was the first country to use internet voting, and sang its way to freedom!",
+    brief:"See väike Balti riik leiutas Skype'i, oli esimene riik internetihääletusega ja laulis end vabadusele!",
     funFact:"Skype — the video-calling app used by hundreds of millions of people worldwide — was invented by Estonian engineers in Tallinn in 2003! 💻",
     questions:[
       {q:"Which world-famous video-calling application — now used globally for business and family calls — was invented by Estonian engineers in 2003?", ch:["Skype","Zoom","FaceTime","WhatsApp"], a:0, cat:"💻 Technology"},
@@ -657,6 +672,7 @@ const COUNTRIES = [
     animal:'Brown Bear', animalEmoji:'🐻', mastername:'Karhu',
     flagColors:['#FFFFFF','#003580','#FFFFFF'],
     intro:"Hei! I'm Karhu, Finland's great bear! Santa Claus officially lives in Finnish Lapland — and Finland has the world's best schools AND the most saunas per person!",
+    brief:"Joulupukki asuu virallisesti Suomen Lapissa — ja Suomella on maailman parhaat koulut ja eniten saunoja henkeä kohden!",
     funFact:"Finland has approximately 3 MILLION saunas for just 5.5 million people — that is more than one sauna for every two people! Almost every Finnish home, apartment and lakeside cottage has its own sauna! 🧖",
     questions:[
       {q:"Santa Claus officially lives in which Finnish region — where children can visit him and meet real reindeer?", ch:["Lapland (Rovaniemi — the Arctic Circle)","Helsinki","Tampere","Turku"], a:0, cat:"🎅 Culture"},
@@ -685,6 +701,7 @@ const COUNTRIES = [
     animal:'Turul Bird', animalEmoji:'🦅', mastername:'Turul',
     flagColors:['#CE2939','#FFFFFF','#477050'],
     intro:"Szia! I'm Turul, Hungary's mythical falcon! Hungary gave the world the Rubik's Cube, the ballpoint pen, the Hologram — and the most beautiful parliament building in Europe!",
+    brief:"Magyarország adta a világnak a Rubik-kockát, a golyóstollat, a hologramot — és Európa legszebb parlamentjét!",
     funFact:"The Rubik's Cube — the world's best-selling puzzle toy with over 450 million sold — was invented in 1974 by Hungarian professor Ernő Rubik, who originally called it the 'Magic Cube'! 🎲",
     questions:[
       {q:"Which Hungarian professor invented the Rubik's Cube — the colourful 3D twisty puzzle that became the world's best-selling toy — in 1974?", ch:["Ernő Rubik","Zoltán Kovács","László Bíró","Dennis Gabor"], a:0, cat:"🎲 Invention"},
@@ -713,6 +730,7 @@ const COUNTRIES = [
     animal:'Gyrfalcon', animalEmoji:'🦅', mastername:'Fálki',
     flagColors:['#003897','#FFFFFF','#D72828'],
     intro:"Halló! I'm Fálki, Iceland's fierce gyrfalcon! Iceland has active volcanoes, enormous glaciers, spouting geysers, Northern Lights AND the midnight sun — all in one tiny island!",
+    brief:"Ísland er með virk eldfjöll, gríðarlegar jökla, geysira, norðurljós og miðnætursól — allt á einni litilli eyju!",
     funFact:"Iceland runs almost entirely on clean renewable energy — about 99% of its electricity comes from geothermal power (volcanoes) and hydropower (waterfalls) — making it one of the greenest countries on Earth! 🌋",
     questions:[
       {q:"Iceland has hundreds of volcanoes. Which Icelandic volcano erupted in 2010 — sending an ash cloud over Europe that cancelled over 100,000 flights for weeks?", ch:["Eyjafjallajökull","Hekla","Katla","Bárðarbunga"], a:0, cat:"🌋 Science"},
@@ -769,6 +787,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Shkabë',
     flagColors:['#244AA5','#E4A82E','#FFFFFF'],
     intro:"Mirëserdhët! I'm Shkabë, Kosovo's golden eagle! Kosovo is one of Europe's youngest countries — and home to some globally famous pop stars!",
+    brief:"Kosova është një nga vendet më të reja të Evropës — dhe shtëpia e disa nga yjet pop më të famshëm në botë!",
     funFact:"Kosovo is Europe's youngest country — it declared independence on 17 February 2008 — and global pop superstar Dua Lipa was born of Kosovan-Albanian parents! 🎵",
     questions:[
       {q:"Kosovo declared independence in which year, making it one of the newest countries in the world?", ch:["2008","2000","1991","1999"], a:0, cat:"📜 History"},
@@ -797,6 +816,7 @@ const COUNTRIES = [
     animal:'White Wagtail', animalEmoji:'🐦', mastername:'Cielava',
     flagColors:['#9E3039','#FFFFFF','#9E3039'],
     intro:"Sveiki! I'm Cielava, Latvia's wagtail! The city of Riga put up the world's first decorated Christmas tree — and Latvia has some of the most beautiful Art Nouveau architecture on Earth!",
+    brief:"Rīga uzstādīja pirmo Ziemassvētku eglīti pasaulē — un Latvijā atrodas daži no skaistākajiem jūgendstila arhitektūras pieminekļiem uz Zemes!",
     funFact:"The world's very first decorated Christmas tree — a tree placed in a public square for people to celebrate around — was put up in Riga, Latvia in 1510, over 500 years ago! 🎄",
     questions:[
       {q:"Riga — Latvia's magnificent capital and largest city in the Baltic States — is famous for having the most beautiful Art Nouveau architecture in Europe. What percentage of Riga's city centre buildings are Art Nouveau?", ch:["About 40% of buildings are Art Nouveau","About 5%","About 20%","About 70%"], a:0, cat:"🏛️ Architecture"},
@@ -825,6 +845,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Adler',
     flagColors:['#002B7F','#CE1126','#FFD700'],
     intro:"Grüezi! I'm Adler, Liechtenstein's eagle! This tiny alpine principality is one of only two doubly-landlocked countries on Earth — and one of the wealthiest nations per person!",
+    brief:"Dieses winzige Fürstentum ist eines von nur zwei doppelt-binnenländischen Ländern der Welt — und eines der reichsten Länder pro Einwohner!",
     funFact:"Liechtenstein and Uzbekistan are the only two 'doubly landlocked' countries in the world — both are surrounded by other landlocked countries! And Liechtenstein is so small you can drive across it in about 15 minutes! 🏔️",
     questions:[
       {q:"Liechtenstein is one of only two 'doubly-landlocked' countries in the world — surrounded by countries that are ALSO landlocked. What is the other doubly-landlocked country?", ch:["Uzbekistan","Switzerland","Austria","Czech Republic"], a:0, cat:"🌍 Geography"},
@@ -853,6 +874,7 @@ const COUNTRIES = [
     animal:'White Stork', animalEmoji:'🦢', mastername:'Gandras',
     flagColors:['#FDB913','#006A44','#C1272D'],
     intro:"Labas! I'm Gandras the stork of Lithuania! Lithuania was once the largest country in Europe — and basketball is practically a religion here!",
+    brief:"Lietuva kadaise buvo didžiausia Europos valstybė — ir krepšinis čia yra beveik kaip religija!",
     funFact:"Basketball is so important in Lithuania that Lithuanian players are celebrated as national heroes — and tiny Lithuania has produced more NBA players per capita than almost any other country! 🏀",
     questions:[
       {q:"Basketball is Lithuania's national sport and passion. Which legendary Lithuanian basketball player — considered one of the greatest European players ever — played for the Portland Trail Blazers in the NBA?", ch:["Arvydas Sabonis","Žydrūnas Ilgauskas","Šarūnas Marčiulionis","Zydrunas Ilgauskas"], a:0, cat:"🏀 Sports"},
@@ -881,6 +903,7 @@ const COUNTRIES = [
     animal:'Red Lion', animalEmoji:'🦁', mastername:'Lion',
     flagColors:['#EF3340','#FFFFFF','#00A3E0'],
     intro:"Moien! I'm Lion, Luxembourg's proud red lion! This tiny Grand Duchy is one of the world's richest countries — and a founding father of the European Union!",
+    brief:"Ce petit Grand-Duché est l'un des pays les plus riches du monde — et l'un des pères fondateurs de l'Union européenne!",
     funFact:"Luxembourg is the world's only remaining Grand Duchy — and it is one of the six founding countries of what became the European Union. Robert Schuman — a Luxembourger — is called 'the Father of Europe'! 🇪🇺",
     questions:[
       {q:"Luxembourg is the world's only remaining Grand Duchy. What does 'Grand Duchy' mean exactly?", ch:["A country ruled by a Grand Duke or Grand Duchess as its monarch","A very grand and large country","A country with a particularly grand parliament building","A former duchy that became a republic"], a:0, cat:"🏛️ Government"},
@@ -909,6 +932,7 @@ const COUNTRIES = [
     animal:'Pharaoh Hound', animalEmoji:'🐕', mastername:'Kelb',
     flagColors:['#FFFFFF','#CF142B','#FFFFFF'],
     intro:"Bonġu! I'm Kelb, Malta's ancient Pharaoh Hound! Malta has the oldest freestanding buildings on Earth — older than Stonehenge AND the Pyramids — on this tiny Mediterranean island!",
+    brief:"Malta għandha l-eqdem binjiet ħielsa fid-dinja — eqdem minn Stonehenge u l-Piramidi — fuq din il-gżira Mediterranja ċkejkna!",
     funFact:"Malta's megalithic temples — built around 3600-2500 BC — are the world's oldest freestanding stone structures, over 1,000 years older than both Stonehenge in England and the Egyptian Pyramids! 🗿",
     questions:[
       {q:"Malta's megalithic temples — like Ġgantija on the island of Gozo — are officially the world's oldest freestanding stone buildings. How old are they?", ch:["About 5,500 years old (built 3600-2500 BC)","About 3,000 years old","About 4,000 years old","About 2,000 years old"], a:0, cat:"🗿 History"},
@@ -937,6 +961,7 @@ const COUNTRIES = [
     animal:'Aurochs', animalEmoji:'🐂', mastername:'Bour',
     flagColors:['#003DA5','#FFD100','#CC0001'],
     intro:"Bună ziua! I'm Bour, the ancient aurochs of Moldova! This tiny wine-loving country has the world's biggest underground wine cellar — with 200 km of tunnels!",
+    brief:"Această mică țară iubitoare de vin are cel mai mare beci subteran din lume — cu 200 de kilometri de tuneluri!",
     funFact:"Moldova's Mileștii Mici wine cellar has over 200 km of underground tunnels holding over 2 million bottles of wine — it holds the Guinness World Record for the world's largest wine collection! 🍷",
     questions:[
       {q:"Moldova's Mileștii Mici underground wine cellar holds the Guinness World Record for the world's largest wine collection. How many bottles does it contain?", ch:["Over 2 million bottles","Over 10 million bottles","About 500,000 bottles","Over 5 million bottles"], a:0, cat:"🍷 Culture"},
@@ -965,6 +990,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Lion',
     flagColors:['#CE1126','#FFFFFF','#CE1126'],
     intro:"Bonjour! I'm Lion, Monaco's proud lion! This tiny city-state is the world's second smallest country AND home to the famous Monaco Grand Prix — the most glamorous race in Formula 1!",
+    brief:"Cette minuscule cité-État est le deuxième plus petit pays du monde et accueille le célèbre Grand Prix de Monaco — la course la plus glamour de Formule 1!",
     funFact:"Monaco has more millionaires per square kilometre than any other place on Earth — and the Monaco Grand Prix is held on its actual public streets, around the harbour and up through the city! 🏎️",
     questions:[
       {q:"The Monaco Grand Prix — one of Formula 1's most glamorous and dangerous races — is unique because it takes place where?", ch:["On Monaco's actual city streets around the harbour (a street circuit)","On a dedicated race track outside Monaco","On a temporary track in the palace gardens","On a motorway temporarily closed to the public"], a:0, cat:"🏎️ Sports"},
@@ -993,6 +1019,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Orao',
     flagColors:['#D4AF37','#D4291F','#003DA5'],
     intro:"Dobrodošli! I'm Orao, Montenegro's golden eagle! Montenegro means 'Black Mountain' — and this dramatic country has both a stunning Adriatic coastline AND wild mountain wilderness in one tiny place!",
+    brief:"Crna Gora znači 'Crna Planina' — i ova dramatična zemlja ima i spektakularnu jadransku obalu i divlju planinsku prirodu na jednom malom prostoru!",
     funFact:"Montenegro's Bay of Kotor — a dramatic winding inlet surrounded by towering limestone mountains — is one of the most beautiful bays in the entire world and is often called 'Europe's most beautiful fjord'! 🏔️",
     questions:[
       {q:"Montenegro means 'Black Mountain' in Italian. This refers to which specific mountain that appears dark and dramatic overlooking the Adriatic coast?", ch:["Mount Lovćen — a dark mountain that dominates the landscape above Kotor","The black rocks of the Budva coast","The shadow cast by all mountains at night","The dark soil of the Zeta valley"], a:0, cat:"🌍 History"},
@@ -1021,6 +1048,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Orel',
     flagColors:['#CE2028','#F7E50F','#CE2028'],
     intro:"Zdravo! I'm Orel, North Macedonia's eagle! The homeland of Alexander the Great AND Mother Teresa — two of the most remarkable people in all of history!",
+    brief:"Татковина на Александар Македонски и Мајка Тереза — двајца од најзначајните луѓе во целата историја!",
     funFact:"Alexander the Great — the ancient world's greatest military commander who conquered an empire from Greece to India — was born in the ancient kingdom of Macedon, in what is now North Macedonia! ⚔️",
     questions:[
       {q:"Alexander the Great — who conquered an enormous empire stretching from Greece to India by age 32 — was born in ancient Macedonia. In which modern North Macedonian city is there a gigantic equestrian statue of him?", ch:["Skopje (a 22-metre statue dominates the main square)","Ohrid","Bitola","Tetovo"], a:0, cat:"📜 History"},
@@ -1049,6 +1077,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Løve',
     flagColors:['#EF2B2D','#FFFFFF','#002868'],
     intro:"Hei! I'm Løve, Norway's lion! Norway has the world's most spectacular fjords, the Northern Lights, and gave the world the Nobel Peace Prize!",
+    brief:"Norge har verdens mest spektakulære fjorder, nordlyset, og ga verden Nobels fredspris!",
     funFact:"Norway has saved all its oil money in a giant national savings fund — the Government Pension Fund — which has grown to over 1 TRILLION dollars, making every Norwegian citizen officially a millionaire (on paper)! 💰",
     questions:[
       {q:"Norway's magnificent fjords — deep narrow inlets carved by glaciers between steep cliffs — are UNESCO World Heritage Sites. The Sognefjord is the world's longest. How long is it?", ch:["204 km long and over 1,300 metres deep","50 km long","100 km long","500 km long"], a:0, cat:"🌊 Nature"},
@@ -1077,6 +1106,7 @@ const COUNTRIES = [
     animal:'White-tailed Eagle', animalEmoji:'🦅', mastername:'Orzeł',
     flagColors:['#FFFFFF','#DC143C','#FFFFFF'],
     intro:"Dzień dobry! I'm Orzeł, Poland's white eagle! Poland gave the world Marie Curie, Copernicus, Chopin, pierogi — and one of the most incredible salt mines you'll ever see!",
+    brief:"Polska dała światu Marię Curie, Kopernika, Chopina, pierogi — i jedną z najbardziej niesamowitych kopalni soli, jakie kiedykolwiek zobaczycie!",
     funFact:"Poland's Wieliczka Salt Mine — with underground chapels, chandeliers and sculptures ALL carved from salt — has been continuously mined since the 13th century and is a UNESCO World Heritage Site! 🧂",
     questions:[
       {q:"Which Polish-French scientist became the first woman ever to win a Nobel Prize — and then won a SECOND Nobel in a different science? She is still the only person in history to win Nobel Prizes in two different scientific fields.", ch:["Marie Curie (Physics 1903, Chemistry 1911)","Irène Joliot-Curie","Lise Meitner","Rosalind Franklin"], a:0, cat:"🔬 Science"},
@@ -1105,6 +1135,7 @@ const COUNTRIES = [
     animal:'Lynx', animalEmoji:'🐈', mastername:'Râs',
     flagColors:['#002B7F','#FCD116','#CE1126'],
     intro:"Bună ziua! I'm Râs, Romania's mysterious lynx! Home of Dracula, the world's first perfect 10 in gymnastics, and Europe's most richly painted monasteries!",
+    brief:"Patria lui Dracula, primul 10 perfect din istoria gimnasticii și cele mai pictate mănăstiri din Europa!",
     funFact:"Nadia Comăneci — from Romania — scored the first PERFECT 10 in Olympic gymnastics history in 1976 — but the scoreboard couldn't display 10.00 so it showed 1.00, confusing everyone in the arena! 🤸",
     questions:[
       {q:"Which Romanian gymnast scored the world's first ever perfect 10.0 in Olympic gymnastics history — at the 1976 Montreal Olympics — aged just 14?", ch:["Nadia Comăneci","Olga Korbut","Larisa Latynina","Daniela Silivaș"], a:0, cat:"🤸 Sports"},
@@ -1133,6 +1164,7 @@ const COUNTRIES = [
     animal:'Apennine Wolf', animalEmoji:'🐺', mastername:'Lupo',
     flagColors:['#5EB6E4','#FFFFFF','#5EB6E4'],
     intro:"Benvenuti! I'm Lupo the wolf of San Marino! I live in the world's oldest republic — founded 1,700 years ago and NEVER conquered since! It sits on a mountaintop inside Italy!",
+    brief:"Vivo nella più antica repubblica del mondo — fondata 1700 anni fa e MAI conquistata da allora, su una vetta dentro l'Italia!",
     funFact:"San Marino is officially the world's oldest republic — founded by the Christian stonemason Saint Marinus on 3 September 301 AD — over 1,700 years ago, making it older than almost every nation on Earth! 🏰",
     questions:[
       {q:"San Marino claims to be the world's oldest republic. In which year was it traditionally founded by Saint Marinus?", ch:["301 AD","476 AD (fall of Rome)","1000 AD","800 AD (Charlemagne's coronation)"], a:0, cat:"📜 History"},
@@ -1161,6 +1193,7 @@ const COUNTRIES = [
     animal:'White Eagle', animalEmoji:'🦅', mastername:'Orao',
     flagColors:['#C6363C','#0C4076','#FFFFFF'],
     intro:"Zdravo! I'm Orao, Serbia's white eagle! Serbia gave the world Nikola Tesla, Novak Djokovic AND one of Europe's most exciting music and nightlife scenes!",
+    brief:"Srbija je dala svetu Nikolu Teslu, Novaka Đokovića i jednu od najuzbudljivijih muzičkih i noćnih scena u Evropi!",
     funFact:"Nikola Tesla — who invented AC electricity, the radio, the remote control and dozens of other technologies that power our modern world — was born in a small Serbian village in 1856! ⚡",
     questions:[
       {q:"Nikola Tesla — whose inventions power almost every electrical device in the modern world — was born in the village of Smiljan in 1856. In which modern country is that village located today?", ch:["Croatia (it was part of the Austrian Empire where ethnic Serbs lived)","Serbia","Bosnia","Hungary"], a:0, cat:"🔬 History"},
@@ -1189,6 +1222,7 @@ const COUNTRIES = [
     animal:'Tatra Chamois', animalEmoji:'🐐', mastername:'Kamzík',
     flagColors:['#FFFFFF','#0B4EA2','#EE1C25'],
     intro:"Ahoj! I'm Kamzík, the Tatra chamois! Slovakia has the world's most amazing cave systems — including ice caves with ice stalactites — and the parent of pop art legend Andy Warhol!",
+    brief:"Slovensko má najúžasnejšie jaskynné systémy na svete — vrátane ľadových jaskýň — a tu sa narodili rodičia ikonického pop-art umelca Andyho Warhola!",
     funFact:"Andy Warhol — the iconic pop artist who painted Marilyn Monroe and Campbell's Soup cans — had parents who emigrated from the tiny Slovak village of Miková in eastern Slovakia! 🎨",
     questions:[
       {q:"Andy Warhol — famous pop artist who created iconic paintings of Marilyn Monroe and Campbell's Soup cans — had parents who emigrated from which Slovak village?", ch:["Miková in eastern Slovakia","Bratislava","Košice","Prešov"], a:0, cat:"🎨 Famous People"},
@@ -1217,6 +1251,7 @@ const COUNTRIES = [
     animal:'Carniolan Honey Bee', animalEmoji:'🐝', mastername:'Čebela',
     flagColors:['#FFFFFF','#003DA5','#EF3340'],
     intro:"Zdravo! I'm Čebela, Slovenia's famous honey bee! Slovenia is Europe's greenest country and birthplace of a famous American First Lady — and the dragon of Ljubljana!",
+    brief:"Slovenija je najbolj zelena dežela v Evropi in rojstni kraj slavne ameriške prve dame — in dom legendarnemu ljubljanskemu zmaju!",
     funFact:"Slovenia is one of the greenest countries in the world — about 58% of its land is forest — and the capital Ljubljana has been carbon-neutral since 2016, the first EU capital to achieve this! 🌲",
     questions:[
       {q:"Lake Bled — Slovenia's most photographed place, with a tiny island church and a castle on a 100-metre cliff above the water — is located in which mountain range?", ch:["The Julian Alps in northwestern Slovenia","The Kamnik-Savinja Alps","The Karavanke range","The Pohorje Hills"], a:0, cat:"🏔️ Nature"},
@@ -1245,6 +1280,7 @@ const COUNTRIES = [
     animal:'Alpine Ibex', animalEmoji:'🐐', mastername:'Steinbock',
     flagColors:['#FF0000','#FFFFFF','#FF0000'],
     intro:"Grüezi! I'm Steinbock, Switzerland's mountain ibex! The land of chocolate, cheese fondue, precision watches, the Alps, Roger Federer — and 500+ years of peaceful neutrality!",
+    brief:"Das Land der Schokolade, des Käsefondues, der Präzisionsuhren, der Alpen, von Roger Federer — und 500 Jahre friedlicher Neutralität!",
     funFact:"Switzerland invented the World Wide Web (the system we use to browse the internet) — British scientist Tim Berners-Lee invented it at CERN in Geneva, Switzerland in 1989! 💻",
     questions:[
       {q:"Switzerland has four official national languages. Which of these is NOT one of Switzerland's official languages?", ch:["Portuguese","German","French","Italian (plus Romansh)"], a:0, cat:"🗣️ Culture"},
@@ -1273,6 +1309,7 @@ const COUNTRIES = [
     animal:'Grey Wolf', animalEmoji:'🐺', mastername:'Kurt',
     flagColors:['#E30A17','#FFFFFF','#E30A17'],
     intro:"Merhaba! I'm Kurt, Turkey's wolf! Turkey straddles two continents — Istanbul is one of the most magnificent cities ever built, capital of three world empires!",
+    brief:"Türkiye iki kıtaya uzanır — İstanbul, üç büyük dünya imparatorluğunun başkenti olmuş en muhteşem şehirlerden biridir!",
     funFact:"Istanbul is the only city in the entire world that sits on two continents — Europe and Asia — separated by the Bosphorus Strait, and has been the capital of the Roman, Byzantine and Ottoman Empires! 🏰",
     questions:[
       {q:"Istanbul — Turkey's most famous city — is the only city in the world that lies on two continents. Which two continents does it span, separated by the Bosphorus Strait?", ch:["Europe and Asia","Europe and Africa","Asia and Africa","Asia and Australia"], a:0, cat:"🌍 Geography"},
@@ -1301,6 +1338,7 @@ const COUNTRIES = [
     animal:'Common Nightingale', animalEmoji:'🐦', mastername:'Solovey',
     flagColors:['#005BBB','#FFD500','#005BBB'],
     intro:"Привіт! I'm Solovey, Ukraine's nightingale! Ukraine has the world's most fertile soil, the most beautiful Easter eggs, and the most resilient people!",
+    brief:"Україна має найродючіший ґрунт у світі, найкрасивіші великодні яйця та найстійкіших людей!",
     funFact:"Ukraine has about a third of the world's most fertile black soil (chernozem) — making it the 'breadbasket of Europe.' Ukraine produces enough wheat to feed 400 million people — and sunflower oil for the entire world! 🌾",
     questions:[
       {q:"Ukraine's famous Pysanka — decorated Easter eggs covered in intricate wax-resist patterns — are one of Ukraine's oldest art forms. How old is this Pysanka tradition?", ch:["Over 2,000 years old (the symbols predate Christianity in Ukraine)","About 500 years old","About 1,000 years old","About 200 years old"], a:0, cat:"🎨 Culture"},
@@ -1329,6 +1367,7 @@ const COUNTRIES = [
     animal:'Papal Dove', animalEmoji:'🕊️', mastername:'Colombo',
     flagColors:['#FFE000','#FFFFFF','#FFE000'],
     intro:"Benvenuto! I'm Colombo, the dove of Vatican City! The world's smallest country — about the size of 44 football pitches — is the spiritual home of over a billion Catholics worldwide!",
+    brief:"Il paese più piccolo del mondo — grande come 44 campi da calcio — è la casa spirituale di oltre un miliardo di cattolici in tutto il mondo!",
     funFact:"Vatican City is the world's smallest country — just 0.44 km² — and it is entirely inside Rome, Italy! Yet it is the spiritual home of 1.3 billion Roman Catholics around the entire world! ⛪",
     questions:[
       {q:"Vatican City is the world's smallest country by both area and population. It is entirely surrounded by which city?", ch:["Rome (the capital of Italy)","Milan","Florence","Naples"], a:0, cat:"🌍 Geography"},
@@ -1363,6 +1402,7 @@ const COUNTRIES = [
     animal:'Giant Panda', animalEmoji:'🐼', mastername:'Bao',
     flagColors:['#DE2910','#FFDE00','#DE2910'],
     intro:"Nǐ hǎo! I'm Bao the Panda of China! China is one of the world's oldest civilizations!",
+    brief:"中国是世界上最古老的文明之一，长城绵延数千公里，令人叹为观止！",
     funFact:"China's Great Wall is so long it would take 18 months to walk from one end to the other! 🧱",
     questions:[
       {q:"China's Great Wall is one of the longest structures ever built. Roughly how long is it from end to end?", ch:["Over 21,000 km","500 km","3,000 km","8,000 km"], a:0, cat:"🏛️ History"},
@@ -1392,6 +1432,7 @@ const COUNTRIES = [
     animal:'Royal Bengal Tiger', animalEmoji:'🐯', mastername:'Raja',
     flagColors:['#FF9933','#FFFFFF','#138808'],
     intro:"Namaste! I'm Raja the Tiger of India! India is the world's largest democracy!",
+    brief:"भारत दुनिया का सबसे बड़ा लोकतंत्र है — और यहाँ शतरंज, शून्य की अवधारणा और योग का आविष्कार हुआ था!",
     funFact:"India invented the number zero, chess, and yoga — pretty impressive, right? 🧘",
     questions:[
       {q:"Which beautiful white marble monument was built by Emperor Shah Jahan as a tomb for his beloved wife, in the city of Agra?", ch:["Taj Mahal","The Parthenon","The Colosseum","The Pyramids"], a:0, cat:"🏛️ Monuments"},
@@ -1421,6 +1462,7 @@ const COUNTRIES = [
     animal:'Japanese Crane', animalEmoji:'🦢', mastername:'Tsuru',
     flagColors:['#FFFFFF','#BC002D','#FFFFFF'],
     intro:"Konnichiwa! I'm Tsuru the Crane of Japan! Japan mixes ancient tradition with modern technology!",
+    brief:"日本は古代の伝統と最新のテクノロジーが融合した国です — 美しいお城と超高速の新幹線が同じ国に共存しています！",
     funFact:"Japan has more than 6,800 islands and over 100 active volcanoes! 🌋",
     questions:[
       {q:"Japan is famous for its super-fast trains. Approximately how fast do Japan's 'Shinkansen' bullet trains travel?", ch:["320 km/h","60 km/h","150 km/h","500 km/h"], a:0, cat:"🚄 Technology"},
@@ -1450,6 +1492,7 @@ const COUNTRIES = [
     animal:'Siberian Tiger', animalEmoji:'🐯', mastername:'Horangi',
     flagColors:['#FFFFFF','#003478','#FFFFFF'],
     intro:"Annyeong! I'm Horangi the Tiger! South Korea gave us K-pop and amazing technology!",
+    brief:"한국은 K팝과 최첨단 기술을 세계에 선사했어요 — 그리고 세계에서 가장 빠른 인터넷 속도를 자랑한답니다!",
     funFact:"South Korea has the fastest internet speeds in the world! 💻",
     questions:[
       {q:"South Korea is famous for its hugely popular music style that has fans in every country on Earth. What is it called?", ch:["K-Pop","J-Pop","Afrobeats","Reggae"], a:0, cat:"🎵 Music"},
@@ -1508,6 +1551,7 @@ const COUNTRIES = [
     animal:'Komodo Dragon', animalEmoji:'🦎', mastername:'Drago',
     flagColors:['#CE1126','#FFFFFF','#CE1126'],
     intro:"Halo! I'm Drago the Komodo Dragon! Indonesia is the world's biggest island nation!",
+    brief:"Indonesia adalah negara kepulauan terbesar di dunia — dengan lebih dari 17.000 pulau dan kadal terbesar di dunia, sang Komodo!",
     funFact:"Indonesia has over 17,000 islands and is home to the world's largest lizard — the Komodo Dragon! 🦎",
     questions:[
       {q:"Indonesia is home to the world's largest Buddhist temple, built over 1,200 years ago on the island of Java. What is it called?", ch:["Borobudur","Angkor Wat","Shwedagon","Prambanan"], a:0, cat:"🏛️ History"},
@@ -1537,6 +1581,7 @@ const COUNTRIES = [
     animal:'Peregrine Falcon', animalEmoji:'🦅', mastername:'Falco',
     flagColors:['#00732F','#FFFFFF','#000000'],
     intro:"Marhaba! I'm Falco the Falcon of UAE! Dubai has the world's tallest buildings!",
+    brief:"دبي تحتضن أطول المباني في العالم — وهذا البلد موطن لبعض من أعجب العجائب المعمارية في التاريخ!",
     funFact:"The Burj Khalifa in Dubai is 828 metres tall — it has 163 floors! 🏙️",
     questions:[
       {q:"The world's tallest skyscraper — with 163 floors and standing 828 metres tall — is in the city of Dubai. What is it called?", ch:["Burj Khalifa","Empire State Building","CN Tower","Petronas Towers"], a:0, cat:"🏙️ Architecture"},
@@ -1566,6 +1611,7 @@ const COUNTRIES = [
     animal:'Water Buffalo', animalEmoji:'🐃', mastername:'Trau',
     flagColors:['#DA251D','#FFFF00','#DA251D'],
     intro:"Xin chào! I'm Trau the Buffalo of Vietnam! Vietnam is a land of incredible beauty!",
+    brief:"Việt Nam là đất nước có vẻ đẹp tuyệt vời — Vịnh Hạ Long với gần 2.000 đảo đá vôi nhô lên khỏi mặt biển như một câu chuyện cổ tích!",
     funFact:"Ha Long Bay in Vietnam has nearly 2,000 limestone islands rising from the sea — it looks like a fairy tale! ⛵",
     questions:[
       {q:"Vietnam's most stunning natural wonder has nearly 2,000 dramatic limestone islands rising from turquoise water. What is it called?", ch:["Ha Long Bay","Manila Bay","Tokyo Bay","Shark Bay"], a:0, cat:"🏝️ Nature"},
@@ -1744,6 +1790,7 @@ const COUNTRIES = [
     animal:'Lion', animalEmoji:'🦁', mastername:'Simba',
     flagColors:['#006600','#BB0000','#FFFFFF'],
     intro:"Jambo! I'm Simba the Lion of Kenya! Kenya is home to the world's greatest wildlife safari!",
+    brief:"Kenya ni nyumbani kwa safari ya wanyamapori ya kupendeza zaidi duniani — na pia ni nchi ya wapiganaji wa mbio kama Eliud Kipchoge!",
     funFact:"Kenyan marathon runner Eliud Kipchoge was the first human to run a full marathon in under 2 hours! 🏃",
     questions:[
       {q:"Kenya is one of the world's top producers of which refreshing drink, enjoyed by millions every morning worldwide?", ch:["Tea","Coffee","Cocoa","Orange Juice"], a:0, cat:"🍵 Food"},
@@ -1773,6 +1820,7 @@ const COUNTRIES = [
     animal:'Barbary Lion', animalEmoji:'🦁', mastername:'Atlas',
     flagColors:['#C1272D','#006233','#C1272D'],
     intro:"Merhba! I'm Atlas the Lion of Morocco! Gateway between Africa and Europe!",
+    brief:"المغرب هو البوابة الذهبية بين أفريقيا وأوروبا — وتحتضن مدينة فاس أقدم جامعة في العالم، أُسست عام 859 ميلادي!",
     funFact:"Morocco's city of Fes has the world's oldest university — founded in the year 859 AD! 📚",
     questions:[
       {q:"Morocco's city of Fes is home to the world's oldest continuously operating university, founded in 859 AD. What is it called?", ch:["University of al-Qarawiyyin","Oxford University","Bologna University","Harvard University"], a:0, cat:"🎓 History"},
@@ -1860,6 +1908,7 @@ const COUNTRIES = [
     animal:'Giraffe', animalEmoji:'🦒', mastername:'Twiga',
     flagColors:['#1EB53A','#FCD116','#00A3DD'],
     intro:"Karibu! I'm Twiga the Giraffe of Tanzania! Home to Africa's highest mountain!",
+    brief:"Tanzania ni nyumbani kwa mlima mrefu zaidi barani Afrika — Kilimanjaro — na kwa Serengeti maarufu duniani kote!",
     funFact:"The Serengeti in Tanzania hosts the world's largest land animal migration — over 1.5 million wildebeest! 🦓",
     questions:[
       {q:"Which is the tallest mountain in ALL of Africa, located in Tanzania and often called the 'Roof of Africa'?", ch:["Mount Kilimanjaro","Mount Kenya","Mount Elgon","Mount Cameroon"], a:0, cat:"🏔️ Nature"},
@@ -1951,6 +2000,7 @@ const COUNTRIES = [
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Quetzal',
     flagColors:['#006847','#FFFFFF','#CE1126'],
     intro:"¡Hola amigo! I'm Quetzal the Eagle of Mexico! Land of ancient pyramids and amazing food!",
+    brief:"¡Tierra de pirámides antiguas y comida increíble — los mayas y los aztecas construyeron pirámides tan grandes como las de Egipto!",
     funFact:"The ancient Mayans and Aztecs built incredible pyramids in Mexico — some are as big as those in Egypt! 🌮",
     questions:[
       {q:"Which ancient Mayan pyramid in Mexico — one of the New Seven Wonders of the World — served as a temple and a calendar?", ch:["Chichen Itza","Teotihuacan","Machu Picchu","Angkor Wat"], a:0, cat:"🏛️ History"},
@@ -2009,6 +2059,7 @@ const COUNTRIES = [
     animal:'Cuban Trogon', animalEmoji:'🐦', mastername:'Tocoro',
     flagColors:['#002A8F','#FFFFFF','#CC0000'],
     intro:"¡Saludos! I'm Tocoro the Trogon of Cuba! Cuba is an island of music and rhythm!",
+    brief:"¡Cuba es una isla de música y ritmo — y las calles de La Habana están llenas de coloridos autos antiguos de los años 50!",
     funFact:"Cuba's capital Havana has beautifully colourful vintage cars from the 1950s still driving around today! 🚗",
     questions:[
       {q:"Cuba is the LARGEST island in the Caribbean Sea. In which sea is Cuba located?", ch:["The Caribbean Sea","The Pacific Ocean","The Atlantic Ocean","The Gulf of Mexico"], a:0, cat:"🏝️ Geography"},
@@ -2042,6 +2093,7 @@ const COUNTRIES = [
     animal:'Jaguar', animalEmoji:'🐆', mastername:'Onça',
     flagColors:['#009B3A','#FEDF00','#002776'],
     intro:"Olá! I'm Onça the Jaguar of Brazil! Brazil has the largest rainforest on Earth!",
+    brief:"O Brasil tem a maior floresta tropical da Terra — a Amazônia — e é o único país da América do Sul que fala português!",
     funFact:"Brazil is the only country in South America where Portuguese is the official language — everyone else speaks Spanish! 🌴",
     questions:[
       {q:"Brazil is home to the world's largest rainforest — the 'lungs of the Earth'. What is it called?", ch:["The Amazon Rainforest","The Congo Rainforest","The Borneo Rainforest","The Daintree Rainforest"], a:0, cat:"🌿 Nature"},
@@ -2071,6 +2123,7 @@ const COUNTRIES = [
     animal:'Rufous Hornero', animalEmoji:'🐦', mastername:'Maradona',
     flagColors:['#74ACDF','#FFFFFF','#74ACDF'],
     intro:"¡Hola! I'm Maradona the Hornero Bird of Argentina! Home of tango and football legends!",
+    brief:"¡Cuna del tango y de leyendas del fútbol — Lionel Messi es considerado uno de los mejores futbolistas de todos los tiempos!",
     funFact:"Argentina's Lionel Messi is considered one of the greatest footballers of all time, having won 8 Ballon d'Or awards! ⚽",
     questions:[
       {q:"Which legendary Argentine footballer has won more Ballon d'Or awards (for world's best player) than anyone else?", ch:["Lionel Messi","Cristiano Ronaldo","Diego Maradona","Gabriel Batistuta"], a:0, cat:"⚽ Sports"},
@@ -2100,6 +2153,7 @@ const COUNTRIES = [
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Condor',
     flagColors:['#FCD116','#003087','#CE1126'],
     intro:"¡Bienvenidos! I'm Condor the Andean Condor of Colombia! Coffee capital of the world!",
+    brief:"¡Colombia es el segundo mayor productor de café del mundo — y los colombianos se toman su café muy en serio!",
     funFact:"Colombia is the world's second-largest producer of coffee — Colombians take their coffee VERY seriously! ☕",
     questions:[
       {q:"Colombia is the world's second-largest producer of which popular hot drink, enjoyed worldwide every morning?", ch:["Coffee","Tea","Cocoa","Hot Chocolate"], a:0, cat:"☕ Culture"},
@@ -2129,6 +2183,7 @@ const COUNTRIES = [
     animal:'Vicuña', animalEmoji:'🦙', mastername:'Inca',
     flagColors:['#D91023','#FFFFFF','#D91023'],
     intro:"Rimaykullayki! I'm Inca the Vicuña of Peru! Ancient Incan wonders await you!",
+    brief:"¡Las maravillas del Imperio Inca te esperan — Machu Picchu fue construida en 1450 y permaneció oculta del mundo hasta 1911!",
     funFact:"Machu Picchu in Peru was built by the Inca Empire around 1450 AD and was hidden from the world until 1911! 🏔️",
     questions:[
       {q:"The mysterious ancient Incan city, perched high in the Andes Mountains and rediscovered in 1911, is called...", ch:["Machu Picchu","Chichen Itza","Angkor Wat","Petra"], a:0, cat:"🏛️ History"},
@@ -2158,6 +2213,7 @@ const COUNTRIES = [
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Viento',
     flagColors:['#D52B1E','#FFFFFF','#0039A6'],
     intro:"¡Hola! I'm Viento the Condor of Chile! Chile is the world's longest country!",
+    brief:"¡Chile es el país más largo del mundo — y el Desierto de Atacama es el lugar más seco de la Tierra, donde en algunas zonas jamás ha llovido!",
     funFact:"The Atacama Desert in Chile is the driest place on Earth — some areas there have NEVER recorded any rain! 🌵",
     questions:[
       {q:"Chile holds a unique geographical record — it stretches an incredible 4,300 km from north to south. What record does it hold?", ch:["World's longest country","World's highest country","World's widest country","World's wettest country"], a:0, cat:"🌍 Geography"},
@@ -2187,6 +2243,7 @@ const COUNTRIES = [
     animal:'Troupial', animalEmoji:'🐦', mastername:'Troupi',
     flagColors:['#CF142B','#00247D','#009E60'],
     intro:"¡Buenas! I'm Troupi the Troupial Bird of Venezuela! Home of the world's tallest waterfall!",
+    brief:"¡Venezuela es el hogar del Salto Ángel — la cascada más alta del mundo, que cae 979 metros, mucho más alta que la Torre Eiffel!",
     funFact:"Angel Falls in Venezuela is the world's tallest waterfall — it drops 979 metres! That's taller than the Eiffel Tower by a LOT! 🌊",
     questions:[
       {q:"Angel Falls in Venezuela is the world's tallest waterfall. How high does it drop — compared to the Eiffel Tower (330m)?", ch:["979 metres — nearly 3× the Eiffel Tower!","200 metres","50 metres","1,500 metres"], a:0, cat:"🌊 Nature"},

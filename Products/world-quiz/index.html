@@ -1543,59 +1543,28 @@
     const _escXml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     // Build SSML — phrasesOverride lets callers pass a subset of phrases
-    // (used to split intro vs closing into separate audio segments).
-    // Phrases with forceEng:true (the country brief for non-English locales) are voiced
-    // by an English speaker so language stays consistent mid-intro.
+    // (used to split intro vs closing into separate audio segments)
     function _buildSSML(country, phrasesOverride) {
       const male = _isMale(country.animalEmoji);
       const { locale, voice } = _azureVoice(country.id, male);
-      const engVoice = male ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
       const phrases = phrasesOverride ?? _buildPhrases(country);
-
-      // Group consecutive phrases by target voice so we can emit multiple <voice> blocks.
-      const groups = [];
-      for (const p of phrases) {
-        const pv = (p.forceEng && voice !== engVoice) ? engVoice : voice;
-        const last = groups[groups.length - 1];
-        if (!last || last.v !== pv) groups.push({ v: pv, ps: [] });
-        groups[groups.length - 1].ps.push(p);
-      }
-
-      const blocks = groups.map((g, gi) => {
-        const isLastGroup = gi === groups.length - 1;
-        const lines = g.ps.map((p, i) => {
-          const rate = `${Math.round((p.rate - 1) * 100)}%`; // 0.78 → "-22%"
-          // forceEng phrases (English brief inside a native-language track) are deliberately
-          // softened so they blend with the 20%-volume whisper track rather than blaring at 100%.
-          const vol = p.forceEng ? ' volume="soft"' : '';
-          const isLastInGroup = i === g.ps.length - 1;
-          const br = (!isLastInGroup || !isLastGroup) ? '\n    <break time="150ms"/>' : '';
-          return `    <prosody rate="${rate}"${vol}>${_escXml(p.text)}</prosody>${br}`;
-        }).join('\n');
-        return `  <voice name="${g.v}">\n${lines}\n  </voice>`;
+      const body = phrases.map((p, i) => {
+        const rate = `${Math.round((p.rate - 1) * 100)}%`; // 0.78 → "-22%"
+        const br = i < phrases.length - 1 ? '\n    <break time="150ms"/>' : '';
+        return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
       }).join('\n');
-
-      return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${locale}">\n${blocks}\n</speak>`;
+      return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${locale}"><voice name="${voice}">\n${body}\n  </voice></speak>`;
     }
 
     // Build English SSML for the faint background whisper track.
     // Always uses en-US with a gender-matched voice — the same phrases spoken in English
     // simultaneously at low volume so kids can follow along when the main voice is non-English.
-    // Phrases flagged forceEng in the native track are already spoken in English by the main
-    // track, so we substitute a timed silence here to keep timing aligned and avoid doubling.
     function _buildWhisperSSML(country) {
       const male = _isMale(country.animalEmoji);
       const voice = male ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
-      const nativePhrases = _buildPhrases(country, false); // to detect forceEng positions
       const phrases = _buildPhrases(country, true); // forceEnglish: English text for all
       const body = phrases.map((p, i) => {
         const br = i < phrases.length - 1 ? '\n    <break time="150ms"/>' : '';
-        if (nativePhrases[i]?.forceEng) {
-          // Estimate spoken duration (words / 110wpm at 0.76× rate) so downstream
-          // phrases (e.g. the closing line) stay in sync with the main track.
-          const ms = Math.round(p.text.split(/\s+/).length / 110 * 60 * 1000);
-          return `    <break time="${ms}ms"/>${br}`;
-        }
         const rate = `${Math.round((p.rate - 1) * 100)}%`;
         return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
       }).join('\n');
@@ -1642,8 +1611,9 @@
     //   greeting             → optional native-script override for the auto-extracted greeting
     //                          (used when c.intro has a romanised Latin transliteration that
     //                          the native voice would mispronounce, e.g. "Nǐ hǎo!" → "你好！")
-    // English brief from c.intro is always skipped for non-English locales (language mismatch
-    // sounds jarring when a French voice reads an English sentence mid-intro).
+    // Country brief for non-English locales comes from c.brief (native language field on the
+    // country object). Countries without c.brief (e.g. France, whose intro has no real fact)
+    // produce no brief phrase. The English whisper always uses parts[2] from c.intro.
     const _LOCALE_PHRASES = {
       // ── Europe ────────────────────────────────────────────────────────────
       'nl-NL': { master: (n)    => `Ik ben ${n}, jouw quizmaster vandaag!`,                  close: 'Kom op, laten we beginnen!'   },
@@ -1721,13 +1691,16 @@
       // c.intro pattern: "[Greeting]! I'm [Name] the [Animal] of [Country]! [Brief]!"
       // Split on "!" to extract greeting (parts[0]) and country brief (parts[2]).
       const parts = _stripEmoji(c.intro).split('!').map(s => s.trim()).filter(Boolean);
-      // Use locale's native-script greeting if defined (e.g. "你好！" instead of "Nǐ hǎo!").
-      // Otherwise strip leading inverted punctuation (¡ ¿) — Azure English voices skip or
-      // stumble on them, causing the whole greeting phrase to be dropped silently.
-      const brief = parts[2] ? parts[2].replace(/\.$/, '') + '.' : '';
 
       // Use locale-specific translated phrases when a non-English Azure voice is active.
       const lp = !forceEnglish && _LOCALE_PHRASES[locale];
+
+      // brief: for non-English native locales use the country's native-language c.brief field;
+      // for English locales (or forceEnglish whisper) fall back to the English parts[2].
+      // Countries without c.brief (e.g. France whose parts[2] is a call-to-action) produce
+      // an empty string → no brief phrase spoken in the native track.
+      const briefEng = parts[2] ? parts[2].replace(/\.$/, '') + '.' : '';
+      const brief = lp ? (c.brief ? c.brief.replace(/\.$/, '') + '.' : '') : briefEng;
 
       const greeting = lp?.greeting ?? ((parts[0] ?? 'Hello').replace(/^[¡¿]+/, '') + '!');
 
@@ -1747,9 +1720,7 @@
       // Each phrase is a separate utterance so the engine breathes between them.
       out.push({ text: greeting,    pitch: p, rate: 0.72 }); // deliberate, weighted opener
       out.push({ text: masterLine,  pitch: p, rate: 0.78 }); // warm self-introduction
-      // Brief: always included. For non-English native locales, _buildSSML will switch to an
-      // English voice for just this phrase so language stays consistent.
-      if (brief) out.push({ text: brief, pitch: p, rate: 0.76, forceEng: !!(lp && !locale.startsWith('en-')) }); // calm country tease
+      if (brief) out.push({ text: brief, pitch: p, rate: 0.76 }); // calm country tease
       out.push({ text: close,       pitch: p, rate: 0.82 }); // energetic but still measured
       return out;
     }
