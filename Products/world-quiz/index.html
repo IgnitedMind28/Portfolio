@@ -1581,13 +1581,22 @@
     // Build English SSML for the faint background whisper track.
     // Always uses en-US with a gender-matched voice — the same phrases spoken in English
     // simultaneously at low volume so kids can follow along when the main voice is non-English.
+    // Phrases flagged forceEng in the native track are already spoken in English by the main
+    // track, so we substitute a timed silence here to keep timing aligned and avoid doubling.
     function _buildWhisperSSML(country) {
       const male = _isMale(country.animalEmoji);
       const voice = male ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
-      const phrases = _buildPhrases(country, true); // forceEnglish: skip translations
+      const nativePhrases = _buildPhrases(country, false); // to detect forceEng positions
+      const phrases = _buildPhrases(country, true); // forceEnglish: English text for all
       const body = phrases.map((p, i) => {
-        const rate = `${Math.round((p.rate - 1) * 100)}%`;
         const br = i < phrases.length - 1 ? '\n    <break time="150ms"/>' : '';
+        if (nativePhrases[i]?.forceEng) {
+          // Estimate spoken duration (words / 110wpm at 0.76× rate) so downstream
+          // phrases (e.g. the closing line) stay in sync with the main track.
+          const ms = Math.round(p.text.split(/\s+/).length / 110 * 60 * 1000);
+          return `    <break time="${ms}ms"/>${br}`;
+        }
+        const rate = `${Math.round((p.rate - 1) * 100)}%`;
         return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
       }).join('\n');
       return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="${voice}">\n${body}\n  </voice></speak>`;
