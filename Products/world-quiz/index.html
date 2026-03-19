@@ -1874,13 +1874,36 @@
     }
 
     // Egg layout: normalized (x,y) positions within the basket circle (-1 to +1)
-    const EGG_POS = [
-      [ 0.00,  0.00], [ 0.50, -0.30], [-0.50, -0.30],
-      [ 0.50,  0.30], [-0.50,  0.30], [ 0.00, -0.58],
-      [ 0.00,  0.58], [ 0.62,  0.00], [-0.62,  0.00],
-      [ 0.28, -0.55],
-    ];
-    const EGG_ROT = [15, -28, 22, -18, 25, -8, 18, -32, 12, -22];
+    // Dynamic concentric-ring layout — works for any egg count
+    function _genEggLayout(n, Rx, Ry) {
+      const eW = n > 30 ? 54 : n > 15 ? 64 : 76;
+      const eH = n > 30 ? 40 : n > 15 ? 48 : 56;
+      const rings = [
+        {r:0.00, cap:1 },
+        {r:0.30, cap:6 },
+        {r:0.55, cap:11},
+        {r:0.76, cap:16},
+        {r:0.90, cap:20},
+      ];
+      const layout = [];
+      let placed = 0;
+      for (let ri = 0; ri < rings.length && placed < n; ri++) {
+        const {r, cap} = rings[ri];
+        const cnt = Math.min(cap, n - placed);
+        const phase = ri * 0.45;
+        for (let i = 0; i < cnt; i++) {
+          const a = (2 * Math.PI * i / cnt) + phase;
+          layout.push({
+            left: Math.round(Rx + (r === 0 ? 0 : r * Rx * 0.82 * Math.cos(a)) - eW / 2),
+            top:  Math.round(Ry + (r === 0 ? 0 : r * Ry * 0.82 * Math.sin(a)) - eH / 2),
+            rot:  Math.round(-30 + (placed * 19) % 60),
+            eW, eH,
+          });
+          placed++;
+        }
+      }
+      return layout;
+    }
 
     function initBasket() {
       const circle = document.getElementById('basket-circle');
@@ -1892,12 +1915,13 @@
 
       // ── Position & rotate eggs ──
       const eggs = circle.querySelectorAll('.game-egg');
+      const layout = _genEggLayout(eggs.length, Rx, Ry);
       eggs.forEach((egg, i) => {
-        const [px, py] = EGG_POS[i % EGG_POS.length];
-        const rot = EGG_ROT[i % EGG_ROT.length];
-        const eW = 76, eH = 56;
-        egg.style.left      = Math.round(Rx + px * Rx * 0.62 - eW / 2) + 'px';
-        egg.style.top       = Math.round(Ry + py * Ry * 0.62 - eH / 2) + 'px';
+        const {left, top, rot, eW, eH} = layout[i] || layout[0];
+        egg.style.width     = eW + 'px';
+        egg.style.height    = eH + 'px';
+        egg.style.left      = left + 'px';
+        egg.style.top       = top  + 'px';
         egg.style.transform = `rotate(${rot}deg)`;
         egg.style.setProperty('--egg-rot', `rotate(${rot}deg)`);
       });
