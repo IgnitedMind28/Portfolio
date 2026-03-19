@@ -345,7 +345,7 @@ const COUNTRIES = [
       {n:'Skanderbeg', r:'National Hero & Resistance Commander', e:'⚔️'},
       {n:'Mother Teresa', r:'Nobel Peace Prize · Albanian Descent', e:'🕊️'},
       {n:'Ismail Kadare', r:"Albania's Greatest Novelist", e:'✍️'},
-      {n:'Erjon Bogdani', r:"Albania's All-Time Top Goalscorer", e:'⚽'},
+      {n:'Inva Mula', r:'Opera Singer · Voice of The Fifth Element', e:'🎵'},
       {n:'Eliza Dushku', r:'Hollywood Actress', e:'🎬'},
     ]
   },
@@ -375,7 +375,7 @@ const COUNTRIES = [
       {n:'Marc Bernaus', r:'Paralympic Alpine Ski Champion', e:'⛷️'},
       {n:'Oscar Ribas Reig', r:"Andorra's First Head of Government", e:'🏛️'},
       {n:'Juli Minoves', r:'Andorran Diplomat & Foreign Minister', e:'🌍'},
-      {n:'Joan Martí Alanis', r:'Co-Prince of Andorra (Bishop)', e:'⛪'},
+      {n:'Antoni Martí', r:'Prime Minister of Andorra 2011–2019', e:'🏛️'},
     ]
   },
 
@@ -577,7 +577,7 @@ const COUNTRIES = [
       {n:'Zeno of Citium', r:'Founder of Stoic Philosophy', e:'🔬'},
       {n:'Archbishop Makarios III', r:'First President of Cyprus', e:'🕊️'},
       {n:'George Michael', r:'Global Pop Superstar · Cypriot Heritage', e:'🎵'},
-      {n:'Marinos Ouzounidis', r:"Cyprus's Most Capped Footballer", e:'⚽'},
+      {n:'Anna Vissi', r:'Greek-Cypriot Pop Superstar', e:'🎵'},
       {n:'Joseph Calleja', r:'World-Renowned Opera Singer', e:'🎵'},
     ]
   },
@@ -864,7 +864,7 @@ const COUNTRIES = [
     ],
     celebs:[
       {n:'Prince Hans-Adam II', r:'Reigning Prince of Liechtenstein', e:'👑'},
-      {n:'Hanni Wenzel', r:'Olympic Alpine Ski Gold Medallist', e:'⛷️'},
+      {n:'Prince Alois', r:'Hereditary Prince of Liechtenstein', e:'👑'},
       {n:'Andreas Wenzel', r:'Olympic Alpine Ski Silver Medallist', e:'⛷️'},
       {n:'Marco Büchel', r:'World Cup Alpine Ski Racer', e:'🎿'},
       {n:'Peter Kaiser', r:'Pioneering Liechtenstein Historian', e:'📚'},
@@ -982,7 +982,7 @@ const COUNTRIES = [
       {n:'Natalia Gordienko', r:'Eurovision Star & Pop Singer', e:'🎤'},
       {n:'Maria Cibotari', r:'World-Renowned Opera Singer', e:'🎵'},
       {n:'Ion Druță', r:"Moldova's Greatest Playwright & Novelist", e:'✍️'},
-      {n:'Serghei Bobrescu', r:'Olympic Rower', e:'🚣'},
+      {n:'Mihai Eminescu', r:"Romania & Moldova's National Poet", e:'✍️'},
       {n:'Alexandra Kosteniuk', r:'Women\'s World Chess Champion', e:'♟️'},
     ]
   },
@@ -1184,8 +1184,8 @@ const COUNTRIES = [
     celebs:[
       {n:'Saint Marinus', r:'Founder of the Republic of San Marino (301 AD)', e:'⛪'},
       {n:'Federico Crescentini', r:"San Marino's Football Top Scorer", e:'⚽'},
-      {n:'Diana Rondelli', r:'San Marino Athlete & Olympian', e:'🏅'},
-      {n:'Mauro Maiani', r:'San Marino Olympic Shooting Champion', e:'🎯'},
+      {n:'Valentina Monetta', r:'Eurovision Singer · 4× San Marino Rep', e:'🎤'},
+      {n:'Gianluca Rocchi', r:'FIFA International Football Referee', e:'⚽'},
       {n:'Moreno Torri', r:'Legendary Captain Regent of San Marino', e:'🏛️'},
     ]
   },
@@ -1602,7 +1602,7 @@ const COUNTRIES = [
       {n:'Sheikh Zayed Al Nahyan', r:'Founding Father of the UAE', e:'👑'},
       {n:'Mohammed bin Rashid', r:'Builder of Modern Dubai', e:'🏙️'},
       {n:'Ali Hassan Salim', r:'UAE Football Legend', e:'⚽'},
-      {n:'Hessa Al Ajou', r:'Pioneer Visual Artist', e:'🎨'},
+      {n:'Sultan Al Neyadi', r:'UAE Astronaut · 6 Months on the ISS', e:'🚀'},
       {n:'Sara Al Amiri', r:'UAE Mars Mission Lead Scientist', e:'🚀'},
       {n:'Noura Al Kaabi', r:'First UAE Minister of Culture', e:'🏛️'},
     ]
@@ -1783,7 +1783,7 @@ const COUNTRIES = [
       {n:'Jay-Jay Okocha', r:'Greatest Nigerian Footballer', e:'⚽'},
       {n:'Davido', r:'Afrobeats Global Superstar', e:'🎵'},
       {n:'Ngozi Okonjo-Iweala', r:'Head of World Trade Organization', e:'🏛️'},
-      {n:'Chioma Ajunwa', r:'Nigeria\'s First Olympic Gold', e:'🏃'},
+      {n:'Chimamanda Ngozi Adichie', r:'Novelist & Global Literary Icon', e:'✍️'},
     ]
   },
 
@@ -1812,8 +1812,8 @@ const COUNTRIES = [
       {n:'Wangari Maathai', r:'Nobel Peace Prize · Environmentalist', e:'🌱'},
       {n:'Lupita Nyong\'o', r:'Oscar-Winning Actress', e:'🎬'},
       {n:'Wilson Kipketer', r:'800m World Record Holder', e:'🏃'},
-      {n:'John Ngugi', r:'Five-Time World Cross Country Champion', e:'🏃'},
-      {n:'Fatuma Roba', r:'Olympic Marathon Champion', e:'🥇'},
+      {n:'Catherine Ndereba', r:'4× Boston Marathon Champion', e:'🏃'},
+      {n:'David Rudisha', r:'800m World Record Holder', e:'🏃'},
     ]
   },
 
@@ -2383,10 +2383,10 @@ const COUNTRIES = [
     celebs:[
       {n:'Grand Chief Michael Somare', r:'Father of the Nation · First PM', e:'🏛️'},
       {n:'Toea Wisil', r:"Pacific Games Sprint Champion", e:'🏃'},
-      {n:'Dika Toua', r:'First PNG Olympic Medalist', e:'🏋️'},
+      {n:'Mekere Morauta', r:'Prime Minister of PNG 1999–2002', e:'🏛️'},
       {n:'Peter O\'Neill', r:'Prime Minister', e:'🏛️'},
-      {n:'Karo Paxa', r:'Weightlifting Champion', e:'🏋️'},
-      {n:'Steven Pirika Kamma', r:'Arts & Culture Pioneer', e:'🎭'},
+      {n:'James Marape', r:'Prime Minister of Papua New Guinea', e:'🏛️'},
+      {n:'Justin Tkatchenko', r:'PNG Foreign Minister & Olympian', e:'🏛️'},
     ]
   },
 
@@ -2415,7 +2415,7 @@ const COUNTRIES = [
     celebs:[
       {n:'Peter Kenilorea', r:'First Prime Minister of Solomon Islands', e:'🏛️'},
       {n:'Manasseh Sogavare', r:'Longest-Serving Prime Minister', e:'🏛️'},
-      {n:'Francis Billy Hilly', r:'Former Prime Minister', e:'🏛️'},
+      {n:'Jeremiah Manele', r:'Prime Minister of Solomon Islands', e:'🏛️'},
       {n:'Bartholomew Ulufa\'alu', r:'Prime Minister & Democracy Advocate', e:'🏛️'},
       {n:'Ben Totori', r:'Solomon Islands Football Captain', e:'⚽'},
     ]
@@ -2443,7 +2443,7 @@ const COUNTRIES = [
     celebs:[
       {n:'Walter Lini', r:'Father of the Nation · First Prime Minister', e:'🏛️'},
       {n:'Grace Mera Molisa', r:'Poet & Champion of Women\'s Rights', e:'✍️'},
-      {n:'Maxime Carlot Korman', r:'Prime Minister & Independence Leader', e:'🏛️'},
+      {n:'Bob Loughman', r:'Prime Minister of Vanuatu 2020–2022', e:'🏛️'},
       {n:'Ralph Regenvanu', r:'Cultural Hero & Politician', e:'🎭'},
       {n:'Charlot Salwai', r:'Prime Minister of Vanuatu', e:'🏛️'},
     ]
@@ -2471,7 +2471,7 @@ const COUNTRIES = [
     celebs:[
       {n:'David Tua', r:'World Heavyweight Boxing Contender', e:'🥊'},
       {n:'Va\'aiga Tuigamala', r:'Rugby Union & League Star', e:'🏉'},
-      {n:'Peter Fatialofa', r:'Rugby World Cup Captain', e:'🏉'},
+      {n:'Alesana Tuilagi', r:'Samoan Rugby International Star', e:'🏉'},
       {n:'Pat Lam', r:'Rugby Player & International Coach', e:'🏉'},
       {n:'Fiame Naomi Mata\'afa', r:'First Female Prime Minister of Samoa', e:'🏛️'},
     ]
@@ -2499,7 +2499,6 @@ const COUNTRIES = [
     celebs:[
       {n:'Anote Tong', r:'President & Global Climate Change Champion', e:'🌊'},
       {n:'Ieremia Tabai', r:'First President of Kiribati', e:'🏛️'},
-      {n:'David Katoatau', r:'Olympic Weightlifter · The Dancing Weightlifter', e:'🏋️'},
       {n:'Teburoro Tito', r:'President of Kiribati', e:'🏛️'},
       {n:'Taneti Maamau', r:'President of Kiribati', e:'🏛️'},
     ]
