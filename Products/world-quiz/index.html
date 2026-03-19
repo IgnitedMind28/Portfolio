@@ -1543,17 +1543,36 @@
     const _escXml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     // Build SSML — phrasesOverride lets callers pass a subset of phrases
-    // (used to split intro vs closing into separate audio segments)
+    // (used to split intro vs closing into separate audio segments).
+    // Phrases with forceEng:true (the country brief for non-English locales) are voiced
+    // by an English speaker so language stays consistent mid-intro.
     function _buildSSML(country, phrasesOverride) {
       const male = _isMale(country.animalEmoji);
       const { locale, voice } = _azureVoice(country.id, male);
+      const engVoice = male ? 'en-US-GuyNeural' : 'en-US-JennyNeural';
       const phrases = phrasesOverride ?? _buildPhrases(country);
-      const body = phrases.map((p, i) => {
-        const rate = `${Math.round((p.rate - 1) * 100)}%`; // 0.78 → "-22%"
-        const br = i < phrases.length - 1 ? '\n    <break time="150ms"/>' : '';
-        return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
+
+      // Group consecutive phrases by target voice so we can emit multiple <voice> blocks.
+      const groups = [];
+      for (const p of phrases) {
+        const pv = (p.forceEng && voice !== engVoice) ? engVoice : voice;
+        const last = groups[groups.length - 1];
+        if (!last || last.v !== pv) groups.push({ v: pv, ps: [] });
+        groups[groups.length - 1].ps.push(p);
+      }
+
+      const blocks = groups.map((g, gi) => {
+        const isLastGroup = gi === groups.length - 1;
+        const lines = g.ps.map((p, i) => {
+          const rate = `${Math.round((p.rate - 1) * 100)}%`; // 0.78 → "-22%"
+          const isLastInGroup = i === g.ps.length - 1;
+          const br = (!isLastInGroup || !isLastGroup) ? '\n    <break time="150ms"/>' : '';
+          return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
+        }).join('\n');
+        return `  <voice name="${g.v}">\n${lines}\n  </voice>`;
       }).join('\n');
-      return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${locale}"><voice name="${voice}">\n${body}\n  </voice></speak>`;
+
+      return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${locale}">\n${blocks}\n</speak>`;
     }
 
     // Build English SSML for the faint background whisper track.
@@ -1716,8 +1735,9 @@
       // Each phrase is a separate utterance so the engine breathes between them.
       out.push({ text: greeting,    pitch: p, rate: 0.72 }); // deliberate, weighted opener
       out.push({ text: masterLine,  pitch: p, rate: 0.78 }); // warm self-introduction
-      // Skip the English brief when using a non-English voice — language mismatch sounds jarring.
-      if (brief && !lp) out.push({ text: brief, pitch: p, rate: 0.76 }); // calm country tease
+      // Brief: always included. For non-English native locales, _buildSSML will switch to an
+      // English voice for just this phrase so language stays consistent.
+      if (brief) out.push({ text: brief, pitch: p, rate: 0.76, forceEng: !!(lp && !locale.startsWith('en-')) }); // calm country tease
       out.push({ text: close,       pitch: p, rate: 0.82 }); // energetic but still measured
       return out;
     }
