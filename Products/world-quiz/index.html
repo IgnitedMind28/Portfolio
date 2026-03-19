@@ -1788,8 +1788,9 @@
       };
     }
 
-    let _currentAudio  = null;  // Azure: current HTMLAudioElement (main voice)
+    let _currentAudio  = null;  // Azure: current HTMLAudioElement (main voice) — kept for Web Speech compat
     let _whisperAudio  = null;  // Azure: faint English shadow track played simultaneously
+    let _audioStop     = null;  // Azure/AC: function to stop current AudioBufferSourceNode
     let _celebPlayed   = false; // guard: play celebration sound only once per score screen
     let _ttsKeepAlive = null; // Web Speech: Chrome keepalive interval
     let _speakToken = 0;    // incremented on each speakIntro; stale callbacks bail out
@@ -1816,6 +1817,7 @@
     // Fallback: Web Speech API (used automatically if no Azure key is configured).
     async function speakIntro(country) {
       if (_muted) { setTimeout(_showQuizBtn, 300); return; }
+      _ensureAC(); // Resume AudioContext on the current task — safe even outside user gesture
 
       stopSpeech();
       const token = ++_speakToken;
@@ -1862,43 +1864,56 @@
           const blobs = await Promise.all(fetchResults.map(r => r.blob()));
           if (token !== _speakToken) return;
 
-          const url1 = URL.createObjectURL(blobs[0]);
-          const url2 = URL.createObjectURL(blobs[1]);
-          const whisperUrl = blobs[2] ? URL.createObjectURL(blobs[2]) : null;
+          // ── Decode via AudioContext instead of new Audio() ───────────────────
+          // Safari blocks new Audio().play() after any await (user-gesture window
+          // has expired by then). AudioContext.decodeAudioData + BufferSourceNode
+          // bypasses that restriction entirely — _ac was resumed synchronously on
+          // the user's click gesture via _ensureAC() in the global click handler.
+          const [ab0, ab1] = await Promise.all([
+            blobs[0].arrayBuffer(), blobs[1].arrayBuffer(),
+          ]);
+          const [buf0, buf1] = await Promise.all([
+            _ac.decodeAudioData(ab0), _ac.decodeAudioData(ab1),
+          ]);
+          let wBuf = null;
+          if (blobs[2]) wBuf = await _ac.decodeAudioData(await blobs[2].arrayBuffer());
+          if (token !== _speakToken) return;
 
-          _currentAudio = new Audio(url1);
+          _currentAudio = null; // not using HTMLAudioElement; _audioStop() handles stop
           _playAnimalAmbience(country.animalEmoji);
 
-          // Start English whisper simultaneously at low volume
-          if (whisperUrl) {
-            _whisperAudio = new Audio(whisperUrl);
-            _whisperAudio.volume = 0.20;
-            _whisperAudio.onended = () => { URL.revokeObjectURL(whisperUrl); _whisperAudio = null; };
-            _whisperAudio.onerror = () => { URL.revokeObjectURL(whisperUrl); _whisperAudio = null; };
-            _whisperAudio.play().catch(() => { URL.revokeObjectURL(whisperUrl); _whisperAudio = null; });
+          const vol = _ac.createGain();
+          vol.gain.value = 1.0;
+          vol.connect(_ac.destination);
+
+          // Whisper track — simultaneous at low volume
+          if (wBuf) {
+            const wVol = _ac.createGain();
+            wVol.gain.value = 0.20;
+            wVol.connect(_ac.destination);
+            const wSrc = _ac.createBufferSource();
+            wSrc.buffer = wBuf;
+            wSrc.connect(wVol);
+            wSrc.start();
           }
 
-          _currentAudio.onended = () => {
-            URL.revokeObjectURL(url1);
-            if (token !== _speakToken) { URL.revokeObjectURL(url2); return; }
-
+          // Intro phrases (greeting + master intro)
+          const src0 = _ac.createBufferSource();
+          src0.buffer = buf0;
+          src0.connect(vol);
+          src0.onended = () => {
+            if (token !== _speakToken) return;
             // Buttons appear exactly as the closing phrase starts playing
             _showQuizBtn();
-
-            const audio2 = new Audio(url2);
-            _currentAudio = audio2;
-            audio2.onended = () => { URL.revokeObjectURL(url2); if (_ambienceStop) _ambienceStop(); };
-            audio2.onerror = () => URL.revokeObjectURL(url2);
-            audio2.play().catch(() => { URL.revokeObjectURL(url2); _showQuizBtn(); });
+            const src1 = _ac.createBufferSource();
+            src1.buffer = buf1;
+            src1.connect(vol);
+            src1.onended = () => { if (_ambienceStop) _ambienceStop(); };
+            src1.start();
+            _audioStop = () => { try { src1.stop(); } catch(e) {} };
           };
-          _currentAudio.onerror = () => {
-            URL.revokeObjectURL(url1); URL.revokeObjectURL(url2); _showQuizBtn();
-          };
-          // .catch handles the rare case where the browser blocks autoplay
-          // (e.g. first-ever page load with no prior interaction on the domain).
-          _currentAudio.play().catch(() => {
-            URL.revokeObjectURL(url1); URL.revokeObjectURL(url2); _showQuizBtn();
-          });
+          src0.start();
+          _audioStop = () => { try { src0.stop(); } catch(e) {} };
           return;
         } catch (err) {
           console.warn('Azure TTS failed, falling back to Web Speech API:', err);
@@ -1949,6 +1964,7 @@
       _speakToken++;
       clearTimeout(_btnFallback);
       clearInterval(_ttsKeepAlive);
+      if (_audioStop)    { _audioStop(); _audioStop = null; }
       if (_currentAudio) { _currentAudio.pause(); _currentAudio.src = ''; _currentAudio = null; }
       if (_whisperAudio) { _whisperAudio.pause(); _whisperAudio.src = ''; _whisperAudio = null; }
       window.speechSynthesis?.cancel();
