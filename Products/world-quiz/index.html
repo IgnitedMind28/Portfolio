@@ -1565,9 +1565,12 @@
         const isLastGroup = gi === groups.length - 1;
         const lines = g.ps.map((p, i) => {
           const rate = `${Math.round((p.rate - 1) * 100)}%`; // 0.78 → "-22%"
+          // forceEng phrases (English brief inside a native-language track) are deliberately
+          // softened so they blend with the 20%-volume whisper track rather than blaring at 100%.
+          const vol = p.forceEng ? ' volume="soft"' : '';
           const isLastInGroup = i === g.ps.length - 1;
           const br = (!isLastInGroup || !isLastGroup) ? '\n    <break time="150ms"/>' : '';
-          return `    <prosody rate="${rate}">${_escXml(p.text)}</prosody>${br}`;
+          return `    <prosody rate="${rate}"${vol}>${_escXml(p.text)}</prosody>${br}`;
         }).join('\n');
         return `  <voice name="${g.v}">\n${lines}\n  </voice>`;
       }).join('\n');
