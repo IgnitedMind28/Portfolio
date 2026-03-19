@@ -1444,6 +1444,17 @@
       'argentina': 'es-AR', 'colombia': 'es-CO',
       'peru': 'es-PE', 'chile': 'es-CL', 'venezuela': 'es-VE',
       'fiji': 'en-AU', 'papua-new-guinea': 'en-AU',
+      // ── New Oceanian countries (10) ───────────────────────────────────────
+      'solomon-islands': 'en-AU', // Pijin/English; no Pijin in Azure
+      'vanuatu':         'en-AU', // Bislama/English/French; Bislama not in Azure
+      'samoa':           'en-AU', // Samoan not in Azure; official English
+      'kiribati':        'en-AU', // I-Kiribati not in Azure; official English
+      'tonga':           'en-AU', // Tongan not in Azure; official English
+      'micronesia':      'en-US', // Compact of Free Association with USA
+      'palau':           'en-US', // Compact of Free Association with USA
+      'marshall-islands':'en-US', // Compact of Free Association with USA
+      'tuvalu':          'en-AU', // official English; British/Australian connection
+      'nauru':           'en-AU', // official English/Nauruan; Australian connection
     };
 
     // locale → [maleVoice, femaleVoice] — Azure Neural voices
@@ -1567,13 +1578,13 @@
     window.speechSynthesis?.addEventListener('voiceschanged', _loadVoices);
 
     // Gender per emoji — drives voice selection
-    const _isMale = e => ['🐓', '🦅', '🦁', '🐅', '🐯', '🐂', '🦬', '🐊', '🐻', '🐆', '🦌', '🦘', '🐧', '🐸', '🦦', '🐺', '🐘', '🦎', '🐃', '🐪'].includes(e);
+    const _isMale = e => ['🐓', '🦅', '🦁', '🐅', '🐯', '🐂', '🦬', '🐊', '🐻', '🐆', '🦌', '🦘', '🐧', '🐸', '🦦', '🐺', '🐘', '🦎', '🐃', '🐪', '🐋', '🦭', '🦈', '🕊️'].includes(e);
 
     // Script archetype per emoji
     const _ARCH = {
-      BOLD: ['🦁', '🦅', '🐅', '🐯', '🐂', '🦬', '🐊', '🐻', '🐆', '🐪', '🐃', '🦎'],
-      PLAY: ['🐬', '🦘', '🐓', '🦜', '🐸', '🐧'],
-      SOFT: ['🐼', '🦢', '🦩', '🦒', '🦌', '🦦', '🦓', '🦫'],
+      BOLD: ['🦁', '🦅', '🐅', '🐯', '🐂', '🦬', '🐊', '🐻', '🐆', '🐪', '🐃', '🦎', '🦈'],
+      PLAY: ['🐬', '🦘', '🐓', '🦜', '🐸', '🐧', '🦀', '🐦', '🦇'],
+      SOFT: ['🐼', '🦢', '🦩', '🦒', '🦌', '🦦', '🦓', '🦫', '🐢', '🐋', '🦭', '🕊️'],
       WILY: ['🐺', '🦊'],
     };
     const _archOf = e => Object.entries(_ARCH).find(([, a]) => a.includes(e))?.[0] ?? 'BOLD';
@@ -1587,6 +1598,8 @@
       '🐺': 0.96, '🦅': 0.95, '🐆': 0.95, '🦦': 0.98, '🦌': 1.00, '🦫': 1.00, '🦒': 1.01, '🦓': 1.02,
       '🐼': 1.00, '🦢': 1.03, '🦩': 1.04, '🦊': 1.04, '🐧': 1.04, '🐸': 1.06, '🦘': 1.04, '🐓': 1.06,
       '🦜': 1.08, '🐬': 1.06, '🦎': 0.94, '🐃': 0.92, '🐪': 0.95,
+      // ── Oceania animals ──
+      '🐢': 1.01, '🦇': 1.05, '🐋': 0.93, '🦀': 1.04, '🦭': 0.97, '🦈': 0.94, '🐦': 1.05, '🕊️': 1.03,
     };
 
     // Strip emoji so TTS doesn't read out "trophy emoji"
