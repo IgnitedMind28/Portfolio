@@ -939,7 +939,7 @@
       { id: 'europe', name: 'Europe', emoji: '🏰', sub: '44 countries', color: 'linear-gradient(135deg,#7c3aed,#4c1d95)', shadow: 'rgba(124,58,237,0.5)' },
       { id: 'asia', name: 'Asia', emoji: '🏯', sub: '48 countries', color: 'linear-gradient(135deg,#2563eb,#1e40af)', shadow: 'rgba(37,99,235,0.5)' },
       { id: 'africa', name: 'Africa', emoji: '🦁', sub: '54 countries', color: 'linear-gradient(135deg,#d97706,#92400e)', shadow: 'rgba(217,119,6,0.5)' },
-      { id: 'north-america', name: 'N. America', emoji: '🦅', sub: '23 countries', color: 'linear-gradient(135deg,#059669,#065f46)', shadow: 'rgba(5,150,105,0.5)' },
+      { id: 'north-america', name: 'N. America', emoji: '🦅', sub: '19 countries', color: 'linear-gradient(135deg,#059669,#065f46)', shadow: 'rgba(5,150,105,0.5)' },
       { id: 'south-america', name: 'S. America', emoji: '🦜', sub: '12 countries', color: 'linear-gradient(135deg,#0891b2,#164e63)', shadow: 'rgba(8,145,178,0.5)' },
       { id: 'oceania', name: 'Oceania', emoji: '🦘', sub: '14 countries', color: 'linear-gradient(135deg,#db2777,#9d174d)', shadow: 'rgba(219,39,119,0.5)' },
     ];
@@ -1443,6 +1443,16 @@
       'mexico': 'es-MX', 'cuba': 'es-MX',  // no es-CU in Azure
       'argentina': 'es-AR', 'colombia': 'es-CO',
       'peru': 'es-PE', 'chile': 'es-CL', 'venezuela': 'es-VE',
+      // ── New South America ─────────────────────────────────────────────
+      'bolivia': 'es-BO', 'ecuador': 'es-EC', 'guyana': 'en-US',
+      'paraguay': 'es-PY', 'suriname': 'nl-NL', 'uruguay': 'es-UY',
+      // ── New Central America ───────────────────────────────────────────
+      'belize': 'en-US', 'costa-rica': 'es-CR', 'el-salvador': 'es-SV',
+      'guatemala': 'es-GT', 'honduras': 'es-HN', 'nicaragua': 'es-NI', 'panama': 'es-PA',
+      // ── New Caribbean ─────────────────────────────────────────────────
+      'antigua': 'en-US', 'bahamas': 'en-US', 'barbados': 'en-US',
+      'dominican-republic': 'es-DO', 'haiti': 'fr-FR',
+      'saint-lucia': 'en-US', 'trinidad': 'en-US',
       'fiji': 'en-AU', 'papua-new-guinea': 'en-AU',
       // ── New Oceanian countries (10) ───────────────────────────────────────
       'solomon-islands': 'en-AU', // Pijin/English; no Pijin in Azure
@@ -1531,6 +1541,18 @@
       'es-PE': ['es-PE-AlexNeural',     'es-PE-CamilaNeural'  ],
       'es-CL': ['es-CL-LorenzoNeural',  'es-CL-CatalinaNeural'],
       'es-VE': ['es-VE-SebastianNeural','es-VE-PaolaNeural'   ],
+      // ── New Latin American voices ─────────────────────────────────────
+      'es-BO': ['es-BO-MarceloNeural',  'es-BO-SofiaNeural'     ],
+      'es-EC': ['es-EC-LuisNeural',     'es-EC-AndreaNeural'    ],
+      'es-PY': ['es-PY-MarioNeural',    'es-PY-TaniaNeural'     ],
+      'es-UY': ['es-UY-MateoNeural',    'es-UY-ValentinaNeural' ],
+      'es-CR': ['es-CR-JuanNeural',     'es-CR-MariaNeural'     ],
+      'es-SV': ['es-SV-RodrigoNeural',  'es-SV-LorenaNeural'    ],
+      'es-GT': ['es-GT-AndresNeural',   'es-GT-MartinaNeural'   ],
+      'es-HN': ['es-HN-CarlosNeural',   'es-HN-KarlaNeural'     ],
+      'es-NI': ['es-NI-FedericoNeural', 'es-NI-YolandaNeural'   ],
+      'es-PA': ['es-PA-RobertoNeural',  'es-PA-MargaritaNeural' ],
+      'es-DO': ['es-DO-EmilioNeural',   'es-DO-RamonaNeural'    ],
     };
 
     function _azureVoice(countryId, isMale) {
@@ -1675,6 +1697,18 @@
       'es-PE': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
       'es-CL': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
       'es-VE': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      // ── New Latin American locales ────────────────────────────────────
+      'es-BO': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-EC': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-PY': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-UY': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Dale, empecemos!'          },
+      'es-CR': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Pura vida, empecemos!'     },
+      'es-SV': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-GT': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-HN': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-NI': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-PA': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      'es-DO': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
     };
 
     // Returns [{text, pitch, rate}] objects.
