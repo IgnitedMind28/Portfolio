@@ -1465,6 +1465,43 @@
       'marshall-islands':'en-US', // Compact of Free Association with USA
       'tuvalu':          'en-AU', // official English; British/Australian connection
       'nauru':           'en-AU', // official English/Nauruan; Australian connection
+      // ── New Asian locales (36 countries) ─────────────────────────────────
+      'afghanistan': 'en-US',        // Dari/Pashto not in Azure
+      'armenia':     'hy-AM',
+      'azerbaijan':  'az-AZ',
+      'bahrain':     'ar-BH',
+      'bangladesh':  'bn-BD',
+      'bhutan':      'en-US',        // Dzongkha not in Azure
+      'brunei':      'ms-MY',        // Malay is official
+      'cambodia':    'km-KH',
+      'georgia':     'ka-GE',
+      'iran':        'fa-IR',
+      'iraq':        'ar-IQ',
+      'israel':      'he-IL',
+      'jordan':      'ar-JO',
+      'kazakhstan':  'kk-KZ',
+      'kuwait':      'ar-KW',
+      'kyrgyzstan':  'en-US',        // Kyrgyz not in Azure
+      'laos':        'lo-LA',
+      'lebanon':     'ar-LB',
+      'malaysia':    'ms-MY',
+      'maldives':    'en-US',        // Dhivehi not in Azure
+      'mongolia':    'mn-MN',
+      'myanmar':     'my-MM',
+      'nepal':       'ne-NP',
+      'north-korea': 'ko-KR',        // use South Korean voices
+      'oman':        'ar-OM',
+      'pakistan':    'ur-PK',
+      'palestine':   'ar-AE',        // no ar-PS in Azure
+      'qatar':       'ar-QA',
+      'singapore':   'en-SG',
+      'sri-lanka':   'si-LK',
+      'syria':       'ar-SY',
+      'tajikistan':  'en-US',        // Tajik not in Azure
+      'timor-leste': 'en-US',        // Tetum not in Azure
+      'turkmenistan':'en-US',        // Turkmen not in Azure
+      'uzbekistan':  'uz-UZ',
+      'yemen':       'ar-YE',
     };
 
     // locale → [maleVoice, femaleVoice] — Azure Neural voices
@@ -1553,6 +1590,33 @@
       'es-NI': ['es-NI-FedericoNeural', 'es-NI-YolandaNeural'   ],
       'es-PA': ['es-PA-RobertoNeural',  'es-PA-MargaritaNeural' ],
       'es-DO': ['es-DO-EmilioNeural',   'es-DO-RamonaNeural'    ],
+      // ── New Asian voices ──────────────────────────────────────────────────
+      'hy-AM':  ['hy-AM-HaykNeural',        'hy-AM-AnahitNeural'      ],
+      'az-AZ':  ['az-AZ-BabekNeural',       'az-AZ-BanuNeural'        ],
+      'ar-BH':  ['ar-BH-AliNeural',         'ar-BH-LailaNeural'       ],
+      'bn-BD':  ['bn-BD-PrabatNeural',      'bn-BD-NabanitaNeural'    ],
+      'km-KH':  ['km-KH-PisethNeural',      'km-KH-SreymomNeural'     ],
+      'ka-GE':  ['ka-GE-GiorgiNeural',      'ka-GE-EkaNeural'         ],
+      'fa-IR':  ['fa-IR-FaridNeural',       'fa-IR-DilaraNeural'      ],
+      'ar-IQ':  ['ar-IQ-BasselNeural',      'ar-IQ-RanaNeural'        ],
+      'he-IL':  ['he-IL-AvriNeural',        'he-IL-HilaNeural'        ],
+      'ar-JO':  ['ar-JO-TaimNeural',        'ar-JO-SanaNeural'        ],
+      'kk-KZ':  ['kk-KZ-DauletNeural',      'kk-KZ-AigulNeural'       ],
+      'ar-KW':  ['ar-KW-FahedNeural',       'ar-KW-NouraNeural'       ],
+      'lo-LA':  ['lo-LA-ChanthavongNeural', 'lo-LA-KeomanyNeural'     ],
+      'ar-LB':  ['ar-LB-RamiNeural',        'ar-LB-LaylaNeural'       ],
+      'ms-MY':  ['ms-MY-OsmanNeural',       'ms-MY-YasminNeural'      ],
+      'mn-MN':  ['mn-MN-BataaNeural',       'mn-MN-YesuiNeural'       ],
+      'my-MM':  ['my-MM-ThihaNeural',       'my-MM-NilarNeural'       ],
+      'ne-NP':  ['ne-NP-SagarNeural',       'ne-NP-HemkalaNeural'     ],
+      'ar-OM':  ['ar-OM-AbdullahNeural',    'ar-OM-AyshaNeural'       ],
+      'ur-PK':  ['ur-PK-AsadNeural',        'ur-PK-UzmaNeural'        ],
+      'ar-QA':  ['ar-QA-MoazNeural',        'ar-QA-AmalNeural'        ],
+      'en-SG':  ['en-SG-WayneNeural',       'en-SG-LunaNeural'        ],
+      'si-LK':  ['si-LK-SameeraNeural',     'si-LK-ThiliniNeural'     ],
+      'ar-SY':  ['ar-SY-LaithNeural',       'ar-SY-AmanyNeural'       ],
+      'uz-UZ':  ['uz-UZ-SardorNeural',      'uz-UZ-MadinaNeural'      ],
+      'ar-YE':  ['ar-YE-SalehNeural',       'ar-YE-MaryamNeural'      ],
     };
 
     function _azureVoice(countryId, isMale) {
@@ -1709,6 +1773,32 @@
       'es-NI': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
       'es-PA': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
       'es-DO': { master: (n, m) => `Soy ${n}, tu ${m ? 'maestro' : 'maestra'} de quiz hoy!`, close: '¡Vamos, empecemos!'         },
+      // ── New Asian phrases ─────────────────────────────────────────────────
+      'hy-AM':  { greeting: 'Բարև!',           master: (n) => `Ես ${n} եմ, ձեր վիկտորինայի ծրագրավարը!`,        close: 'Արի սկսենք!'           },
+      'az-AZ':  { greeting: 'Salam!',           master: (n) => `Mən ${n}-am, bu günkü quiz ustanızam!`,            close: 'Gəlin başlayaq!'        },
+      'ar-BH':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'bn-BD':  { greeting: 'নমস্কার!',         master: (n) => `আমি ${n}, আজকের কুইজ মাস্টার!`,                 close: 'চলুন শুরু করি!'         },
+      'km-KH':  { greeting: 'ជំរាបសួរ!',        master: (n) => `ខ្ញុំជា ${n} អ្នកដឹកនាំការប្រឡងថ្ងៃនេះ!`,       close: 'មកចាប់ផ្ដើមមើល!'       },
+      'ka-GE':  { greeting: 'გამარჯობა!',       master: (n) => `მე ვარ ${n}, დღევანდელი ვიქტორინის წამყვანი!`,  close: 'დავიწყოთ!'              },
+      'fa-IR':  { greeting: 'سلام!',            master: (n) => `من ${n} هستم، مجری مسابقه‌ی امروز شما!`,        close: 'بیایید شروع کنیم!'      },
+      'ar-IQ':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'he-IL':  { greeting: 'שלום!',            master: (n) => `אני ${n}, מנחה הטריוויה שלך היום!`,              close: 'בואו נתחיל!'            },
+      'ar-JO':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'kk-KZ':  { greeting: 'Сәлем!',           master: (n) => `Мен ${n}, бүгінгі викторина жүргізушісімін!`,     close: 'Жүр, бастайық!'         },
+      'ar-KW':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'lo-LA':  { greeting: 'ສະບາຍດີ!',         master: (n) => `ຂ້ອຍຄື ${n}, ຜູ້ດໍາເນີນລາຍການຂອງເຈົ້າມື້ນີ້!`,   close: 'ມາເລີ່ມກັນເລີຍ!'       },
+      'ar-LB':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'ms-MY':  { greeting: 'Helo!',            master: (n) => `Saya ${n}, pengacara kuiz anda hari ini!`,         close: 'Jom, kita mulakan!'     },
+      'mn-MN':  { greeting: 'Сайн уу!',         master: (n) => `Би ${n}, өнөөдрийн викторины дамжуулагч!`,        close: 'Нааш, эхэлцгээе!'      },
+      'my-MM':  { greeting: 'မင်္ဂလာပါ!',       master: (n) => `ကျွန်ုပ် ${n} ဖြစ်ပြီး ဒီနေ့ quiz master ပါ!`,  close: 'စတင်ကြရအောင်!'        },
+      'ne-NP':  { greeting: 'नमस्ते!',           master: (n) => `म ${n} हुँ, आजको क्विज मास्टर!`,                 close: 'सुरु गरौं!'             },
+      'ar-OM':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'ur-PK':  { greeting: 'السلام علیکم!',    master: (n) => `میں ${n} ہوں، آج آپ کا کوئز ماسٹر!`,             close: 'آئیں شروع کریں!'       },
+      'ar-QA':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'si-LK':  { greeting: 'ආයුබෝවන්!',        master: (n) => `මම ${n}, අද ඔයාගේ quiz master!`,                 close: 'ආරම්භ කරමු!'           },
+      'ar-SY':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
+      'uz-UZ':  { greeting: "Assalomu alaykum!", master: (n) => `Men ${n}, bugungi test o'yini boshlovchisiman!`,  close: "Keling, boshlaymiz!"   },
+      'ar-YE':  { greeting: 'مرحباً!',          master: (n) => `أنا ${n}، مقدم مسابقتك اليوم!`,                  close: 'هيا نبدأ!'              },
     };
 
     // Returns [{text, pitch, rate}] objects.
