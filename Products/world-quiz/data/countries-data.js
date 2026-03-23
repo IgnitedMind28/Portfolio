@@ -26,7 +26,7 @@ const COUNTRIES = [
   // EUROPE (47 countries)
   // ─────────────────────────────────────────
 
-  { id:'france', name:'France', flag:'🇫🇷', capital:'Paris', continent:'europe',
+  { id:'france', name:'France', flag:'🇫🇷', capital:'Paris', continent:'europe', weight:3,
     animal:'Gallic Rooster', animalEmoji:'🐓', mastername:'Coco',
     flagColors:['#EF4444','#FFFFFF','#1D4ED8'],
     intro:"Bonjour! I'm Coco, the Gallic Rooster of France! Ready for your quiz?",
@@ -55,7 +55,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'germany', name:'Germany', flag:'🇩🇪', capital:'Berlin', continent:'europe',
+  { id:'germany', name:'Germany', flag:'🇩🇪', capital:'Berlin', continent:'europe', weight:3,
     animal:'Federal Eagle', animalEmoji:'🦅', mastername:'Adler',
     flagColors:['#000000','#D90000','#FFCC00'],
     intro:"Guten Tag! I'm Adler, the Eagle of Germany! Let's test your knowledge!",
@@ -84,7 +84,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'uk', name:'United Kingdom', flag:'🇬🇧', capital:'London', continent:'europe',
+  { id:'uk', name:'United Kingdom', flag:'🇬🇧', capital:'London', continent:'europe', weight:3,
     animal:'British Lion', animalEmoji:'🦁', mastername:'Leo',
     flagColors:['#00247D','#FFFFFF','#CC0000'],
     intro:"Cheerio! I'm Leo the British Lion! Let's see what you know about the UK!",
@@ -113,7 +113,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'italy', name:'Italy', flag:'🇮🇹', capital:'Rome', continent:'europe',
+  { id:'italy', name:'Italy', flag:'🇮🇹', capital:'Rome', continent:'europe', weight:3,
     animal:'Italian Wolf', animalEmoji:'🐺', mastername:'Lupo',
     flagColors:['#009246','#FFFFFF','#CE2B37'],
     intro:"Ciao! I'm Lupo the Wolf of Italy! Let me take you on a tasty adventure!",
@@ -142,7 +142,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'spain', name:'Spain', flag:'🇪🇸', capital:'Madrid', continent:'europe',
+  { id:'spain', name:'Spain', flag:'🇪🇸', capital:'Madrid', continent:'europe', weight:3,
     animal:'Spanish Bull', animalEmoji:'🐂', mastername:'Toro',
     flagColors:['#AA151B','#F1BF00','#AA151B'],
     intro:"¡Hola! I'm Toro the Bull of Spain! Time for a fiesta of knowledge!",
@@ -171,7 +171,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'russia', name:'Russia', flag:'🇷🇺', capital:'Moscow', continent:'europe',
+  { id:'russia', name:'Russia', flag:'🇷🇺', capital:'Moscow', continent:'europe', weight:3,
     animal:'Brown Bear', animalEmoji:'🐻', mastername:'Misha',
     flagColors:['#FFFFFF','#0039A6','#D52B1E'],
     intro:"Zdravstvuyte! I'm Misha the Bear of Russia! Let's explore the biggest country!",
@@ -200,7 +200,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'greece', name:'Greece', flag:'🇬🇷', capital:'Athens', continent:'europe',
+  { id:'greece', name:'Greece', flag:'🇬🇷', capital:'Athens', continent:'europe', weight:3,
     animal:'Dolphin', animalEmoji:'🐬', mastername:'Delphi',
     flagColors:['#0D5EAF','#FFFFFF','#0D5EAF'],
     intro:"Yassas! I'm Delphi the Dolphin of Greece! Greece is where history began!",
@@ -230,7 +230,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'sweden', name:'Sweden', flag:'🇸🇪', capital:'Stockholm', continent:'europe',
+  { id:'sweden', name:'Sweden', flag:'🇸🇪', capital:'Stockholm', continent:'europe', weight:3,
     animal:'Eurasian Elk', animalEmoji:'🦌', mastername:'Sven',
     flagColors:['#006AA7','#FECC02','#006AA7'],
     intro:"Hej! I'm Sven the Elk of Sweden! I'll guide you through the land of Vikings!",
@@ -260,7 +260,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'netherlands', name:'Netherlands', flag:'🇳🇱', capital:'Amsterdam', continent:'europe',
+  { id:'netherlands', name:'Netherlands', flag:'🇳🇱', capital:'Amsterdam', continent:'europe', weight:3,
     animal:'Lion', animalEmoji:'🦁', mastername:'Oranje',
     flagColors:['#AE1C28','#FFFFFF','#21468B'],
     intro:"Hallo! I'm Oranje the Lion! The Netherlands is famous for tulips and windmills!",
@@ -290,7 +290,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'portugal', name:'Portugal', flag:'🇵🇹', capital:'Lisbon', continent:'europe',
+  { id:'portugal', name:'Portugal', flag:'🇵🇹', capital:'Lisbon', continent:'europe', weight:3,
     animal:'Rooster of Barcelos', animalEmoji:'🐓', mastername:'Galo',
     flagColors:['#006600','#FF0000','#FFD700'],
     intro:"Olá! I'm Galo the Rooster of Portugal! This tiny country discovered half the world!",
@@ -1399,7 +1399,7 @@ const COUNTRIES = [
   // ASIA (10 countries)
   // ─────────────────────────────────────────
 
-  { id:'china', name:'China', flag:'🇨🇳', capital:'Beijing', continent:'asia',
+  { id:'china', name:'China', flag:'🇨🇳', capital:'Beijing', continent:'asia', weight:3,
     animal:'Giant Panda', animalEmoji:'🐼', mastername:'Bao',
     flagColors:['#DE2910','#FFDE00','#DE2910'],
     intro:"Nǐ hǎo! I'm Bao the Panda of China! China is one of the world's oldest civilizations!",
@@ -1429,7 +1429,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'india', name:'India', flag:'🇮🇳', capital:'New Delhi', continent:'asia',
+  { id:'india', name:'India', flag:'🇮🇳', capital:'New Delhi', continent:'asia', weight:3,
     animal:'Royal Bengal Tiger', animalEmoji:'🐯', mastername:'Raja',
     flagColors:['#FF9933','#FFFFFF','#138808'],
     intro:"Namaste! I'm Raja the Tiger of India! India is the world's largest democracy!",
@@ -1459,7 +1459,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'japan', name:'Japan', flag:'🇯🇵', capital:'Tokyo', continent:'asia',
+  { id:'japan', name:'Japan', flag:'🇯🇵', capital:'Tokyo', continent:'asia', weight:3,
     animal:'Japanese Crane', animalEmoji:'🦢', mastername:'Tsuru',
     flagColors:['#FFFFFF','#BC002D','#FFFFFF'],
     intro:"Konnichiwa! I'm Tsuru the Crane of Japan! Japan mixes ancient tradition with modern technology!",
@@ -1489,7 +1489,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'south-korea', name:'South Korea', flag:'🇰🇷', capital:'Seoul', continent:'asia',
+  { id:'south-korea', name:'South Korea', flag:'🇰🇷', capital:'Seoul', continent:'asia', weight:3,
     animal:'Siberian Tiger', animalEmoji:'🐯', mastername:'Horangi',
     flagColors:['#FFFFFF','#003478','#FFFFFF'],
     intro:"Annyeong! I'm Horangi the Tiger! South Korea gave us K-pop and amazing technology!",
@@ -1519,7 +1519,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'thailand', name:'Thailand', flag:'🇹🇭', capital:'Bangkok', continent:'asia',
+  { id:'thailand', name:'Thailand', flag:'🇹🇭', capital:'Bangkok', continent:'asia', weight:3,
     animal:'Elephant', animalEmoji:'🐘', mastername:'Chang',
     flagColors:['#A51931','#F4F5F8','#2D2A4A'],
     intro:"Sawasdee! I'm Chang the Elephant of Thailand! The Land of Smiles welcomes you!",
@@ -1548,7 +1548,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'indonesia', name:'Indonesia', flag:'🇮🇩', capital:'Jakarta', continent:'asia',
+  { id:'indonesia', name:'Indonesia', flag:'🇮🇩', capital:'Jakarta', continent:'asia', weight:3,
     animal:'Komodo Dragon', animalEmoji:'🦎', mastername:'Drago',
     flagColors:['#CE1126','#FFFFFF','#CE1126'],
     intro:"Halo! I'm Drago the Komodo Dragon! Indonesia is the world's biggest island nation!",
@@ -1578,7 +1578,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'uae', name:'UAE', flag:'🇦🇪', capital:'Abu Dhabi', continent:'asia',
+  { id:'uae', name:'UAE', flag:'🇦🇪', capital:'Abu Dhabi', continent:'asia', weight:3,
     animal:'Peregrine Falcon', animalEmoji:'🦅', mastername:'Falco',
     flagColors:['#00732F','#FFFFFF','#000000'],
     intro:"Marhaba! I'm Falco the Falcon of UAE! Dubai has the world's tallest buildings!",
@@ -1608,7 +1608,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'vietnam', name:'Vietnam', flag:'🇻🇳', capital:'Hanoi', continent:'asia',
+  { id:'vietnam', name:'Vietnam', flag:'🇻🇳', capital:'Hanoi', continent:'asia', weight:3,
     animal:'Water Buffalo', animalEmoji:'🐃', mastername:'Trau',
     flagColors:['#DA251D','#FFFF00','#DA251D'],
     intro:"Xin chào! I'm Trau the Buffalo of Vietnam! Vietnam is a land of incredible beauty!",
@@ -1638,7 +1638,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'philippines', name:'Philippines', flag:'🇵🇭', capital:'Manila', continent:'asia',
+  { id:'philippines', name:'Philippines', flag:'🇵🇭', capital:'Manila', continent:'asia', weight:3,
     animal:'Philippine Eagle', animalEmoji:'🦅', mastername:'Agila',
     flagColors:['#0038A8','#CE1126','#FCD116'],
     intro:"Mabuhay! I'm Agila the Philippine Eagle! The Philippines is a paradise of islands!",
@@ -1667,7 +1667,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'saudi-arabia', name:'Saudi Arabia', flag:'🇸🇦', capital:'Riyadh', continent:'asia',
+  { id:'saudi-arabia', name:'Saudi Arabia', flag:'🇸🇦', capital:'Riyadh', continent:'asia', weight:3,
     animal:'Arabian Camel', animalEmoji:'🐪', mastername:'Amir',
     flagColors:['#006C35','#FFFFFF','#006C35'],
     intro:"Marhaba! I'm Amir the Camel of Saudi Arabia! Welcome to the land of deserts and history!",
@@ -1700,7 +1700,7 @@ const COUNTRIES = [
   // AFRICA (8 countries)
   // ─────────────────────────────────────────
 
-  { id:'egypt', name:'Egypt', flag:'🇪🇬', capital:'Cairo', continent:'africa',
+  { id:'egypt', name:'Egypt', flag:'🇪🇬', capital:'Cairo', continent:'africa', weight:3,
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Horus',
     flagColors:['#CE1126','#FFFFFF','#000000'],
     intro:"Ahlan! I'm Horus the Eagle, guardian of Egypt! One of the oldest civilizations on Earth awaits!",
@@ -1729,7 +1729,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'south-africa', name:'South Africa', flag:'🇿🇦', capital:'Pretoria', continent:'africa',
+  { id:'south-africa', name:'South Africa', flag:'🇿🇦', capital:'Pretoria', continent:'africa', weight:3,
     animal:'Springbok', animalEmoji:'🦌', mastername:'Madiba',
     flagColors:['#007A4D','#FFB612','#DE3831'],
     intro:"Sawubona! I'm Madiba the Springbok! South Africa has 11 official languages!",
@@ -1758,7 +1758,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'nigeria', name:'Nigeria', flag:'🇳🇬', capital:'Abuja', continent:'africa',
+  { id:'nigeria', name:'Nigeria', flag:'🇳🇬', capital:'Abuja', continent:'africa', weight:3,
     animal:'Eagle', animalEmoji:'🦅', mastername:'Onyeka',
     flagColors:['#008751','#FFFFFF','#008751'],
     intro:"Ẹ káabọ̀! I'm Onyeka the Eagle of Nigeria! Africa's most populous country!",
@@ -1787,7 +1787,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'kenya', name:'Kenya', flag:'🇰🇪', capital:'Nairobi', continent:'africa',
+  { id:'kenya', name:'Kenya', flag:'🇰🇪', capital:'Nairobi', continent:'africa', weight:3,
     animal:'Lion', animalEmoji:'🦁', mastername:'Simba',
     flagColors:['#006600','#BB0000','#FFFFFF'],
     intro:"Jambo! I'm Simba the Lion of Kenya! Kenya is home to the world's greatest wildlife safari!",
@@ -1817,7 +1817,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'morocco', name:'Morocco', flag:'🇲🇦', capital:'Rabat', continent:'africa',
+  { id:'morocco', name:'Morocco', flag:'🇲🇦', capital:'Rabat', continent:'africa', weight:3,
     animal:'Barbary Lion', animalEmoji:'🦁', mastername:'Atlas',
     flagColors:['#C1272D','#006233','#C1272D'],
     intro:"Merhba! I'm Atlas the Lion of Morocco! Gateway between Africa and Europe!",
@@ -1847,7 +1847,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'ethiopia', name:'Ethiopia', flag:'🇪🇹', capital:'Addis Ababa', continent:'africa',
+  { id:'ethiopia', name:'Ethiopia', flag:'🇪🇹', capital:'Addis Ababa', continent:'africa', weight:3,
     animal:'Lion of Judah', animalEmoji:'🦁', mastername:'Jah',
     flagColors:['#009A44','#FCDD09','#EF2118'],
     intro:"Selam! I'm Jah the Lion of Ethiopia! Ethiopia is the birthplace of coffee!",
@@ -1876,7 +1876,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'ghana', name:'Ghana', flag:'🇬🇭', capital:'Accra', continent:'africa',
+  { id:'ghana', name:'Ghana', flag:'🇬🇭', capital:'Accra', continent:'africa', weight:3,
     animal:'Tawny Eagle', animalEmoji:'🦅', mastername:'Sankofa',
     flagColors:['#006B3F','#FCD116','#CE1126'],
     intro:"Akwaaba! I'm Sankofa the Eagle of Ghana! First African country to gain independence!",
@@ -1905,7 +1905,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'tanzania', name:'Tanzania', flag:'🇹🇿', capital:'Dodoma', continent:'africa',
+  { id:'tanzania', name:'Tanzania', flag:'🇹🇿', capital:'Dodoma', continent:'africa', weight:3,
     animal:'Giraffe', animalEmoji:'🦒', mastername:'Twiga',
     flagColors:['#1EB53A','#FCD116','#00A3DD'],
     intro:"Karibu! I'm Twiga the Giraffe of Tanzania! Home to Africa's highest mountain!",
@@ -1939,7 +1939,7 @@ const COUNTRIES = [
   // NORTH AMERICA (5 countries)
   // ─────────────────────────────────────────
 
-  { id:'usa', name:'United States', flag:'🇺🇸', capital:'Washington D.C.', continent:'north-america',
+  { id:'usa', name:'United States', flag:'🇺🇸', capital:'Washington D.C.', continent:'north-america', weight:3,
     animal:'Bald Eagle', animalEmoji:'🦅', mastername:'Liberty',
     flagColors:['#BF0A30','#FFFFFF','#002868'],
     intro:"Howdy! I'm Liberty the Bald Eagle of the USA! Land of the free, home of the brave!",
@@ -1968,7 +1968,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'canada', name:'Canada', flag:'🇨🇦', capital:'Ottawa', continent:'north-america',
+  { id:'canada', name:'Canada', flag:'🇨🇦', capital:'Ottawa', continent:'north-america', weight:3,
     animal:'Beaver', animalEmoji:'🦫', mastername:'Maple',
     flagColors:['#FF0000','#FFFFFF','#FF0000'],
     intro:"Hey there! I'm Maple the Beaver of Canada! The Great White North is full of wonders!",
@@ -1997,7 +1997,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'mexico', name:'Mexico', flag:'🇲🇽', capital:'Mexico City', continent:'north-america',
+  { id:'mexico', name:'Mexico', flag:'🇲🇽', capital:'Mexico City', continent:'north-america', weight:3,
     animal:'Golden Eagle', animalEmoji:'🦅', mastername:'Quetzal',
     flagColors:['#006847','#FFFFFF','#CE1126'],
     intro:"¡Hola amigo! I'm Quetzal the Eagle of Mexico! Land of ancient pyramids and amazing food!",
@@ -2027,7 +2027,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'jamaica', name:'Jamaica', flag:'🇯🇲', capital:'Kingston', continent:'north-america',
+  { id:'jamaica', name:'Jamaica', flag:'🇯🇲', capital:'Kingston', continent:'north-america', weight:3,
     animal:'Streamertail Hummingbird', animalEmoji:'🐦', mastername:'Doctor',
     flagColors:['#000000','#FED100','#007B40'],
     intro:"Irie! I'm Doctor the Hummingbird of Jamaica! Fastest man on Earth comes from here!",
@@ -2056,7 +2056,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'cuba', name:'Cuba', flag:'🇨🇺', capital:'Havana', continent:'north-america',
+  { id:'cuba', name:'Cuba', flag:'🇨🇺', capital:'Havana', continent:'north-america', weight:3,
     animal:'Cuban Trogon', animalEmoji:'🐦', mastername:'Tocoro',
     flagColors:['#002A8F','#FFFFFF','#CC0000'],
     intro:"¡Saludos! I'm Tocoro the Trogon of Cuba! Cuba is an island of music and rhythm!",
@@ -2090,7 +2090,7 @@ const COUNTRIES = [
   // SOUTH AMERICA (6 countries)
   // ─────────────────────────────────────────
 
-  { id:'brazil', name:'Brazil', flag:'🇧🇷', capital:'Brasília', continent:'south-america',
+  { id:'brazil', name:'Brazil', flag:'🇧🇷', capital:'Brasília', continent:'south-america', weight:3,
     animal:'Jaguar', animalEmoji:'🐆', mastername:'Onça',
     flagColors:['#009B3A','#FEDF00','#002776'],
     intro:"Olá! I'm Onça the Jaguar of Brazil! Brazil has the largest rainforest on Earth!",
@@ -2120,7 +2120,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'argentina', name:'Argentina', flag:'🇦🇷', capital:'Buenos Aires', continent:'south-america',
+  { id:'argentina', name:'Argentina', flag:'🇦🇷', capital:'Buenos Aires', continent:'south-america', weight:3,
     animal:'Rufous Hornero', animalEmoji:'🐦', mastername:'Maradona',
     flagColors:['#74ACDF','#FFFFFF','#74ACDF'],
     intro:"¡Hola! I'm Maradona the Hornero Bird of Argentina! Home of tango and football legends!",
@@ -2150,7 +2150,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'colombia', name:'Colombia', flag:'🇨🇴', capital:'Bogotá', continent:'south-america',
+  { id:'colombia', name:'Colombia', flag:'🇨🇴', capital:'Bogotá', continent:'south-america', weight:3,
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Condor',
     flagColors:['#FCD116','#003087','#CE1126'],
     intro:"¡Bienvenidos! I'm Condor the Andean Condor of Colombia! Coffee capital of the world!",
@@ -2180,7 +2180,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'peru', name:'Peru', flag:'🇵🇪', capital:'Lima', continent:'south-america',
+  { id:'peru', name:'Peru', flag:'🇵🇪', capital:'Lima', continent:'south-america', weight:3,
     animal:'Vicuña', animalEmoji:'🦙', mastername:'Inca',
     flagColors:['#D91023','#FFFFFF','#D91023'],
     intro:"Rimaykullayki! I'm Inca the Vicuña of Peru! Ancient Incan wonders await you!",
@@ -2210,7 +2210,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'chile', name:'Chile', flag:'🇨🇱', capital:'Santiago', continent:'south-america',
+  { id:'chile', name:'Chile', flag:'🇨🇱', capital:'Santiago', continent:'south-america', weight:3,
     animal:'Andean Condor', animalEmoji:'🦅', mastername:'Viento',
     flagColors:['#D52B1E','#FFFFFF','#0039A6'],
     intro:"¡Hola! I'm Viento the Condor of Chile! Chile is the world's longest country!",
@@ -2240,7 +2240,7 @@ const COUNTRIES = [
     ]
   },
 
-  { id:'venezuela', name:'Venezuela', flag:'🇻🇪', capital:'Caracas', continent:'south-america',
+  { id:'venezuela', name:'Venezuela', flag:'🇻🇪', capital:'Caracas', continent:'south-america', weight:3,
     animal:'Troupial', animalEmoji:'🐦', mastername:'Troupi',
     flagColors:['#CF142B','#00247D','#009E60'],
     intro:"¡Buenas! I'm Troupi the Troupial Bird of Venezuela! Home of the world's tallest waterfall!",

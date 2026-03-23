@@ -2116,7 +2116,11 @@
 
       // ── Pre-pick winner (before any click) ──
       const pool   = COUNTRIES.filter(c => c.continent === S.continent);
-      const winner = pool[Math.floor(Math.random() * pool.length)];
+      const winner = (() => {
+        let r = Math.random() * pool.reduce((s, c) => s + (c.weight ?? 1), 0);
+        for (const c of pool) { r -= (c.weight ?? 1); if (r <= 0) return c; }
+        return pool[pool.length - 1];
+      })();
 
       // ── Attach click handlers to each egg ──
       const pColors = ['#ff6b9d','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f43','#ff4d4d','#00d4aa'];
