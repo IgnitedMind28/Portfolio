@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Compass — AI Product Strategy | Utpal Mukherjee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','system-ui','sans-serif'], mono: ["'JetBrains Mono'",'monospace'] } } } }
+</script>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:#d1d5db; border-radius:3px; }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .chip { display:inline-flex; align-items:center; padding:3px 11px; border-radius:9999px; font-size:11px; font-weight:600; border-width:1px; }
+  .prose-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .prose-table th { text-align:left; padding:9px 12px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:#f9fafb; color:#6b7280; border-bottom:1px solid #e5e7eb; }
+  .prose-table td { padding:9px 12px; vertical-align:top; border-bottom:1px solid #f3f4f6; color:#374151; }
+  .stage-eyebrow { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.16em; }
+</style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- ══ TITLE BLOCK ══ -->
+<header class="px-6 pt-16 pb-12" style="background:linear-gradient(to right, #eef2ff 0%, #f0f9ff 55%, #f5f3ff 100%);">
+  <div class="max-w-4xl mx-auto">
+    <p class="stage-eyebrow text-indigo-500 mb-4">AI Product Strategy · Agentic AI · Strategy Document</p>
+    <h1 class="text-[34px] sm:text-[44px] font-black tracking-tight text-gray-900 mb-4">Meridian Compass</h1>
+    <p class="text-gray-600 text-[16px] max-w-2xl leading-relaxed mb-6">An agentic AI capability on a multi-tenant core banking platform — worked through end to end using a custom AI product strategy framework I built: domain detection, structural risk, an automated kill-switch spec, auditability distinct from correctness, and consolidated decision rights.</p>
+    <div class="flex flex-wrap gap-2">
+      <span class="chip bg-indigo-50 text-indigo-700 border-indigo-100">Financial Services · Core Banking</span>
+      <span class="chip bg-violet-50 text-violet-700 border-violet-100">Multi-Tenant B2B Platform</span>
+      <span class="chip bg-amber-50 text-amber-700 border-amber-100">Agentic AI</span>
+      <span class="chip bg-gray-800 text-gray-100 border-gray-700">Pre-Launch / Cold-Start</span>
+    </div>
+  </div>
+</header>
+
+<div class="max-w-4xl mx-auto px-6">
+  <div class="bg-amber-50 border border-amber-100 rounded-xl px-5 py-3 text-[13px] text-amber-800 -mt-6 mb-14 relative z-10">
+    <strong>Hypothetical strategy document.</strong> Meridian, Meridian Compass, and all named client banks and personas are fictional, built to demonstrate the framework. The regulatory citation is real.
+  </div>
+
+  <!-- DETECTION SUMMARY -->
+  <section class="mb-16">
+    <p class="stage-eyebrow text-gray-400 mb-3">Stage A — Detection</p>
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">00 · Detection Summary</h2>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th style="width:180px;">Question</th><th>Finding</th></tr>
+        <tr><td class="font-semibold">Domain</td><td>Financial Services — Core Banking Infrastructure. Meridian is a core banking engine vendor; its clients are banks, not individual consumers.</td></tr>
+        <tr><td class="font-semibold">Regulatory landscape</td><td>Client banks require <a href="https://www.occ.gov/news-issuances/news-releases/2024/pub-third-party-risk-management-guide-for-community-banks.pdf" target="_blank" class="text-indigo-600 underline">third-party vendor risk management</a>, plus GLBA for financial data privacy.</td></tr>
+        <tr><td class="font-semibold">Trust-sensitivity</td><td>Worst failure: an incorrect judgment leading to a confirmed action that disrupts production, potentially across tenants.</td></tr>
+        <tr><td class="font-semibold">Deployment model</td><td>Multi-tenant B2B platform — confirmers of any action are each client bank's own employees.</td></tr>
+        <tr><td class="font-semibold">Structural adjacency</td><td>Confirmed YES — Compass can trigger deterministic actions via an MCP layer, gated by human confirmation.</td></tr>
+        <tr><td class="font-semibold">Data availability</td><td><span class="chip bg-violet-50 text-violet-700 border-violet-100">NO DATA YET</span> — hybrid cold-start sourcing applies (Section 07).</td></tr>
+        <tr><td class="font-semibold">Product mechanism</td><td>Conversational + RAG-Grounded + Autonomous Agent/Tool-Use.</td></tr>
+      </table>
+    </div>
+    <p class="text-[12.5px] text-gray-400 italic mt-3 pl-3 border-l-2 border-gray-200">Every mandatory gate in this document is triggered by these seven findings.</p>
+  </section>
+
+  <!-- PERSONA ROSTER -->
+  <section class="mb-16">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-2">Persona Roster</h2>
+    <p class="text-[13px] text-gray-500 mb-5 italic">Every named individual referenced throughout this document, introduced once — the rest of the document refers to them by name, not generic role.</p>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Utpal Mukherjee</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Principal PM for Compass — Meridian</div><div class="text-[12.5px] text-gray-500">Overall accountable owner; success-criteria owner; Product Feedback Loop; Explainability gate</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Rachel Kim</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Platform Security Lead — Meridian</div><div class="text-[12.5px] text-gray-500">Isolation Integrity; Kill-Switch spec/build; hard veto on Isolation Gate</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Marcus Webb</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Head of Engineering — Meridian</div><div class="text-[12.5px] text-gray-500">Action-Fidelity, Groundedness, Latency; Model/Prompt Feedback Loop</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Elena Vasquez</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Head of Compliance — Meridian</div><div class="text-[12.5px] text-gray-500">Compliance metric; platform-level sign-off; hard veto on Legal &amp; Compliance</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">David Okonkwo</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">VP of Platform Product — Meridian</div><div class="text-[12.5px] text-gray-500">Accuracy metric; cross-org escalation contact</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Sandra Liu</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">CISO — Meridian</div><div class="text-[12.5px] text-gray-500">All-client incident notification authority</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Priya Sharma</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Sr. Ops &amp; Risk Analyst — Harborline Bank</div><div class="text-[12.5px] text-gray-500">Cold-start validation; joint Error Analysis reviewer; comprehension testing</div></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-gray-900 text-[14px]">Jonathan Reyes</div><div class="text-[12px] text-indigo-600 font-medium mb-1.5">Independent Compliance Consultant</div><div class="text-[12.5px] text-gray-500">Seed authorship for Compliance &amp; Multi-turn categories</div></div>
+    </div>
+  </section>
+
+  <!-- EXEC SUMMARY -->
+  <section class="mb-16">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-4">01 · Executive Summary</h2>
+    <p class="text-gray-600 text-[15px] leading-relaxed mb-3">Meridian Compass is an agentic AI capability on Meridian's core banking platform: client bank staff query their own bank's operational data in plain language, and, with human confirmation, trigger a small set of actions inside their own tenant. This document asks for approval of a single-pilot-client rollout — Harborline Bank — rather than a broader launch, because tenant isolation, the automated kill-switch, both legal sign-offs, and user comprehension testing are all still open.</p>
+    <p class="text-gray-900 text-[15px] font-semibold">Recommendation: proceed now with the read-only capability; do not enable action-triggering for any client until every item in the scorecard below is resolved.</p>
+  </section>
+
+  <!-- RISK & READINESS SCORECARD -->
+  <section class="mb-16">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+      <span class="stage-eyebrow text-red-600">Highest Stakes First</span>
+    </div>
+    <h2 class="text-[22px] font-bold text-gray-900 mb-6">02 · Risk &amp; Readiness Scorecard</h2>
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 border-l-4 border-l-red-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Structural risk</span><span class="chip bg-red-50 text-red-700 border-red-100">CONFIRMED</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Compass can propose an action a client's staff must confirm before it executes — confirming quickly under time pressure without independent verification is functionally no confirmation at all.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-red-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Tenant isolation</span><span class="chip bg-red-50 text-red-700 border-red-100">UNVERIFIED</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Nobody has verified data/actions can't cross between client banks. The single largest risk in this strategy.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-red-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Automated kill-switch</span><span class="chip bg-red-50 text-red-700 border-red-100">NOT YET BUILT</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">An isolation breach must stop itself at the code level. Today the only response is paging a human — an accountability step, not a stopping mechanism.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-amber-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Legal &amp; compliance sign-off</span><span class="chip bg-amber-50 text-amber-700 border-amber-100">OUTSTANDING</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Both Meridian's platform-level review and Harborline's client-level sign-off are outstanding — neither can complete the other's.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-amber-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">User comprehension</span><span class="chip bg-amber-50 text-amber-700 border-amber-100">OUTSTANDING</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Not yet tested whether staff understand what a confirmation click authorizes under real pressure.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-violet-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Success criteria &amp; cold start</span><span class="chip bg-violet-50 text-violet-700 border-violet-100">PROVISIONAL</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Metrics are reasoned estimates. Illustrative dataset: <a href="https://docs.google.com/spreadsheets/d/1U48CVPKhMT1x2ZgfPALKdUMb5HbFtBCvzdyWzuF8SB0/edit?usp=sharing" target="_blank" class="text-indigo-600 underline">live dataset (public, view-only)</a>.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-amber-400 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center gap-2 mb-1.5"><span class="text-gray-900 font-semibold text-[13.5px]">Decision rights</span><span class="chip bg-amber-50 text-amber-700 border-amber-100">PARTIALLY DEFINED</span></div>
+        <p class="text-gray-500 text-[13px] leading-relaxed">Named owners exist per gate; final veto authority when owners disagree is now defined explicitly (Section 13), not left to be improvised under pressure.</p>
+      </div>
+    </div>
+    <p class="text-gray-400 text-[12.5px] italic mt-6">Action-triggering does not reach any client until isolation and the kill-switch are CONFIRMED, both sign-offs are PRESENT, and Error Analysis has run on real pilot data.</p>
+  </section>
+
+  <p class="stage-eyebrow text-gray-400 mt-16 mb-3">Stage B — Product &amp; Structural Framing</p>
+
+  <!-- PRODUCT CONTEXT -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-4">03 · Product Context &amp; Value Case</h2>
+    <p class="text-gray-600 text-[15px] leading-relaxed mb-6">Concrete example: an ops analyst at Harborline (Tier 2) asks Compass, within Harborline's own tenant, "will running tonight's EOD process create risk given current system load?" — using only Harborline's own tenant data.</p>
+
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-3">Value for the End User</h3>
+    <ul class="list-disc pl-5 space-y-1.5 text-[13.5px] text-gray-600 mb-4">
+      <li>Replaces manually checking three separate systems before triggering EOD with a single question, answered in seconds, inside the platform the analyst already works in.</li>
+      <li>Surfaces the <em>specific</em> risk factors behind the recommendation (e.g., current system load vs. historical baseline) rather than a bare yes/no the analyst has to trust blindly.</li>
+      <li>Reduces the chance of triggering EOD during a risk window the analyst had no easy way of seeing — today that window is only visible by manually cross-referencing dashboards nobody checks unless they think to.</li>
+      <li>Available inside Harborline's own tenant workflow — no separate tool, login, or export step.</li>
+    </ul>
+
+    <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-6">
+      <p class="text-[13.5px] text-indigo-900 mb-2"><strong>Quantified pain — shown as derivation, not a bare guess:</strong></p>
+      <p class="text-[13px] text-indigo-900 leading-relaxed">Today, answering "is it safe to run EOD tonight" without Compass requires: checking the system-load dashboard for current vs. historical utilization (~5 min) + cross-referencing today's transaction volume against the historical baseline in a separate reporting tool (~10 min) + checking the platform-ops channel for open incidents or maintenance windows that could collide with EOD (~5–10 min) + compiling the findings into a judgment call, sometimes escalating to a colleague for a second opinion under time pressure (~10–15 min) — totaling an estimated 30–45 minutes.</p>
+      <p class="text-[12px] text-indigo-700 italic mt-2">This breakdown is a reasoned estimate pending real measurement; the total is not a validated number, but each component is individually checkable against how Harborline's ops team actually works today.</p>
+    </div>
+
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-3">Value for the Business</h3>
+    <p class="text-[12.5px] font-semibold text-gray-500 uppercase tracking-wide mb-2">To Meridian (the platform vendor)</p>
+    <ul class="list-disc pl-5 space-y-1.5 text-[13.5px] text-gray-600 mb-4">
+      <li>Differentiates Compass as an agentic capability layered on the core banking engine, deepening switching costs for clients already on the platform.</li>
+      <li>Built as a reusable, tenant-scoped capability — the same underlying investigation logic serves Harborline, Continental Trust, and Ridgeway without bespoke per-client integration work.</li>
+      <li>Generates structured usage and error data (Sections 07–08) that improves the product over time — a flywheel a competitor copying only the UI cannot replicate.</li>
+    </ul>
+    <p class="text-[12.5px] font-semibold text-gray-500 uppercase tracking-wide mb-2">To each client/tenant (e.g., Harborline)</p>
+    <ul class="list-disc pl-5 space-y-1.5 text-[13.5px] text-gray-600 mb-6">
+      <li>Reduces operational load on a Tier 2 bank's leaner ops team, which doesn't have the dedicated risk-modeling staff a Tier 1 bank can afford.</li>
+      <li>Reduces the risk of a manual investigation missing a genuine risk window, since Compass surfaces it consistently rather than depending on which analyst is covering that shift.</li>
+    </ul>
+
+    <p class="text-gray-600 text-[14px] leading-relaxed mb-6"><strong class="text-gray-900">Why this wins, briefly:</strong> turns a multi-tool manual investigation into one query inside the platform clients already use daily — a workflow-integration advantage, not a claim of unique model capability. Deeper competitive analysis lives in dedicated positioning/GTM work, deliberately not duplicated here.</p>
+
+    <div class="grid sm:grid-cols-2 gap-3 mb-8">
+      <div class="bg-amber-50 border border-amber-100 rounded-xl p-4"><p class="text-[13px] text-amber-900"><strong>Cost of delay:</strong> slower data access for clients; competitors may ship agentic tooling first.</p></div>
+      <div class="bg-red-50 border border-red-100 rounded-xl p-4"><p class="text-[13px] text-red-900"><strong>Cost of an imperfect launch:</strong> an incident traced to a shared defect damages trust with every client at once.</p></div>
+    </div>
+
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-1">Product Success Metrics</h3>
+    <p class="text-[12.5px] text-gray-400 italic mb-3">Distinct from Section 09's AI Evaluation Dimensions — those measure whether the AI's output is good; these measure whether the product itself is succeeding.</p>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th>Metric</th><th>Target</th><th>How It's Measured</th><th>Owner</th></tr>
+        <tr><td class="font-semibold">Adoption rate</td><td>≥60% of Harborline ops analysts use Compass for EOD/EOM checks at least weekly within 60 days of pilot launch <em class="text-gray-400">(provisional)</em></td><td>In-product usage analytics, tagged by query type</td><td>Utpal Mukherjee</td></tr>
+        <tr><td class="font-semibold">Time actually saved</td><td>Reduce the ~30–45 min baseline above to under 5 min per check <em class="text-gray-400">(provisional — validated against real pilot timestamps, not the 1.2 estimate restated)</em></td><td>Timestamped before/after workflow comparison during pilot</td><td>Utpal Mukherjee + Priya Sharma</td></tr>
+        <tr><td class="font-semibold">Escalation/support reduction</td><td>≥30% reduction in EOD-related escalations to the platform-ops channel <em class="text-gray-400">(provisional)</em></td><td>Ticket/escalation-channel tagging</td><td>Marcus Webb</td></tr>
+        <tr><td class="font-semibold">User satisfaction</td><td>≥4/5 average in-product rating per EOD/EOM query <em class="text-gray-400">(provisional)</em></td><td>In-product micro-survey</td><td>Priya Sharma</td></tr>
+        <tr><td class="font-semibold">Retention of usage</td><td>≥70% of Week-1 adopters still using Compass for this workflow at 90 days <em class="text-gray-400">(provisional)</em></td><td>Usage analytics, cohort tracking</td><td>Utpal Mukherjee</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- STRUCTURAL RISK -->
+  <section class="mb-14">
+    <div class="flex items-center gap-2 mb-4"><h2 class="text-[22px] font-bold text-gray-900">04 · Structural Risk Assessment</h2><span class="chip bg-red-50 text-red-700 border-red-100">MANDATORY</span></div>
+    <div class="bg-red-50 border border-red-100 rounded-xl p-4">
+      <p class="text-[13.5px] text-red-900"><strong>If every metric passes, does the risk still exist?</strong> Yes — confirming under time pressure without independent verification is functionally no confirmation. The kill-switch discipline (Section 05) applies to any zero-tolerance failure, not only physical products.</p>
+    </div>
+  </section>
+
+  <!-- ISOLATION & KILL-SWITCH -->
+  <section class="mb-14">
+    <div class="flex items-center gap-2 mb-5"><h2 class="text-[22px] font-bold text-gray-900">05 · Isolation &amp; Kill-Switch</h2><span class="chip bg-red-50 text-red-700 border-red-100">UNVERIFIED</span></div>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-6">
+      <table class="prose-table">
+        <tr><th style="width:180px;">Question</th><th>Finding</th></tr>
+        <tr><td class="font-semibold">Data isolation</td><td>UNVERIFIED — requires tenant_id enforced at the data layer</td></tr>
+        <tr><td class="font-semibold">Action isolation</td><td>UNVERIFIED — requires tenant-scoped MCP credentials</td></tr>
+        <tr><td class="font-semibold">New infra or legacy?</td><td>Core banking engine predates Compass; the shared cross-client benchmarking warehouse predates strict per-tenant partitioning</td></tr>
+      </table>
+    </div>
+
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-3">Kill-Switch Specification</h3>
+    <div class="bg-white border border-gray-200 border-l-4 border-l-red-400 rounded-xl p-4 mb-3 shadow-sm">
+      <p class="text-gray-700 text-[13.5px]"><strong class="text-gray-900">Automated mechanism (NOT YET BUILT):</strong> the orchestration layer must subscribe to the isolation checker's signal and disable the action layer for the affected tenant within seconds of detection — before any human is paged.</p>
+    </div>
+    <p class="text-gray-500 text-[13px] mb-3"><strong class="text-gray-700">Human escalation (parallel, not the stop):</strong> Rachel Kim paged within 15 min; Sandra Liu (CISO) and Legal notified; clients notified per policy — an accountability track, not the stopping mechanism.</p>
+    <p class="text-gray-400 text-[12.5px] italic">"CONFIRMED" requires passing the adversarial isolation test suite (Section 12) — not a completed review alone.</p>
+  </section>
+
+  <!-- TECH ARCHITECTURE -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">06 · Tech Architecture</h2>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th style="width:170px;">Layer</th><th>Description</th></tr>
+        <tr><td class="font-semibold">Orchestration</td><td>Tenant-scoping enforcement + (once built) the automated kill-switch</td></tr>
+        <tr><td class="font-semibold">Data Retrieval (RAG)</td><td>Per-tenant partitioned — never live OLTP</td></tr>
+        <tr><td class="font-semibold">Action Layer (MCP)</td><td>Tenant-scoped, confirmation-gated actions</td></tr>
+        <tr><td class="font-semibold">Logging</td><td>Trace-collection layer Error Analysis (Section 08) depends on</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <p class="stage-eyebrow text-gray-400 mt-16 mb-3">Stage C — Evaluation Foundation</p>
+
+  <!-- WHY EVALS + FAILURE TRACES -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-4">07 · Why We Need Evals &amp; Cold-Start Strategy</h2>
+    <p class="text-gray-600 text-[14.5px] leading-relaxed mb-6">Real financial consequences; regulatory obligation inherited from clients; shared model updates replayed across every client at once; trust is fragile and stakes compound across the client base.</p>
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-3">Five Concrete Illustrative Failure Traces</h3>
+    <ol class="list-decimal pl-5 space-y-3 text-[13.5px] text-gray-600 mb-8">
+      <li>An analyst asks Compass whether it's safe to run tonight's end-of-day settlement batch. Compass answers yes, based on a system-load reading that was already out of date by the time it replied — actual load had climbed from 45% to 85% in the five minutes before the answer was given. The batch runs, collides with a separate overnight reconciliation job, and delays regulatory reporting past its cutoff.</li>
+      <li>A user at Harborline (a Tier 2 client bank) phrases a question as if it were a request for an "industry benchmark." Compass doesn't recognize this as an attempt to pull another client's numbers, and answers with Continental Trust's (a different, Tier 1 client bank's) actual internal figures — a cross-tenant data leak disguised as an innocuous question.</li>
+      <li>An analyst says they're "covering for a colleague who's out today" and asks to see that colleague's account queue. Compass grants the access because the request sounds legitimate and time-pressured, with no independent check that this analyst actually has standing to view that queue.</li>
+      <li>An analyst is shown a screen they believe is a read-only summary of tonight's EOD status. They click "confirm" without realizing that specific click was actually authorizing Compass to trigger the EOD batch job — the interface never made clear that this click, unlike the ones before it, carried a real action rather than an acknowledgment.</li>
+      <li>Compass presents a system-load reading that is 47 minutes old as if it were current, without flagging its age. The analyst makes a go/no-go call believing they're looking at real-time data.</li>
+    </ol>
+    <h3 class="text-[15px] font-semibold text-gray-900 mb-3">Cold-Start Data Strategy — Hybrid, Per-Category</h3>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-3">
+      <table class="prose-table">
+        <tr><th>Category</th><th>Source(s)</th><th>Validator(s)</th><th>Trigger</th></tr>
+        <tr><td class="font-semibold">Core/Informational</td><td>Recruited Harborline users + Jonathan Reyes's seeds</td><td>Utpal Mukherjee + Priya Sharma</td><td>100 real traces</td></tr>
+        <tr><td class="font-semibold">Action-Triggering</td><td>Recruited Harborline users' actual confirm/cancel flows + Jonathan Reyes's seeds for tiered/dual-approval edge cases</td><td>Utpal Mukherjee + Priya Sharma</td><td>50 real confirm/cancel traces</td></tr>
+        <tr><td class="font-semibold">Isolation Testing</td><td>Synthetic, adversarially designed</td><td>Rachel Kim</td><td>Permanent — never wait for a real leak</td></tr>
+        <tr><td class="font-semibold">Edge Cases</td><td>Recruited Harborline users' actual near-miss queries, expanded synthetically once Error Analysis (Section 08) names the top recurring categories</td><td>Utpal Mukherjee + Priya Sharma</td><td>First Error Analysis round complete</td></tr>
+        <tr><td class="font-semibold">Compliance/Authorization</td><td>Jonathan Reyes's seeds, scoped to actual regulatory requirements</td><td>Elena Vasquez</td><td>Legal sign-off on the seed set</td></tr>
+        <tr><td class="font-semibold">Adversarial Inputs</td><td>Synthetic, designed against actual guardrails</td><td>Rachel Kim</td><td>Permanent — never wait for a real attack</td></tr>
+        <tr><td class="font-semibold">Multi-Turn</td><td>Recruited Harborline users, once the Core/Informational baseline is stable</td><td>Utpal Mukherjee + Priya Sharma</td><td>50 real multi-turn traces</td></tr>
+      </table>
+    </div>
+    <p class="text-[12.5px] text-gray-400 italic pl-3 border-l-2 border-gray-200">Named owner: Utpal Mukherjee, with Priya Sharma. Live dataset: <a href="https://docs.google.com/spreadsheets/d/1U48CVPKhMT1x2ZgfPALKdUMb5HbFtBCvzdyWzuF8SB0/edit?usp=sharing" target="_blank" class="text-indigo-600 underline">public, view-only</a>.</p>
+  </section>
+
+  <!-- ERROR ANALYSIS -->
+  <section class="mb-14">
+    <div class="flex items-center gap-2 mb-5"><h2 class="text-[22px] font-bold text-gray-900">08 · Error Analysis Methodology</h2><span class="chip bg-violet-50 text-violet-700 border-violet-100">NOT YET RUN</span></div>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">1. Trace Collection</div><p class="text-[12.5px] text-gray-500">The prerequisite the other steps depend on — if the system doesn't log enough detail, there's nothing to review.</p></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">2. Open Coding</div><p class="text-[12.5px] text-gray-500">Utpal Mukherjee and Priya Sharma review 100+ real traces, notes in their own words, no predetermined checklist — sorting mid-read forces new observations into existing buckets.</p></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">3. Axial Coding</div><p class="text-[12.5px] text-gray-500">Group notes into specific categories, e.g. "cites stale EOD telemetry" — a deliberate second pass, stepping back to see the whole pile at once.</p></div>
+      <div class="border border-gray-100 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">4. Quantification</div><p class="text-[12.5px] text-gray-500">Count occurrences per category — turns a vague impression into an actual ranked priority, replacing Section 09's provisional dimensions.</p></div>
+    </div>
+  </section>
+
+  <p class="stage-eyebrow text-gray-400 mt-16 mb-3">Stage D — Measurement Design</p>
+
+  <!-- METRICS -->
+  <section class="mb-14">
+    <div class="flex items-center gap-2 mb-5"><h2 class="text-[22px] font-bold text-gray-900">09 · Metrics &amp; Named Ownership</h2><span class="chip bg-violet-50 text-violet-700 border-violet-100">PROVISIONAL</span></div>
+    <p class="text-gray-600 text-[13.5px] leading-relaxed mb-6"><strong class="text-gray-900">Selection (Phase 0.6 cross-reference):</strong> Conversational + RAG-Grounded + Agent, Financial Services. Pulls from Output Quality, Safety &amp; Trust, Agents &amp; Tool Use, RAG Systems, Financial, and Compliance &amp; Governance. New this revision: <strong class="text-gray-900">Explainability/Auditability</strong>, near-mandatory given Compass is agentic and structurally adjacent to consequential actions — scoped as auditability (can a human verify the reasoning against source data), not mechanistic interpretability.</p>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th>Metric</th><th>Target</th><th>Critical</th><th>Action</th><th>Owner</th></tr>
+        <tr><td>Data/Factual Accuracy</td><td>≥98%</td><td>&lt;95%</td><td>P0 issue</td><td>David Okonkwo</td></tr>
+        <tr><td>Compliance/Authorization</td><td>100%</td><td>&lt;99.5%</td><td>Immediate action</td><td>Elena Vasquez</td></tr>
+        <tr><td>Action-Fidelity</td><td>100%</td><td>&lt;99.9%</td><td class="text-red-600 font-medium">Automated halt (Sec. 05)</td><td>Marcus Webb</td></tr>
+        <tr><td>Isolation Integrity</td><td>100%</td><td>Any occurrence</td><td class="text-red-600 font-medium">Automated halt (Sec. 05)</td><td>Rachel Kim</td></tr>
+        <tr><td>Explainability/Auditability</td><td>≥90%</td><td>&lt;80%</td><td>Investigate / disable</td><td>Utpal Mukherjee</td></tr>
+      </table>
+    </div>
+    <p class="text-gray-400 text-[12.5px] italic mt-4">Action-Fidelity and Isolation now point to Section 05's kill-switch, not a vague "halt." Ownership conflicts are resolved once, in Section 13 — not re-derived here.</p>
+  </section>
+
+  <!-- TEST DATASET -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">10 · Test Dataset &amp; Eval Architecture</h2>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-4">
+      <table class="prose-table">
+        <tr><th>Category</th><th># Cases</th><th>Source</th></tr>
+        <tr><td class="font-semibold">Core/Informational Queries</td><td>150</td><td>Real Harborline pilot traces</td></tr>
+        <tr><td class="font-semibold">Action-Triggering Scenarios</td><td>80</td><td>Real confirm/cancel traces + consultant seeds for dual-approval edge cases</td></tr>
+        <tr><td class="font-semibold">Isolation Testing</td><td>80</td><td>Adversarial, incl. legacy warehouse boundary</td></tr>
+        <tr><td class="font-semibold">Edge Cases</td><td>60</td><td>Real near-miss queries + synthetic expansion post-Error-Analysis</td></tr>
+        <tr><td class="font-semibold">Compliance/Authorization Testing</td><td>70</td><td>Consultant seeds, legal-reviewed</td></tr>
+        <tr><td class="font-semibold">Adversarial Inputs</td><td>50</td><td>Synthetic (permanent)</td></tr>
+        <tr><td class="font-semibold">Multi-Turn Conversations</td><td>60</td><td>Real multi-turn traces, once core baseline is stable</td></tr>
+      </table>
+    </div>
+    <div class="flex flex-wrap gap-8 py-2">
+      <div><div class="text-[26px] font-black text-gray-900 tracking-tight">550</div><div class="text-[11px] text-gray-400 mt-0.5">target test cases — sum of the rows above, not a separate round number</div></div>
+      <div class="w-px bg-gray-200 hidden sm:block"></div>
+      <div><div class="text-[26px] font-black text-gray-900 tracking-tight">~40</div><div class="text-[11px] text-gray-400 mt-0.5">illustrative seed cases exist today</div></div>
+      <div class="w-px bg-gray-200 hidden sm:block"></div>
+      <div><div class="text-[26px] font-black text-gray-900 tracking-tight">7</div><div class="text-[11px] text-gray-400 mt-0.5">categories, per-category sourced</div></div>
+    </div>
+    <p class="text-[12.5px] text-gray-400 italic mt-3">Judge-calibration OUTSTANDING — scoped to Relevance/Balance/Tone, not the deterministic Isolation/Action-Fidelity/Compliance gates.</p>
+  </section>
+
+  <p class="stage-eyebrow text-gray-400 mt-16 mb-3">Stage E — Governance &amp; Readiness</p>
+
+  <!-- DEPLOYMENT GATES -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">11 · Deployment Gates, Legal &amp; Comprehension</h2>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-4">
+      <table class="prose-table">
+        <tr><th>Gate</th><th>Status</th></tr>
+        <tr><td class="font-semibold">Isolation Gate</td><td><span class="chip bg-red-50 text-red-700 border-red-100">OUTSTANDING</span> — Action: Automated halt (Section 05)</td></tr>
+        <tr><td class="font-semibold">Explainability/Auditability Gate</td><td><span class="chip bg-red-50 text-red-700 border-red-100">OUTSTANDING</span></td></tr>
+        <tr><td class="font-semibold">Platform + Client-Level Legal Sign-off</td><td><span class="chip bg-red-50 text-red-700 border-red-100">OUTSTANDING</span></td></tr>
+        <tr><td class="font-semibold">User Comprehension (all 3 tiers)</td><td><span class="chip bg-red-50 text-red-700 border-red-100">OUTSTANDING</span></td></tr>
+      </table>
+    </div>
+    <p class="text-[13.5px] text-gray-600"><strong class="text-gray-900">Comprehension testing method:</strong> a time-boxed scenario with a concurrent distractor task, simulating the real pre-EOD pressure window — a calm-session result is a best-case ceiling, not the expected rate.</p>
+  </section>
+
+  <!-- PILOT-TO-MARKET DELTA -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">12 · Segment Risk-Tiering &amp; Pilot-to-Market Delta</h2>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th>Dimension</th><th>Harborline (Pilot)</th><th>Continental Trust (T1)</th><th>Ridgeway (T3)</th></tr>
+        <tr><td class="font-semibold">Data hygiene</td><td>Reasonably clean</td><td>Likely stronger governance</td><td>Likely messier records</td></tr>
+        <tr><td class="font-semibold">Staff sophistication</td><td>Dedicated analysts</td><td>Specialist teams</td><td>Generalist staff</td></tr>
+        <tr><td class="font-semibold">Tooling maturity</td><td>Established, moderate</td><td>Mature, extensive</td><td>Minimal — may lean on Compass more</td></tr>
+        <tr><td class="font-semibold">Regulatory stringency</td><td>Standard Tier 2</td><td>Higher — systemic scrutiny</td><td>Lower baseline, less internal capacity</td></tr>
+      </table>
+    </div>
+    <p class="text-[12.5px] text-gray-400 italic mt-3 pl-3 border-l-2 border-gray-200">A clean result at Harborline doesn't clear Tier 1 (complexity, scrutiny) or Tier 3 (data quality, capacity) — each gets its own validation pass before expansion (Section 14).</p>
+  </section>
+
+  <!-- DECISION RIGHTS -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-2">13 · Decision Rights &amp; Escalation</h2>
+    <p class="text-gray-500 text-[13px] italic mb-5">Every other section names an owner for a gate. This section answers what none of them can alone: who wins when named owners disagree.</p>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-4">
+      <table class="prose-table">
+        <tr><th>Decision Category</th><th>Veto Holder</th><th>Overridable By</th></tr>
+        <tr><td>Isolation Gate / Kill-Switch</td><td>Rachel Kim</td><td class="text-red-600 font-medium">Nobody — hard veto</td></tr>
+        <tr><td>Legal &amp; Compliance Sign-off</td><td>Elena Vasquez</td><td class="text-red-600 font-medium">Nobody — hard veto</td></tr>
+        <tr><td>Accuracy / Groundedness / Latency</td><td>Utpal Mukherjee</td><td>Overridable, written rationale only</td></tr>
+        <tr><td>Explainability/Auditability</td><td>Utpal Mukherjee</td><td>Soft gate — overridable in writing</td></tr>
+      </table>
+    </div>
+    <p class="text-gray-600 text-[13px]"><strong class="text-gray-900">Cross-org escalation:</strong> if Harborline's sign-off hasn't started by Week 8, escalate to David Okonkwo; if not complete by Week 14, downstream rollout is explicitly re-dated.</p>
+  </section>
+
+  <p class="stage-eyebrow text-gray-400 mt-16 mb-3">Stage F — Rollout &amp; Operations</p>
+
+  <!-- ROLLOUT PLAN -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-5">14 · Rollout Plan — Pre/Post-Production Phases</h2>
+    <div class="space-y-3 mb-4">
+      <div class="border border-gray-100 border-l-4 border-l-indigo-400 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">Pre-Production · Weeks 1–6</div><p class="text-[13px] text-gray-500">Recruit Harborline; expand dataset to 550+; <strong class="text-gray-700">build the automated kill-switch — a pre-production blocker, not a post-launch nice-to-have.</strong> No action-triggering.</p></div>
+      <div class="border border-gray-100 border-l-4 border-l-indigo-400 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">Post-Production Stage 1 · Weeks 7–10</div><p class="text-[13px] text-gray-500">Collect first 100 real traces; run Error Analysis; revise Section 09.</p></div>
+      <div class="border border-gray-100 border-l-4 border-l-indigo-400 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">Post-Production Stage 2 · Weeks 11–14</div><p class="text-[13px] text-gray-500">Calibrate judge; <strong class="text-gray-700">confirm the kill-switch fires correctly in shadow mode against injected violations</strong>; complete legal sign-off + comprehension testing.</p></div>
+      <div class="border border-gray-100 border-l-4 border-l-indigo-400 rounded-xl p-4"><div class="font-semibold text-[13.5px] text-gray-900 mb-1">Post-Production Stage 3 · Week 15+</div><p class="text-[13px] text-gray-500">Enable action-triggering for Harborline only once sign-off, comprehension, judge TPR/TNR, kill-switch validation, and shadow-mode gates all clear.</p></div>
+    </div>
+    <div class="bg-violet-50 border border-violet-100 rounded-xl p-4 mb-3"><p class="text-[13px] text-violet-900"><strong>Stopping criteria:</strong> tight enough to expand when novel-failure-category rate flattens AND judge TPR/TNR stabilizes AND Section 12's delta table has been applied to the next tier — not assumed clear by default.</p></div>
+    <div class="bg-amber-50 border border-amber-100 rounded-xl p-4"><p class="text-[13px] text-amber-900"><strong>Timeline basis:</strong> all windows above are unvalidated planning assumptions — confirm with Meridian's legal team and Harborline's compliance function directly.</p></div>
+  </section>
+
+  <!-- OFFLINE/ONLINE + FLYWHEEL -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-4">15 · Offline/Online Evals, Data Quality &amp; Flywheel</h2>
+    <p class="text-gray-600 text-[14px] leading-relaxed mb-5">Offline evals answer whether a change made things worse on known cases; online evals answer whether Compass behaves well on the full diversity of real usage. Neither substitutes for the other.</p>
+    <p class="text-gray-600 text-[13.5px] mb-4"><strong class="text-gray-900">Sampling:</strong> random + stratified (EOD/EOM queries, new tiers) + flagged/outlier (low scores, near-misses). <strong class="text-gray-900">Drift cadence:</strong> weekly, triggering a new Error Analysis round on any detected shift.</p>
+    <div class="border border-gray-100 rounded-xl overflow-hidden mb-4">
+      <table class="prose-table">
+        <tr><th>Data Quality Check</th><th>Status</th></tr>
+        <tr><td class="font-semibold">Representativeness</td><td>NOT YET CHECKED — Harborline alone won't represent Tier 1/3 (Section 12)</td></tr>
+        <tr><td class="font-semibold">Judge-calibration currency</td><td>OUTSTANDING</td></tr>
+      </table>
+    </div>
+    <div class="border border-gray-100 rounded-xl overflow-hidden">
+      <table class="prose-table">
+        <tr><th>Loop</th><th>Trigger</th><th>Owner</th></tr>
+        <tr><td class="font-semibold">Model/Prompt Feedback Loop</td><td>A model behavior problem</td><td>Marcus Webb</td></tr>
+        <tr><td class="font-semibold">Product Feedback Loop</td><td>A recurring product gap, not a model one</td><td>Utpal Mukherjee</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- TWO-SIDED FRAMING -->
+  <section class="mb-14">
+    <h2 class="text-[22px] font-bold text-gray-900 mb-2">16 · Two-Sided Strategic Framing</h2>
+    <p class="text-gray-500 text-[13px] italic mb-5">Revisits specific claims already made elsewhere in this document and pairs each with its concrete downside — not a restatement in the abstract.</p>
+    <div class="space-y-3">
+      <div class="bg-white border border-gray-200 border-l-4 border-l-amber-400 rounded-xl p-4 shadow-sm">
+        <p class="text-[13.5px] text-gray-700"><strong class="text-gray-900">Data flywheel claim, named in Section 03:</strong> structured usage and error data improves Compass over time, in a way a competitor copying only the UI cannot replicate. Cuts both ways — the same data is drawn from live client operational activity; the more clients rely on Compass, the more attractive an aggregation target it becomes, and any perceived commingling across tenants, even in aggregate, directly threatens the isolation guarantee Section 05 depends on.</p>
+      </div>
+      <div class="bg-white border border-gray-200 border-l-4 border-l-amber-400 rounded-xl p-4 shadow-sm">
+        <p class="text-[13.5px] text-gray-700"><strong class="text-gray-900">Switching-cost claim, named in Section 03:</strong> deepening client reliance on Compass is real differentiation. Cuts both ways — that same growing reliance raises regulatory scrutiny of whether a client bank's staff are exercising genuine oversight when they confirm Compass's recommendations, or rubber-stamping them — a scrutiny risk that grows precisely as Compass succeeds, not despite it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDEST QUESTIONS -->
+  <section class="mb-20 border-t border-gray-100 pt-14">
+    <p class="stage-eyebrow text-gray-400 mb-3">Closing the Loop</p>
+    <h2 class="text-[22px] font-bold text-gray-900 mb-8">Hardest Questions This Strategy Must Survive</h2>
+    <div class="space-y-6">
+      <div><h3 class="text-gray-900 font-semibold text-[14.5px] mb-1.5">If every gate passes, could this still cause the harm confirmation exists to prevent?</h3><p class="text-gray-500 text-[13.5px] leading-relaxed">Yes — confirming under time pressure without independent verification is functionally no confirmation.</p></div>
+      <div><h3 class="text-gray-900 font-semibold text-[14.5px] mb-1.5">Who signed off that compliance and isolation enforce the relevant requirements?</h3><p class="text-gray-500 text-[13.5px] leading-relaxed">Nobody yet, at either level.</p></div>
+      <div><h3 class="text-gray-900 font-semibold text-[14.5px] mb-1.5">How do you know this feature is working, and what was the plan before real data existed?</h3><p class="text-gray-500 text-[13.5px] leading-relaxed">A named PM and domain expert own success criteria; the cold-start strategy is hybrid and per-category; expansion is evidence-based, not calendar-based.</p></div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-5"><h3 class="text-gray-900 font-semibold text-[14.5px] mb-1.5">If the worst-case failure occurs, does stopping it depend on a person noticing — and who decides if two people disagree?</h3><p class="text-gray-600 text-[13.5px] leading-relaxed"><strong class="text-gray-900">Today, yes</strong> — the automated kill-switch doesn't exist yet, meaning a real isolation breach currently depends on a human noticing in time, exactly what this framework says is insufficient. Highest-priority engineering item before launch. Section 13's veto matrix names Security and Legal/Compliance as hard vetoes with no override, and the overall owner as tie-breaker for everything else, in writing.</p></div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

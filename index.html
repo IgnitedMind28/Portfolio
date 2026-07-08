@@ -329,11 +329,21 @@
       border-color: rgba(255,255,255,0.08) !important;
       box-shadow: inset 0 -1px 0 rgba(255,255,255,0.05), 0 1px 12px rgba(0,0,0,0.4) !important;
     }
-    #nav a { color: #8b949e !important; }
+    #nav a { color: #c9d1d9 !important; }
     #nav a:first-child { color: #e6edf3 !important; }
-    #nav a:hover { color: #e6edf3 !important; }
-    #nav a[href="#contact"] { background: #e6edf3 !important; color: #0d1117 !important; }
-    #nav a[href="#contact"]:hover { background: #c9d1d9 !important; }
+    #nav a:hover { color: #ffffff !important; }
+    #nav .nav-pill { padding: 6px 16px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); transition: all 0.25s ease; }
+    #nav .nav-pill:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); box-shadow: 0 0 12px rgba(255,255,255,0.08); }
+    #nav .nav-pill-amber:hover { border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.12); box-shadow: 0 0 16px rgba(245,158,11,0.15); }
+    #nav .nav-pill-violet:hover { border-color: rgba(139,92,246,0.5); background: rgba(139,92,246,0.12); box-shadow: 0 0 16px rgba(139,92,246,0.15); }
+    #nav .nav-pill-indigo:hover { border-color: rgba(99,102,241,0.5); background: rgba(99,102,241,0.12); box-shadow: 0 0 16px rgba(99,102,241,0.15); }
+    #nav .nav-pill-green:hover { border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.12); box-shadow: 0 0 16px rgba(34,197,94,0.15); }
+    #nav button.nav-pill { color: #c9d1d9 !important; }
+    #nav button.nav-pill:hover { color: #ffffff !important; }
+    #nav a[href="#contact"] { background: linear-gradient(135deg, #6366f1, #8b5cf6) !important; color: #ffffff !important; border: none !important; box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+    #nav a[href="#contact"]:hover { background: linear-gradient(135deg, #818cf8, #a78bfa) !important; box-shadow: 0 0 28px rgba(99,102,241,0.45); }
+    #nav #nav-products-dd a { color: #1f2937 !important; background: transparent !important; }
+    #nav #nav-products-dd a:hover { color: #4338ca !important; }
 
     /* Hero */
     #hero { background: transparent !important; }
@@ -462,21 +472,31 @@
   <!-- ══════════════════════════════════════════ NAV ══════ -->
   <nav id="nav"
     class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-shadow duration-300">
-    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-      <a href="#" class="font-black text-gray-900 text-[17px] tracking-tight">UM<span
+    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="font-black text-gray-900 text-[19px] tracking-tight">UM<span
           class="text-indigo-500">·</span></a>
-      <div class="hidden sm:flex items-center gap-7 text-[12px] text-gray-500 font-medium">
-        <a href="#skills" class="hover:text-gray-900 transition-colors">Skills</a>
-        <a href="#podcast" class="hover:text-gray-900 transition-colors">Podcast Explorer</a>
-        <a href="#tenant-obs" class="hover:text-gray-900 transition-colors">Tenant Obs</a>
-        <a href="#tweet-tracker" class="hover:text-gray-900 transition-colors">Tweet Trends</a>
-        <a href="#memory-game" class="hover:text-gray-900 transition-colors">Memory Game</a>
-        <a href="#world-quiz" class="hover:text-gray-900 transition-colors">World Quiz</a>
-        <a href="#maker-checker" class="hover:text-gray-900 transition-colors">Maker Checker</a>
-        <a href="#built-with" class="hover:text-gray-900 transition-colors">Built with AI</a>
+      <div class="hidden sm:flex items-center gap-8 text-[13px] font-semibold">
+        <a href="#skills" class="nav-pill nav-pill-amber flex items-center gap-2 text-gray-500 hover:text-amber-500 transition-colors"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Skills</a>
+        <div class="relative" id="nav-products-wrap">
+          <button type="button" onclick="event.stopPropagation();document.getElementById('nav-products-dd').classList.toggle('hidden')" class="nav-pill nav-pill-violet flex items-center gap-2 text-gray-500 hover:text-violet-500 transition-colors cursor-pointer">
+            <span class="w-2.5 h-2.5 rounded-full bg-violet-500"></span>
+            Products
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="nav-products-dd" class="hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl py-3 z-50" style="color:#1f2937;">
+            <a href="#podcast" style="color:#1f2937;" class="flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium hover:bg-indigo-50 transition-colors" onclick="document.getElementById('nav-products-dd').classList.add('hidden')"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 flex-shrink-0"></span>Lenny's Podcast Explorer</a>
+            <a href="#tenant-obs" style="color:#1f2937;" class="flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium hover:bg-emerald-50 transition-colors" onclick="document.getElementById('nav-products-dd').classList.add('hidden')"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"></span>Tenant Observability</a>
+            <a href="#tweet-tracker" style="color:#1f2937;" class="flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium hover:bg-sky-50 transition-colors" onclick="document.getElementById('nav-products-dd').classList.add('hidden')"><span class="w-2.5 h-2.5 rounded-full bg-sky-500 flex-shrink-0"></span>Tweet Trends</a>
+            <a href="#memory-game" style="color:#1f2937;" class="flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium hover:bg-violet-50 transition-colors" onclick="document.getElementById('nav-products-dd').classList.add('hidden')"><span class="w-2.5 h-2.5 rounded-full bg-violet-500 flex-shrink-0"></span>Memory Game</a>
+
+            <a href="#maker-checker" style="color:#1f2937;" class="flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium hover:bg-emerald-50 transition-colors" onclick="document.getElementById('nav-products-dd').classList.add('hidden')"><span class="w-2.5 h-2.5 rounded-full bg-emerald-700 flex-shrink-0"></span>Maker Checker</a>
+          </div>
+        </div>
+        <a href="#strategic-thinking" class="nav-pill nav-pill-indigo flex items-center gap-2 text-gray-500 hover:text-indigo-500 transition-colors"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>Strategy</a>
+        <a href="#built-with" class="nav-pill nav-pill-green flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>Built with AI</a>
       </div>
       <a href="#contact"
-        class="bg-gray-900 text-white text-[12px] px-5 py-2 rounded-full font-semibold hover:bg-gray-700 transition-colors">
+        class="bg-gray-900 text-white text-[13px] px-6 py-2.5 rounded-full font-semibold hover:bg-gray-700 transition-colors">
         Contact
       </a>
     </div>
@@ -916,7 +936,7 @@
             <div class="flex items-center gap-1.5">
               <div class="text-[13px] font-bold text-gray-900 leading-tight">Mambu</div>
               <span
-                class="text-[9px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full leading-tight">Now</span>
+                class="text-[9px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full leading-tight">Current</span>
             </div>
             <div class="text-[11px] text-gray-500 leading-tight mt-0.5">Horizontal Core Services</div>
             <div class="text-[11px] text-indigo-600 font-semibold mt-0.5">Senior Technical PM</div>
@@ -986,54 +1006,20 @@
     <div class="max-w-3xl mx-auto text-center">
       <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.16em] mb-10">What I bring to the table</p>
       <div class="flex flex-wrap gap-2.5 justify-center">
-        <!-- Topic-colored chips -->
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">Product
-          Strategy</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-amber-50 text-amber-700 border border-amber-100">Discovery
-          &amp; Research</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">Growth
-          &amp; Retention</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-violet-50 text-violet-700 border border-violet-100">Product-Led
-          Growth</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">Prioritization</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-red-50 text-red-700 border border-red-100">Product
-          Leadership</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-cyan-50 text-cyan-700 border border-cyan-100">Metrics
-          &amp; Analytics</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-orange-50 text-orange-700 border border-orange-100">PM
-          Career</span>
-        <!-- Distinctly color-coded chips -->
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-teal-50 text-teal-700 border border-teal-100">Roadmapping</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-rose-50 text-rose-700 border border-rose-100">OKRs</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-lime-50 text-lime-700 border border-lime-100">User
-          Research</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-100">Stakeholder
-          Management</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-sky-50 text-sky-700 border border-sky-100">Data-driven
-          Decisions</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-purple-50 text-purple-700 border border-purple-100">Cross-functional
-          Leadership</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-pink-50 text-pink-700 border border-pink-100">Agile</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-yellow-50 text-yellow-700 border border-yellow-100">Go-to-Market</span>
-        <span
-          class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-zinc-800 text-zinc-100 border border-zinc-700">Build
-          with AI</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">AI Product Strategy</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-violet-50 text-violet-700 border border-violet-100">Agentic AI</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-amber-50 text-amber-700 border border-amber-100">AIOps &amp; Observability</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">Process Orchestration</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">Platform Architecture</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-cyan-50 text-cyan-700 border border-cyan-100">Event-driven Systems</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-teal-50 text-teal-700 border border-teal-100">Data Governance</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-sky-50 text-sky-700 border border-sky-100">Reliability Engineering</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-rose-50 text-rose-700 border border-rose-100">Enterprise Customer Discovery</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-orange-50 text-orange-700 border border-orange-100">Developer Experience</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-purple-50 text-purple-700 border border-purple-100">Cross-functional Leadership</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-100">Multi-year Roadmapping</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-red-50 text-red-700 border border-red-100">OKR Alignment</span>
+        <span class="skill-chip px-4 py-2 rounded-full text-[12px] font-semibold bg-zinc-800 text-zinc-100 border border-zinc-700">Build with AI</span>
       </div>
     </div>
   </section>
@@ -3063,46 +3049,6 @@ selTenant('abn');
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════ WORLD QUIZ ════ -->
-  <section id="world-quiz" class="py-20" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(20,184,166,0.26) 0%, transparent 65%), #05090f;">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-10">
-      <div class="text-center">
-        <h2 class="text-[38px] font-bold text-white leading-tight tracking-tight mb-3">Kids World Quiz</h2>
-        <p class="text-[14px] text-slate-400 max-w-xl mx-auto leading-relaxed">
-          An interactive geography quiz for kids featuring 192 countries across all 6 continents — including complete Africa coverage. Each country has a unique animal mascot character that introduces itself in its native language using Azure Neural TTS — with a faint English whisper track running alongside so kids can follow along.
-        </p>
-        <!-- Feature chips -->
-        <div class="flex flex-wrap items-center justify-center gap-2 mt-5">
-          <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(20,184,166,0.15);color:#5eead4;border:1px solid rgba(20,184,166,0.3);">🌍 192 Countries · 6 Continents</span>
-          <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3);">🎙️ Azure Neural TTS · Native Languages</span>
-          <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(251,191,36,0.12);color:#fcd34d;border:1px solid rgba(251,191,36,0.25);">🔊 English Whisper Track</span>
-          <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(52,211,153,0.12);color:#6ee7b7;border:1px solid rgba(52,211,153,0.25);">🐾 Animal Mascot Characters</span>
-          <span class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:rgba(236,72,153,0.12);color:#f0abfc;border:1px solid rgba(236,72,153,0.25);">🎉 Celebration on Perfect Score</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Embedded quiz — full section width, no max-w constraint -->
-    <div style="border-top:1px solid rgba(20,184,166,0.25);border-bottom:1px solid rgba(20,184,166,0.25);box-shadow:0 0 60px rgba(20,184,166,0.08);overflow:hidden;">
-      <iframe
-        src="Products/world-quiz/"
-        style="width:100%;height:780px;border:none;display:block;"
-        allow="autoplay; microphone"
-        loading="lazy"
-        title="Kids World Quiz"
-      ></iframe>
-    </div>
-
-    <!-- Open full screen link -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center mt-5">
-      <a href="Products/world-quiz/" target="_blank"
-        style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5eead4;text-decoration:none;opacity:0.75;transition:opacity 0.2s"
-        onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
-        ↗ Open full screen
-      </a>
-    </div>
-  </section>
-
   <!-- ══════════════════════════════════════ MAKER-CHECKER ═ -->
   <section id="maker-checker" class="py-20 px-4 sm:px-6" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(26,127,110,0.32) 0%, transparent 65%), #05080f;">
     <div class="max-w-6xl mx-auto">
@@ -3141,6 +3087,121 @@ selTenant('abn');
         </div>
         <!-- App (embedded inline — self-contained) -->
         <iframe id="mc-inline-frame" scrolling="no" style="width:100%;height:900px;border:none;display:block;" title="Maker-Checker Workflow"></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ STRATEGIC THINKING ═ -->
+  <section id="strategic-thinking" class="py-24 px-4 sm:px-6" style="background:radial-gradient(ellipse 90% 50% at 50% 0%, rgba(99,102,241,0.22) 0%, transparent 65%), #060810;">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Header -->
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
+        <span class="text-[11px] font-semibold text-indigo-400 uppercase tracking-[0.16em]">AI Product Strategy</span>
+      </div>
+      <h2 class="text-[36px] sm:text-[44px] font-bold text-white mb-4 tracking-tight">Strategic Thinking.<br><span class="text-slate-400 font-light">Evals. Risk. Decision rights.</span></h2>
+      <p class="text-slate-500 text-[15px] mb-14 max-w-xl leading-relaxed">
+        Product strategy isn't slides — it's structured decisions under uncertainty. These are end-to-end AI product strategy frameworks I've built: domain detection, eval design, structural risk assessment, and governance.
+      </p>
+
+      <!-- Meridian Compass — Featured Card -->
+      <a href="Products/meridian-compass.html" target="_blank"
+        class="group block bg-[#0c1120] border border-indigo-500/20 rounded-2xl overflow-hidden hover:border-indigo-400/50 transition-all duration-300" style="box-shadow: 0 0 80px rgba(99,102,241,0.08);">
+
+        <!-- Gradient bar -->
+        <div class="h-1" style="background:linear-gradient(to right, #6366f1, #8b5cf6, #f59e0b);"></div>
+
+        <div class="p-6 sm:p-8">
+          <!-- Top row: chips + label -->
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Financial Services</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/20">Multi-Tenant B2B</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Agentic AI</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-red-500/10 text-red-400 border border-red-500/20">Pre-Launch</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-[24px] sm:text-[28px] font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Meridian Compass</h3>
+          <p class="text-[13px] text-indigo-400/70 font-semibold uppercase tracking-wide mb-5">Agentic AI · Strategy Document</p>
+
+          <!-- CTA -->
+          <div class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[14px] font-bold text-white group-hover:gap-3.5 transition-all mb-8" style="background:linear-gradient(135deg, #6366f1, #8b5cf6);box-shadow:0 0 24px rgba(99,102,241,0.35);">
+            <span>Read the full strategy document</span>
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+
+          <p class="text-[14px] text-slate-400 leading-relaxed mb-8 max-w-2xl">An agentic AI capability on a multi-tenant core banking platform — worked through end to end using a custom AI product strategy framework I built: domain detection, structural risk, an automated kill-switch spec, auditability distinct from correctness, and consolidated decision rights.</p>
+
+          <!-- Two-column: Framework pillars + Risk scorecard -->
+          <div class="grid sm:grid-cols-2 gap-6 mb-8">
+            <!-- Framework pillars -->
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-3">Framework Pillars</p>
+              <div class="space-y-2.5">
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span><span class="text-[13px] text-slate-300">Domain Detection & Trust-Sensitivity</span></div>
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span><span class="text-[13px] text-slate-300">Structural Risk Assessment</span></div>
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-red-400"></span><span class="text-[13px] text-slate-300">Automated Kill-Switch Spec</span></div>
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span class="text-[13px] text-slate-300">Eval Design & Cold-Start Strategy</span></div>
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span class="text-[13px] text-slate-300">Auditability & Explainability</span></div>
+                <div class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span><span class="text-[13px] text-slate-300">Decision Rights & Governance</span></div>
+              </div>
+            </div>
+
+            <!-- Risk scorecard -->
+            <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-3">Risk & Readiness Snapshot</p>
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[12px] text-slate-300 font-medium">Structural Risk</span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/20">CONFIRMED</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[12px] text-slate-300 font-medium">Tenant Isolation</span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/20">UNVERIFIED</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[12px] text-slate-300 font-medium">Kill-Switch</span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/20">NOT YET BUILT</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[12px] text-slate-300 font-medium">Legal & Compliance</span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/20">OUTSTANDING</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="flex flex-wrap items-center gap-8 mb-6">
+            <div>
+              <div class="text-[24px] font-black text-white">16</div>
+              <div class="text-[10px] text-slate-500">sections</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">550</div>
+              <div class="text-[10px] text-slate-500">target test cases</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">8</div>
+              <div class="text-[10px] text-slate-500">named stakeholders</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">7</div>
+              <div class="text-[10px] text-slate-500">eval categories</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- More coming soon -->
+      <div class="mt-6 border border-dashed border-white/10 rounded-2xl p-6 flex items-center justify-center gap-3">
+        <svg class="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        <p class="text-[13px] text-slate-600">More case studies coming — PRDs, competitive analyses, and product frameworks</p>
       </div>
 
     </div>
@@ -3325,6 +3386,14 @@ selTenant('abn');
 
   <!-- ══════════════════════════════════════════ SCRIPT ═══ -->
   <script>
+    // ─── NAV DROPDOWN ──────────────────────────────────────────────
+    document.addEventListener('click', function(e) {
+      var dd = document.getElementById('nav-products-dd');
+      if (dd && !document.getElementById('nav-products-wrap').contains(e.target)) {
+        dd.classList.add('hidden');
+      }
+    });
+
     // ─── DATA ──────────────────────────────────────────────────────
     const TOPICS = [
       { id: 'strategy', label: 'Product Strategy', color: '#6366f1' },
