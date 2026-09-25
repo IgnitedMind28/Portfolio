@@ -3105,10 +3105,79 @@ selTenant('abn');
         <div class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
         <span class="text-[11px] font-semibold text-indigo-400 uppercase tracking-[0.16em]">AI Product Strategy</span>
       </div>
-      <h2 class="text-[36px] sm:text-[44px] font-bold text-white mb-4 tracking-tight">Strategic Thinking.<br><span class="text-slate-400 font-light">Evals. Risk. Decision rights.</span></h2>
+      <h2 class="text-[36px] sm:text-[44px] font-bold text-white mb-4 tracking-tight">Strategic Thinking.<br><span class="text-slate-400 font-light">Agent runtimes. Evals. Risk. Decision rights.</span></h2>
       <p class="text-slate-500 text-[15px] mb-14 max-w-xl leading-relaxed">
-        Product strategy isn't slides — it's structured decisions under uncertainty. These are end-to-end AI product strategy frameworks I've built: domain detection, eval design, structural risk assessment, and governance.
+        How I think about AI in production: agent runtime design, verification systems, containment architecture, and end-to-end product strategy frameworks.
       </p>
+
+      <!-- The Model Drafts — Lead Card -->
+      <a href="Products/the-model-drafts.html" target="_blank"
+        class="group block bg-[#0c1120] border border-emerald-500/25 rounded-2xl overflow-hidden hover:border-emerald-400/50 transition-all duration-300 mb-8" style="box-shadow: 0 0 100px rgba(31,122,77,0.12);">
+
+        <div class="h-1.5" style="background:linear-gradient(to right, #059669, #10b981, #6366f1);"></div>
+
+        <div class="p-6 sm:p-8">
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Agent Runtime Design</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Verification & Containment</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Production AI</span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-white/5 text-slate-300 border border-white/10">Domain-neutral</span>
+          </div>
+
+          <h3 class="text-[26px] sm:text-[32px] font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">The Model Drafts. It Does Not Decide.</h3>
+          <p class="text-[13px] text-emerald-400/70 font-semibold uppercase tracking-wide mb-5">Agent Runtime Architecture · Technical Framework</p>
+
+          <div class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[14px] font-bold text-white group-hover:gap-3.5 transition-all mb-8" style="background:linear-gradient(135deg, #059669, #10b981);box-shadow:0 0 24px rgba(16,185,129,0.35);">
+            <span>Read the full framework</span>
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+
+          <p class="text-[14px] text-slate-400 leading-relaxed mb-8 max-w-2xl">An agent runtime for work that a person has to sign off: how to contain outputs that pass every check you wrote and are still wrong. Covers five verification gates, claim containment, dependency graphs, independent reperformance, and why a model that is never wrong still cannot cite, replay, or sign.</p>
+
+          <div class="grid sm:grid-cols-2 gap-6 mb-8">
+            <div>
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-3">The Five Gates</p>
+              <div class="space-y-2.5">
+                <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-bold flex items-center justify-center font-mono">C</span><span class="text-[13px] text-slate-300">Contract: schema + domain rules</span></div>
+                <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-bold flex items-center justify-center font-mono">G</span><span class="text-[13px] text-slate-300">Grounding: cite tool results, not recall</span></div>
+                <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-bold flex items-center justify-center font-mono">R</span><span class="text-[13px] text-slate-300">Reperformance: two paths that fail differently</span></div>
+                <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-bold flex items-center justify-center font-mono">I</span><span class="text-[13px] text-slate-300">Independent critic: find a reason to reject</span></div>
+                <div class="flex items-center gap-3"><span class="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 text-[11px] font-bold flex items-center justify-center font-mono">H</span><span class="text-[13px] text-slate-300">Human sign-off: a person signs</span></div>
+              </div>
+            </div>
+
+            <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
+              <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-3">Core Thesis</p>
+              <div class="space-y-3">
+                <p class="text-[13px] text-slate-300 leading-relaxed">"Everything the model produces is a claim, not an answer. A claim has a status, not just a value."</p>
+                <p class="text-[13px] text-slate-300 leading-relaxed">"Accuracy is the model's business. Provability is the runtime's. A model that is never wrong still cannot cite, replay or sign."</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-8">
+            <div>
+              <div class="text-[24px] font-black text-white">15</div>
+              <div class="text-[10px] text-slate-500">sections</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">5</div>
+              <div class="text-[10px] text-slate-500">verification gates</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">~20</div>
+              <div class="text-[10px] text-slate-500">min read</div>
+            </div>
+            <div class="w-px h-8 bg-white/10"></div>
+            <div>
+              <div class="text-[24px] font-black text-white">7</div>
+              <div class="text-[10px] text-slate-500">SVG diagrams</div>
+            </div>
+          </div>
+        </div>
+      </a>
 
       <!-- Meridian Compass — Featured Card -->
       <a href="Products/meridian-compass.html" target="_blank"
@@ -3205,7 +3274,7 @@ selTenant('abn');
       <!-- More coming soon -->
       <div class="mt-6 border border-dashed border-white/10 rounded-2xl p-6 flex items-center justify-center gap-3">
         <svg class="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-        <p class="text-[13px] text-slate-600">More case studies coming — PRDs, competitive analyses, and product frameworks</p>
+        <p class="text-[13px] text-slate-600">More coming: PRDs, competitive analyses, and AI product frameworks</p>
       </div>
 
     </div>
