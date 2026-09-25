@@ -24,44 +24,6 @@
     --body:    "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --mono:    "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --paper:   #0F151E;
-      --ground:  #18212D;
-      --ink:     #E7ECF3;
-      --ink-2:   #B6C1CF;
-      --muted:   #8794A5;
-      --rule:    #2C3846;
-      --rule-2:  #202A37;
-      --accent:  #63C795;
-      --accent-bg:#14291F;
-      --ok:      #63C795;
-      --ok-bg:   #14291F;
-      --hold:    #E0B463;
-      --hold-bg: #2B2317;
-      --bad:     #EC8C77;
-      --bad-bg:  #2E1B17;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --paper:   #0F151E;
-    --ground:  #18212D;
-    --ink:     #E7ECF3;
-    --ink-2:   #B6C1CF;
-    --muted:   #8794A5;
-    --rule:    #2C3846;
-    --rule-2:  #202A37;
-    --accent:  #63C795;
-    --accent-bg:#14291F;
-    --ok:      #63C795;
-    --ok-bg:   #14291F;
-    --hold:    #E0B463;
-    --hold-bg: #2B2317;
-    --bad:     #EC8C77;
-    --bad-bg:  #2E1B17;
-  }
 
   * { box-sizing: border-box; }
   body {
@@ -271,11 +233,13 @@
 
 <div class="wrap">
 
-  <header class="mast col">
-    <p class="kicker">Building agents that people rely on</p>
-    <h1>The model drafts. It does not decide.</h1>
-    <p class="standfirst">An agent runtime for work that a person has to sign off: how to contain outputs that pass every check you wrote and are still wrong.</p>
-    <p class="byline"><span>By <b>Utpal Mukherjee</b></span><span>Product, AI platforms</span><span>~20 minute read</span></p>
+  <header style="background:linear-gradient(to right, #ecfdf5 0%, #f0f9ff 55%, #f5f3ff 100%); padding: 56px 24px 36px; margin-bottom: 40px; border-bottom: 1px solid var(--rule);">
+    <div style="max-width:40rem; margin:0 auto;">
+      <p class="kicker">Building agents that people rely on</p>
+      <h1>The model drafts. It does not decide.</h1>
+      <p class="standfirst">An agent runtime for work that a person has to sign off: how to contain outputs that pass every check you wrote and are still wrong.</p>
+      <p class="byline"><span>By <b>Utpal Mukherjee</b></span><span>Product, AI platforms</span><span>~20 minute read</span></p>
+    </div>
   </header>
 
   <section class="col">
